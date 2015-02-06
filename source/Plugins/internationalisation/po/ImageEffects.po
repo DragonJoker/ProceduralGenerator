@@ -1,0 +1,106 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ImageEffects\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-15 13:45+0100\n"
+"PO-Revision-Date: 2013-12-15 13:45+0100\n"
+"Last-Translator: Sylvain Doremus <dragonjoker59@hotmail.com>\n"
+"Language-Team: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ../include/ImageEffects\n"
+"X-Poedit-SearchPath-1: ../source/ImageEffects\n"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:32
+msgid "None"
+msgstr "Aucun"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:52
+msgid "Gaussian blur"
+msgstr "Flou Gaussien"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:114
+msgid "Sharpen"
+msgstr "Accentuation"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:159
+msgid "Gaussian blur + sharpen"
+msgstr "Flou Gaussien + Accentuation"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:247
+msgid "Linear noise reduction"
+msgstr "Réduction linéaire de bruit"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:291
+msgid "Anisotropic noise reduction"
+msgstr "Réduction anisotropique de bruit"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:340
+msgid "Wave"
+msgstr "Vague"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:459
+msgid "Gray scale"
+msgstr "Echelle de gris"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:486
+msgid "Sepia"
+msgstr "Sépia"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:515
+msgid "Implosion"
+msgstr "Implosion"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:550
+msgid "Explosion"
+msgstr "Explosion"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:585
+msgid "Watershed"
+msgstr "Isohélie"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:617
+msgid "Recursive Gaussian blur"
+msgstr "Flou Gaussien récursif"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:639
+msgid "Recursive sharpen"
+msgstr "Accentuation récursive"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:661
+msgid "Recursive Gaussian blur + sharpen"
+msgstr "Flou Gaussien + Accentuation récursifs"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:683
+msgid "Recursive linear noise reduction"
+msgstr "Réduction linéaire récursive"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:705
+msgid "Recursive anisotropic reduction"
+msgstr "Réduction anisotropique récursive"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:892
+msgid "First Function"
+msgstr "Première fonction"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:894
+msgid "Second Function"
+msgstr "Seconde fonction"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:896
+msgid "Image"
+msgstr "Image"
+
+#: ../source/ImageEffects/GeneratorImageEffects.cpp:1039
+msgid "Image Effects"
+msgstr "Effets sur image"

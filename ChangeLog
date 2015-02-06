@@ -1,0 +1,50 @@
+2013-05-13  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Corrected GUI/thread related bugs in TextEffects, ImageEffects and
+	*   GPUProgramming.
+	* Added Two events : ePG_EVENT_SHOW_MESSAGE_BOX and ePG_EVENT_RESIZE_PARENT
+	*   in order to avoid most of GUI/thread related bugs.
+	* Generators must not use wxMessageBox or m_pMainFrame size functions, but
+	*   must post those two new events.
+	* Added internationalisation support for plugins and main application.
+	* Now most MSVC compilation warnings are resolved (2 remaining ones).
+
+2013-05-10  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Added new plugin : GPUProgramming, nearly the same as ShaderEffects but
+	*   the image is resized to the generator size (the opposite of
+	*   ShaderEffects).
+	* Added mouse position retrieval in ProceduralGenerator.
+	* Corrected all MSVC Level 4 warnings.
+	* Added chocolux GLSL shader code and mandelbrot fragment shader code.
+
+2012-08-25  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Version 1.3.1 released
+	* Now using wxSizer classes to place elements and to resize main wxindow
+
+2012-05-28  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Version 1.3.0 released
+
+2012-05-27  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Corrected DiffusionLimitedAggregation bug on non square resolutions
+
+2012-05-26  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Corrected Gaussian Blur
+	* Reviewed a bit ShaderWebcam, now image is loaded in a worker thread
+
+2012-05-20  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Reviewed thread system, now ProceduralGenerator is a detached thread, as
+	* are worker threads
+	* All GUI is created in main application (no more in shared libs)
+	* Communication between main app and plugins is managed throug events
+	* (ProceduralGenerator also extends wxEvtHandler)
+	* Correcting plugins to take care of that
+
+2012-05-10  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Version 1.2.3.0 released

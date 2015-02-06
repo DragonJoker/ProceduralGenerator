@@ -1,0 +1,61 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PerlinNoise\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-13 15:33+0200\n"
+"PO-Revision-Date: 2013-05-13 16:08+0100\n"
+"Last-Translator: Sylvain Doremus <dragonjoker59@hotmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.3\n"
+
+#: ..\source\PerlinNoise\GeneratorPerlinNoise.cpp:291
+msgid "B"
+msgstr "B"
+
+#: ..\source\PerlinNoise\GeneratorPerlinNoise.cpp:276
+msgid "Cloud"
+msgstr "Nuage"
+
+#: ..\source\PerlinNoise\GeneratorPerlinNoise.cpp:296
+msgid "Frequency : "
+msgstr "Fréquence :"
+
+#: ..\source\PerlinNoise\GeneratorPerlinNoise.cpp:289
+msgid "G"
+msgstr "V"
+
+#: ..\source\PerlinNoise\GeneratorPerlinNoise.cpp:277
+msgid "Marble"
+msgstr "Marbre"
+
+#: ..\source\PerlinNoise\GeneratorPerlinNoise.cpp:293
+msgid "Octaves : "
+msgstr "Octaves "
+
+#: ..\source\PerlinNoise\GeneratorPerlinNoise.cpp:278
+msgid "Parametric"
+msgstr "Paramétré"
+
+#: ..\source\PerlinNoise\GeneratorPerlinNoise.cpp:503
+msgid "Perlin Noise"
+msgstr "Bruit de Perlin"
+
+#: ..\source\PerlinNoise\GeneratorPerlinNoise.cpp:287
+msgid "R"
+msgstr "R"
+
+#: ..\source\PerlinNoise\GeneratorPerlinNoise.cpp:275
+msgid "Turbulence"
+msgstr "Turbulences"
+
+#: ..\source\PerlinNoise\GeneratorPerlinNoise.cpp:299
+msgid "Type : "
+msgstr "Type :"

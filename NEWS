@@ -1,0 +1,77 @@
+Copyright 2011, 2012 dragonjoker
+
+Verbatim copying and distribution of this entire article is permitted in any
+medium, provided this notice is preserved.
+
+
+Changes between version 1.3.2 and 1.3.1
+
+  FEATURES
+  * New plugin : GPUProgramming, similar to ShaderEffects with less
+    limitations : image is optional as is vertex shader.
+  
+  MISC
+  * It is now possible to switch to fullscreen by a double click on the main
+    window
+
+
+Changes between version 1.3.1 and 1.3.0
+
+  MISC
+  * Now using wxSizer classes to place elements and to resize main wxindow
+
+Changes between version 1.3.0 and 1.2.3.0
+
+  BUGS FIXED
+  * Corrected Gaussian Blur in ImageEffects plugin
+
+  * Corrected a DiffusionLimitedAggregation crash in non square resolutions.
+
+  * Corrected ShaderWebcam on GNU/Linux.
+
+  MISC
+  * Revised thread system : the generators now are threaded and extend also 
+    wxEvtHandler.
+
+  * Revised communication between generator and worker threads : it is done
+    through events.
+
+  * Generators and worker thread are detached threads (no more joinable).
+
+  * Revised ConfigPanel creation : the generators now hold the structure of the
+    panel, the panel is created in main application (useful on MS-Windows so no
+    more trouble from memory management between DLLs and main application).
+
+  * Revised communication between genertors and their ConfigPanel, all is now
+    managed through events.
+
+Changes between version 1.2.3.0 and 1.2.2.0
+
+  BUGS FIXED
+  * Corrected a GUI lack of response, increasing the render loop timer time.
+
+  * Corrected a close crash
+
+  FEATURES
+  * New pluggin : ShaderWebcam, to apply GLSL shaders over a webcam video.
+
+  MISC
+  * Dropped boost/std threads, using wxThreads instead.
+
+  * Improved texture update from ram, using 2 Pixel Buffer Objects.
+
+  * Modified the CMakeLists.txt in order to have a binaries directory that 
+    looks like GNU/Linux install
+
+  * Modified the CMakeLists.txt to be able to install ProceduralGenerator (only
+    on GNU/Linux, though)
+
+  * Added FindOpenCV in cmake_modules folder. I have taken the one available on
+    OpenCV Wiki, but
+
+  * modified it a bit to take care of most recent versions of it.
+
+  * Modified the management of the status update event, to be cross-platform.
+
+  * Removed the static BufferDeclaration and BufferDeclarationElements, because
+    it caused the close crash.

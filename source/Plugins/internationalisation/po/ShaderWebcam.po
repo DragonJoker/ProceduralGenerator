@@ -1,0 +1,115 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ShaderWebcam\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-15 13:45+0100\n"
+"PO-Revision-Date: 2013-12-15 13:45+0100\n"
+"Last-Translator: Sylvain Doremus <dragonjoker59@hotmail.com>\n"
+"Language-Team: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ../include/ShaderWebcam\n"
+"X-Poedit-SearchPath-1: ../source/ShaderWebcam\n"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:242
+msgid "Not separated"
+msgstr "Pas de séparation"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:243
+msgid "Horizontally"
+msgstr "Horizontale"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:244
+msgid "Vertically"
+msgstr "Verticale"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:248
+msgid "Shader 1"
+msgstr "Shader 1"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:249
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:613
+msgid "New..."
+msgstr "Nouveau..."
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:258
+msgid "Separation"
+msgstr "Séparation"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:261
+msgid "Reset Time"
+msgstr "Reset temps"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:262
+msgid "Shaders"
+msgstr "Shaders"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:264
+msgid "Vertex"
+msgstr "Vertex"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:265
+msgid "Fragment"
+msgstr "Fragment"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:266
+msgid "Compile"
+msgstr "Compiler"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:267
+msgid "Compiler log"
+msgstr "Log de compilation"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:268
+msgid "Remove"
+msgstr "Supprimer"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:274
+msgid "Vertex shader GLSL files (*.glsl;*.vert)|*.glsl;*.vert"
+msgstr "Fichiers Vertex shader GLSL (*.glsl;*.vert)|*.glsl;*.vert"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:275
+msgid "Fragment shader GLSL files (*.glsl;*.frag)|*.glsl;*.frag"
+msgstr "Fichiers Fragment shader GLSL (*.glsl;*.frag)|*.glsl;*.frag"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:304
+msgid "Capture device"
+msgstr "Périphérique de capture"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:304
+msgid "No capture device available"
+msgstr "Aucun périphérique de capture disponible"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:684
+msgid "Vertex Shader :"
+msgstr "Shader vertex :"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:694
+msgid "Fragment Shader :"
+msgstr "Shader fragment :"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:704
+msgid "Linker :"
+msgstr "Linker :"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:709
+msgid "No error"
+msgstr "Aucune erreur"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:712
+msgid "Compile and Link result"
+msgstr "Résultat compilation"
+
+#: ../source/ShaderWebcam/GeneratorShaderWebcam.cpp:757
+msgid "Shader Webcam"
+msgstr "Shader Webcam"
