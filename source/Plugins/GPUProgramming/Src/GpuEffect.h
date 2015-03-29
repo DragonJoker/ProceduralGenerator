@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option ) any later
+Foundation; either version 2 of the License, or (At your option ) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,52 +18,61 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___GPU_EFFECT_H___
 #define ___GPU_EFFECT_H___
 
-#include <GeneratorPrerequisites.h>
+#include <GlHolder.h>
 
-namespace ProceduralTextures
+namespace GpuProgramming
 {
 	class Effect
+		: public ProceduralTextures::gl::Holder
 	{
 	public:
-		Effect( OpenGl * p_pOpenGl, int p_iWidth, int p_iHeight );
+		Effect( std::shared_ptr< ProceduralTextures::gl::OpenGl > p_pOpenGl, int p_iWidth, int p_iHeight );
 		virtual ~Effect();
 
-		void SetVertexFile( const wxString & p_strPath );
-		void SetFragmentFile( const wxString & p_strPath );
+		void SetVertexFile( ProceduralTextures::String const & p_strPath );
+		void SetFragmentFile( ProceduralTextures::String const & p_strPath );
 		void Compile();
 
 		void Initialise();
 		void Cleanup();
 
-		bool Activate( wxPoint const & p_ptMousePosition );
+		bool Activate( ProceduralTextures::Position const & p_ptMousePosition );
 		void Deactivate();
 
-		wxString GetCompilerLog( eSHADER_OBJECT_TYPE p_eType );
-		wxString GetLinkerLog();
+		ProceduralTextures::String GetCompilerLog( ProceduralTextures::gl::eSHADER_OBJECT_TYPE p_eType );
+		ProceduralTextures::String GetLinkerLog();
+		bool IsInitialised()const;
 
 		inline void ResetTime()
 		{
-			m_llStartTime = wxGetLocalTimeMillis();
+			m_llStartTime = ProceduralTextures::Clock::now();
 		}
-		inline bool IsInitialised()const
+		inline uint32_t GetVertex()const
 		{
-			return !m_bNewShader;
+			return m_vertexAttribLocation;
+		}
+		inline uint32_t GetTexture()const
+		{
+			return m_textureAttribLocation;
 		}
 
 	private:
-		GlShaderProgram * m_pShaderProgram;
-		wxString m_strVertexFile;
-		wxString m_strFragmentFile;
+		std::shared_ptr< ProceduralTextures::gl::ShaderProgram > m_pShaderProgram;
+		ProceduralTextures::String m_strVertexFile;
+		ProceduralTextures::String m_strFragmentFile;
 		bool m_bNewShader;
-		wxMilliClock_t m_llStartTime;
+		ProceduralTextures::Clock::time_point m_llStartTime;
 		int m_iWidth;
 		int m_iHeight;
-		OpenGl * m_pOpenGl;
-		GlFrameVariable< int > * m_uniformWidth;
-		GlFrameVariable< int > * m_uniformHeight;
-		GlFrameVariable< int > * m_uniformTime;
-		GlFrameVariable< int > * m_uniformMouseX;
-		GlFrameVariable< int > * m_uniformMouseY;
+		std::weak_ptr< ProceduralTextures::gl::OpenGl > m_pOpenGl;
+		std::weak_ptr< ProceduralTextures::gl::FrameVariable< int > > m_uniformWidth;
+		std::weak_ptr< ProceduralTextures::gl::FrameVariable< int > > m_uniformHeight;
+		std::weak_ptr< ProceduralTextures::gl::FrameVariable< int > > m_uniformTime;
+		std::weak_ptr< ProceduralTextures::gl::Vec2FrameVariable< int > > m_uniformMouse;
+		//! The vertex attribute "vertex" location in the program
+		uint32_t m_vertexAttribLocation;
+		//! The vertex attribute "texture" location in the program
+		uint32_t m_textureAttribLocation;
 	};
 }
 

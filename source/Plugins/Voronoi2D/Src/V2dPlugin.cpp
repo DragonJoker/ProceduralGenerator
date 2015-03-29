@@ -1,23 +1,25 @@
 #include "V2dPlugin.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace Voronoi2D
 {
-	IMPLEMENT_PLUGIN( V2dPlugin, Voronoi2D )
+	IMPLEMENT_PLUGIN( Plugin, Generator )
 
-	V2dPlugin::V2dPlugin()
-		:	Plugin< Voronoi2D, V2dPlugin >( wxT( "Voronoi2D" ) )
+	Plugin::Plugin()
+		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "Voronoi2D" ) )
 	{
 	}
 
-	V2dPlugin::~V2dPlugin()
+	Plugin::~Plugin()
 	{
 	}
 
-	wxString V2dPlugin::GetName()
+	String Plugin::GetName()
 	{
-		wxString l_strBaseName = _( "Voronoi 2D" );
+		String l_strBaseName = _( "Voronoi 2D" );
 #if !defined( NDEBUG )
-		l_strBaseName += wxT( " (Debug)" );
+		l_strBaseName += _T( " (Debug)" );
 #endif
 		return l_strBaseName;
 	}

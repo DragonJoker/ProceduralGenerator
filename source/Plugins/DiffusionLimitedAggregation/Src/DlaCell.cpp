@@ -1,8 +1,10 @@
 #include "DlaCell.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace DiffusionLimitedAggregation
 {
-	DlaCell::DlaCell()
+	Cell::Cell()
 		:	m_pixel( NULL )
 		,	m_whiteNeighbour( false )
 		,	m_white( false )
@@ -10,28 +12,11 @@ namespace ProceduralTextures
 	{
 	}
 
-	DlaCell::DlaCell( const DlaCell & cell )
-		:	m_pixel( cell.m_pixel )
-		,	m_whiteNeighbour( cell.m_whiteNeighbour )
-		,	m_white( cell.m_white )
-		,	m_iValue( cell.m_iValue )
+	Cell::~Cell()
 	{
 	}
 
-	DlaCell::~DlaCell()
-	{
-	}
-
-	DlaCell & DlaCell::operator =( const DlaCell & cell )
-	{
-		m_pixel = cell.m_pixel;
-		m_whiteNeighbour = cell.m_whiteNeighbour;
-		m_white = cell.m_white;
-		m_iValue = cell.m_iValue;
-		return * this;
-	}
-
-	void DlaCell::Set( UbPixel * p_pixel, bool p_white )
+	void Cell::Set( UbPixel * p_pixel, bool p_white )
 	{
 		m_pixel = p_pixel;
 		m_whiteNeighbour = false;
@@ -44,7 +29,7 @@ namespace ProceduralTextures
 		}
 	}
 
-	void DlaCell::SetWhite( double p_dDistance )
+	void Cell::SetWhite( double p_dDistance )
 	{
 		m_white = true;
 		m_pixel->r = 255;
@@ -52,7 +37,7 @@ namespace ProceduralTextures
 		m_pixel->b = uint8_t( 255 * p_dDistance );
 	}
 
-	bool DlaCell::IncValue( int p_iMinValue )
+	bool Cell::IncValue( int p_iMinValue )
 	{
 		m_iValue++;
 

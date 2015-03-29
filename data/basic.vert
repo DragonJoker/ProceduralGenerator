@@ -1,5 +1,9 @@
-void main(void)
+attribute vec2 vertex;
+attribute vec2 texture;
+varying vec2 pxl_texture;
+
+void main()
 {
-   gl_TexCoord[0] = gl_MultiTexCoord0;
-   gl_Position = ftransform();
+	pxl_texture = texture;
+	gl_Position = vec4( vertex, 0.0, 1.0 );
 }

@@ -1,3 +1,19 @@
+###########################################################
+#
+# Find AStyle on client machine
+#
+## 1: Setup:
+# The following variables are searched for defaults
+#  ASTYLE_ROOT_DIR:            Base directory of AStyle tree to use.
+#
+## 2: Variable
+# The following are set after configuration is done: 
+#  
+#  ASTYLE_FOUND
+#  ASTYLE_BINARY
+#
+###########################################################
+
 FIND_PACKAGE( PackageHandleStandardArgs )
 
 FIND_PATH(ASTYLE_ROOT_DIR

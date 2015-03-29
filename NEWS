@@ -4,6 +4,35 @@ Verbatim copying and distribution of this entire article is permitted in any
 medium, provided this notice is preserved.
 
 
+Changes between version 2.0.0 and 1.3.2
+
+  FEATURES
+  * New plugin : OCLProgramming, allowing image effects using OpenCL
+    kernels.
+  * Generator :
+    - Is now a shared library, and no more a static library.
+    - Displays the configuration panel using overlays, instead of using 
+      wxWidgets controls.
+	- As no more dependency to wxWidgets.
+    - Hence all wxThread has then be replaced by an std::thread.
+	- Uses FreeType to display text overlays.
+	- Generator class has been splitted in 3 classes : CpuStep, GpuStep, and
+	  Generator.
+	- Loads XPM images itself (for icons and buttons images).
+  * Each plugin implements CpuStep, GpuStep, and Generator.
+  * ProceduralGenerator : It is now a Generator plufg-ins holder, it just
+    transmits mouse and keyboard events to the currently loaded generator.
+  * Now uses UTF8 encoded std::string instead of std::wstring.
+  * TextEffects : improved, thanks to shaders it is now rendered in one pass.
+  
+  MISC
+  * The fullscreen switch now keeps the original image width/height ratio.
+  * Reads .mo files to retrieve translations, without wxWidgets help.
+  * Uses C++11 features like smart pointers (shared, weak and unique), threads,
+    condition variables, atomics, lambdas, range loop for, auto, etc.
+  * The status bar is now integrated to the configuration panel.
+
+
 Changes between version 1.3.2 and 1.3.1
 
   FEATURES

@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,12 +18,11 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___IFX_EFFECT_FUNCTOR_H___
 #define ___IFX_EFFECT_FUNCTOR_H___
 
-#include <GeneratorPrerequisites.h>
 #include <Buffer.h>
 
-namespace ProceduralTextures
+namespace ImageEffects
 {
-	class ImageEffects;
+	class CpuStep;
 
 	typedef enum
 	{
@@ -50,12 +49,12 @@ namespace ProceduralTextures
 	class EffectFunctor
 	{
 	public:
-		EffectFunctor( eEFFECT_TYPE	p_eEffectType, const wxString & m_strName, bool p_bAllowsSecondEffect, bool p_bCanBeSecondEffect );
+		EffectFunctor( eEFFECT_TYPE	p_eEffectType, ProceduralTextures::String const & m_strName, bool p_bAllowsSecondEffect, bool p_bCanBeSecondEffect );
 		virtual ~EffectFunctor();
 
-		virtual void operator()( const PixelBuffer & p_bufferIn, PixelBuffer & p_bufferOut ) = 0;
+		virtual void operator()( ProceduralTextures::PixelBuffer const & p_bufferIn, ProceduralTextures::PixelBuffer & p_bufferOut ) = 0;
 
-		virtual void SetImage( const wxImage & p_image );
+		virtual void SetImage( ProceduralTextures::PixelBuffer const & p_image );
 
 	public:
 		inline bool AllowsSecondEffect()const
@@ -70,19 +69,19 @@ namespace ProceduralTextures
 		{
 			return m_eEffectType;
 		}
-		inline const wxString &	GetName()const
+		inline ProceduralTextures::String const &	GetName()const
 		{
 			return m_strName;
 		}
 		inline void SetImgWidth( int p_iVal )
 		{
-			m_iImgWidth = p_iVal;
+			m_size.x() = p_iVal;
 		}
 		inline void SetImgHeight( int p_iVal )
 		{
-			m_iImgHeight = p_iVal;
+			m_size.y() = p_iVal;
 		}
-		inline void SetGenerator( ImageEffects * p_pGenerator )
+		inline void SetGenerator( CpuStep * p_pGenerator )
 		{
 			m_pGenerator = p_pGenerator;
 		}
@@ -91,10 +90,9 @@ namespace ProceduralTextures
 		eEFFECT_TYPE m_eEffectType;
 		bool m_bAllowsSecondEffect;
 		bool m_bCanBeSecondEffect;
-		int m_iImgWidth;
-		int m_iImgHeight;
-		wxString m_strName;
-		ImageEffects * m_pGenerator;
+		ProceduralTextures::Size m_size;
+		ProceduralTextures::String m_strName;
+		CpuStep * m_pGenerator;
 	};
 }
 

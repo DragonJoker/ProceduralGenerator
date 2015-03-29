@@ -1,0 +1,74 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TextEffects\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-04 02:25+0100\n"
+"PO-Revision-Date: 2015-03-04 02:38+0100\n"
+"Last-Translator: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language-Team: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ../include/TextEffects\n"
+"X-Poedit-SearchPath-1: ../source/TextEffects\n"
+
+#: ..\TextEffects\Src\TextEffects.cpp:406
+msgid "All files (*.*)|*.*"
+msgstr "Tous les fichiers (*.*)|*.*"
+
+#: ..\TextEffects\Src\TextEffects.cpp:405
+msgid "Background image"
+msgstr "Image de fond"
+
+#: ..\TextEffects\Src\TextEffects.cpp:407
+msgid "Caption"
+msgstr "Message"
+
+#: ..\TextEffects\Src\TextEffects.cpp:406
+msgid "Choose a font file"
+msgstr "Choisissez un fichier de police"
+
+#: ..\TextEffects\Src\TextEffects.cpp:403
+msgid "Choose the colour"
+msgstr "Choisissez une couleur"
+
+#: ..\TextEffects\Src\TextEffects.cpp:403
+msgid "Foreground colour"
+msgstr "Couleur du texte"
+
+#: ..\TextEffects\Src\TextEffects.cpp:404
+msgid "Foreground image"
+msgstr "Image du texte"
+
+#: ..\TextEffects\Src\TextEffects.cpp:401
+msgid "Foreground type"
+msgstr "Type de texte"
+
+#: ..\TextEffects\Src\TfxPlugin.cpp:20
+msgid "Text Effects"
+msgstr "Effets sur texte"
+
+#: ..\TextEffects\Src\TextEffects.cpp:406
+msgid "Text Font"
+msgstr "Police"
+
+#~ msgid "Text Background"
+#~ msgstr "Fond texte"
+
+#~ msgid "Colour"
+#~ msgstr "Couleur"
+
+#~ msgid "Image"
+#~ msgstr "Image"
+
+#~ msgid "Background"
+#~ msgstr "Fond"

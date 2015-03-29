@@ -1,9 +1,9 @@
 /*
-This source file is part of ProceduralGenerator (https://sourceforge.net/projects/proceduralgene/ )
+This source file is part of ProceduralGenerator (https://sourceforge.net/projects/proceduralgene/)
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option ) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,82 +18,101 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___GPU_GPU_PROGRAMMING_H___
 #define ___GPU_GPU_PROGRAMMING_H___
 
-#include "GpuEffect.h"
+#include <Generator.h>
 
-#include <ConfigPanel.h>
+#include "GpuCpuStep.h"
+#include "GpuGpuStep.h"
 
-namespace ProceduralTextures
+namespace GpuProgramming
 {
-	class GpuProgramming : public ProceduralGenerator
+	/*!
+	\author		Sylvain DOREMUS
+	\date		23/05/2012
+	\brief		GPU programming generator
+	*/
+	class Generator
+		: public ProceduralTextures::Generator< CpuStep, GpuStep >
 	{
 	private:
-		typedef std::vector< Effect * >	EffectPtrArray;
-
+		/*!
+		\author		Sylvain DOREMUS
+		\date		23/05/2012
+		\brief		The controls IDs
+		*/
 		typedef enum
 		{
-			eID_IMAGEPATH		= 52,
-			eID_SEPTYPE			= 53,
-			eID_RESETTIME		= 54,
-			eID_SHADERS			= 55,
-			eID_REMOVE			= 56,
-			eID_VERTEXFILE		= 57,
-			eID_FRAGMENTFILE	= 58,
-			eID_COMPILE			= 59,
-			eID_COMPILERLOG		= 60,
+			eID_ANY				= -1,
+			eID_SEPTYPE			= 52,
+			eID_RESETTIME		= 53,
+			eID_SHADERS			= 54,
+			eID_REMOVE			= 55,
+			eID_VERTEXFILE		= 56,
+			eID_FRAGMENTFILE	= 57,
+			eID_COMPILE			= 58,
+			eID_COMPILERLOG		= 59,
 		}	eID;
 
 	public:
-		GpuProgramming( int p_width, int p_height, int p_iWndId, wxFrame * p_pFrame );
-		virtual ~GpuProgramming();
-
-		void SetImagePath( const wxString & p_strImagePath );
-		void ResetTime();
-
-		bool EffectAdd();
-		bool EffectRemove( size_t p_uiIndex );
-		void EffectSetVertexFile( size_t p_uiIndex, const wxString & p_strPath );
-		void EffectSetFragmentFile( size_t p_uiIndex, const wxString & p_strPath );
-		void EffectCompile( size_t p_uiIndex );
-		wxString EffectGetCompilerLog( size_t p_uiIndex, eSHADER_OBJECT_TYPE p_eType );
-		wxString EffectGetLinkerLog( size_t p_uiIndex );
+		/**
+		 *\brief		Constructor
+		 */
+		Generator();
+		/**
+		 *\brief		Destructor
+		 */
+		virtual ~Generator();
 
 	private:
-		virtual void DoResize( const wxSize & p_size );
-		virtual void DoGlInitialise();
-		virtual void DoGlPreRender();
-		virtual void DoGlRender( bool & p_bChanged );
-		virtual void DoGlPostRender();
-		virtual void DoGlCleanup();
+		/**
+		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		 */
+		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
+		/**
+		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+		 */
+		virtual void DoDestroy();
+		/**
+		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+		 */
 		virtual void DoGeneratePanel();
-
-		void OnSepType( wxCommandEvent & p_event );
-		void OnSepOffset( wxCommandEvent & p_event );
-		void OnResetTime( wxCommandEvent & p_event );
-		void OnSelectShader( wxCommandEvent & p_event );
-		void OnRemove( wxCommandEvent & p_event );
-		void OnShaderCompile( wxCommandEvent & p_event );
-		void OnCompilerLog( wxCommandEvent & p_event );
-		void OnImagePath( wxCommandEvent & p_event );
-		void OnVertexShaderPath( wxCommandEvent & p_event );
-		void OnFragmentShaderPath( wxCommandEvent & p_event );
+		/**
+		 *\brief		Resets the time index
+		 */
+		void OnResetTime();
+		/**
+		 *\brief		Selects a shader
+		 */
+		void OnSelectShader( uint32_t p_value );
+		/**
+		 *\brief		Removes the current chader
+		 */
+		void OnRemove();
+		/**
+		 *\brief		Compiles the shader
+		 */
+		void OnShaderCompile();
+		/**
+		 *\brief		Retrieves the compiler log
+		 */
+		void OnCompilerLog();
+		/**
+		 *\brief		Sets the vertex shader file path
+		 */
+		void OnVertexShaderPath();
+		/**
+		 *\brief		Sets the fragment shader file path
+		 */
+		void OnFragmentShaderPath();
 
 	private:
-		wxImage m_image;
-		EffectPtrArray m_arrayEffects;
-		GlFrameBuffer m_frameBuffer1;
-		GlFrameBuffer m_frameBuffer2;
-		GlTexture m_texture1;
-		GlTexture m_texture2;
-		SpecificControlParameters< eCONTROL_TYPE_BUTTON > m_specButtonImage;
-		SpecificControlParameters< eCONTROL_TYPE_BUTTON > m_specButtonReset;
-		SpecificControlParameters< eCONTROL_TYPE_STATIC > m_specStaticShaders;
-		SpecificControlParameters< eCONTROL_TYPE_COMBO > m_specComboShaders;
-		SpecificControlParameters< eCONTROL_TYPE_FILE_BUTTON > m_specButtonVertexFile;
-		SpecificControlParameters< eCONTROL_TYPE_FILE_BUTTON > m_specButtonFragmentFile;
-		SpecificControlParameters< eCONTROL_TYPE_BUTTON > m_specButtonCompile;
-		SpecificControlParameters< eCONTROL_TYPE_BUTTON > m_specButtonCompilerLog;
-		SpecificControlParameters< eCONTROL_TYPE_BUTTON > m_specButtonRemove;
-		Effect * m_pSelectedEffect;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonReset;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_staticShaders;
+		std::shared_ptr< ProceduralTextures::ComboBoxCtrl > m_comboShaders;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonVertexFile;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonFragmentFile;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonCompile;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonCompilerLog;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonRemove;
 	};
 }
 

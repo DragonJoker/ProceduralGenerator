@@ -1,10 +1,12 @@
+varying vec2 pxl_texture;
+
 uniform sampler2D pg_texture;
 uniform int pg_sep_type;
 uniform int pg_sep_offset;
 
 void main ()
 {
-	vec2 uv = gl_TexCoord[0].xy;
+	vec2 uv = pxl_texture.xy;
 	vec4 c = vec4( 1.0, 0.0, 0.0, 1.0);
 
 	if (pg_sep_type == 0)

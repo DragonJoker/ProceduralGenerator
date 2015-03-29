@@ -1,23 +1,25 @@
 #include "LgPlugin.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace LifeGame
 {
-	IMPLEMENT_PLUGIN( LgPlugin, LifeGame )
+	IMPLEMENT_PLUGIN( Plugin, Generator )
 
-	LgPlugin::LgPlugin()
-		:	Plugin< LifeGame, LgPlugin >( wxT( "LifeGame" ) )
+	Plugin::Plugin()
+		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "LifeGame" ) )
 	{
 	}
 
-	LgPlugin::~LgPlugin()
+	Plugin::~Plugin()
 	{
 	}
 
-	wxString LgPlugin::GetName()
+	String Plugin::GetName()
 	{
-		wxString l_strBaseName = _( "Life Game" );
+		String l_strBaseName = _( "Life Game" );
 #if !defined( NDEBUG )
-		l_strBaseName += wxT( " (Debug)" );
+		l_strBaseName += _T( " (Debug)" );
 #endif
 		return l_strBaseName;
 	}

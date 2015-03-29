@@ -1,14 +1,18 @@
 #include "GlDownloadPixelBuffer.h"
 #include "Buffer.h"
+#include "OpenGl.h"
 
 namespace ProceduralTextures
 {
-	GlDownloadPixelBuffer::GlDownloadPixelBuffer( OpenGl * p_pOpenGl )
-		:	GlPixelBuffer( p_pOpenGl, GL_PIXEL_PACK_BUFFER, GL_STREAM_READ )
+	namespace gl
 	{
-	}
+		DownloadPixelBuffer::DownloadPixelBuffer( std::shared_ptr< OpenGl > p_pOpenGl )
+			: GpuIOBuffer( p_pOpenGl, GL_PIXEL_PACK_BUFFER, GL_STREAM_READ )
+		{
+		}
 
-	GlDownloadPixelBuffer::~GlDownloadPixelBuffer()
-	{
+		DownloadPixelBuffer::~DownloadPixelBuffer()
+		{
+		}
 	}
 }

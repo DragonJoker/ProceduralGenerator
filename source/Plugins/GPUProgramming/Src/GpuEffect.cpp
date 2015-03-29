@@ -1,43 +1,50 @@
 #include "GpuEffect.h"
 
-#include <GlShaderProgram.h>
-#include <GlShaderObject.h>
 #include <GlFrameVariable.h>
+#include <GlVec2FrameVariable.h>
+#include <GlShaderObject.h>
+#include <GlShaderProgram.h>
+#include <Position.h>
 
 #include <cmath>
 
-namespace ProceduralTextures
-{
-	static const wxString VertexProgram =
-		wxT( "void main()\n" )
-		wxT( "{\n" )
-		wxT( "	gl_TexCoord[0] = gl_MultiTexCoord0;\n" )
-		wxT( "	gl_Position = ftransform();\n" )
-		wxT( "}\n" );
+using namespace ProceduralTextures;
 
-	Effect::Effect( OpenGl * p_pOpenGl, int p_iWidth, int p_iHeight )
-		:	m_pShaderProgram( NULL )
-		,	m_strVertexFile()
-		,	m_strFragmentFile()
-		,	m_bNewShader( false )
-		,	m_llStartTime( 0 )
-		,	m_iWidth( p_iWidth )
-		,	m_iHeight( p_iHeight )
-		,	m_pOpenGl( p_pOpenGl )
+namespace GpuProgramming
+{
+	static const String VertexProgram =
+		_T( "attribute vec2 vertex;" )
+		_T( "attribute vec2 texture;" )
+		_T( "varying vec2 pxl_texture;" )
+		_T( "void main()\n" )
+		_T( "{\n" )
+		_T( "	pxl_texture = texture;\n" )
+		_T( "	gl_Position = vec4( vertex, 0.0, 1.0 );\n" )
+		_T( "}\n" );
+
+	Effect::Effect( std::shared_ptr< gl::OpenGl > p_pOpenGl, int p_iWidth, int p_iHeight )
+		: gl::Holder( p_pOpenGl )
+		, m_strVertexFile()
+		, m_strFragmentFile()
+		, m_bNewShader( false )
+		, m_iWidth( p_iWidth )
+		, m_iHeight( p_iHeight )
+		, m_vertexAttribLocation( GL_INVALID_INDEX )
+		, m_textureAttribLocation( GL_INVALID_INDEX )
 	{
 	}
 
 	Effect::~Effect()
 	{
-		delete m_pShaderProgram;
+		m_pShaderProgram.reset();
 	}
 
-	void Effect::SetVertexFile( const wxString & p_strPath )
+	void Effect::SetVertexFile( String const & p_strPath )
 	{
 		m_strVertexFile = p_strPath;
 	}
 
-	void Effect::SetFragmentFile( const wxString & p_strPath )
+	void Effect::SetFragmentFile( String const & p_strPath )
 	{
 		m_strFragmentFile = p_strPath;
 	}
@@ -49,44 +56,48 @@ namespace ProceduralTextures
 
 	void Effect::Initialise()
 	{
-		if ( m_pShaderProgram )
+		if ( m_bNewShader )
 		{
-			m_pShaderProgram->Cleanup();
-		}
-		else
-		{
-			m_pShaderProgram = new GlShaderProgram( m_pOpenGl );
-		}
+			if ( m_pShaderProgram )
+			{
+				m_pShaderProgram->Cleanup();
+			}
+			else
+			{
+				m_pShaderProgram = std::make_shared< gl::ShaderProgram >( GetOpenGl() );
+			}
 
-		m_pShaderProgram->CreateObject( eSHADER_OBJECT_TYPE_VERTEX );
+			m_pShaderProgram->CreateObject( gl::eSHADER_OBJECT_TYPE_VERTEX );
+			m_pShaderProgram->CreateObject( gl::eSHADER_OBJECT_TYPE_PIXEL );
 
-		if ( !m_strVertexFile.empty() )
-		{
-			m_pShaderProgram->SetProgramFile( m_strVertexFile, eSHADER_OBJECT_TYPE_VERTEX );
-		}
-		else
-		{
-			m_pShaderProgram->SetProgramText( VertexProgram, eSHADER_OBJECT_TYPE_VERTEX );
-		}
+			if ( !m_strVertexFile.empty() )
+			{
+				m_pShaderProgram->SetProgramFile( m_strVertexFile, gl::eSHADER_OBJECT_TYPE_VERTEX );
+			}
+			else
+			{
+				m_pShaderProgram->SetProgramText( VertexProgram, gl::eSHADER_OBJECT_TYPE_VERTEX );
+			}
 
-		if ( !m_strFragmentFile.empty() )
-		{
-			m_pShaderProgram->CreateObject( eSHADER_OBJECT_TYPE_PIXEL );
-			m_pShaderProgram->SetProgramFile( m_strFragmentFile, eSHADER_OBJECT_TYPE_PIXEL );
-		}
+			if ( !m_strFragmentFile.empty() )
+			{
+				m_pShaderProgram->SetProgramFile( m_strFragmentFile, gl::eSHADER_OBJECT_TYPE_PIXEL );
+			}
 
-		m_pShaderProgram->Initialise();
-		m_uniformWidth = m_pShaderProgram->CreateIntFrameVariable( wxT( "pg_width" ) );
-		m_uniformHeight = m_pShaderProgram->CreateIntFrameVariable( wxT( "pg_height" ) );
-		m_uniformTime = m_pShaderProgram->CreateIntFrameVariable( wxT( "pg_time" ) );
-		m_uniformMouseX = m_pShaderProgram->CreateIntFrameVariable( wxT( "pg_mousex" ) );
-		m_uniformMouseY = m_pShaderProgram->CreateIntFrameVariable( wxT( "pg_mousey" ) );
-		m_pShaderProgram->CreateIntFrameVariable( wxT( "pg_texture" ) );
-		m_pShaderProgram->CreateIntFrameVariable( wxT( "pg_modif1" ) )->SetValue( 1 );
-		m_pShaderProgram->CreateIntFrameVariable( wxT( "pg_modif2" ) )->SetValue( 2 );
-		m_pShaderProgram->CreateIntFrameVariable( wxT( "pg_modif3" ) )->SetValue( 3 );
-		m_llStartTime = wxGetLocalTimeMillis();
-		m_bNewShader = false;
+			m_pShaderProgram->Initialise();
+			m_vertexAttribLocation = m_pShaderProgram->GetAttributeLocation( _T( "vertex" ) );
+			m_textureAttribLocation = m_pShaderProgram->GetAttributeLocation( _T( "texture" ) );
+			m_uniformWidth = m_pShaderProgram->CreateIntFrameVariable( _T( "pg_width" ) );
+			m_uniformHeight = m_pShaderProgram->CreateIntFrameVariable( _T( "pg_height" ) );
+			m_uniformTime = m_pShaderProgram->CreateIntFrameVariable( _T( "pg_time" ) );
+			m_uniformMouse = m_pShaderProgram->CreateVec2IntFrameVariable( _T( "pg_mouse" ) );
+			m_pShaderProgram->CreateIntFrameVariable( _T( "pg_texture" ) );
+			m_pShaderProgram->CreateIntFrameVariable( _T( "pg_modif1" ) )->SetValue( 1 );
+			m_pShaderProgram->CreateIntFrameVariable( _T( "pg_modif2" ) )->SetValue( 2 );
+			m_pShaderProgram->CreateIntFrameVariable( _T( "pg_modif3" ) )->SetValue( 3 );
+			m_llStartTime = Clock::now();
+			m_bNewShader = false;
+		}
 	}
 
 	void Effect::Cleanup()
@@ -97,17 +108,16 @@ namespace ProceduralTextures
 		}
 	}
 
-	bool Effect::Activate( wxPoint const & p_ptMousePosition )
+	bool Effect::Activate( Position const & p_ptMousePosition )
 	{
 		bool l_bReturn = true;
 
 		if ( m_pShaderProgram )
 		{
-			m_uniformWidth->SetValue( m_iWidth );
-			m_uniformHeight->SetValue( m_iHeight );
-			m_uniformMouseX->SetValue( std::max( 0, std::min( p_ptMousePosition.x, m_iWidth ) ) );
-			m_uniformMouseY->SetValue( std::max( 0, std::min( p_ptMousePosition.y, m_iHeight ) ) );
-			m_uniformTime->SetValue( int( ( wxGetLocalTimeMillis() - m_llStartTime ).ToLong() ) );
+			m_uniformWidth.lock()->SetValue( m_iWidth );
+			m_uniformHeight.lock()->SetValue( m_iHeight );
+			m_uniformMouse.lock()->SetValue( std::max( 0, std::min( p_ptMousePosition.x(), m_iWidth ) ), std::max( 0, std::min( p_ptMousePosition.y(), m_iHeight ) ) );
+			m_uniformTime.lock()->SetValue( int( std::chrono::duration_cast< std::chrono::milliseconds >( Clock::now() - m_llStartTime ).count() ) );
 			m_pShaderProgram->Activate();
 		}
 
@@ -122,26 +132,21 @@ namespace ProceduralTextures
 		}
 	}
 
-	wxString Effect::GetCompilerLog( eSHADER_OBJECT_TYPE p_eType )
+	String Effect::GetCompilerLog( gl::eSHADER_OBJECT_TYPE p_eType )
 	{
-		wxString l_strReturn;
+		String l_strReturn;
 
 		if ( m_pShaderProgram )
 		{
-			GlShaderObject * l_pShader = m_pShaderProgram->GetObject( p_eType );
-
-			if ( l_pShader )
-			{
-				l_strReturn = l_pShader->GetCompilerLog();
-			}
+			l_strReturn = m_pShaderProgram->GetCompilerLog( p_eType );
 		}
 
 		return l_strReturn;
 	}
 
-	wxString Effect::GetLinkerLog()
+	String Effect::GetLinkerLog()
 	{
-		wxString l_strReturn;
+		String l_strReturn;
 
 		if ( m_pShaderProgram )
 		{
@@ -149,5 +154,10 @@ namespace ProceduralTextures
 		}
 
 		return l_strReturn;
+	}
+
+	bool Effect::IsInitialised()const
+	{
+		return m_pShaderProgram && m_pShaderProgram->IsLinked() && !m_bNewShader;
 	}
 }

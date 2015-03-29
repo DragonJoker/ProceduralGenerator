@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option ) any later
+Foundation; either version 2 of the License, or (At your option ) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,36 +18,32 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___GENERATOR_GL_SHADER_PROGRAM_H___
 #define ___GENERATOR_GL_SHADER_PROGRAM_H___
 
-#include "GeneratorPrerequisites.h"
+#include "GlObject.h"
+#include <memory>
 
 namespace ProceduralTextures
+{
+namespace gl
 {
 	/*!
 	\author		Sylvain DOREMUS
 	\date		14/02/2010
 	\brief		Shader program implementation
 	*/
-	class GeneratorAPI GlShaderProgram
+	class GeneratorAPI ShaderProgram
+		: public Object< std::function< uint32_t() >, std::function< bool( uint32_t ) > >
+		, public std::enable_shared_from_this< ShaderProgram >
 	{
-	protected:
-		template< class Ty > friend struct FrameVariableCreator;
-
 	public:
 		/**
 		 *\brief		Constructor
-		 *\param[in]	p_pOpenGl		The OpenGL instance
-		 *\param[in]	p_shaderFiles	The shader file for each shader object
+		 *\param[in]	p_openGl	The OpenGL instance
 		 */
-		GlShaderProgram( OpenGl * p_pOpenGl, const wxArrayString & p_shaderFiles );
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_pOpenGl	The OpenGL instance
-		 */
-		GlShaderProgram( OpenGl * p_pOpenGl );
+		ShaderProgram( std::shared_ptr< OpenGl > p_openGl );
 		/**
 		 *\brief		Destructor
 		 */
-		~GlShaderProgram();
+		~ShaderProgram();
 		/**
 		 *\brief		Initialises the program
 		 *\return		true if compiled and linked successfully
@@ -57,6 +53,15 @@ namespace ProceduralTextures
 		 *\brief		Cleans the program up
 		 */
 		void Cleanup();
+		/**
+		 *\brief		Binds the object on GPU
+		 *\return		false if not bound successfully
+		 */
+		virtual bool Bind();
+		/**
+		 *\brief		Unbinds the object on GPU
+		 */
+		virtual void Unbind();
 		/**
 		 *\brief		Creates a shader object
 		 *\param[in]	p_eType	The object type
@@ -81,19 +86,19 @@ namespace ProceduralTextures
 		 *\param[in]	p_strFile	The file
 		 *\param[in]	p_eType		The object type
 		 */
-		void SetProgramFile( const wxString & p_strFile, eSHADER_OBJECT_TYPE p_eType );
+		void SetProgramFile( String const & p_strFile, eSHADER_OBJECT_TYPE p_eType );
 		/**
 		 *\brief		Sets the text for the given object
 		 *\param[in]	p_strSource	The source
 		 *\param[in]	p_eType	The object type
 		 */
-		void SetProgramText( const wxString & p_strSource, eSHADER_OBJECT_TYPE p_eType );
+		void SetProgramText( String const & p_strSource, eSHADER_OBJECT_TYPE p_eType );
 		/**
-		 *\brief		Retrieves the wanted shader object
+		 *\brief		Retrieves the wanted shader object compiler log
 		 *\param[in]	p_eType	The object type
-		 *\return		The shader object
+		 *\return		The compiler log
 		 */
-		GlShaderObject * GetObject( eSHADER_OBJECT_TYPE p_eType );
+		String GetCompilerLog( eSHADER_OBJECT_TYPE p_eType )const;
 		/**
 		 *\brief		Links all Shaders held by the program
 		 *\return		true if linked successfully
@@ -109,37 +114,109 @@ namespace ProceduralTextures
 		 */
 		bool ApplyAllVariables();
 		/**
-		 *\brief		Retrieves Vertex Attribute from the program
+		 *\brief		Retrieves a vertex attribute location from the program
 		 *\param[in]	p_strName	The attribute name
 		 *\return		The attribute location
 		 */
-		int GetAttributeLocation( const wxString & p_strName )const;
+		uint32_t GetAttributeLocation( String const & p_strName )const;
+		/**
+		 *\brief		Retrieves an uniform variable location from the program
+		 *\param[in]	p_strName	The variable name
+		 *\return		The variable location
+		 */
+		uint32_t GetUniformLocation( String const & p_strName )const;
 		/**
 		 *\brief		Creates a single float frame variable with given name
 		 *\param[in]	p_name	The variable name
-		 *\param[in]	p_value	The variable value
 		 */
-		GlFrameVariable< float > * CreateFloatFrameVariable( const wxString & p_name );
+		std::shared_ptr< FrameVariable< float > > CreateFloatFrameVariable( String const & p_name );
 		/**
 		 *\brief		Creates a single int frame variable with given name
 		 *\param[in]	p_name	The variable name
-		 *\param[in]	p_value	The variable value
 		 */
-		GlFrameVariable< int > * CreateIntFrameVariable( const wxString & p_name );
+		std::shared_ptr< FrameVariable< int > > CreateIntFrameVariable( String const & p_name );
 		/**
-		 *\brief		Sets a frame variable value
+		 *\brief		Creates a vec2 float frame variable with given name
 		 *\param[in]	p_name	The variable name
-		 *\param[in]	p_value	The variable value
 		 */
-		void SetFrameVariableValue( const wxString & p_name, float p_value );
+		std::shared_ptr< Vec2FrameVariable< float > > CreateVec2FloatFrameVariable( String const & p_name );
 		/**
-		 *\brief		Sets a frame variable value
+		 *\brief		Creates a vec2 int frame variable with given name
 		 *\param[in]	p_name	The variable name
-		 *\param[in]	p_value	The variable value
 		 */
-		void SetFrameVariableValue( const wxString & p_name, int p_value );
+		std::shared_ptr< Vec2FrameVariable< int > > CreateVec2IntFrameVariable( String const & p_name );
 		/**
-		 *\brief		Retrieves the link status for the program
+		 *\brief		Creates a vec3 float frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< Vec3FrameVariable< float > > CreateVec3FloatFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a vec3 int frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< Vec3FrameVariable< int > > CreateVec3IntFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a vec4 float frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< Vec4FrameVariable< float > > CreateVec4FloatFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a vec4 int frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< Vec4FrameVariable< int > > CreateVec4IntFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a mat4 float frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< Mat4FrameVariable< float > > CreateMat4FloatFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a single float frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< FrameVariable< float > > GetFloatFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a single int frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< FrameVariable< int > > GetIntFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a vec2 float frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< Vec2FrameVariable< float > > GetVec2FloatFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a vec2 int frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< Vec2FrameVariable< int > > GetVec2IntFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a vec3 float frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< Vec3FrameVariable< float > > GetVec3FloatFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a vec3 int frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< Vec3FrameVariable< int > > GetVec3IntFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a vec4 float frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< Vec4FrameVariable< float > > GetVec4FloatFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a vec4 int frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< Vec4FrameVariable< int > > GetVec4IntFrameVariable( String const & p_name );
+		/**
+		 *\brief		Creates a mat4 float frame variable with given name
+		 *\param[in]	p_name	The variable name
+		 */
+		std::shared_ptr< Mat4FrameVariable< float > > GetMat4FloatFrameVariable( String const & p_name );
+		/**
+		 *\brief		Retrieves the Link status for the program
 		 *\return		The value
 		 */
 		inline bool IsLinked()const
@@ -147,18 +224,10 @@ namespace ProceduralTextures
 			return m_bLinked;
 		}
 		/**
-		 *\brief		Retrieves the OpenGL program index
+		 *\brief		Retrieves The Link messages log
 		 *\return		The value
 		 */
-		inline GLuint GetProgramObject()const
-		{
-			return m_programObject;
-		}
-		/**
-		 *\brief		Retrieves The link messages log
-		 *\return		The value
-		 */
-		inline const wxString & GetLinkerLog()const
+		inline String const & GetLinkerLog()const
 		{
 			return m_linkerLog;
 		}
@@ -200,23 +269,38 @@ namespace ProceduralTextures
 		 *\brief		Get linker messages
 		 *\return		The messages
 		 */
-		wxString RetrieveLinkerLog();
+		String RetrieveLinkerLog();
 
-		//! The OpenGL instance
-		OpenGl * m_pOpenGl;
 		//! Tells if the program is linked
 		bool m_bLinked;
 		//! Tells if the program is in error
 		bool m_bError;
 		//! The shader objects
-		GlShaderObject * m_pShaders[eSHADER_OBJECT_TYPE_COUNT];
+		std::vector< std::shared_ptr< ShaderObject > > m_shaders;
 		//! The frame variables list
 		FrameVariablePtrList m_listFrameVariables;
-		//! The OpenGL index for the program
-		GLuint m_programObject;
+		//! The float frame variables map, sorted by name
+		std::map< String, std::weak_ptr< FrameVariable< float > > > m_floatFrameVariables;
+		//! The int frame variables list, sorted by name
+		std::map< String, std::weak_ptr< FrameVariable< int > > > m_intFrameVariables;
+		//! The vec2f frame variables list, sorted by name
+		std::map< String, std::weak_ptr< Vec2FrameVariable< float > > > m_vec2fFrameVariables;
+		//! The vec2i frame variables list, sorted by name
+		std::map< String, std::weak_ptr< Vec2FrameVariable< int > > > m_vec2iFrameVariables;
+		//! The vec3f frame variables list, sorted by name
+		std::map< String, std::weak_ptr< Vec3FrameVariable< float > > > m_vec3fFrameVariables;
+		//! The vec3i frame variables list, sorted by name
+		std::map< String, std::weak_ptr< Vec3FrameVariable< int > > > m_vec3iFrameVariables;
+		//! The vec4f frame variables list, sorted by name
+		std::map< String, std::weak_ptr< Vec4FrameVariable< float > > > m_vec4fFrameVariables;
+		//! The vec4i frame variables list, sorted by name
+		std::map< String, std::weak_ptr< Vec4FrameVariable< int > > > m_vec4iFrameVariables;
+		//! The mat4 frame variables list, sorted by name
+		std::map< String, std::weak_ptr< Mat4FrameVariable< float > > > m_mat4FrameVariables;
 		//! The linker log messages
-		wxString m_linkerLog;
+		String m_linkerLog;
 	};
+}
 }
 
 //*************************************************************************************************

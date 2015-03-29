@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option ) any later
+Foundation; either version 2 of the License, or (At your option ) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -21,29 +21,28 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <GeneratorPrerequisites.h>
 #include <Pixel.h>
 
-namespace ProceduralTextures
+namespace BuggedLifeGame
 {
-	class BlgCell
+	class Cell
 	{
 	private:
-		UbPixel * m_alivePx;
-		UbPixel * m_deadPx;
+		ProceduralTextures::UbPixel * m_alivePx;
+		ProceduralTextures::UbPixel * m_deadPx;
 
 	public:
-		BlgCell * m_neighbours[8];
+		Cell * m_neighbours[8];
 		bool m_alive;
-		UbPixel * m_nextPixel;
-		UiPixel m_pixel;
-		UiPixel m_step;
-		UiPixel m_age;
-		UiPixel m_med;
+		ProceduralTextures::UbPixel * m_nextPixel;
+		ProceduralTextures::UiPixel m_pixel;
+		ProceduralTextures::UiPixel m_step;
+		ProceduralTextures::UiPixel m_age;
+		ProceduralTextures::UiPixel m_med;
 
 	public:
-		BlgCell();
-		BlgCell( const BlgCell & cell );
-		~BlgCell();
+		Cell();
+		~Cell();
 
-		void Set( UbPixel * p_pixel, UbPixel * p_alivePx, UbPixel * p_deadPx, bool p_alive );
+		void Set( ProceduralTextures::UbPixel * p_pixel, ProceduralTextures::UbPixel * p_alivePx, ProceduralTextures::UbPixel * p_deadPx, bool p_alive );
 		void Die();
 		void Live();
 		void Stay();
@@ -52,8 +51,7 @@ namespace ProceduralTextures
 
 		void Update();
 
-		BlgCell & operator =( const BlgCell & p_cell );
-		BlgCell & Copy( const BlgCell & p_cell );
+		Cell & Copy( Cell const & p_cell );
 
 	private:
 		void _addToPixelRed( uint8_t p_red );
@@ -61,87 +59,7 @@ namespace ProceduralTextures
 		void _addToPixelBlue( uint8_t p_blue );
 	};
 
-	template <> class Policy< ProceduralTextures::BlgCell >
-	{
-	private:
-		typedef ProceduralTextures::BlgCell value_type;
-
-	public:
-		static value_type zero()
-		{
-			return value_type();
-		}
-		static value_type unit()
-		{
-			return value_type();
-		}
-		static void init( value_type & p_a )
-		{
-			p_a = zero();
-		}
-		static bool is_null( const value_type & p_a )
-		{
-			return equals( p_a, zero() );
-		}
-		static value_type negate( const value_type & p_a )
-		{
-			return p_a;
-		}
-		static value_type ass_negate( value_type & p_a )
-		{
-			return assign( p_a, negate( p_a ) );
-		}
-		static value_type stick( value_type & p_a )
-		{
-			return p_a;
-		}
-		template< typename Ty > static value_type convert( const Ty & p_value )
-		{
-			return static_cast< value_type >( p_value );
-		}
-		template< typename Ty > static bool equals( const value_type & WXUNUSED( p_a ), const Ty & WXUNUSED( p_b ) )
-		{
-			return false;
-		}
-		template< typename Ty > static value_type add( const value_type & p_a, const Ty & WXUNUSED( p_b ) )
-		{
-			return p_a;
-		}
-		template< typename Ty > static value_type substract( const value_type & p_a, const Ty & WXUNUSED( p_b ) )
-		{
-			return p_a;
-		}
-		template< typename Ty > static value_type multiply( const value_type & p_a, const Ty & WXUNUSED( p_b ) )
-		{
-			return p_a;
-		}
-		template< typename Ty > static value_type divide( const value_type & p_a, const Ty & WXUNUSED( p_b ) )
-		{
-			return p_a;
-		}
-		template< typename Ty > static value_type ass_add( value_type & p_a, const Ty & WXUNUSED( p_b ) )
-		{
-			return p_a;
-		}
-		template< typename Ty > static value_type ass_substract( value_type & p_a, const Ty & WXUNUSED( p_b ) )
-		{
-			return p_a;
-		}
-		template< typename Ty > static value_type ass_multiply( value_type & p_a, const Ty & WXUNUSED( p_b ) )
-		{
-			return p_a;
-		}
-		template< typename Ty > static value_type ass_divide( value_type & p_a, const Ty & WXUNUSED( p_b ) )
-		{
-			return p_a;
-		}
-		template< typename Ty > static value_type assign( value_type & p_a, const Ty & p_b )
-		{
-			return p_a = convert< Ty >( p_b );
-		}
-	};
-
-	typedef Buffer< BlgCell > BlgCellBuffer;
+	typedef ProceduralTextures::Buffer< Cell > CellBuffer;
 }
 
 #endif

@@ -1,0 +1,6 @@
+/binaries
+/build
+/doc
+/setup
+*.gch
+*.pot

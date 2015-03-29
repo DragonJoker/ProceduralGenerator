@@ -1,19 +1,64 @@
-#include "RenderPanel.h"
 #include "MainFrame.h"
+
+#include <Generator.h>
 
 #include <emmintrin.h>
 
-namespace ProceduralTextures
+#include "RenderPanel.h"
+
+#pragma warning( push )
+#pragma warning( disable:4996 )
+#include <wx/dcclient.h>
+#include <wx/filedlg.h>
+#include <wx/msgdlg.h>
+#pragma warning( pop )
+
+using namespace ProceduralTextures;
+
+namespace ProceduralGenerator
 {
 #if !defined( MAKEFOURCC )
 #	if BYTE_ORDER == BIG_ENDIAN
-#		define MAKEFOURCC(a,b,c,d) ( (((uint32_t)a)<< 24) | (((uint32_t)b)<< 16) | \
-					                 (((uint32_t)c)<< 8) | ( (uint32_t)d)     )
+#		define MAKEFOURCC(a,b,c,d) ( ( uint32_t( a ) << 24 ) | ( uint32_t( b ) << 16 ) | ( uint32_t( c ) <<  8 ) | ( uint32_t( d ) <<  0 ) )
 #	else
-#		define MAKEFOURCC(a,b,c,d) ( ((uint32_t)a)      | (((uint32_t)b)<< 8) | \
-			                        (((uint32_t)c)<< 16) | (((uint32_t)d)<< 24) )
+#		define MAKEFOURCC(a,b,c,d) ( ( uint32_t( a ) <<  0 ) | ( uint32_t( b ) <<  8 ) | ( uint32_t( c ) << 16 ) | ( uint32_t( d ) << 24 ) )
 #	endif
 #endif
+	namespace
+	{
+		eKEYBOARD_KEY ConvertKeyCode( int p_code )
+		{
+			eKEYBOARD_KEY l_return = eKEYBOARD_KEY_NONE;
+
+			if ( p_code < 0x20 )
+			{
+				switch ( p_code )
+				{
+				case WXK_BACK:
+				case WXK_TAB:
+				case WXK_RETURN:
+				case WXK_ESCAPE:
+					l_return = eKEYBOARD_KEY( p_code );
+					break;
+				}
+			}
+			else if ( p_code == 0x7F )
+			{
+				l_return = eKEY_DELETE;
+			}
+			else if ( p_code > 0xFF )
+			{
+				l_return = eKEYBOARD_KEY( p_code + eKEY_START - WXK_START );
+			}
+			else
+			{
+				// ASCII or extended ASCII character
+				l_return = eKEYBOARD_KEY( p_code );
+			}
+
+			return l_return;
+		}
+	}
 
 #if defined( PGEN_FFMPEG )
 	static const AVCodecID		g_iCodecID		= CODEC_ID_H264;
@@ -24,33 +69,37 @@ namespace ProceduralTextures
 
 	//*************************************************************************************************
 
-	RenderPanel::RenderPanel( MainFrame * p_parent, int * p_attribList, const wxPoint & p_position, const wxSize & p_size )
-		:	wxGLCanvas( p_parent, wxID_ANY, p_attribList, p_position, p_size )
-		,	m_pContext( NULL )
-		,	m_bInitialised( false )
-		,	m_pGenerator( NULL )
-		,	m_bFullScreen( false )
-		,	m_pFrame( p_parent )
+	RenderPanel::RenderPanel( MainFrame * p_parent, int * p_attribList, wxPoint const & p_position, wxSize const & p_size )
+		: wxGLCanvas( p_parent, wxID_ANY, p_attribList, p_position, p_size )
+		, m_pContext( NULL )
+		, m_bInitialised( false )
+		, m_pGenerator( NULL )
+		, m_bFullScreen( false )
+		, m_pFrame( p_parent )
+		, m_mouseMoveIndex( 0 )
 #if defined( PGEN_FFMPEG )
-		,	m_pAvCodec( NULL )
-		,	m_pAvFrame( NULL )
+		, m_pAvCodec( NULL )
+		, m_pAvFrame( NULL )
 #	if USE_STREAMS
-		,	m_pAvFormatContext( NULL )
-		,	m_pAvStream( NULL )
+		, m_pAvFormatContext( NULL )
+		, m_pAvStream( NULL )
 #	else
-		,	m_pAvCodecContext( NULL )
-		,	m_pFile( NULL )
+		, m_pAvCodecContext( NULL )
+		, m_pFile( NULL )
 #	endif
 #endif
 #if defined( PGEN_RECORDS )
-		,	m_uiRecordedCount( 0 )
-		,	m_ui64RecordedTime( 0 )
+		, m_uiRecordedCount( 0 )
+		, m_ui64RecordedTime( 0 )
 #endif
+		, m_timer( NULL )
+		, m_count( 0 )
 	{
 #if defined( PGEN_FFMPEG )
 		m_avEncodedPicture.data[0] = NULL;
 		av_register_all();
 #endif
+		m_timer = new wxTimer( this, eID_TIMER );
 		SetBackgroundColour( p_parent->GetBackgroundColour() );
 		SetForegroundColour( p_parent->GetForegroundColour() );
 		Show();
@@ -58,54 +107,49 @@ namespace ProceduralTextures
 
 	RenderPanel::~RenderPanel()
 	{
+		delete m_timer;
 	}
 
-	void RenderPanel::SetGenerator( ProceduralGenerator * p_pGenerator )
+	void RenderPanel::SetGenerator( std::shared_ptr< GeneratorBase > p_pGenerator )
 	{
+		m_timer->Stop();
 		m_bFullScreen = false;
-
-		if ( m_pGenerator )
-		{
-			if ( m_pContext )
-			{
-				wxClientDC l_dc( this );
-				m_pContext->SetCurrent( *this );
-				m_pGenerator->GlCleanup();
-			}
-
-			m_pGenerator->Stop();
-		}
-
+		DoStopGenerator();
 		m_pGenerator = p_pGenerator;
 
 		if ( m_pGenerator )
 		{
-			SetSize( p_pGenerator->GetDisplaySize() );
-			m_pGenerator->Create();
+			SetSize( wxSize( p_pGenerator->GetDisplaySize().x(), p_pGenerator->GetDisplaySize().y() ) );
 			m_pGenerator->Run();
+			m_timer->Start( int( m_pGenerator->GetFrameTime().count() ) );
 		}
 
 		m_bInitialised = false;
+	}
+
+	std::shared_ptr< GeneratorBase > RenderPanel::GetGenerator()const
+	{
+		return m_pGenerator;
 	}
 
 	void RenderPanel::SaveFrame()
 	{
 		if ( m_pGenerator )
 		{
-			m_pGenerator->SetSaveFrame();
+			m_pGenerator->SaveFrame();
 			DoRender();
 			PixelBuffer const & l_buffer = m_pGenerator->GetSavedFrame();
-			wxSize l_size = m_pGenerator->GetImageSize();
-			wxImage l_image( l_size.x, l_size.y, true );
+			Size l_size = m_pGenerator->GetImageSize();
+			wxImage l_image( l_size.x(), l_size.y(), true );
 			int x = 0;
 
-			for ( int i = 0 ; i < l_size.x ; i++ )
+			for ( uint32_t i = 0; i < l_size.x(); i++ )
 			{
-				int y = l_size.y - 1;
+				int y = l_size.y() - 1;
 
-				for ( int j = 0 ; j < l_size.y ; j++ )
+				for ( uint32_t j = 0; j < l_size.y(); j++ )
 				{
-					const UbPixel & l_pixel = l_buffer[j][i];
+					UbPixel const & l_pixel = l_buffer[j][i];
 					l_image.SetRGB( x, y, l_pixel.r, l_pixel.g, l_pixel.b );
 					y--;
 				}
@@ -113,7 +157,16 @@ namespace ProceduralTextures
 				x++;
 			}
 
-			wxString l_strWildcard = wxT( "All supported files (*.bmp;*.gif;*.png;*.jpg)|*.bmp;*.gif;*.png;*.jpg|BITMAP files (*.bmp)|*.bmp|GIF files(*.gif)|*.gif|JPEG files (*.jpg)|*.jpg|PNG files (*.png)|*.png" );
+			wxString l_strWildcard = _( "All supported files" );
+			l_strWildcard += wxT( " (*.bmp;*.gif;*.png;*.jpg)|*.bmp;*.gif;*.png;*.jpg|" );
+			l_strWildcard += _( "BITMAP files" );
+			l_strWildcard += wxT( " (*.bmp)|*.bmp|" );
+			l_strWildcard += _( "GIF files" );
+			l_strWildcard += wxT( " (*.gif)|*.gif|" );
+			l_strWildcard += _( "JPEG files" );
+			l_strWildcard += wxT( " (*.jpg)|*.jpg|" );
+			l_strWildcard += _( "PNG files" );
+			l_strWildcard += wxT( " (*.png)|*.png" );
 			wxFileDialog l_dialog( this, _( "Please choose an image file name" ), wxEmptyString, wxEmptyString, l_strWildcard, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
 
 			if ( l_dialog.ShowModal() == wxID_OK )
@@ -129,7 +182,7 @@ namespace ProceduralTextures
 		{
 			wxClientDC l_dc( this );
 
-			if ( m_pGenerator && m_pGenerator->IsInitialised() )
+			if ( m_pGenerator )
 			{
 				if ( !m_pContext )
 				{
@@ -151,10 +204,10 @@ namespace ProceduralTextures
 				if ( IsRecording() )
 #	endif
 				{
-					m_pGenerator->SetSaveFrame();
+					m_pGenerator->SaveFrame();
 					DoRender();
-					PixelBuffer & l_buffer = m_pGenerator->GetSavedFrame();
-					wxSize l_size = m_pGenerator->GetImageSize();
+					PixelBuffer const & l_buffer = m_pGenerator->GetSavedFrame();
+					Size l_size = m_pGenerator->GetImageSize();
 #	if defined( PGEN_FFMPEG )
 					static SwsContext * l_pSwsContext = NULL;
 #		if USE_STREAMS
@@ -179,7 +232,7 @@ namespace ProceduralTextures
 
 					if ( IsRecording() )
 					{
-						uint8_t const * l_pBuffer = ( uint8_t const * )l_buffer.const_ptr();
+						uint8_t const * l_pBuffer = ( uint8_t const * )l_buffer.ConstPtr();
 						int l_lineSize[8] = { pAvCodecContext->width * 4, 0, 0, 0, 0, 0, 0, 0 };
 						sws_scale( l_pSwsContext, &l_pBuffer, l_lineSize, 0, pAvCodecContext->height, m_pAvFrame->data, m_pAvFrame->linesize );
 						AVPacket l_pkt = { 0 };
@@ -209,8 +262,8 @@ namespace ProceduralTextures
 
 #	elif defined( PGEN_OCV )
 					PixelBuffer l_output( l_buffer );
-					l_output.flip();
-					cv::Mat l_img( cv::Size( l_size.x, l_size.y ), CV_8UC4, l_output.ptr() );
+					cv::Mat l_img( cv::Size( l_size.x(), l_size.y() ), CV_8UC4, l_output.Ptr() );
+					cv::flip( l_img, l_img, 0 );
 					cv::cvtColor( l_img, l_img, cv::COLOR_BGRA2RGBA );
 
 					try
@@ -269,7 +322,7 @@ namespace ProceduralTextures
 		{
 			m_uiRecordedCount = 0;
 			m_ui64RecordedTime = 0;
-			m_bufferNV12.resize( m_pGenerator->GetImageSize().x * ( m_pGenerator->GetImageSize().y * 3 ) / 2 );
+			m_bufferNV12.resize( m_pGenerator->GetImageSize().x() * ( m_pGenerator->GetImageSize().y() * 3 ) / 2 );
 			wxString l_strWildcard = _( "AVI Video files" );
 			l_strWildcard += wxT( "(*.avi)|*.avi" );
 			wxFileDialog l_dialog( this, _( "Please choose a video file name" ), wxEmptyString, wxEmptyString, l_strWildcard, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
@@ -281,7 +334,7 @@ namespace ProceduralTextures
 				try
 				{
 #	if defined( PGEN_FFMPEG )
-					wxSize l_size = m_pGenerator->GetImageSize();
+					wxSize l_size( m_pGenerator->GetImageSize().x(), m_pGenerator->GetImageSize().y() );
 #		if USE_STREAMS
 					avformat_alloc_output_context2( &m_pAvFormatContext, NULL, NULL, l_strFileName.char_str().data() );
 
@@ -296,7 +349,8 @@ namespace ProceduralTextures
 
 					if ( !m_pAvCodec )
 					{
-						throw _( "Can't find H264 codec" );
+						wxString l_msg = _( "Can't find H264 codec" );
+						throw std::runtime_error( ( char const * )l_msg.mb_str( wxConvUTF8 ) );
 					}
 
 #		if USE_STREAMS
@@ -305,7 +359,8 @@ namespace ProceduralTextures
 					if ( !m_pAvStream )
 					{
 						StopRecord();
-						throw _( "Could not allocate stream" );
+						wxString l_msg = _( "Could not allocate stream" );
+						throw std::runtime_error( ( char const * )l_msg.mb_str( wxConvUTF8 ) );
 					}
 
 					m_pAvStream->id = m_pAvFormatContext->nb_streams - 1;
@@ -319,7 +374,8 @@ namespace ProceduralTextures
 					if ( !m_pAvCodecContext )
 					{
 						StopRecord();
-						throw _( "Could not allocate video codec context" );
+						wxString l_msg = _( "Could not allocate video codec context" );
+						throw std::runtime_error( ( char const * )l_msg.mb_str( wxConvUTF8 ) );
 					}
 
 					AVCodecContext * pAvCodecContext = m_pAvCodecContext;
@@ -346,7 +402,8 @@ namespace ProceduralTextures
 					if ( avcodec_open2( pAvCodecContext, m_pAvCodec, NULL ) < 0 )
 					{
 						StopRecord();
-						throw _( "Could not open codec" );
+						wxString l_msg = _( "Could not open codec" );
+						throw std::runtime_error( ( char const * )l_msg.mb_str( wxConvUTF8 ) );
 					}
 
 					m_pAvFrame = av_frame_alloc();
@@ -354,14 +411,16 @@ namespace ProceduralTextures
 					if ( !m_pAvFrame )
 					{
 						StopRecord();
-						throw _( "Could not allocate video frame" );
+						wxString l_msg = _( "Could not allocate video frame" );
+						throw std::runtime_error( ( char const * )l_msg.mb_str( wxConvUTF8 ) );
 					}
 
 					/* Allocate the encoded raw picture. */
 					if ( avpicture_alloc( &m_avEncodedPicture, pAvCodecContext->pix_fmt, pAvCodecContext->width, pAvCodecContext->height ) < 0 )
 					{
 						StopRecord();
-						throw _( "Could not allocate encoded picture" );
+						wxString l_msg = _( "Could not allocate encoded picture buffer" );
+						throw std::runtime_error( ( char const * )l_msg.mb_str( wxConvUTF8 ) );
 					}
 
 					*( ( AVPicture * )m_pAvFrame ) = m_avEncodedPicture;
@@ -370,7 +429,8 @@ namespace ProceduralTextures
 					if ( avio_open( &m_pAvFormatContext->pb, l_strFileName.char_str().data(), AVIO_FLAG_WRITE ) < 0 )
 					{
 						StopRecord();
-						throw _( "Could not open file" );
+						wxString l_msg = _( "Could not open file" );
+						throw std::runtime_error( ( char const * )l_msg.mb_str( wxConvUTF8 ) );
 					}
 
 #		else
@@ -379,19 +439,20 @@ namespace ProceduralTextures
 					if ( !m_pFile )
 					{
 						StopRecord();
-						throw _( "Could not open file" );
+						wxString l_msg = _( "Could not open file" );
+						throw std::runtime_error( ( char const * )l_msg.mb_str( wxConvUTF8 ) );
 					}
 
 #		endif
 #	elif defined( PGEN_OCV )
-					wxSize l_size = m_pGenerator->GetImageSize();
+					Size l_size = m_pGenerator->GetImageSize();
 
-					if ( !m_writer.open( l_strFileName.char_str().data(), MAKEFOURCC( 'X', '2', '6', '4' ), g_iWantedFPS, cv::Size( l_size.x, l_size.y ), true ) )
+					if ( !m_writer.open( l_strFileName.char_str().data(), MAKEFOURCC( 'X', '2', '6', '4' ), g_iWantedFPS, cv::Size( l_size.x(), l_size.y() ), true ) )
 					{
 #		if defined( _WIN32 )
-						wxMessageBox( _( "Can't open file with OpenCV, encoding: H264, I let you select" ) );
+						wxMessageBox( _( "Can't open file with OpenCV, encoding: H264, pleas select another codec" ) );
 
-						if ( !m_writer.open( l_strFileName.char_str().data(), -1, g_iWantedFPS, cv::Size( l_size.x, l_size.y ), true ) )
+						if ( !m_writer.open( l_strFileName.char_str().data(), -1, g_iWantedFPS, cv::Size( l_size.x(), l_size.y() ), true ) )
 						{
 						}
 
@@ -550,29 +611,53 @@ namespace ProceduralTextures
 	}
 #endif
 
+	void RenderPanel::DoStopGenerator()
+	{
+		if ( m_pGenerator )
+		{
+			if ( m_pContext )
+			{
+				wxClientDC l_dc( this );
+				m_pContext->SetCurrent( *this );
+			}
+
+			m_pGenerator->Stop();
+			m_pGenerator->Cleanup();
+			m_pGenerator->Destroy();
+		}
+	}
+
 	void RenderPanel::DoRender()
 	{
 		m_pContext->SetCurrent( *this );
 
-		if ( !m_bInitialised )
+		if ( !m_pGenerator->IsInitialised() )
 		{
-			m_pGenerator->GlInitialise();
-			m_bInitialised = true;
+			m_pGenerator->Initialise();
 		}
 
-		m_pGenerator->GlPreRender();
-		m_pGenerator->GlRender( true );
-		m_pGenerator->GlPostRender();
-		SwapBuffers();
+		m_pGenerator->Render( [this]()
+		{
+			SwapBuffers();
+		} );
 	}
 
 	BEGIN_EVENT_TABLE( RenderPanel, wxGLCanvas )
-		EVT_PAINT(	RenderPanel::OnPaint )
-		EVT_SIZE(	RenderPanel::OnSize )
-		EVT_CLOSE(	RenderPanel::OnClose )
-		EVT_KEY_UP(	RenderPanel::OnKeyUp )
-		EVT_MOTION(	RenderPanel::OnMouseMove )
-		EVT_LEFT_DCLICK(	RenderPanel::OnLeftDClick )
+		EVT_PAINT( RenderPanel::OnPaint )
+		EVT_SIZE( RenderPanel::OnSize )
+		EVT_CLOSE( RenderPanel::OnClose )
+		EVT_KEY_DOWN( RenderPanel::OnKeyDown )
+		EVT_KEY_UP( RenderPanel::OnKeyUp )
+		EVT_MOTION( RenderPanel::OnMouseMove )
+		EVT_LEFT_DOWN( RenderPanel::OnLeftDown )
+		EVT_LEFT_UP( RenderPanel::OnLeftUp )
+		EVT_MIDDLE_DOWN( RenderPanel::OnMiddleDown )
+		EVT_MIDDLE_UP( RenderPanel::OnMiddleUp )
+		EVT_RIGHT_DOWN( RenderPanel::OnRightDown )
+		EVT_RIGHT_UP( RenderPanel::OnRightUp )
+		EVT_LEFT_DCLICK( RenderPanel::OnLeftDClick )
+		EVT_CHAR( RenderPanel::OnChar )
+		EVT_TIMER( eID_TIMER, RenderPanel::OnTimer )
 	END_EVENT_TABLE()
 
 	void RenderPanel::OnPaint( wxPaintEvent & p_event )
@@ -592,7 +677,8 @@ namespace ProceduralTextures
 	{
 		if ( m_pGenerator )
 		{
-			m_pGenerator->SetDisplaySize( p_event.GetSize() );
+			wxSize l_size = p_event.GetSize();
+			m_pGenerator->UpdateDisplaySize( Size( l_size.x, l_size.y ) );
 		}
 
 #if defined( PGEN_RECORDS )
@@ -609,23 +695,59 @@ namespace ProceduralTextures
 		p_event.Skip();
 	}
 
+	void RenderPanel::OnTimer( wxTimerEvent & p_event )
+	{
+		if ( m_pGenerator )
+		{
+			Render();
+			std::chrono::milliseconds l_time = m_pGenerator->GetCpuTime() + m_pGenerator->GetGpuTime();
+
+			if ( l_time.count() >= m_timer->GetInterval() )
+			{
+				if ( m_count++ >= 100 )
+				{
+					m_timer->Stop();
+					m_timer->Start( m_timer->GetInterval() * 2 );
+				}
+			}
+			else
+			{
+				m_count = 0;
+
+				if ( l_time < m_pGenerator->GetFrameTime() )
+				{
+					m_timer->Stop();
+					m_timer->Start( int( m_pGenerator->GetFrameTime().count() ) );
+				}
+			}
+		}
+	}
+
 	void RenderPanel::OnClose( wxCloseEvent & p_event )
 	{
 #if defined( PGEN_RECORDS )
 		StopRecord();
 #endif
+		DoStopGenerator();
 
 		if ( m_pContext )
 		{
-			if ( m_pGenerator )
-			{
-				wxClientDC l_dc( this );
-				m_pContext->SetCurrent( *this );
-				m_pGenerator->GlCleanup();
-			}
-
 			delete m_pContext;
 			m_pContext = NULL;
+		}
+
+		p_event.Skip();
+	}
+
+	void RenderPanel::OnKeyDown( wxKeyEvent & p_event )
+	{
+		if ( p_event.GetKeyCode() == WXK_F12 )
+		{
+			SaveFrame();
+		}
+		else if ( m_pGenerator )
+		{
+			m_pGenerator->PostKeyboardEvent( eKEYBOARD_EVENT_KEY_PUSHED, ConvertKeyCode( p_event.GetKeyCode() ), p_event.ControlDown(), p_event.AltDown(), p_event.ShiftDown() );
 		}
 
 		p_event.Skip();
@@ -637,6 +759,23 @@ namespace ProceduralTextures
 		{
 			SaveFrame();
 		}
+		else if ( m_pGenerator )
+		{
+			m_pGenerator->PostKeyboardEvent( eKEYBOARD_EVENT_KEY_RELEASED, ConvertKeyCode( p_event.GetKeyCode() ), p_event.ControlDown(), p_event.AltDown(), p_event.ShiftDown() );
+		}
+
+		p_event.Skip();
+	}
+
+	void RenderPanel::OnChar( wxKeyEvent & p_event )
+	{
+		if ( m_pGenerator )
+		{
+			wxChar l_key = p_event.GetUnicodeKey();
+			wxString l_tmp;
+			l_tmp << l_key;
+			m_pGenerator->PostCharEvent( ConvertKeyCode( p_event.GetKeyCode() ), String( l_tmp.mb_str( wxConvUTF8 ) ) );
+		}
 
 		p_event.Skip();
 	}
@@ -645,7 +784,67 @@ namespace ProceduralTextures
 	{
 		if ( m_pGenerator )
 		{
-			m_pGenerator->AddPendingEvent( p_event );
+			m_pGenerator->PostMouseEvent( eMOUSE_EVENT_MOUSE_MOVE, Position( p_event.GetX(), p_event.GetY() ) );
+		}
+
+		p_event.Skip();
+	}
+
+	void RenderPanel::OnLeftDown( wxMouseEvent & p_event )
+	{
+		if ( m_pGenerator )
+		{
+			m_pGenerator->PostMouseEvent( eMOUSE_EVENT_MOUSE_BUTTON_PUSHED, Position( p_event.GetX(), p_event.GetY() ), eMOUSE_BUTTON_LEFT );
+		}
+
+		p_event.Skip();
+	}
+
+	void RenderPanel::OnLeftUp( wxMouseEvent & p_event )
+	{
+		if ( m_pGenerator )
+		{
+			m_pGenerator->PostMouseEvent( eMOUSE_EVENT_MOUSE_BUTTON_RELEASED, Position( p_event.GetX(), p_event.GetY() ), eMOUSE_BUTTON_LEFT );
+		}
+
+		p_event.Skip();
+	}
+
+	void RenderPanel::OnMiddleDown( wxMouseEvent & p_event )
+	{
+		if ( m_pGenerator )
+		{
+			m_pGenerator->PostMouseEvent( eMOUSE_EVENT_MOUSE_BUTTON_PUSHED, Position( p_event.GetX(), p_event.GetY() ), eMOUSE_BUTTON_MIDDLE );
+		}
+
+		p_event.Skip();
+	}
+
+	void RenderPanel::OnMiddleUp( wxMouseEvent & p_event )
+	{
+		if ( m_pGenerator )
+		{
+			m_pGenerator->PostMouseEvent( eMOUSE_EVENT_MOUSE_BUTTON_RELEASED, Position( p_event.GetX(), p_event.GetY() ), eMOUSE_BUTTON_MIDDLE );
+		}
+
+		p_event.Skip();
+	}
+
+	void RenderPanel::OnRightDown( wxMouseEvent & p_event )
+	{
+		if ( m_pGenerator )
+		{
+			m_pGenerator->PostMouseEvent( eMOUSE_EVENT_MOUSE_BUTTON_PUSHED, Position( p_event.GetX(), p_event.GetY() ), eMOUSE_BUTTON_RIGHT );
+		}
+
+		p_event.Skip();
+	}
+
+	void RenderPanel::OnRightUp( wxMouseEvent & p_event )
+	{
+		if ( m_pGenerator )
+		{
+			m_pGenerator->PostMouseEvent( eMOUSE_EVENT_MOUSE_BUTTON_RELEASED, Position( p_event.GetX(), p_event.GetY() ), eMOUSE_BUTTON_RIGHT );
 		}
 
 		p_event.Skip();

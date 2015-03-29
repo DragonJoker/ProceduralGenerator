@@ -36,94 +36,39 @@ include( AStyleUtils )
 # Organize projects into folders
 set_property( GLOBAL PROPERTY USE_FOLDERS ON )
 
-#--------------------------------------------------------------------------------------------------
-#	Looking for needed libraries
-#--------------------------------------------------------------------------------------------------
-set( wxWidgets_USE_STATIC OFF )
-find_package( wxWidgets REQUIRED core base gl )
-if (NOT WIN32 )
-	find_package( GTK2 )
-endif (NOT WIN32 )
-
-#--------------------------------------------------------------------------------------------------
-#	Adding include dirs to include search path
-#--------------------------------------------------------------------------------------------------
+# Adding include dirs to include search path
 include_directories( Core/Generator/Src )
 
-if( wxWidgets_FOUND )
-	include_directories(	${wxWidgets_INCLUDE_DIRS} )
-endif()
-if (NOT WIN32 )
-	include_directories(	${GTK2_INCLUDE_DIRS} )
-endif (NOT WIN32 )
+if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
+	find_package( OpenGL )
 
-#--------------------------------------------------------------------------------------------------
-#	Normalising libraries names
-#--------------------------------------------------------------------------------------------------
-#wxWidgets Libs
-set( wxWidgetsLibraries "" )
-FOREACH(Lib ${wxWidgets_LIBRARIES} )
-	if (wxWidgetsLibraries )
-		set(wxWidgetsLibraries "${wxWidgetsLibraries}|${Lib}" )
-	else()
-		set(wxWidgetsLibraries "${Lib}" )
-	endif()
-ENDFOREACH()
-FOREACH(Lib ${GTK2_LIBRARIES} )
-	if (wxWidgetsLibraries )
-		set(wxWidgetsLibraries "${wxWidgetsLibraries}|${Lib}" )
-	else()
-		set(wxWidgetsLibraries "${Lib}" )
-	endif()
-ENDFOREACH()
+	if( OPENGL_FOUND )
+		# Normalise libraries names
+		set( OPT_LINKS "" )
+		foreach( Lib ${OPENGL_gl_LIBRARY} )
+			if( OPT_LINKS )
+				set( OPT_LINKS "${OPT_LINKS}|${Lib}" )
+			else()
+				set( OPT_LINKS "${Lib}" )
+			endif()
+		endforeach()
 
-#We set additional links X11 and OpenGL for unix projects
-if (UNIX )
-	set(OPT_LINKS "X11;GL" )
-endif ()
-
-if( wxWidgets_FOUND )
-    message( STATUS "+ Found wxWidgets" )
-	#Few more configuration for wxWidgets
-	string( COMPARE EQUAL "${wxWidgets_USE_DEBUG}" "ON" IsWxDebug )
-	set( wxWidgets_CXXFLAGS "${wxWidgets_CXX_FLAGS} -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES" )
-	if (NOT WIN32 )
-		set( wxWidgets_CXXFLAGS "${wxWidgets_CXXFLAGS} -D__WXGTK__" )
-	endif ()
-	if (IsWxDebug )
-		set( wxWidgets_CXXFLAGS "${wxWidgets_CXXFLAGS} -D__WXDEBUG__" )
-	endif ()
-
-	#In order to be sure we have the right flags, we set it manually
-	if(NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
-		if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug" )
-			set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG}" )
-			set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG}" )
-		else()
-			set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}" )
-			set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE}" )
+		if( MSVC )
+			# We remove the existing /Zm flag to replace it by /Zm300
+			string( REGEX REPLACE ".*(/Zm[0-9]+).*" "\\1" ZmFlag ${CMAKE_CXX_FLAGS} )
+			if( (NOT "${ZmFlag}" STREQUAL "") AND (NOT "${CMAKE_CXX_FLAGS}" STREQUAL "${ZmFlag}") )
+				string( REPLACE ${ZmFlag} "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} )
+			endif()
+			set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm300" )
 		endif()
-	endif()
 
-	if( MSVC )
-		# We remove the existing /Zm flag to replace it by /Zm300
-		string( REGEX REPLACE ".*(/Zm[0-9]+).*" "\\1" ZmFlag ${CMAKE_CXX_FLAGS} )
-		if( (NOT "${ZmFlag}" STREQUAL "") AND (NOT "${CMAKE_CXX_FLAGS}" STREQUAL "${ZmFlag}") )
-			string( REPLACE ${ZmFlag} "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} )
-		endif()
-		set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm300" )
-	endif()
+		msg_debug( "CMAKE_BUILD_TYPE : ${CMAKE_BUILD_TYPE}" )
+		msg_debug( "CMAKE_C_FLAGS    : ${CMAKE_C_FLAGS}" )
+		msg_debug( "CMAKE_CXX_FLAGS  : ${CMAKE_CXX_FLAGS}" )
 
-	msg_debug( "CMAKE_BUILD_TYPE : ${CMAKE_BUILD_TYPE}" )
-	msg_debug( "CMAKE_C_FLAGS    : ${CMAKE_C_FLAGS}" )
-	msg_debug( "CMAKE_CXX_FLAGS  : ${CMAKE_CXX_FLAGS}" )
+		#	Creation of each project in the workspace
+		set( BinsDependencies "" )
 
-	#--------------------------------------------------------------------------------------------------
-	#	Creation of each project in the workspace
-	#--------------------------------------------------------------------------------------------------
-	set( BinsDependencies "" )
-
-	if ( MSVC OR NOT "${CMAKE_BUILD_TYPE}" STREQUAL "" )
 		add_subdirectory( Core )
 		add_subdirectory( Plugins )
 		add_subdirectory( Main )
@@ -159,9 +104,9 @@ if( wxWidgets_FOUND )
 			if ( "${PROJECTS_PACKAGE_WIX}" STREQUAL "ON" )
 				set( CPACK_GENERATOR "WIX" )
 				set( CPACK_PACKAGE_INSTALL_DIRECTORY "ProceduralGenerator" )
-				set( CPACK_WIX_UPGRADE_GUID "6B17505B-A8B5-4EEC-8978-1BF24715A8A1" )
-				set( CPACK_WIX_PRODUCT_GUID "02ACFE05-CFCE-4E1D-85DA-59A068DDCF70" )
-				set( CPACK_WIX_PRODUCT_ICON "${PARENT_DIR}/install/castor.ico" )
+				set( CPACK_WIX_UPGRADE_GUID "A11C3761-629C-4D78-83CA-AEB540FEA119" )
+				set( CPACK_WIX_PRODUCT_GUID "9AFBAB99-31B8-463E-970F-7AA2A186D3AF" )
+				set( CPACK_WIX_PRODUCT_ICON "${PARENT_DIR}/install/pgen.ico" )
 				set( CPACK_WIX_UI_DIALOG "${PARENT_DIR}/install/dialog.bmp" )
 				set( CPACK_WIX_UI_BANNER "${PARENT_DIR}/install/banner.bmp" )
 				set( CPACK_WIX_PROGRAM_MENU_FOLDER "ProceduralGenerator" )
@@ -199,12 +144,7 @@ if( wxWidgets_FOUND )
 		CoreSetup()
 		PluginsSetup()
 		MainSetup()
-	else()
-		message( SEND_ERROR "Please select a build type (Debug or Release)" )
-	endif()
+	endif ()
 else()
-	SET( msg "Procedural Generator can't be built because of following missing libraries :" )
-	if( NOT wxWidgets_FOUND )
-		SET( msg "${msg}\n\twxWidgets" )
-	endif()
+	message( SEND_ERROR "Please select a build type (Debug or Release)" )
 endif()

@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,11 +18,20 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___PrecompiledHeader___
 #define	___PrecompiledHeader___
 
-#include <ConfigPanel.h>
+#include <GlFrameBuffer.h>
+#include <GlFrameVariable.h>
+#include <GlTexture.h>
+#include <GlVec4FrameVariable.h>
 #include <Plugin.h>
 
-#ifdef __WXMSW__
-#	include< wx/msw/msvcrt.h>
-#endif
+#include <ft2build.h>
+
+FT_BEGIN_HEADER
+#	include FT_FREETYPE_H
+#	include FT_GLYPH_H
+#	include FT_OUTLINE_H
+#	include FT_TRIGONOMETRY_H
+#	include FT_TYPES_H
+FT_END_HEADER
 
 #endif

@@ -1,3 +1,5 @@
+varying vec2 pxl_texture;
+
 uniform sampler2D pg_texture;
 uniform int pg_width;
 uniform int pg_height;
@@ -11,7 +13,7 @@ vec4 ComputeColour()
 
 	vec4 c = vec4(0.0);
 	float size = stitching_size;
-	vec2 cPos = gl_TexCoord[0].xy * vec2(float( pg_width), float( pg_height));
+	vec2 cPos = pxl_texture.xy * vec2(float( pg_width), float( pg_height));
 	vec2 tlPos = floor(cPos / vec2(size, size));
 	tlPos *= size;
 	int remX = int(mod(cPos.x, size));
@@ -53,7 +55,7 @@ vec4 ComputeColour()
 void main (void)
 {
 	vec4 tc = vec4( 1.0, 0.0, 0.0, 1.0);
-	vec2 uv = gl_TexCoord[0].xy;
+	vec2 uv = pxl_texture.xy;
 
 	if (pg_sep_type == 0)
 	{

@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option ) any later
+Foundation; either version 2 of the License, or (At your option ) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,28 +18,31 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___GENERATOR_GL_INDEX_BUFFER_H___
 #define ___GENERATOR_GL_INDEX_BUFFER_H___
 
-#include "GlBuffer.h"
+#include "GlBufferObject.h"
 
 namespace ProceduralTextures
+{
+namespace gl
 {
 	/*!
 	\author		Sylvain DOREMUS
 	\date		14/02/2010
 	\brief		Index buffer object implementation
 	*/
-	class GeneratorAPI GlIndexBuffer
-		: public GlBuffer
+	class GeneratorAPI IndexBuffer
+		: public BufferObject
 	{
 	public:
 		/**
 		 *\brief		Constructor
 		 *\param[in]	p_openGl	The OpenGL instance
+		 *\param[in]	p_mode		The buffer access mode
 		 */
-		GlIndexBuffer( OpenGl * p_pOpenGl );
+		IndexBuffer( std::shared_ptr< OpenGl > p_openGl, uint32_t p_mode );
 		/**
 		 *\brief		Destructor
 		 */
-		virtual ~GlIndexBuffer();
+		virtual ~IndexBuffer();
 		/**
 		 *\brief		Initialises the buffer
 		 *\return		true if it is successfully initialised
@@ -60,8 +63,9 @@ namespace ProceduralTextures
 
 	private:
 		//! The buffer data
-		GLuint m_pBuffer[Size];
+		std::array< uint32_t, Size > m_pBuffer;
 	};
+}
 }
 
 #endif

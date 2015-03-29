@@ -1,23 +1,25 @@
 #include "BlgPlugin.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace BuggedLifeGame
 {
-	IMPLEMENT_PLUGIN( BlgPlugin, BuggedLifeGame )
+	IMPLEMENT_PLUGIN( Plugin, Generator )
 
-	BlgPlugin::BlgPlugin()
-		:	Plugin< BuggedLifeGame, BlgPlugin >( wxT( "BuggedLifeGame" ) )
+	Plugin::Plugin()
+		:	ProceduralTextures::Plugin< Generator, Plugin >( _T( "BuggedLifeGame" ) )
 	{
 	}
 
-	BlgPlugin::~BlgPlugin()
+	Plugin::~Plugin()
 	{
 	}
 
-	wxString BlgPlugin::GetName()
+	String Plugin::GetName()
 	{
-		wxString l_strBaseName = _( "Bugged Life Game" );
+		String l_strBaseName = _( "Bugged Life Game" );
 #if !defined( NDEBUG )
-		l_strBaseName += wxT( " (Debug )" );
+		l_strBaseName += _T( " (Debug )" );
 #endif
 		return l_strBaseName;
 	}

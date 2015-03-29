@@ -1,531 +1,236 @@
 #include "ShaderWebcam.h"
 
-#include <cmath>
-
-namespace ProceduralTextures
+namespace ShaderWebcam
 {
-	ShaderWebcam::Thread :: Thread( ProceduralGenerator * p_pParent, size_t p_uiIndex, int iWidth, int iTop, int iBottom, int iTotalHeight, const UbPixel & p_pxColour )
-		:	ProceduralGenerator::Thread( p_pParent, p_uiIndex, iWidth, iTop, iBottom, iTotalHeight, p_pxColour )
-		,	m_pCapture( NULL )
-		,	m_pBuffer( NULL )
+	Generator::Generator()
+		: ProceduralTextures::Generator< CpuStep, GpuStep >( true, ProceduralTextures::DEFAULT_FRAME_TIME )
 	{
 	}
 
-	ShaderWebcam::Thread :: ~Thread()
+	Generator::~Generator()
 	{
 	}
 
-	void ShaderWebcam::Thread :: Initialise( cv::VideoCapture * p_pCapture, PixelBuffer * p_pBuffer )
+	void Generator::DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize )
 	{
-		m_pCapture = p_pCapture;
-		m_pBuffer = p_pBuffer;
-	}
+		m_capture = std::make_shared< cv::VideoCapture >( 0 );
 
-	void ShaderWebcam::Thread :: Step()
-	{
-		if ( m_pCapture->grab() )
+		if ( m_capture->isOpened() )
 		{
-			wxSize l_sizeReturn;
-			cv::Mat l_frame;
-			m_pCapture->retrieve( l_frame );
-			l_sizeReturn.x = l_frame.cols;
-			l_sizeReturn.y = l_frame.rows;
-			cv::cvtColor( l_frame, l_frame, cv::COLOR_BGR2RGB );
-			m_pBuffer->set< PG_UINT8_RGB >( ( uint8_t * )l_frame.ptr(), NULL );
-			m_pBuffer->flip();
-		}
-	}
-
-	//*************************************************************************************************
-
-	ShaderWebcam :: ShaderWebcam( int p_width, int p_height, int p_iWndId, wxFrame * p_pFrame )
-		:	ProceduralGenerator( p_width, p_height, p_iWndId, p_pFrame, true, 10 )
-		,	m_iSeparationOffset( 50 )
-		,	m_eSeparationType( eSEPARATION_NONE )
-		,	m_pSelectedEffect( NULL )
-		,	m_pCapture( NULL )
-		,	m_specStaticSeparator( SpecificControlParameters< eCONTROL_TYPE_STATIC >( _( "Separation" ) ) )
-		,	m_specComboSeparator( SpecificControlParameters< eCONTROL_TYPE_COMBO >() )
-		,	m_specSliderOffset( SpecificControlParameters< eCONTROL_TYPE_SLIDER >( 0, 100, 50 ) )
-		,	m_specButtonReset( SpecificControlParameters< eCONTROL_TYPE_BUTTON >( _( "Reset Time" ) ) )
-		,	m_specStaticShaders( SpecificControlParameters< eCONTROL_TYPE_STATIC >( _( "Shaders" ) ) )
-		,	m_specComboShaders( SpecificControlParameters< eCONTROL_TYPE_COMBO >() )
-		,	m_specButtonVertexFile( SpecificControlParameters< eCONTROL_TYPE_FILE_BUTTON >( _( "Vertex" ) ) )
-		,	m_specButtonFragmentFile( SpecificControlParameters< eCONTROL_TYPE_FILE_BUTTON >( _( "Fragment" ) ) )
-		,	m_specButtonCompile( SpecificControlParameters< eCONTROL_TYPE_BUTTON >( _( "Compile" ) ) )
-		,	m_specButtonCompilerLog( SpecificControlParameters< eCONTROL_TYPE_BUTTON >( _( "Compiler log" ) ) )
-		,	m_specButtonRemove( SpecificControlParameters< eCONTROL_TYPE_BUTTON >( _( "Remove" ) ) )
-		,	m_frameBuffer1( &m_openGl )
-		,	m_frameBuffer2( &m_openGl )
-		,	m_texture1( &m_openGl )
-		,	m_texture2( &m_openGl )
-	{
-		m_specButtonVertexFile.m_strWildcard = _( "Vertex shader GLSL files (*.glsl;*.vert)|*.glsl;*.vert" );
-		m_specButtonFragmentFile.m_strWildcard = _( "Fragment shader GLSL files (*.glsl;*.frag)|*.glsl;*.frag" );
-		wxString l_sepChoices[] =
-		{
-			_( "Not separated"	)
-			,	_( "Horizontally"	)
-			,	_( "Vertically"	)
-		};
-		wxString l_shaChoices[] =
-		{
-			_( "Shader 1"	)
-			,	_( "New..."	)
-		};
-		m_specComboSeparator.Initialise( l_sepChoices[0], l_sepChoices );
-		m_specComboShaders.Initialise( wxT( "" ), l_shaChoices );
-		m_pCapture = new cv::VideoCapture( 0 );
-		int l_iWidth = p_width;
-		int l_iHeight = p_height;
-
-		if ( m_pCapture->isOpened() )
-		{
-			int l_iFps = int( m_pCapture->get( cv::CAP_PROP_FPS ) );
+			int l_iFps = int( m_capture->get( cv::CAP_PROP_FPS ) );
 
 			if ( l_iFps > 0 )
 			{
-				m_sleepTime = int( 1000.0 / l_iFps );
+				m_frameTime = std::chrono::milliseconds( int( 1000.0 / l_iFps ) );
 			}
 			else
 			{
-				m_sleepTime = 10;
-			}
+				m_capture->set( cv::CAP_PROP_FPS, 30 );
+				l_iFps = int( m_capture->get( cv::CAP_PROP_FPS ) );
 
-			m_pCapture->set( cv::CAP_PROP_FRAME_WIDTH, l_iWidth );
-			m_pCapture->set( cv::CAP_PROP_FRAME_HEIGHT, l_iHeight );
-			l_iWidth = int( m_pCapture->get( cv::CAP_PROP_FRAME_WIDTH ) );
-			l_iHeight = int( m_pCapture->get( cv::CAP_PROP_FRAME_HEIGHT ) );
-			Resize( l_iWidth, l_iHeight );
-		}
-		else
-		{
-			ShowMessageBox( _( "Capture device" ), _( "No capture device available" ), wxOK | wxCENTRE | wxICON_INFORMATION );
-		}
-
-		m_frameBuffer1.AttachTexture( GL_COLOR_ATTACHMENT0, & m_texture1 );
-		m_frameBuffer2.AttachTexture( GL_COLOR_ATTACHMENT0, & m_texture2 );
-		DoGeneratePanel();
-
-		if ( m_pCapture )
-		{
-			EffectAdd();
-			ShaderWebcam::Thread * l_pThread = CreateThread< ShaderWebcam::Thread >( l_iWidth, 0, l_iHeight, l_iHeight, m_pxColour );
-			l_pThread->Initialise( m_pCapture, &m_backBuffer );
-			l_pThread->Run();
-			m_initialised = true;
-		}
-	}
-
-	ShaderWebcam :: ~ShaderWebcam()
-	{
-		m_initialised = false;
-		DoCleanup();
-
-		for ( size_t i = 0 ; i < m_arrayEffects.size() ; i++ )
-		{
-			delete m_arrayEffects[i];
-		}
-
-		m_arrayEffects.clear();
-
-		if ( m_pCapture )
-		{
-			if ( m_pCapture->isOpened() )
-			{
-				m_pCapture->release();
-			}
-
-			delete m_pCapture;
-		}
-	}
-
-	void ShaderWebcam :: ResetTime()
-	{
-		for ( size_t i = 0 ; i < m_arrayEffects.size() ; i++ )
-		{
-			m_arrayEffects[i]->ResetTime();
-		}
-	}
-
-	bool ShaderWebcam :: EffectAdd()
-	{
-		Effect * l_pEffect = new Effect( &m_openGl, &m_image );
-		m_arrayEffects.push_back( l_pEffect );
-		return true;
-	}
-
-	bool ShaderWebcam :: EffectRemove( size_t p_uiIndex )
-	{
-		bool l_bReturn = p_uiIndex < m_arrayEffects.size();
-
-		if ( l_bReturn )
-		{
-			Effect * l_pEffect = m_arrayEffects[p_uiIndex];
-			std::vector <Effect *>::iterator l_it = m_arrayEffects.begin();
-			m_arrayEffects.erase( l_it + p_uiIndex );
-			delete l_pEffect;
-		}
-
-		return l_bReturn;
-	}
-
-	void ShaderWebcam :: EffectSetVertexFile( size_t p_uiIndex, const wxString & p_strPath )
-	{
-		if ( p_uiIndex < m_arrayEffects.size() )
-		{
-			m_arrayEffects[p_uiIndex]->SetVertexFile( p_strPath );
-		}
-	}
-
-	void ShaderWebcam :: EffectSetFragmentFile( size_t p_uiIndex, const wxString & p_strPath )
-	{
-		if ( p_uiIndex < m_arrayEffects.size() )
-		{
-			m_arrayEffects[p_uiIndex]->SetFragmentFile( p_strPath );
-		}
-	}
-
-	void ShaderWebcam :: EffectSetImagePath( size_t p_uiIndex, size_t p_iImage, const wxString & p_strImagePath )
-	{
-		m_initialised = false;
-
-		if ( p_uiIndex < m_arrayEffects.size() )
-		{
-			m_arrayEffects[p_uiIndex]->SetImagePath( p_iImage, p_strImagePath );
-		}
-
-		m_initialised = true;
-	}
-
-	void ShaderWebcam :: EffectCompile( size_t p_uiIndex )
-	{
-		if ( p_uiIndex < m_arrayEffects.size() )
-		{
-			m_arrayEffects[p_uiIndex]->Compile();
-		}
-	}
-
-	wxString ShaderWebcam :: EffectGetCompilerLog( size_t p_uiIndex, eSHADER_OBJECT_TYPE p_eType )
-	{
-		wxString l_strReturn;
-
-		if ( p_uiIndex < m_arrayEffects.size() )
-		{
-			m_arrayEffects[p_uiIndex]->GetCompilerLog( p_eType );
-		}
-
-		return l_strReturn;
-	}
-
-	wxString ShaderWebcam :: EffectGetLinkerLog( size_t p_uiIndex )
-	{
-		wxString l_strReturn;
-
-		if ( p_uiIndex < m_arrayEffects.size() )
-		{
-			m_arrayEffects[p_uiIndex]->GetLinkerLog();
-		}
-
-		return l_strReturn;
-	}
-
-	bool ShaderWebcam :: EffectActivate( size_t p_uiIndex )
-	{
-		bool l_bReturn = p_uiIndex < m_arrayEffects.size();
-
-		if ( l_bReturn )
-		{
-			l_bReturn = m_arrayEffects[p_uiIndex]->Activate( m_eSeparationType, m_iSeparationOffset );
-		}
-
-		return l_bReturn;
-	}
-
-	void ShaderWebcam :: EffectDeactivate( size_t p_uiIndex )
-	{
-		if ( p_uiIndex < m_arrayEffects.size() )
-		{
-			m_arrayEffects[p_uiIndex]->Deactivate();
-		}
-	}
-
-	void ShaderWebcam :: DoGlInitialise()
-	{
-		m_texture1.Create();
-		m_texture2.Create();
-		m_frameBuffer1.Create();
-		m_frameBuffer2.Create();
-	}
-
-	void ShaderWebcam :: DoGlPreRender()
-	{
-		m_texture1.Initialise( &m_backBuffer );
-		m_texture2.Initialise( m_sizeImage );
-		m_frameBuffer1.Initialise( m_sizeImage );
-		m_frameBuffer2.Initialise( m_sizeImage );
-
-		for ( EffectPtrArray::iterator l_it = m_arrayEffects.begin() ; l_it != m_arrayEffects.end() ; ++l_it )
-		{
-			if ( !( *l_it )->IsInitialised() )
-			{
-				( *l_it )->Initialise();
-			}
-		}
-
-		m_openGl.Viewport( 0, 0, m_sizeImage.x, m_sizeImage.y );
-		m_openGl.MatrixMode( GL_PROJECTION );
-		m_openGl.LoadIdentity();
-		m_openGl.Ortho( 0.0, 1.0, 0.0, 1.0, 0.0, 1.0 );
-		m_openGl.MatrixMode( GL_MODELVIEW );
-		m_openGl.LoadIdentity();
-	}
-
-	void ShaderWebcam :: DoGlRender( bool & p_bChanged )
-	{
-		GlFrameBuffer * l_pFrameBufferTexture = & m_frameBuffer1;
-		GlFrameBuffer * l_pFrameBufferRender = & m_frameBuffer2;
-		m_texture1.Activate();
-		m_texture1.UploadAsync();
-		m_texture1.Deactivate();
-
-		for ( size_t i = 0 ; i < m_arrayEffects.size() ; i++ )
-		{
-			if ( l_pFrameBufferRender->Activate() )
-			{
-				if ( EffectActivate( i ) )
+				if ( l_iFps > 0 )
 				{
-					m_openGl.Clear( GL_COLOR_BUFFER_BIT );
-					l_pFrameBufferTexture->GetTexture( GL_COLOR_ATTACHMENT0 )->Activate();
-					DoSubRender();
-					l_pFrameBufferTexture->GetTexture( GL_COLOR_ATTACHMENT0 )->Deactivate();
-					EffectDeactivate( i );
+					m_frameTime = std::chrono::milliseconds( int( 1000.0 / l_iFps ) );
 				}
-
-				l_pFrameBufferRender->Deactivate();
 			}
 
-			std::swap( l_pFrameBufferTexture, l_pFrameBufferRender );
-		}
-
-		m_frameBuffer.Activate();
-		m_openGl.Clear( GL_COLOR_BUFFER_BIT );
-		l_pFrameBufferTexture->GetTexture( GL_COLOR_ATTACHMENT0 )->Activate();
-		DoSubRender();
-		l_pFrameBufferTexture->GetTexture( GL_COLOR_ATTACHMENT0 )->Deactivate();
-		m_frameBuffer.Deactivate();
-		p_bChanged = false;
-	}
-
-	void ShaderWebcam :: DoGlPostRender()
-	{
-	}
-
-	void ShaderWebcam :: DoGlCleanup()
-	{
-		for ( size_t i = 0 ; i < m_arrayEffects.size() ; i++ )
-		{
-			m_arrayEffects[i]->Cleanup();
-			delete m_arrayEffects[i];
-		}
-
-		m_arrayEffects.clear();
-		m_frameBuffer1.Cleanup();
-		m_frameBuffer2.Cleanup();
-		m_texture1.Cleanup();
-		m_texture2.Cleanup();
-		m_frameBuffer1.Destroy();
-		m_frameBuffer2.Destroy();
-		m_texture1.Destroy();
-		m_texture2.Destroy();
-	}
-
-	void ShaderWebcam :: DoResize( const wxSize & p_size )
-	{
-		m_frameBuffer1.Resize( m_sizeImage );
-		m_frameBuffer2.Resize( m_sizeImage );
-		m_texture1.Resize( m_sizeImage );
-		m_texture2.Resize( m_sizeImage );
-		m_backBuffer.init( Size( m_sizeImage.x, m_sizeImage.y ) );
-	}
-
-	void ShaderWebcam :: DoGeneratePanel()
-	{
-		int iWidth = 150;
-		m_arrayControls.push_back( ControlInfos( eCONTROL_TYPE_STATIC,		wxID_ANY,			wxPoint( 10, wxDEFAULT_HEIGHT * 0	), wxSize( iWidth -  20, wxDEFAULT_HEIGHT	), &m_specStaticSeparator,		0,					eEVENT_TYPE_NONE,				NULL,															true	) );
-		m_arrayControls.push_back( ControlInfos( eCONTROL_TYPE_COMBO,		eID_SEPTYPE,		wxPoint( 10, wxDEFAULT_HEIGHT * 1	), wxSize( iWidth -  20, wxDEFAULT_HEIGHT	), &m_specComboSeparator,		wxCB_READONLY,		eEVENT_TYPE_COMBOBOX_SELECTED,	wxCommandEventHandler(	ShaderWebcam::OnSepType	),	true	) );
-		m_arrayControls.push_back( ControlInfos( eCONTROL_TYPE_SLIDER,		eID_SEPOFFSET,		wxPoint( 10, wxDEFAULT_HEIGHT * 2	), wxSize( iWidth -  20, wxDEFAULT_HEIGHT	), &m_specSliderOffset,			wxSL_HORIZONTAL,	eEVENT_TYPE_SLIDER_UPDATED,		wxCommandEventHandler(	ShaderWebcam::OnSepOffset	),	true	) );
-		m_arrayControls.push_back( ControlInfos( eCONTROL_TYPE_BUTTON,		eID_RESETTIME,		wxPoint( 10, wxDEFAULT_HEIGHT * 3	), wxSize( iWidth -  20, wxDEFAULT_HEIGHT	), &m_specButtonReset,			0,					eEVENT_TYPE_BUTTON_CLIKED,		wxCommandEventHandler(	ShaderWebcam::OnResetTime	),	true	) );
-		m_arrayControls.push_back( ControlInfos( eCONTROL_TYPE_STATIC,		wxID_ANY,			wxPoint( 10, wxDEFAULT_HEIGHT * 4	), wxSize( iWidth -  20, wxDEFAULT_HEIGHT	), &m_specStaticShaders,		0,					eEVENT_TYPE_NONE,				NULL,															true	) );
-		m_arrayControls.push_back( ControlInfos( eCONTROL_TYPE_COMBO,		eID_SHADERS,		wxPoint( 10, wxDEFAULT_HEIGHT * 5	), wxSize( iWidth -  20, wxDEFAULT_HEIGHT	), &m_specComboShaders,			wxCB_READONLY,		eEVENT_TYPE_COMBOBOX_SELECTED,	wxCommandEventHandler(	ShaderWebcam::OnSelectShader	),	true	) );
-		m_arrayControls.push_back( ControlInfos( eCONTROL_TYPE_FILE_BUTTON,	eID_VERTEXFILE,		wxPoint( 10, wxDEFAULT_HEIGHT * 6	), wxSize( iWidth -  20, wxDEFAULT_HEIGHT	), &m_specButtonVertexFile,		0,					eEVENT_TYPE_LOAD_TEXT_FILEA,	wxCommandEventHandler(	ShaderWebcam::OnVertexShaderPath	),	false	) );
-		m_arrayControls.push_back( ControlInfos( eCONTROL_TYPE_FILE_BUTTON,	eID_FRAGMENTFILE,	wxPoint( 10, wxDEFAULT_HEIGHT * 7	), wxSize( iWidth -  20, wxDEFAULT_HEIGHT	), &m_specButtonFragmentFile,	0,					eEVENT_TYPE_LOAD_TEXT_FILEB,	wxCommandEventHandler(	ShaderWebcam::OnFragmentShaderPath	),	false	) );
-		m_arrayControls.push_back( ControlInfos( eCONTROL_TYPE_BUTTON,		eID_COMPILE,		wxPoint( 10, wxDEFAULT_HEIGHT * 8	), wxSize( iWidth -  20, wxDEFAULT_HEIGHT	), &m_specButtonCompile,		0,					eEVENT_TYPE_BUTTON_CLIKED,		wxCommandEventHandler(	ShaderWebcam::OnShaderCompile	),	false	) );
-		m_arrayControls.push_back( ControlInfos( eCONTROL_TYPE_BUTTON,		eID_COMPILERLOG,	wxPoint( 10, wxDEFAULT_HEIGHT * 9	), wxSize( iWidth -  20, wxDEFAULT_HEIGHT	), &m_specButtonCompilerLog,	0,					eEVENT_TYPE_BUTTON_CLIKED,		wxCommandEventHandler(	ShaderWebcam::OnCompilerLog	),	false	) );
-		m_arrayControls.push_back( ControlInfos( eCONTROL_TYPE_BUTTON,		eID_REMOVE,			wxPoint( 10, wxDEFAULT_HEIGHT * 10	), wxSize( iWidth -  20, wxDEFAULT_HEIGHT	), &m_specButtonRemove,			0,					eEVENT_TYPE_BUTTON_CLIKED,		wxCommandEventHandler(	ShaderWebcam::OnRemove	),	false	) );
-	}
-
-	void ShaderWebcam :: OnSepType( wxCommandEvent	& p_event )
-	{
-		SetSeparationType( eSEPARATION( p_event.GetInt() ) );
-
-		if ( p_event.GetInt() != 0 )
-		{
-			m_specSliderOffset.m_pControl->Show();
+			m_capture->set( cv::CAP_PROP_FRAME_WIDTH, 2000 );
+			m_capture->set( cv::CAP_PROP_FRAME_HEIGHT, 2000 );
 		}
 		else
 		{
-			m_specSliderOffset.m_pControl->Hide();
+			ShowMessageBox( _( "Capture device" ), _( "No capture device available" ) );
 		}
+
+		int l_width = int( m_capture->get( cv::CAP_PROP_FRAME_WIDTH ) );
+		int l_height = int( m_capture->get( cv::CAP_PROP_FRAME_HEIGHT ) );
+		ProceduralTextures::Size l_size( l_width, l_height );
+
+		m_cpuStep = std::make_shared< CpuStep >( shared_from_this(), m_capture, l_size );
+		m_gpuStep = std::make_shared< GpuStep >( shared_from_this(), l_size, p_bordersSize );
 	}
 
-	void ShaderWebcam :: OnSepOffset( wxCommandEvent & p_event )
+	void Generator::DoDestroy()
 	{
-		SetSeparationOffset( p_event.GetInt() );
-	}
+		m_cpuStep.reset();
+		m_gpuStep.reset();
 
-	void ShaderWebcam :: OnResetTime( wxCommandEvent & WXUNUSED( p_event ) )
-	{
-		ResetTime();
-	}
-
-	void ShaderWebcam :: OnSelectShader( wxCommandEvent & p_event )
-	{
-		unsigned int l_uiSelection = ( unsigned int )p_event.GetSelection();
-
-		if ( l_uiSelection == m_specComboShaders.m_pControl->GetCount() - 1 )
+		if ( m_capture && m_capture->isOpened() )
 		{
-			if ( EffectAdd() )
-			{
-				wxString l_strPage = wxT( "Shader " );
-				l_strPage << m_specComboShaders.m_pControl->GetCount();
-				m_specComboShaders.m_pControl->SetString( l_uiSelection, l_strPage );
-				m_specComboShaders.m_pControl->Append( _( "New..." ) );
-				m_specComboShaders.m_pControl->SetSelection( l_uiSelection );
-			}
-			else
-			{
-				l_uiSelection = m_specComboShaders.m_pControl->GetCount();
-			}
+			m_capture->release();
 		}
-		else if ( l_uiSelection > 0 )
+
+		m_capture.reset();
+	}
+
+	void Generator::DoGeneratePanel()
+	{
+		using namespace ProceduralTextures;
+
+		String l_sepChoices[] =
 		{
-			m_specButtonRemove.m_pControl->Show();
+			_( "Not separated" ),
+			_( "Horizontally" ),
+			_( "Vertically" ),
+		};
+		String l_shaChoices[] =
+		{
+			_( "New..." ),
+		};
+
+		m_staticSeparator = std::make_shared< StaticCtrl >( _( "Separation" ), Position( 10, 10 + DEFAULT_HEIGHT * 0 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER | eSTATIC_STYLE_HALIGN_CENTER );
+		m_comboSeparator = std::make_shared< ComboBoxCtrl >( l_sepChoices, 0, eID_SEPTYPE, Position( 10, 10 + DEFAULT_HEIGHT * 1 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), eCOMBO_STYLE_READONLY );
+		m_comboSeparator->Connect( eCOMBOBOX_EVENT_SELECTED, std::bind( &Generator::OnSepType, this, std::placeholders::_1 ) );
+		m_sliderOffset = std::make_shared< SliderCtrl >( Range( 0, 100 ), 50, eID_SEPOFFSET, Position( 10, 10 + DEFAULT_HEIGHT * 2 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), 0 );
+		m_sliderOffset->Connect( eSLIDER_EVENT_THUMBRELEASE, std::bind( &Generator::OnSepOffset, this, std::placeholders::_1 ) );
+		m_buttonReset = std::make_shared< ButtonCtrl >( _( "Reset Time" ), eID_RESETTIME, Position( 10, 10 + DEFAULT_HEIGHT * 3 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), 0 );
+		m_buttonReset->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnResetTime, this ) );
+		m_staticShaders = std::make_shared< StaticCtrl >( _( "Shaders" ), Position( 10, 10 + DEFAULT_HEIGHT * 4 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER | eSTATIC_STYLE_HALIGN_CENTER );
+		m_comboShaders = std::make_shared< ComboBoxCtrl >( l_shaChoices, -1, eID_SHADERS, Position( 10, 10 + DEFAULT_HEIGHT * 5 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), eCOMBO_STYLE_READONLY );
+		m_comboShaders->Connect( eCOMBOBOX_EVENT_SELECTED, std::bind( &Generator::OnSelectShader, this, std::placeholders::_1 ) );
+		m_buttonVertexFile = std::make_shared< ButtonCtrl >( _( "Vertex" ), eID_VERTEXFILE, Position( 10, 10 + DEFAULT_HEIGHT * 6 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), 0, false );
+		m_buttonVertexFile->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnVertexShaderPath, this ) );
+		m_buttonFragmentFile = std::make_shared< ButtonCtrl >( _( "Pixel" ), eID_FRAGMENTFILE, Position( 10, 10 + DEFAULT_HEIGHT * 7 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), 0, false );
+		m_buttonFragmentFile->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnFragmentShaderPath, this ) );
+		m_buttonCompile = std::make_shared< ButtonCtrl >( _( "Compile" ), eID_COMPILE, Position( 10, 10 + DEFAULT_HEIGHT * 8 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), 0, false );
+		m_buttonCompile->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnShaderCompile, this ) );
+		m_buttonCompilerLog = std::make_shared< ButtonCtrl >( _( "Compiler log" ), eID_COMPILERLOG, Position( 10, 10 + DEFAULT_HEIGHT * 9 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), 0, false );
+		m_buttonCompilerLog->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnCompilerLog, this ) );
+		m_buttonRemove = std::make_shared< ButtonCtrl >( _( "Remove" ), eID_REMOVE, Position( 10, 10 + DEFAULT_HEIGHT * 10 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), 0, false );
+		m_buttonRemove->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnRemove, this ) );
+
+		m_arrayControls.push_back( m_staticSeparator );
+		m_arrayControls.push_back( m_comboSeparator );
+		m_arrayControls.push_back( m_sliderOffset );
+		m_arrayControls.push_back( m_buttonReset );
+		m_arrayControls.push_back( m_staticShaders );
+		m_arrayControls.push_back( m_comboShaders );
+		m_arrayControls.push_back( m_buttonVertexFile );
+		m_arrayControls.push_back( m_buttonFragmentFile );
+		m_arrayControls.push_back( m_buttonCompile );
+		m_arrayControls.push_back( m_buttonCompilerLog );
+		m_arrayControls.push_back( m_buttonRemove );
+	}
+
+	void Generator::OnResetTime()
+	{
+		m_gpuStep->ResetTime();
+	}
+
+	void Generator::OnSepType( int p_value )
+	{
+		m_gpuStep->SetSepType( eSEPARATION( p_value ) );
+
+		if ( p_value )
+		{
+			m_sliderOffset->Show();
 		}
 		else
 		{
-			m_specButtonRemove.m_pControl->Hide();
+			m_sliderOffset->Hide();
 		}
+	}
 
-		if ( l_uiSelection < m_specComboShaders.m_pControl->GetCount() )
+	void Generator::OnSepOffset( int p_value )
+	{
+		m_gpuStep->SetSepOffset( p_value );
+	}
+
+	void Generator::OnSelectShader( uint32_t p_value )
+	{
+		if ( p_value == m_comboShaders->GetItemCount() - 1 )
 		{
-			m_specButtonVertexFile.m_pControl->Show();
-			m_specButtonFragmentFile.m_pControl->Show();
-			m_pSelectedEffect = m_arrayEffects[l_uiSelection];
+			m_gpuStep->AddEffect();
+			ProceduralTextures::StringStream l_strPage;
+			l_strPage << _T( "Shader " );
+			l_strPage << m_comboShaders->GetItemCount();
+			m_comboShaders->SetItemText( p_value, l_strPage.str() );
+			m_comboShaders->AppendItem( _( "New..." ) );
+			m_comboShaders->SetSelected( p_value );
+		}
+		else if ( p_value >= 0 )
+		{
+			m_comboShaders->SetSelected( p_value );
+			m_buttonRemove->Show();
 		}
 		else
 		{
-			m_specButtonVertexFile.m_pControl->Hide();
-			m_specButtonFragmentFile.m_pControl->Hide();
+			m_comboShaders->SetSelected( -1 );
+			m_buttonRemove->Hide();
+		}
+
+		if ( p_value < m_comboShaders->GetItemCount() )
+		{
+			m_buttonVertexFile->Show();
+			m_buttonFragmentFile->Show();
+			m_gpuStep->SelectEffect( p_value );
+		}
+		else
+		{
+			m_buttonVertexFile->Hide();
+			m_buttonFragmentFile->Hide();
 		}
 	}
 
-	void ShaderWebcam :: OnRemove( wxCommandEvent & WXUNUSED( p_event ) )
+	void Generator::OnRemove()
 	{
-		size_t l_uiToRemove = size_t( m_specComboShaders.m_pControl->GetSelection() );
+		size_t l_uiToRemove = size_t( m_comboShaders->GetSelected() );
 
-		if ( l_uiToRemove > 0 && l_uiToRemove < m_specComboShaders.m_pControl->GetCount() - 1 )
+		if ( l_uiToRemove > 0 && l_uiToRemove < m_comboShaders->GetItemCount() - 1 )
 		{
-			if ( EffectRemove( l_uiToRemove ) )
-			{
-				m_specComboShaders.m_pControl->Delete( int( l_uiToRemove ) );
-				m_specButtonVertexFile.m_pControl->Hide();
-				m_specButtonFragmentFile.m_pControl->Hide();
-				m_specButtonCompile.m_pControl->Hide();
-				m_specButtonCompilerLog.m_pControl->Hide();
-				m_specButtonRemove.m_pControl->Hide();
-			}
-		}
-
-		m_pSelectedEffect = NULL;
-	}
-
-	void ShaderWebcam :: OnShaderCompile( wxCommandEvent & WXUNUSED( p_event ) )
-	{
-		if ( m_pSelectedEffect )
-		{
-			m_pSelectedEffect->Compile();
-			m_specButtonCompile.m_pControl->Hide();
-			m_specButtonCompilerLog.m_pControl->Show();
+			m_gpuStep->RemoveEffect();
+			m_comboShaders->RemoveItem( int( l_uiToRemove ) );
+			m_buttonVertexFile->Hide();
+			m_buttonFragmentFile->Hide();
+			m_buttonCompile->Hide();
+			m_buttonCompilerLog->Hide();
+			m_buttonRemove->Hide();
 		}
 	}
 
-	void ShaderWebcam :: OnCompilerLog( wxCommandEvent & WXUNUSED( p_event ) )
+	void Generator::OnShaderCompile()
 	{
-		if ( m_pSelectedEffect )
+		m_gpuStep->CompileEffect();
+		m_buttonCompile->Hide();
+		m_buttonCompilerLog->Show();
+	}
+
+	void Generator::OnCompilerLog()
+	{
+		ShowMessageBox( _( "Compile and Link result" ), m_gpuStep->GetCompilerLog() );
+	}
+
+	void Generator::OnVertexShaderPath()
+	{
+		ProceduralTextures::String l_path;
+
+		if ( OpenFile( l_path, _( "Choose a vertex shader file" ), _( "Vertex shader GLSL files (*.glsl;*.vert)|*.glsl;*.vert" ) ) )
 		{
-			wxString l_strVertexLog		= m_pSelectedEffect->GetCompilerLog( eSHADER_OBJECT_TYPE_VERTEX	);
-			wxString l_strFragmentLog	= m_pSelectedEffect->GetCompilerLog( eSHADER_OBJECT_TYPE_PIXEL	);
-			wxString l_strLinkerLog		= m_pSelectedEffect->GetLinkerLog();
-			wxString l_strText;
+			size_t l_index = size_t( m_comboShaders->GetSelected() );
 
-			if ( ! l_strVertexLog.empty() )
+			if ( l_index < m_comboShaders->GetItemCount() - 1 && !l_path.empty() )
 			{
-				l_strText += _( "Vertex Shader :" ) + wxString( wxT( "\n" ) ) + l_strVertexLog;
+				m_buttonCompile->Show();
+				m_buttonCompilerLog->Hide();
+				m_gpuStep->SetVertexShaderPath( l_path );
 			}
-
-			if ( ! l_strFragmentLog.empty() )
-			{
-				if ( ! l_strText.empty() )
-				{
-					l_strText += wxT( "\n\n" );
-				}
-
-				l_strText += _( "Fragment Shader :" ) + wxString( wxT( "\n" ) ) + l_strFragmentLog + wxT( "\n\n" );
-			}
-
-			if ( ! l_strLinkerLog.empty() )
-			{
-				if ( ! l_strText.empty() )
-				{
-					l_strText += wxT( "\n\n" );
-				}
-
-				l_strText += _( "Linker :" ) + wxString( wxT( "\n" ) ) + l_strLinkerLog + wxT( "\n\n" );
-			}
-
-			if ( l_strText.empty() )
-			{
-				l_strText = _( "No error" );
-			}
-
-			ShowMessageBox( _( "Compile and Link result" ), l_strText, wxOK | wxCENTRE | wxICON_INFORMATION );
 		}
 	}
 
-	void ShaderWebcam :: OnVertexShaderPath( wxCommandEvent & p_event )
+	void Generator::OnFragmentShaderPath()
 	{
-		wxString l_strFile = p_event.GetString();
+		ProceduralTextures::String l_path;
 
-		if ( m_pSelectedEffect && ! l_strFile.empty() )
+		if ( OpenFile( l_path, _( "Choose a fragment shader file" ), _( "Fragment shader GLSL files (*.glsl;*.frag)|*.glsl;*.frag" ) ) )
 		{
-			wxString l_strFile = p_event.GetString();
-			m_specButtonCompile.m_pControl->Show();
-			m_specButtonCompilerLog.m_pControl->Hide();
-			m_pSelectedEffect->SetVertexFile( l_strFile );
-		}
-	}
+			size_t l_index = size_t( m_comboShaders->GetSelected() );
 
-	void ShaderWebcam :: OnFragmentShaderPath( wxCommandEvent & p_event )
-	{
-		wxString l_strFile = p_event.GetString();
-
-		if ( m_pSelectedEffect && ! l_strFile.empty() )
-		{
-			wxString l_strFile = p_event.GetString();
-			m_specButtonCompile.m_pControl->Show();
-			m_specButtonCompilerLog.m_pControl->Hide();
-			m_pSelectedEffect->SetFragmentFile( l_strFile );
+			if ( l_index < m_comboShaders->GetItemCount() - 1 && !l_path.empty() )
+			{
+				m_buttonCompile->Show();
+				m_buttonCompilerLog->Hide();
+				m_gpuStep->SetFragmentShaderPath( l_path );
+			}
 		}
 	}
 }

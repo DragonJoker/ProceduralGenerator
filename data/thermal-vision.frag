@@ -1,10 +1,12 @@
+varying vec2 pxl_texture;
+
 uniform sampler2D pg_texture;
 uniform int pg_sep_offset;
 uniform int pg_sep_type;
 
 vec4 ComputeColour()
 {
-	vec3 pixcol = texture2D(pg_texture, gl_TexCoord[0]).rgb;
+	vec3 pixcol = texture2D(pg_texture, pxl_texture).rgb;
 	vec3 colors[3];
 	colors[0] = vec3(0.,0.,1.);
 	colors[1] = vec3(1.,1.,0.);

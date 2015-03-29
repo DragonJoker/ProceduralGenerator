@@ -194,7 +194,7 @@ typedef _W64 int ptrdiff_t;
  * Needed for ptrdiff_t in turn needed by VBO.  This is defined by ISO
  * C.  On my system, this amounts to _3 lines_ of included code, all of
  * them pretty much harmless.  If you know of a way of detecting 32 vs
- * 64 _targets_ at compile time you are free to replace this with
+ * 64 _targets_ At compile time you are free to replace this with
  * something that's portable.  For now, _this_ is the portable solution.
  * (mem, 2004-01-04 )
  */
@@ -15275,8 +15275,8 @@ struct GLEWContextStruct
 #define GLEW_OK 0
 #define GLEW_NO_ERROR 0
 #define GLEW_ERROR_NO_GL_VERSION 1  /* missing GL version */
-#define GLEW_ERROR_GL_VERSION_10_ONLY 2  /* Need at least OpenGL 1.1 */
-#define GLEW_ERROR_GLX_VERSION_11_ONLY 3  /* Need at least GLX 1.2 */
+#define GLEW_ERROR_GL_VERSION_10_ONLY 2  /* Need At least OpenGL 1.1 */
+#define GLEW_ERROR_GLX_VERSION_11_ONLY 3  /* Need At least GLX 1.2 */
 
 	/* string codes */
 #define GLEW_VERSION 1
@@ -15319,7 +15319,7 @@ struct GLEWContextStruct
 	GLEWAPI const GLubyte * glewGetString( GLenum name );
 
 #ifdef __cplusplus
-	}
+}
 #endif
 
 #ifdef GLEW_APIENTRY_DEFINED
@@ -15340,6 +15340,6 @@ struct GLEWContextStruct
 #endif
 
 #undef GLAPI
-	/* #undef GLEWAPI */
+/* #undef GLEWAPI */
 
 #endif /* __glew_h__ */

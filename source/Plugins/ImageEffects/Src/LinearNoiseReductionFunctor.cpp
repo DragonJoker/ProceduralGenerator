@@ -1,8 +1,8 @@
 #include "LinearNoiseReductionFunctor.h"
 
-#include <cmath>
+using namespace ProceduralTextures;
 
-namespace ProceduralTextures
+namespace ImageEffects
 {
 	const int LinearNoiseReductionFunctor::m_iLnrMask[]	= {	1,	1,	1,
 															1,	1,	1,
@@ -18,13 +18,13 @@ namespace ProceduralTextures
 	{
 	}
 
-	void LinearNoiseReductionFunctor::operator()( const PixelBuffer & p_bufferIn, PixelBuffer & p_bufferOut )
+	void LinearNoiseReductionFunctor::operator()( PixelBuffer const & p_bufferIn, PixelBuffer & p_bufferOut )
 	{
 		Pixel< double > l_linc;
 
-		for ( int i = 1 ; i < m_iImgHeight - 1 ; i++ )
+		for ( uint32_t i = 1; i < m_size.y() - 1; i++ )
 		{
-			for ( int j = 1 ; j < m_iImgWidth - 1 ; j++ )
+			for ( uint32_t j = 1; j < m_size.x() - 1; j++ )
 			{
 				l_linc  =	m_iLnrMask[0] * p_bufferIn[i - 1][j - 1];
 				l_linc +=	m_iLnrMask[1] * p_bufferIn[i + 0][j - 1];

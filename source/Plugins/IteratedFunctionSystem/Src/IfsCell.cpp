@@ -1,30 +1,19 @@
 #include "IfsCell.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace IteratedFunctionSystem
 {
-	IfsCell::IfsCell()
+	Cell::Cell()
 		:	m_pixel( NULL )
 	{
 	}
 
-	IfsCell::IfsCell( const IfsCell & cell )
-		:	m_pixel( cell.m_pixel )
-		,	m_ptPosition( cell.m_ptPosition )
+	Cell::~Cell()
 	{
 	}
 
-	IfsCell::~IfsCell()
-	{
-	}
-
-	IfsCell & IfsCell::operator =( const IfsCell & cell )
-	{
-		m_pixel = cell.m_pixel;
-		m_ptPosition = cell.m_ptPosition;
-		return * this;
-	}
-
-	void IfsCell::Set( UbPixel * p_pixel, const Point2d & p_ptPosition )
+	void Cell::Set( UbPixel * p_pixel, Point2d const & p_ptPosition )
 	{
 		m_pixel = p_pixel;
 		m_ptPosition = p_ptPosition;

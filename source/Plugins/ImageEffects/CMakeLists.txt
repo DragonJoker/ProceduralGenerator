@@ -1,33 +1,28 @@
 project( ImageEffects )
+include_directories( ${CMAKE_SOURCE_DIR}/Core/Generator/Src )
 
-option( PGEN_BUILD_IMAGEEFFECTS "Build Image Effects plugin" TRUE )
+set( BinsDependencies
+	${BinsDependencies}
+	ImageEffects
+	PARENT_SCOPE
+)
 
-if( ${PGEN_BUILD_IMAGEEFFECTS} )
-	include_directories( ${CMAKE_SOURCE_DIR}/Core/Generator/Src )
+set( IFX_VERSION_MAJOR	2 )
+set( IFX_VERSION_MINOR	0 )
+set( IFX_VERSION_BUILD	0 )
 
-	set( BinsDependencies
-		${BinsDependencies}
-		ImageEffects
-		PARENT_SCOPE
-	)
+add_target(
+	ImageEffects
+	plugin
+	"Generator"
+	"Generator;${OPT_LINKS}"
+	"PrecompiledHeader.h"
+	"PrecompiledHeader.cpp"
+	"${wxWidgets_CFLAGS}"
+	"${wxWidgets_CXXFLAGS}"
+)
 
-	set( IFX_VERSION_MAJOR	1 )
-	set( IFX_VERSION_MINOR	3 )
-	set( IFX_VERSION_BUILD	3 )
-
-	add_target(
-		ImageEffects
-		plugin
-		"Generator"
-		"Generator;${OPT_LINKS}"
-		"PrecompiledHeader.h"
-		"PrecompiledHeader.cpp"
-		"${wxWidgets_CFLAGS}"
-		"${wxWidgets_CXXFLAGS}"
- )
-
-	copy_languages( ImageEffects ../internationalisation ProceduralGenerator "fr" )
-	set( Build "yes (version ${IFX_VERSION_MAJOR}.${IFX_VERSION_MINOR}.${IFX_VERSION_BUILD})" PARENT_SCOPE )
-	add_target_astyle( ImageEffects ".h;.inl;.hpp;.c;.cpp" )
-	set_property( TARGET ImageEffects PROPERTY FOLDER "Plugins" )
-endif()
+copy_languages( ImageEffects ../internationalisation ProceduralGenerator "fr" )
+set( Build "yes (version ${IFX_VERSION_MAJOR}.${IFX_VERSION_MINOR}.${IFX_VERSION_BUILD})" PARENT_SCOPE )
+add_target_astyle( ImageEffects ".h;.inl;.hpp;.c;.cpp" )
+set_property( TARGET ImageEffects PROPERTY FOLDER "Plugins" )

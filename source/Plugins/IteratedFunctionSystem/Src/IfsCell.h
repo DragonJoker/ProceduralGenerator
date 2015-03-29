@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -21,26 +21,23 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <Pixel.h>
 #include <Point.h>
 
-namespace ProceduralTextures
+namespace IteratedFunctionSystem
 {
-	struct IfsCell
+	struct Cell
 	{
-		UbPixel * m_pixel;
-		Point2d m_ptPosition;
+		ProceduralTextures::UbPixel * m_pixel;
+		ProceduralTextures::Point2d m_ptPosition;
 
-		IfsCell();
-		IfsCell( const IfsCell & cell );
-		virtual ~IfsCell();
+		Cell();
+		virtual ~Cell();
 
-		IfsCell & operator =( const IfsCell & cell );
-
-		void Set( UbPixel * p_pixel, const Point2d & p_ptPosition );
+		void Set( ProceduralTextures::UbPixel * p_pixel, ProceduralTextures::Point2d const & p_ptPosition );
 	};
 
-	typedef std::map < int, IfsCell > IfsCellIntMap;
-	typedef std::map < int, IfsCellIntMap > IfsCellMap;
-	typedef std::list < IfsCell > IfsCellLst;
-	typedef std::vector < IfsCell > IfsCellVct;
+	typedef std::map< int, Cell > CellIntMap;
+	typedef std::map< int, CellIntMap > CellMap;
+	typedef std::list< Cell > CellLst;
+	typedef std::vector< Cell > CellVct;
 }
 
 #endif

@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,87 +18,87 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___IFX_IMAGE_EFFECTS_H___
 #define ___IFX_IMAGE_EFFECTS_H___
 
-#include "EffectFunctor.h"
+#include <Generator.h>
 
-#include <ConfigPanel.h>
-#include <Plugin.h>
+#include "IfxCpuStep.h"
+#include "IfxGpuStep.h"
 
-namespace ProceduralTextures
+namespace ImageEffects
 {
-	class ImageEffects : public ProceduralGenerator
+	/*!
+	\author		Sylvain DOREMUS
+	\date		23/05/2012
+	\brief		Image effects generator
+	*/
+	class Generator
+		: public ProceduralTextures::Generator< CpuStep, GpuStep >
 	{
-	public:
+	private:
+		/*!
+		\author		Sylvain DOREMUS
+		\date		23/05/2012
+		\brief		The controls IDs
+		*/
 		typedef enum
 		{
+			eID_ANY				= -1,
 			eID_FIRSTFUNCTION	= 50,
 			eID_SECONDFUNCTION	= 51,
 			eID_IMAGEPATH		= 52,
 		}	eID;
 
-		class Thread
-			: public ProceduralGenerator::Thread
-		{
-		public:
-			Thread( ProceduralGenerator * p_pParent, size_t p_uiIndex, int iWidth, int iTop, int iBottom, int iTotalHeight, const UbPixel & p_pxColour );
-			virtual ~Thread();
-
-			virtual void Step();
-
-			void SetImage( const wxImage & p_image );
-			void SetFirstFunction( eEFFECT_TYPE p_eType );
-			void SetSecondFunction( eEFFECT_TYPE p_eType );
-
-			static void InitialiseFunctors( ImageEffects * p_pParent );
-			static void CleanupFunctors();
-
-		private:
-			int m_iImgWidth;
-			int m_iImgHeight;
-			EffectFunctor * m_pFirstFunction;
-			EffectFunctor * m_pNextFirstFunction;
-			EffectFunctor * m_pSecondFunction;
-			EffectFunctor * m_pNextSecondFunction;
-			PixelBuffer * m_pFirstFunctionBufferIn;
-			PixelBuffer * m_pNextFirstFunctionBufferIn;
-
-		public:
-			PixelBuffer * m_backBuffer;
-			PixelBuffer m_firstInBuffer;
-			PixelBuffer m_secondInBuffer;
-			static EffectFunctor * m_pFunctors[eEFFECT_TYPE_COUNT];
-		};
-
 	public:
-		ImageEffects( int p_width, int p_height, int p_iWndId, wxFrame * p_pFrame );
-		virtual ~ImageEffects();
-
-
-		void SetFirstFunction( eEFFECT_TYPE p_eType );
-		void SetSecondFunction( eEFFECT_TYPE p_eType );
-		void SetImagePath( const wxString & p_strImagePath );
-
-		static EffectFunctor * GetFunctor( eEFFECT_TYPE p_eType );
+		/**
+		 *\brief		Constructor
+		 */
+		Generator();
+		/**
+		 *\brief		Destructor
+		 */
+		virtual ~Generator();
 
 	private:
-		virtual void DoGlInitialise() {}
-		virtual void DoGlPreRender() {}
-		virtual void DoGlRender( bool & WXUNUSED( p_bChanged ) ) {}
-		virtual void DoGlPostRender() {}
-		virtual void DoGlCleanup() {}
+		/**
+		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		 */
+		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
+		/**
+		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+		 */
+		virtual void DoDestroy();
+		/**
+		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+		 */
 		virtual void DoGeneratePanel();
 
-		void OnSize( wxSizeEvent & p_event );
-		void OnFirstFunction( wxCommandEvent & p_event );
-		void OnSecondFunction( wxCommandEvent & p_event );
-		void OnImagePath( wxCommandEvent & p_event );
+	private:
+		/**
+		 *\brief		Sets the computing image size
+		 *\param[in]	p_value	The new value
+		 */
+		void OnSize( ProceduralTextures::Size & p_value );
+		/**
+		 *\brief		Sets the first function
+		 *\param[in]	p_value	The new value
+		 */
+		void OnFirstFunction( uint32_t p_value );
+		/**
+		 *\brief		Sets the second function
+		 *\param[in]	p_value	The new value
+		 */
+		void OnSecondFunction( uint32_t p_value );
+		/**
+		 *\brief		Sets the image
+		 *\param[in]	p_value	The new value
+		 */
+		void OnImage();
 
 	private:
-		wxImage m_image;
-		SpecificControlParameters< eCONTROL_TYPE_STATIC > m_specStaticFirstFunction;
-		SpecificControlParameters< eCONTROL_TYPE_COMBO > m_specComboFirstFunction;
-		SpecificControlParameters< eCONTROL_TYPE_STATIC > m_specStaticSecondFunction;
-		SpecificControlParameters< eCONTROL_TYPE_COMBO > m_specComboSecondFunction;
-		SpecificControlParameters< eCONTROL_TYPE_FILE_BUTTON > m_specButtonImage;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_staticFirstFunction;
+		std::shared_ptr< ProceduralTextures::ComboBoxCtrl > m_comboFirstFunction;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_staticSecondFunction;
+		std::shared_ptr< ProceduralTextures::ComboBoxCtrl > m_comboSecondFunction;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonImage;
 	};
 }
 

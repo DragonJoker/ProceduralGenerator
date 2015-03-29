@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -23,7 +23,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <Buffer.h>
 #include <Point.h>
 
-namespace ProceduralTextures
+namespace IteratedFunctionSystem
 {
 	typedef enum
 	{
@@ -43,29 +43,27 @@ namespace ProceduralTextures
 	protected:
 		int m_iWidth;
 		int m_iHeight;
-		PixelBuffer * m_pBackBuffer;
+		std::weak_ptr< ProceduralTextures::PixelBuffer > m_pBackBuffer;
 		size_t m_uiVariationCount;
 		int m_iAngle;
 		int m_iShift;
 		int m_iSize;
-		std::vector< Point3d > m_arrayVariations;
-		std::vector< Point2i > m_arrayProbabilities;
-		Point2d m_ptPositionInSection;
-		Point2i m_ptMin;
-		Point2i m_ptMax;
-		std::vector< IfsCellMap > m_arrayInitCellsMap;
-		std::vector< IfsCellLst > m_arrayInitCellsLst;
-		std::vector< IfsCellVct > m_arrayInitCellsVct;
-		UbPixel m_pxColour;
+		std::vector< ProceduralTextures::Point3d > m_arrayVariations;
+		std::vector< ProceduralTextures::Point2i > m_arrayProbabilities;
+		ProceduralTextures::Point2d m_ptPositionInSection;
+		ProceduralTextures::Point2i m_ptMin;
+		ProceduralTextures::Point2i m_ptMax;
+		std::vector< std::shared_ptr< CellMap > > m_arrayInitCellsMap;
+		ProceduralTextures::UbPixel m_pxColour;
 
 	public:
-		IfsGenerator( PixelBuffer * p_pBackBuffer, int p_iWidth, int p_iHeight, int p_iAngle, int p_iShift, int p_iSize, const Point2d & p_ptPosition, size_t p_uiVariationCount );
+		IfsGenerator( std::shared_ptr< ProceduralTextures::PixelBuffer > p_pBackBuffer, int p_iWidth, int p_iHeight, int p_iAngle, int p_iShift, int p_iSize, ProceduralTextures::Point2d const & p_ptPosition, size_t p_uiVariationCount );
 		virtual ~IfsGenerator();
 
-		void Initialise( IfsCellMap & p_arrayGeneratedCellsMap, IfsCellLst & p_arrayGeneratedCellsLst, IfsCellVct & p_arrayGeneratedCellsVct );
-		bool Generate( const IfsCell & p_cell, IfsCellMap & p_arrayGeneratedCells );
-		bool Generate( const IfsCell & p_cell, IfsCellLst & p_arrayGeneratedCells );
-		bool Generate( IfsCell p_cell, IfsCellVct & p_arrayGeneratedCells );
+		void Initialise( std::shared_ptr< CellMap > p_arrayGeneratedCellsMap );
+		bool Generate( Cell const & p_cell, CellMap & p_arrayGeneratedCells );
+		bool Generate( Cell const & p_cell, CellLst & p_arrayGeneratedCells );
+		bool Generate( Cell p_cell, CellVct & p_arrayGeneratedCells );
 
 		bool NextGeneration();
 
@@ -105,37 +103,9 @@ namespace ProceduralTextures
 		{
 			return m_arrayInitCellsMap.size();
 		}
-		inline IfsCellMap & GetInitCellsMap( size_t p_uiIndex )
+		inline std::shared_ptr< CellMap > GetInitCellsMap( size_t p_uiIndex )
 		{
 			return m_arrayInitCellsMap[p_uiIndex];
-		}
-		inline const IfsCellMap & GetInitCellsMap( size_t p_uiIndex )const
-		{
-			return m_arrayInitCellsMap[p_uiIndex];
-		}
-		inline size_t GetInitCellsLstSize()const
-		{
-			return m_arrayInitCellsLst.size();
-		}
-		inline IfsCellLst & GetInitCellsLst( size_t p_uiIndex )
-		{
-			return m_arrayInitCellsLst[p_uiIndex];
-		}
-		inline const IfsCellLst & GetInitCellsLst( size_t p_uiIndex )const
-		{
-			return m_arrayInitCellsLst[p_uiIndex];
-		}
-		inline size_t GetInitCellsVctSize()const
-		{
-			return m_arrayInitCellsVct.size();
-		}
-		inline IfsCellVct & GetInitCellsVct( size_t p_uiIndex )
-		{
-			return m_arrayInitCellsVct[p_uiIndex];
-		}
-		inline const IfsCellVct & GetInitCellsVct( size_t p_uiIndex )const
-		{
-			return m_arrayInitCellsVct[p_uiIndex];
 		}
 
 		void Resample();
@@ -144,9 +114,7 @@ namespace ProceduralTextures
 		virtual void DoInitialiseVariations() = 0;
 
 	private:
-		bool DoInsertCell( const Point2d & p_ptPosition, IfsCellMap & p_arrayGeneratedCells, IfsCell * p_pResult = NULL );
-		bool DoInsertCell( const Point2d & p_ptPosition, IfsCellLst & p_arrayGeneratedCells, IfsCell * p_pResult = NULL );
-		bool DoInsertCell( const Point2d & p_ptPosition, IfsCellVct & p_arrayGeneratedCells, IfsCell * p_pResult = NULL );
+		bool DoInsertCell( ProceduralTextures::Point2d const & p_ptPosition, CellMap & p_arrayGeneratedCells, Cell * p_pResult = NULL );
 	};
 }
 

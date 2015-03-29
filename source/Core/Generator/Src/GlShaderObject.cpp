@@ -1,165 +1,172 @@
 #include "GlShaderObject.h"
 #include "GlShaderProgram.h"
 #include "OpenGl.h"
+#include "GeneratorUtils.h"
+
+#include <fstream>
 
 namespace ProceduralTextures
 {
-	GLenum GlShaderObject::ShaderTypes[eSHADER_OBJECT_TYPE_COUNT] =
+	namespace gl
 	{
-		GL_VERTEX_SHADER,
-		GL_FRAGMENT_SHADER,
-	};
-
-	GlShaderObject::GlShaderObject( OpenGl * p_pOpenGl, GlShaderProgram * p_pParent, eSHADER_OBJECT_TYPE p_eType )
-		:	m_bCompiled( false )
-		,	m_eType( p_eType )
-		,	m_bError( false )
-		,	m_pParent( p_pParent )
-		,	m_shaderObject( GL_INVALID_INDEX )
-		,	m_bAttached( false )
-		,	m_pOpenGl( p_pOpenGl )
-	{
-	}
-
-	GlShaderObject::~GlShaderObject()
-	{
-	}
-
-	void GlShaderObject::SetFile( const wxString & p_filename )
-	{
-		m_bError = false;
-		m_pathFile.clear();
-		m_strSource.clear();
-
-		if ( ! p_filename.empty() )
+		GLenum ShaderObject::ShaderTypes[eSHADER_OBJECT_TYPE_COUNT] =
 		{
-			wxTextFile l_file( p_filename );
-			l_file.Open();
+			GL_VERTEX_SHADER,
+			GL_FRAGMENT_SHADER,
+		};
 
-			if ( ! l_file.Eof() )
+		ShaderObject::ShaderObject( std::shared_ptr< OpenGl > p_pOpenGl, eSHADER_OBJECT_TYPE p_eType )
+			: Object( p_pOpenGl,
+					  std::bind( &OpenGl::CreateShader, p_pOpenGl, ShaderTypes[p_eType] ),
+					  std::bind( &OpenGl::DeleteShader, p_pOpenGl, std::placeholders::_1 ),
+					  std::bind( &OpenGl::IsShader, p_pOpenGl, std::placeholders::_1 )
+					)
+			, m_bCompiled( false )
+			, m_eType( p_eType )
+			, m_bError( false )
+			, m_bAttached( false )
+		{
+		}
+
+		ShaderObject::~ShaderObject()
+		{
+		}
+
+		void ShaderObject::SetFile( String const & p_filename )
+		{
+			m_bError = false;
+			m_pathFile.clear();
+			m_strSource.clear();
+
+			if ( !p_filename.empty() )
 			{
-				m_pathFile = p_filename;
+				std::basic_ifstream< char > l_file;
+				l_file.open( StringUtils::ToStdString( p_filename ).c_str() );
 
-				for ( size_t i = 0 ; i < l_file.GetLineCount() ; i++ )
+				if ( l_file.is_open() )
 				{
-					m_strSource += l_file.GetLine( i ) + wxT( "\n" );
+					m_pathFile = p_filename;
+
+					while ( !l_file.eof() )
+					{
+						String l_line;
+						std::getline( l_file, l_line );
+						m_strSource += l_line + _T( "\n" );
+					}
 				}
 			}
 		}
-	}
 
-	void GlShaderObject::SetSource( const wxString & p_strSource )
-	{
-		m_bError = false;
-		m_strSource = p_strSource;
-	}
-
-	void GlShaderObject::CreateProgram()
-	{
-		m_shaderObject = m_pOpenGl->CreateShader( ShaderTypes[m_eType] );
-	}
-
-	void GlShaderObject::DestroyProgram()
-	{
-		Detach();
-
-		if ( m_bCompiled && m_shaderObject != GL_INVALID_INDEX )
+		void ShaderObject::SetSource( String const & p_strSource )
 		{
-			m_pOpenGl->DeleteShader( m_shaderObject );
-			m_shaderObject = GL_INVALID_INDEX;
-			m_bCompiled = false;
+			m_bError = false;
+			m_strSource = p_strSource;
 		}
-	}
 
-	bool GlShaderObject::Compile()
-	{
-		bool l_bReturn = false;
-
-		if ( ! m_bError && ! m_strSource.empty() )
+		void ShaderObject::Destroy()
 		{
-			m_bCompiled = false;
-			GLint l_iCompiled = 0;
-			GLint l_iLength = GLint( m_strSource.size() );
-			char * l_pTmp = new char[l_iLength + 1];
-			memcpy( l_pTmp, m_strSource.char_str(), l_iLength );
-			l_pTmp[l_iLength] = 0;
-			m_pOpenGl->ShaderSource( m_shaderObject, 1, const_cast< const char ** >( & l_pTmp ), & l_iLength );
-			m_pOpenGl->CompileShader( m_shaderObject );
-			m_pOpenGl->GetShaderiv( m_shaderObject, GL_COMPILE_STATUS, & l_iCompiled );
-			delete [] l_pTmp;
+			Detach();
 
-			if ( l_iCompiled != 0 )
+			if ( m_bCompiled && IsValid() )
 			{
-				m_bCompiled = true;
+				ParentClass::Destroy();
+				m_bCompiled = false;
 			}
-			else
-			{
-				m_bError = true;
-			}
+		}
 
-			m_compilerLog = RetrieveCompilerLog();
+		bool ShaderObject::Compile()
+		{
+			bool l_bReturn = false;
 
-			if ( m_bCompiled )
+			if ( !m_bError && !m_strSource.empty() )
 			{
-				m_compilerLog.clear();
+				m_bCompiled = false;
+				GLint l_iCompiled = 0;
+				GLint l_iLength = GLint( m_strSource.size() );
+				std::string l_tmp = StringUtils::ToStdString( m_strSource ).c_str();
+				char const * l_pTmp = l_tmp.c_str();
+				GetOpenGl()->ShaderSource( GetGlName(), 1, &l_pTmp, &l_iLength );
+				GetOpenGl()->CompileShader( GetGlName() );
+				GetOpenGl()->GetShaderParameter( GetGlName(), GL_COMPILE_STATUS, &l_iCompiled );
+
+				if ( l_iCompiled )
+				{
+					m_bCompiled = true;
+				}
+				else
+				{
+					m_bError = true;
+				}
+
+				m_compilerLog = RetrieveCompilerLog();
+
+				if ( m_bCompiled )
+				{
+					m_compilerLog.clear();
+				}
+				else
+				{
+					TRACE( m_compilerLog );
+				}
+
+				l_bReturn = m_bCompiled;
 			}
 
-			l_bReturn = m_bCompiled;
+			return l_bReturn;
 		}
 
-		return l_bReturn;
-	}
-
-	void GlShaderObject::AttachTo( GlShaderProgram * p_pProgram )
-	{
-		if ( m_bCompiled && ! m_bError )
+		void ShaderObject::AttachTo( std::shared_ptr< ShaderProgram > p_pProgram )
 		{
-			m_pParent = p_pProgram;
-			m_pOpenGl->AttachShader( m_pParent->GetProgramObject(), m_shaderObject );
-			m_bAttached = true;
-		}
-	}
-
-	void GlShaderObject::Detach()
-	{
-		if ( m_bCompiled && m_pParent != NULL && ! m_bError && m_bAttached )
-		{
-			try
+			if ( m_bCompiled && ! m_bError )
 			{
-				m_pOpenGl->DetachShader( m_pParent->GetProgramObject(), m_shaderObject );
-				m_bAttached = false;
+				m_parent = p_pProgram;
+				GetOpenGl()->AttachShader( GetParent()->GetGlName(), GetGlName() );
+				m_bAttached = true;
 			}
-			catch ( ... )
+		}
+
+		void ShaderObject::Detach()
+		{
+			std::shared_ptr< ShaderProgram > l_parent = GetParent();
+
+			if ( m_bCompiled && l_parent && !m_bError && m_bAttached )
 			{
-//				wxMessageBox( wxT( "GlShaderObject::Detach - glDetachShader - Exception"));
+				try
+				{
+					GetOpenGl()->DetachShader( l_parent->GetGlName(), GetGlName() );
+					m_bAttached = false;
+				}
+				catch ( ... )
+				{
+					TRACE( "GlShaderObject::Detach - glDetachShader - Exception" );
+				}
+
+				m_parent.reset();
+				// if you get an error here, you deleted the Program object first and then
+				// the ShaderObject! Always delete ShaderObjects last!
+			}
+		}
+
+		String ShaderObject::RetrieveCompilerLog()
+		{
+			String l_log;
+			int l_iInfologLength = 0;
+			int charsWritten  = 0;
+			GetOpenGl()->GetShaderParameter( GetGlName(), GL_INFO_LOG_LENGTH, &l_iInfologLength );
+
+			if ( l_iInfologLength > 0 )
+			{
+				std::vector< char > l_szInfoLog( l_iInfologLength + 1 );
+				GetOpenGl()->GetShaderInfoLog( GetGlName(), l_iInfologLength, &charsWritten, l_szInfoLog.data() );
+				l_log = StringUtils::FromStdString( std::string( l_szInfoLog.data() ) );
 			}
 
-			m_pParent = NULL;
-			// if you get an error here, you deleted the Program object first and then
-			// the ShaderObject! Always delete ShaderObjects last!
+			if ( !l_log.empty() )
+			{
+				l_log = l_log.substr( 0, l_log.size() - 1 );
+			}
+
+			return l_log;
 		}
-	}
-
-	wxString GlShaderObject::RetrieveCompilerLog()
-	{
-		wxString l_log;
-		int l_iInfologLength = 0;
-		int charsWritten  = 0;
-		m_pOpenGl->GetShaderiv( m_shaderObject, GL_INFO_LOG_LENGTH, & l_iInfologLength );
-
-		if ( l_iInfologLength > 0 )
-		{
-			char * l_szInfoLog = new char[l_iInfologLength];
-			m_pOpenGl->GetShaderInfoLog( m_shaderObject, l_iInfologLength, & charsWritten, l_szInfoLog );
-			l_log = wxString( l_szInfoLog, wxConvLibc );
-			delete [] l_szInfoLog;
-		}
-
-		if ( !l_log.empty() )
-		{
-			l_log = l_log.substr( 0, l_log.size() - 1 );
-		}
-
-		return l_log;
 	}
 }

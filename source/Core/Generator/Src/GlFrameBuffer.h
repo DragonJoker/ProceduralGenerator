@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option ) any later
+Foundation; either version 2 of the License, or (At your option ) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,102 +18,91 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___GENERATOR_GL_FRAME_BUFFER_H___
 #define ___GENERATOR_GL_FRAME_BUFFER_H___
 
-#include "GeneratorPrerequisites.h"
+#include "GlObject.h"
+#include "OpenGl.h"
+#include "Size.h"
 
 namespace ProceduralTextures
+{
+namespace gl
 {
 	/*!
 	\author		Sylvain DOREMUS
 	\date		14/02/2010
 	\brief		Framebuffer implementation
 	*/
-	class GeneratorAPI GlFrameBuffer
+	class GeneratorAPI FrameBuffer
+		: public Object< std::function< bool( int, uint32_t * ) >, std::function< bool( int, uint32_t const * ) > >
 	{
 	public:
 		/**
 		 *\brief		Constructor
-		 *\param[in]	p_pOpenGl	The OpenGL instance
+		 *\param[in]	p_openGl	The OpenGL instance
 		 */
-		GlFrameBuffer( OpenGl * p_pOpenGl );
+		FrameBuffer( std::shared_ptr< OpenGl > p_openGl );
 		/**
 		 *\brief		Destructor
 		 */
-		virtual ~GlFrameBuffer();
-		/**
-		 *\brief		Creates the framebuffer on GPU
-		 *\return		true if the object is successfully created
-		 */
-		bool Create();
-		/**
-		 *\brief		Destroy the buffer on GPU
-		 */
-		void Destroy();
+		virtual ~FrameBuffer();
 		/**
 		 *\brief		Initialises the framebuffer
 		 *\param[in]	p_size	The wanted physical framebuffer size
 		 *\return		true if it is successfully initialised
 		 */
-		bool Initialise( wxSize const & p_size );
+		bool Initialise( Size const & p_size );
 		/**
 		 *\brief		Cleans up the framebuffer
 		 */
 		void Cleanup();
 		/**
-		 *\brief		Tries to activate the framebuffer
-		 *\return		true if it is successfully activated
-		 */
-		bool Activate();
-		/**
-		 *\brief		Deactivates the framebuffer
-		 */
-		void Deactivate();
-		/**
-		 *\brief		Tries to activate the texture at given attachment
+		 *\brief		Tries to activate the texture At given attachment
 		 *\param[in]	p_attachment	The attachment
-		 *\return		false if no texture is attached at wanted attachment or if it is not successfully activated
+		 *\param[in]	p_target		The texture target (GL_TEXTURE0, ...)
+		 *\return		false if no texture is attached At wanted attachment or if it is not successfully activated
 		 */
-		bool ActivateTexture( GLenum p_attachment );
+		bool ActivateTexture( unsigned int p_attachment, unsigned int p_target = GL_TEXTURE0 );
 		/**
-		 *\brief		Deactivate the texture at given attachment
+		 *\brief		Deactivate the texture At given attachment
 		 *\param[in]	p_attachment	The attachment
+		 *\param[in]	p_target		The texture target (GL_TEXTURE0, ...)
 		 */
-		void DeactivateTexture( GLenum p_attachment );
+		void DeactivateTexture( unsigned int p_attachment, unsigned int p_target = GL_TEXTURE0 );
 		/**
 		 *\brief		Attaches a texture to the given attachment
 		 *\param[in]	p_attachment	The attachment
 		 *\param[in]	p_texture		The texture
 		 */
-		void AttachTexture( GLenum p_attachment, GlTexture * p_pTexture );
+		void AttachTexture( unsigned int p_attachment, std::shared_ptr< Texture > p_texture );
 		/**
 		 *\brief		Retrieves the texture to the given attachment
 		 *\param[in]	p_attachment	The attachment
-		 *\return		The texture, NULL if there is no texture at given attachment
+		 *\return		The texture, NULL if there is no texture At given attachment
 		 */
-		GlTexture * GetTexture( GLenum p_attachment );
+		std::shared_ptr< Texture > GetTexture( unsigned int p_attachment );
 		/**
 		 *\brief		Tries to download the image buffer for given attachment
 		 *\param[in]	p_attachment	The attachment
 		 *\param[out]	p_buffer		Receives the downloaded buffer
-		 *\return		false if no texture is attached at wanted attachment or if it is not successfully downloaded
+		 *\return		false if no texture is attached At wanted attachment or if it is not successfully downloaded
 		 */
-		bool DownloadSync( GLenum p_attachment, PixelBuffer & p_buffer );
+		bool DownloadSync( unsigned int p_attachment, PixelBuffer & p_buffer );
 		/**
 		 *\brief		Tries to download the image buffer for given attachment
 		 *\param[in]	p_attachment	The attachment
 		 *\param[out]	p_buffer		Receives the downloaded buffer
-		 *\return		false if no texture is attached at wanted attachment or if it is not successfully downloaded
+		 *\return		false if no texture is attached At wanted attachment or if it is not successfully downloaded
 		 */
-		bool DownloadAsync( GLenum p_attachment, PixelBuffer & p_buffer );
+		bool DownloadAsync( unsigned int p_attachment, PixelBuffer & p_buffer );
 		/**
 		 *\brief		Updates the virtual framebuffer dimensions
 		 *\param[in]	p_size	The new dimensions
 		 */
-		void Resize( const wxSize & p_size );
+		void Resize( Size const & p_size );
 		/**
 		 *\brief		Retrieves the virtual framebuffer dimensions
 		 *\return		The value
 		 */
-		wxSize const & GetSize()const
+		Size const & GetSize()const
 		{
 			return m_size;
 		}
@@ -122,23 +111,20 @@ namespace ProceduralTextures
 		void DoCleanupPbos();
 		void DoInitialisePbos();
 
-		//! The OpenGL instance
-		OpenGl * m_pOpenGl;
-		//! The OpenGL index for the GPU framebuffer
-		GLuint m_uiGlBuffer;
 		//! Tells if the framebuffer is initialised
 		bool m_bInitialised;
 		//! The physical framebuffer dimensions
-		wxSize m_sizeImage;
+		Size m_sizeImage;
 		//! The virtual framebuffer dimensions
-		wxSize m_size;
+		Size m_size;
 		//! The attached textures
-		std::map< GLenum, GlTexture * > m_mapAttachments;
+		std::map< unsigned int, std::weak_ptr< Texture > > m_mapAttachments;
 		//! The pixel transfer buffers, used to download the pixels
-		GlDownloadPixelBuffer * m_pDownloadBuffers[2];
+		std::unique_ptr< DownloadPixelBuffer > m_pDownloadBuffers[2];
 		//! The currently active download pixel buffer
 		int m_iCurrentDlPbo;
 	};
+}
 }
 
 //*************************************************************************************************

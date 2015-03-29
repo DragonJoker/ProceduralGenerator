@@ -22,14 +22,11 @@ macro( copy_languages TARGET_NAME SRC_FOLDER DST_FOLDER LANGUAGES )
 			file( COPY ${SRC_FOLDER}/po/${LANGUAGE}/${TARGET_NAME}.mo DESTINATION ${FOLDER}/${LANGUAGE} )
 		ENDFOREACH()
 	ENDFOREACH()
-	# For non Win32 platforms, prepare installation of language files
-	if ( NOT WIN32 )
-		FOREACH( LANGUAGE ${LANGUAGES} )
-			install(
-				FILES ${SRC_FOLDER}/po/${LANGUAGE}/${TARGET_NAME}.mo
-				DESTINATION ${CMAKE_INSTALL_PREFIX}/share/${DST_FOLDER}/${LANGUAGE}/
-				COMPONENT ${TARGET_NAME}
-			)
-		ENDFOREACH()
-	endif()
+	FOREACH( LANGUAGE ${LANGUAGES} )
+		install(
+			FILES ${SRC_FOLDER}/po/${LANGUAGE}/${TARGET_NAME}.mo
+			DESTINATION share/${DST_FOLDER}/${LANGUAGE}/
+			COMPONENT ${TARGET_NAME}
+		)
+	ENDFOREACH()
 endmacro()

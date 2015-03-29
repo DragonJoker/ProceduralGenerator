@@ -1,8 +1,10 @@
 #include "FractalLeaf.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace IteratedFunctionSystem
 {
-	FractalLeaf::FractalLeaf( PixelBuffer * p_pBackBuffer, int p_iWidth, int p_iHeight )
+	FractalLeaf::FractalLeaf( std::shared_ptr< PixelBuffer > p_pBackBuffer, int p_iWidth, int p_iHeight )
 		:	IfsGenerator( p_pBackBuffer, p_iWidth, p_iHeight, 160, 4, 160, Point2d( 0.5, 0.0 ), 4 )
 	{
 		DoInitialiseVariations();

@@ -2,7 +2,7 @@
 #   **-----------------------------------------------------------------------**
 #   **                         Procedural Generator                          **
 #   **-----------------------------------------------------------------------**
-#   **          Cellular automat and image processing application            **
+#   **          Cellular automate and image processing application           **
 #   **-----------------------------------------------------------------------**
 #   **             First version of this file: may 10th 2012                 **
 #   **-----------------------------------------------------------------------**
@@ -21,17 +21,17 @@ V.   General Questions
 #   **-----------------------------------------------------------------------**
 
 Procedural Generator is an application that can load various image treatment
-pluggins.
-The main application loads the plugins, allows pluggin selection, displays
+plug-ins.
+The main application loads the plug-in, allows plug-in selection, displays
 computation results.
-The pluggins' job is made in 2 steps : 
+The plug-ins' job is made in 2 steps : 
 - 1st step : CPU step : image computing using CPU computations.
 - 2nd step : GPU step : image post-processing using GPU through GLSL shaders.
-Some plugins only use CPU step, such as Perlin Noise, Life Game, Diffusion
+Some plug-ins only use CPU step, such as Perlin Noise, Life Game, Diffusion
 Limited aggregation.
 Some others use only the GPU step, such as Shader Effects, Text Effects.
 The GPU step uses OpenGL and allows the use of GLSL shaders.
-The CPU step is multithreaded in order to fasten the computations.
+The CPU step is multi-threaded in order to fasten the computations.
 
 
 #   **-----------------------------------------------------------------------**
@@ -39,15 +39,17 @@ The CPU step is multithreaded in order to fasten the computations.
 #   **-----------------------------------------------------------------------**
 
 Procedural Generator uses CMake to build project files.
-You just need to launch cmake to build your preferential projet file.
+You just need to launch CMake to build your preferential project file.
 Tested compilers are :
+- Visual Studio 2013
 - Visual Studio 2012
 - Visual Studio 2010
 - gcc 4.6.2
 - gcc 4.7.0
 - clang 2.7-3
-The main application and the plugins are based upon wxWidgets (from 2.8.11,
-runs on 2.9.4) so on GNU/Linux it also depends on GTK.
+The Generator shared library depends on OpenGL and FreeType.
+The main application is based upon wxWidgets (from 2.8.11 to latest) so on
+GNU/Linux it also depends on GTK.
 ShaderWebcam also depends on OpenCV (at least 2.1.0) but doesn't compile with
 clang, because of OpenCV (which is not clang compliant).
 Documentation can be generated using Doxygen.
@@ -57,12 +59,12 @@ Documentation can be generated using Doxygen.
 #   **                           III. Options                                **
 #   **-----------------------------------------------------------------------**
 
-On GNU/linux the default install directory is in /usr/local.
+On GNU/Linux the default install directory is in /usr/local.
 You can change this directory by changing the CMAKE_INSTALL_PREFIX value.
 The main application is installed in <install_dir>/bin/
-The library LibGenerator (used to build your own plugins) is installed in
+The library LibGenerator (used to build your own plug-ins) is installed in
 <install_dir>/lib/.
-The plugins are installed in <install_dir>/shared/ProceduralGenerator/
+The plug-ins are installed in <install_dir>/shared/ProceduralGenerator/
 
 
 #   **-----------------------------------------------------------------------**
@@ -70,7 +72,7 @@ The plugins are installed in <install_dir>/shared/ProceduralGenerator/
 #   **-----------------------------------------------------------------------**
 
 To run Procedural Generator, simply type 'ProceduralGenerator' in your
-preferred command-line.
+preferred command-line tool.
 
 
 #   **-----------------------------------------------------------------------**
@@ -80,7 +82,7 @@ preferred command-line.
 1. I need a feature that ProceduralGenerator doesn't implement, what can I do ?
 
 There are two ways.
-First, Procedural Generator is a GPL software and library, so you are welcome
+First, Procedural Generator is a LGPL software and library, so you are welcome
 to improve it yourself ;-) !
 Second, just ask the author :-) ! 
 
@@ -94,9 +96,9 @@ Thus, it can take time... There are few basic rules to write contributions:
 - (2) Do never send codes without a lot of comments in (bad or good) english.
 - (3) Do never send codes with obscure and/or non-english variable names.
 
-3. I implemented a great plugin, can I commit it ?
+3. I implemented a great plug-in, can I commit it ?
 
-I will be really proud to be proposed new plugins for Procedural Generator.
+I will be really proud to be proposed new plug-ins for Procedural Generator.
 But as for any improvement, I will check and test it before integrating it to
 Procedural Generator. 
 

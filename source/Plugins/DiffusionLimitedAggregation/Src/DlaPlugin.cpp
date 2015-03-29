@@ -1,23 +1,25 @@
 #include "DlaPlugin.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace DiffusionLimitedAggregation
 {
-	IMPLEMENT_PLUGIN( DlaPlugin, DiffusionLimitedAggregation )
+	IMPLEMENT_PLUGIN( Plugin, Generator )
 
-	DlaPlugin::DlaPlugin()
-		:	Plugin< DiffusionLimitedAggregation, DlaPlugin >( wxT( "DiffusionLimitedAggregation" ) )
+	Plugin::Plugin()
+		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "DiffusionLimitedAggregation" ) )
 	{
 	}
 
-	DlaPlugin::~DlaPlugin()
+	Plugin::~Plugin()
 	{
 	}
 
-	wxString DlaPlugin::GetName()
+	String Plugin::GetName()
 	{
-		wxString l_strBaseName = _( "Diffusion Limited Aggregation" );
+		String l_strBaseName = _( "Diffusion Limited Aggregation" );
 #if !defined( NDEBUG )
-		l_strBaseName += wxT( " (Debug )" );
+		l_strBaseName += _T( " (Debug )" );
 #endif
 		return l_strBaseName;
 	}

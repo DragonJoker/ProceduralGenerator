@@ -1,23 +1,25 @@
 #include "PlnPlugin.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace PerlinNoise
 {
-	IMPLEMENT_PLUGIN( PlnPlugin, PerlinNoise )
+	IMPLEMENT_PLUGIN( Plugin, Generator )
 
-	PlnPlugin::PlnPlugin()
-		:	Plugin< PerlinNoise, PlnPlugin >( wxT( "PerlinNoise" ) )
+	Plugin::Plugin()
+		:	ProceduralTextures::Plugin< Generator, Plugin >( _T( "PerlinNoise" ) )
 	{
 	}
 
-	PlnPlugin::~PlnPlugin()
+	Plugin::~Plugin()
 	{
 	}
 
-	wxString PlnPlugin::GetName()
+	String Plugin::GetName()
 	{
-		wxString l_strBaseName = _( "Perlin Noise" );
+		String l_strBaseName = _( "Perlin Noise" );
 #if !defined( NDEBUG )
-		l_strBaseName += wxT( " (Debug)" );
+		l_strBaseName += _T( " (Debug)" );
 #endif
 		return l_strBaseName;
 	}

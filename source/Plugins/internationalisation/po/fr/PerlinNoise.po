@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PerlinNoise\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-04 02:34+0100\n"
+"PO-Revision-Date: 2015-03-04 02:35+0100\n"
+"Last-Translator: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language-Team: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ../include/PerlinNoise\n"
+"X-Poedit-SearchPath-1: ../source/PerlinNoise\n"
+
+#: ..\PerlinNoise\Src\PerlinNoise.cpp:500
+msgid "B"
+msgstr "B"
+
+#: ..\PerlinNoise\Src\PerlinNoise.cpp:479
+msgid "Cloud"
+msgstr "Nuage"
+
+#: ..\PerlinNoise\Src\PerlinNoise.cpp:493
+msgid "Frequency: "
+msgstr "Fréquence :"
+
+#: ..\PerlinNoise\Src\PerlinNoise.cpp:498
+msgid "G"
+msgstr "V"
+
+#: ..\PerlinNoise\Src\PerlinNoise.cpp:480
+msgid "Marble"
+msgstr "Marbre"
+
+#: ..\PerlinNoise\Src\PerlinNoise.cpp:492
+msgid "Octaves: "
+msgstr "Octaves :"
+
+#: ..\PerlinNoise\Src\PerlinNoise.cpp:481
+msgid "Parametric"
+msgstr "Paramétré"
+
+#: ..\PerlinNoise\Src\PlnPlugin.cpp:20
+msgid "Perlin Noise"
+msgstr "Bruit de Perlin"
+
+#: ..\PerlinNoise\Src\PerlinNoise.cpp:496
+msgid "R"
+msgstr "R"
+
+#: ..\PerlinNoise\Src\PerlinNoise.cpp:478
+msgid "Turbulence"
+msgstr "Turbulences"
+
+#: ..\PerlinNoise\Src\PerlinNoise.cpp:508
+msgid "Type : "
+msgstr "Type :"
+
+#~ msgid "Octaves : "
+#~ msgstr "Octaves "
+
+#~ msgid "Frequency : "
+#~ msgstr "Fréquence :"

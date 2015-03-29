@@ -1,23 +1,25 @@
 #include "IfsPlugin.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace IteratedFunctionSystem
 {
-	IMPLEMENT_PLUGIN( IfsPlugin, IteratedFunctionSystem )
+	IMPLEMENT_PLUGIN( Plugin, Generator )
 
-	IfsPlugin::IfsPlugin()
-		:	Plugin< IteratedFunctionSystem, IfsPlugin >( wxT( "IteratedFunctionSystem" ) )
+	Plugin::Plugin()
+		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "IteratedFunctionSystem" ) )
 	{
 	}
 
-	IfsPlugin::~IfsPlugin()
+	Plugin::~Plugin()
 	{
 	}
 
-	wxString IfsPlugin::GetName()
+	String Plugin::GetName()
 	{
-		wxString l_strBaseName = _( "Iterated Function System" );
+		String l_strBaseName = _( "Iterated Function System" );
 #if !defined( NDEBUG )
-		l_strBaseName += wxT( " (Debug)" );
+		l_strBaseName += _T( " (Debug)" );
 #endif
 		return l_strBaseName;
 	}

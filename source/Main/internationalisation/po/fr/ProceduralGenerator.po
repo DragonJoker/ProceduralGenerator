@@ -1,0 +1,222 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ProceduralGenerator 1.3.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-29 11:31+0100\n"
+"PO-Revision-Date: 2015-03-29 11:33-0000\n"
+"Last-Translator: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language-Team: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ../include/ProceduralGenerator\n"
+"X-Poedit-SearchPath-1: ../source/ProceduralGenerator\n"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:326
+msgid "AVI Video files"
+msgstr "Fichiers vidéo AVI"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:160
+msgid "All supported files"
+msgstr "Tous fichiers supportés"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:105
+msgid "All supported files "
+msgstr "Tous fichiers supportés"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:107
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:162
+msgid "BITMAP files"
+msgstr "Fichiers BITMAP"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:258
+msgid "Can't encode frame"
+msgstr "Impossible d'encoder la trame"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:352
+msgid "Can't find H264 codec"
+msgstr "Impossible de trouver le codec H264"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:228
+msgid "Can't initialise conversion context"
+msgstr "Impossible d'initialiser le contexte de conversion"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:472
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:481
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:490
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:499
+msgid "Can't open file "
+msgstr "Impossible d'ouvrir le fichier"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:460
+msgid "Can't open file with OpenCV, encoding: H264"
+msgstr "Impossible d'ouvrir le fichier avec OpenCV, encodage : H264"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:453
+msgid "Can't open file with OpenCV, encoding: H264, pleas select another codec"
+msgstr ""
+"Impossible d'ouvrir le fichier avec OpenCV, encodage : H264, veuillez "
+"sélectionner un autre codec."
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:276
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:283
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:290
+msgid "Can't write image :\n"
+msgstr "Impossible d'écrire la trame :\n"
+
+#: ..\ProceduralGenerator\Src\ProjectListDialog.cpp:54
+msgid "Cancel"
+msgstr "Annuler"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:228
+#: ..\ProceduralGenerator\Src\ProjectListDialog.cpp:19
+msgid "Choose a generator"
+msgstr "Choisissez un générateur"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:115
+msgid "Choose a picture"
+msgstr "Choisissez un image"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:422
+msgid "Could not allocate encoded picture buffer"
+msgstr "Impossible d'allouer le tampon d'image allouée"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:362
+msgid "Could not allocate stream"
+msgstr "Impossible d'allouer le flux"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:377
+msgid "Could not allocate video codec context"
+msgstr "Impossible d'allouer le codec vidéo"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:414
+msgid "Could not allocate video frame"
+msgstr "Cimpossible d'allouer la trame vidéo"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:405
+msgid "Could not open codec"
+msgstr "Impossible d'ouvrir le codec"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:432
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:442
+msgid "Could not open file"
+msgstr "Impossible d'ouvrir le fichier"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:109
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:164
+msgid "GIF files"
+msgstr "Fichiers GIF"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:228
+#: ..\ProceduralGenerator\Src\ProjectListDialog.cpp:45
+msgid "Generator"
+msgstr "Générateur"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:307
+msgid "Generator loading error"
+msgstr "Erreur de chargement du générateur"
+
+#: ..\ProceduralGenerator\Src\ProjectListDialog.cpp:143
+msgid "Image Effects"
+msgstr "Effets sur image"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:130
+msgid "Image loading error"
+msgstr "Erreur de chargement d'image"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:111
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:166
+msgid "JPEG files"
+msgstr "Fichiers JPEG"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:130
+msgid "No handler found for this image format"
+msgstr "Aucun gestionnaire trouvé pour ce format d'image"
+
+#: ..\ProceduralGenerator\Src\ProjectListDialog.cpp:53
+msgid "OK"
+msgstr "Valider"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:113
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:168
+msgid "PNG files"
+msgstr "Fichiers PNG"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:328
+msgid "Please choose a video file name"
+msgstr "Choisissez un nom de fichier vidéo"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:170
+msgid "Please choose an image file name"
+msgstr "Choisissez un nom de fichier image"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:243
+msgid "Quit"
+msgstr "Quitter"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:243
+msgid "Quit ProceduralGenerator"
+msgstr "Quitter ProceduralGenerator"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:237
+msgid "Record"
+msgstr "Enregistrer"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:237
+msgid "Record a video"
+msgstr "Démarre l'enregistrement d'une vidéo"
+
+#: ..\ProceduralGenerator\Src\ProjectListDialog.cpp:47
+msgid "Screen Size"
+msgstr "Taille de l'image"
+
+#: ..\ProceduralGenerator\Src\ProjectListDialog.cpp:144
+msgid "Shader Effects"
+msgstr "Effets par shaders"
+
+#: ..\ProceduralGenerator\Src\ProjectListDialog.cpp:146
+msgid "Shader Webcam"
+msgstr "Effets sur webcam"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:229
+msgid "Snapshot"
+msgstr "Capture"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:239
+msgid "Stop"
+msgstr "Arrêter"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:239
+msgid "Stop recording"
+msgstr "Arrête l'enregistrement"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:229
+msgid "Take a snapshot"
+msgstr "Faire une capture d'écran"
+
+#: ..\ProceduralGenerator\Src\ProjectListDialog.cpp:145
+msgid "Text Effects"
+msgstr "Effets sur texte"
+
+#: ..\ProceduralGenerator\Src\MainFrame.cpp:307
+msgid "The generator loading failed due to the following error:"
+msgstr "Le chargement du générateur a échoué avec l'erreur suivante :"
+
+#: ..\ProceduralGenerator\Src\RenderPanel.cpp:502
+msgid "Unknown error"
+msgstr "Erreur inconnue"
+
+#~ msgid "Matroska Video files"
+#~ msgstr "Vidéos Matroska"
+
+#~ msgid "Can't load file "
+#~ msgstr "Impossible de charger le fichier"

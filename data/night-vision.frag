@@ -1,3 +1,5 @@
+varying vec2 pxl_texture;
+
 uniform sampler2D pg_texture;
 uniform sampler2D pg_modif1;
 uniform sampler2D pg_modif2;
@@ -13,9 +15,9 @@ vec4 ComputeColour()
 	vec2 uv;
 	uv.x = 0.4*sin(elapsedTime*50.0);
 	uv.y = 0.4*cos(elapsedTime*50.0);
-	float m = texture2D(pg_modif2, gl_TexCoord[0].st).r;
-	vec3 n = texture2D(pg_modif1, (gl_TexCoord[0].st*3.5) + uv).rgb;
-	vec3 c = texture2D(pg_texture, gl_TexCoord[0].st + (n.xy*0.005)).rgb;
+	float m = texture2D(pg_modif2, pxl_texture).r;
+	vec3 n = texture2D(pg_modif1, (pxl_texture.st*3.5) + uv).rgb;
+	vec3 c = texture2D(pg_texture, pxl_texture.st + (n.xy*0.005)).rgb;
 
 	float lum = dot(vec3(0.30, 0.59, 0.11), c);
 
@@ -31,7 +33,7 @@ vec4 ComputeColour()
 void main ()
 {
 	vec4 tc = vec4( 1.0, 0.0, 0.0, 1.0);
-	vec2 uv = gl_TexCoord[0].xy;
+	vec2 uv = pxl_texture.xy;
 
 	if (pg_sep_type == 0)
 	{

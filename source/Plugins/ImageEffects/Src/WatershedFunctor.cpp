@@ -1,6 +1,8 @@
 #include "WatershedFunctor.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace ImageEffects
 {
 	WatershedFunctor::WatershedFunctor()
 		:	EffectFunctor( eEFFECT_TYPE_WATERSHED, _( "Watershed" ), true, true )
@@ -12,13 +14,13 @@ namespace ProceduralTextures
 	{
 	}
 
-	void WatershedFunctor::operator()( const PixelBuffer & p_bufferIn, PixelBuffer & p_bufferOut )
+	void WatershedFunctor::operator()( PixelBuffer const & p_bufferIn, PixelBuffer & p_bufferOut )
 	{
 		int l_iSteps = ( 256 / m_iNbSteps );
 
-		for ( int i = 0 ; i < m_iImgHeight ; i++ )
+		for ( uint32_t i = 0; i < m_size.y(); i++ )
 		{
-			for ( int j = 0 ; j < m_iImgWidth ; j++ )
+			for ( uint32_t j = 0; j < m_size.x(); j++ )
 			{
 				p_bufferOut[i][j].Set( ( p_bufferIn[i][j] / l_iSteps ) * l_iSteps );
 			}

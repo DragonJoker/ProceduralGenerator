@@ -2,9 +2,9 @@
 
 #include <GeneratorUtils.h>
 
-#include <cmath>
+using namespace ProceduralTextures;
 
-namespace ProceduralTextures
+namespace ImageEffects
 {
 	const int GaussianBlurSharpenFunctor::m_iGaussLvl			= 7;
 	const int GaussianBlurSharpenFunctor::m_iGaussMask[]		= {1, 6, 15, 20, 15, 6, 1};
@@ -26,16 +26,14 @@ namespace ProceduralTextures
 	{
 	}
 
-	void GaussianBlurSharpenFunctor::operator()( const PixelBuffer & p_bufferIn, PixelBuffer & p_bufferOut )
+	void GaussianBlurSharpenFunctor::operator()( PixelBuffer const & p_bufferIn, PixelBuffer & p_bufferOut )
 	{
 		Pixel< double > l_linc;
 		UbPixel l_pixel;
 
-		//	for (int i = m_iGaussLvl - 1 ; i < m_iImgHeight - 1 ; i++)
-		for ( int i = m_iGaussLvl - 1 ; i < m_iImgHeight ; i++ )
+		for ( uint32_t i = m_iGaussLvl - 1; i < m_size.y(); i++ )
 		{
-			//		for (int j = 1 ; j < m_iImgWidth - 1  ; j++)
-			for ( int j = 0 ; j < m_iImgWidth ; j++ )
+			for ( uint32_t j = 0; j < m_size.x(); j++ )
 			{
 				l_linc  = m_iGaussMask[0] * p_bufferIn[i - 6][j];
 				l_linc += m_iGaussMask[1] * p_bufferIn[i - 5][j];
@@ -49,11 +47,9 @@ namespace ProceduralTextures
 			}
 		}
 
-		//	for (int i = 1 ; i < m_iImgHeight - 1 ; i++)
-		for ( int i = 0 ; i < m_iImgHeight ; i++ )
+		for ( uint32_t i = 0; i < m_size.y(); i++ )
 		{
-			//		for (int j = m_iGaussLvl - 1 ; j < m_iImgWidth - 1 ; j++)
-			for ( int j = m_iGaussLvl - 1 ; j < m_iImgWidth ; j++ )
+			for ( uint32_t j = m_iGaussLvl - 1; j < m_size.x(); j++ )
 			{
 				l_linc  =	m_iGaussMask[0] * m_temporaryBuffer1[i][j - 6];
 				l_linc +=	m_iGaussMask[1] * m_temporaryBuffer1[i][j - 5];
@@ -67,9 +63,9 @@ namespace ProceduralTextures
 			}
 		}
 
-		for ( int i = 1 ; i < m_iImgHeight - 1 ; i++ )
+		for ( uint32_t i = 1; i < m_size.y() - 1; i++ )
 		{
-			for ( int j = 1 ; j < m_iImgWidth - 1 ; j++ )
+			for ( uint32_t j = 1; j < m_size.x() - 1; j++ )
 			{
 				l_linc.Set( 0.0, 0.0, 0.0, 255.0 );
 				l_linc += m_dSharpenMask[0] * m_temporaryBuffer2[i - 1][j - 1];
@@ -81,15 +77,15 @@ namespace ProceduralTextures
 				l_linc += m_dSharpenMask[6] * m_temporaryBuffer2[i + 1][j - 1];
 				l_linc += m_dSharpenMask[7] * m_temporaryBuffer2[i + 1][j + 0];
 				l_linc += m_dSharpenMask[8] * m_temporaryBuffer2[i + 1][j + 1];
-				p_bufferOut[i][j].Set( utils::clamp( 0.0, 255.0, l_linc.r ), utils::clamp( 0.0, 255.0, l_linc.g ), utils::clamp( 0.0, 255.0, l_linc.b ), 255.0 );
+				p_bufferOut[i][j].Set( Utils::Clamp( 0.0, 255.0, l_linc.r ), Utils::Clamp( 0.0, 255.0, l_linc.g ), Utils::Clamp( 0.0, 255.0, l_linc.b ), 255.0 );
 			}
 		}
 	}
 
-	void GaussianBlurSharpenFunctor::SetImage( const wxImage & p_image )
+	void GaussianBlurSharpenFunctor::SetImage( PixelBuffer const & p_image )
 	{
 		EffectFunctor::SetImage( p_image );
-		m_temporaryBuffer1.init( Size( m_iImgWidth, m_iImgHeight ) );
-		m_temporaryBuffer2.init( Size( m_iImgWidth, m_iImgHeight ) );
+		m_temporaryBuffer1.Initialise( m_size );
+		m_temporaryBuffer2.Initialise( m_size );
 	}
 }

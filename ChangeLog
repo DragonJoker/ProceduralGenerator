@@ -1,3 +1,295 @@
+2015-03-29  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Fixed the compile errors in ShaderWebcam.
+	* Updated translations.
+
+2015-03-28  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Eventually corrected the resize problem with OCLProcessing
+	* Corrected the TextEffects
+	* Improved error management in OCLProcessing and ProceduralGenerator.
+
+2015-03-19  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Corrected the crashes in Perlin Noise and Iterated Function System.
+
+2015-03-18  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* The ControlsManager is now thread-safe.
+	* Added the possibility to use keyboard to move through listbox and 
+	*   combobox items.
+	* The CpuStep threads array is now a private member. This class provides
+	*   DoForEachThread and DoForOneThread methods to apply a function to each
+	*   thread or to one thread.
+
+2015-03-17  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Few warnings corrected.
+
+2015-03-16  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Button images are handled.
+	* Created XpmLoader class to load X-Pixmap 3 images.
+	* Button images are handled.
+	* Created XpmLoader class to load X-Pixmap 3 images.
+
+2015-03-13  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Edit is finished.
+	* Modifying TextEffects to make it work correctly with it.
+	* Added a background image for the button control.
+
+2015-03-12  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Added a new event type : eCONTROL_EVENT, to handle Activation and
+	*   Deactivation of a control.
+	* Added a KeyboardState in ControlsManager, to memorize the status of Ctrl,
+	*   Alt and Shift keys.
+	* Added a new keyboard event type : eKEYBOARD_EVENT_CHAR, to handle the
+	*   displayable key typed event.
+	* Added m_cursor member to Control, in order to customize the mouse cursor
+	*   per control type (TEXT on EditCtrl, HAND for ButtonCtrl...)
+	* EditCtrl is nearly ended, just need to take care of multibyte characters
+	*   when deleting them with DEL or BACKSPACE (I must use Utf8Iterator for
+	*   that).
+	* Finished SliderCtrl.
+
+2015-03-11  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Added possibility to change mouse cursor when it is over a control.
+	* ComboBoxCtrl and SliderCtrl events are managed correctly. Now only
+	*   EditCtrl remains.
+
+2015-03-10  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Listbox events are processed correctly.
+	* Corrected the item positioning in combobox list.
+	* UTF-8 strings have a better support.
+	* Added Utf8Iterator class.
+
+2015-03-09  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Now controls recursively set visibility to their childs.
+
+2015-03-08  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* All plug-ins' controls are created correctly.
+	* Removed OptionsPanel, ColorButtonCtrl, FileButtonCtrl, and
+	*   ImageButtonCtrl.
+	* Remove event callbacks. The controls construction is eased.
+	* Reviewed the way Overlays are rendered: They are first sorted by Z-Index,
+	*   taking care of their place in the hierarchy (level).
+	* Still need to review the combobox items visibility, in order to make the
+	*   render bug free.
+
+2015-03-06  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Corrected a bug in gl::Texture. Once resized, if Initialised was not
+	*   called, the texture was always considered resized, and was always
+	*   black.
+	* Nearly all plug-ins are updated, just remains TextEffects.
+
+2015-03-05  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Compatibility with VS2012.
+	* Implemented CPU and GPU times as static controls.
+	* Improved OverlayManager rendering performances.
+	* Gpu step and Cpu step are now on the same thread.
+	* RenderPanel timer can now come back to initial time if the steps time
+	*   falls back under the wanted frame time.
+	* Nearly ended the generators which don't have a GPU step.
+	* The ProceduralGenerator has been split in Generator, CpuStep,
+	*   and GpuStep.
+	* LifeGame, BuggedLifeGame, ColoredLifeGame, and
+	*   DiffusionLimitedAggregation have been updated.
+
+2015-03-04  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Implementing event system. Mouse events are implemented.
+	* Added a button to hide the options panel.
+	* Still some work to do on the way to find controls.
+	* Updated translations and corrected Translator so it can hold multiples
+	*   translations.
+	* Added translations for OCLProcessing.
+
+2015-03-03  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Now overlays are rendered in pixels and not in ratio, so no more
+	*   interpolation in the render.
+	* GeometryBuffers, VertexBuffer, and Vertex are now template classes
+	*   specialisations (of respectively TGeometryBuffers, TVertexBuffer, and TVertex), in order to be able change the vertex's position data type (float or int32_t).
+	* Continued controls implementation, removed callbacks (except for event
+	*   callbacks, I will need some of them).
+	* Added possibility to change background and foreground colours (useful
+	*   for sub-controls).
+	* Added EventHandler, Event, MouseEvent and KeyboardEvent classes.
+	* Added ControlManager class, to handle the events dispatching to
+	*   appropriate controls.
+	* Implemented the controls display, just need to implement ListBox in order
+	*   to finish ComboBox.
+	* Moved the font management from ProceduralGenerator to OverlayManager.
+	* Managed text alignment in TextOverlay.
+	* Removing the panel holding config controls in MainFrame.
+
+2015-03-02  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Added Material class which manages all shader activation, frame variables
+	*   stuff.
+	* Overlays don't need Generator anymore.
+	* Removed Random class, now using c++11 random
+	*   devices/engines/distributions.
+	* Corrected DLA (DoSwapBuffers instead of SwapBuffers).
+
+2015-02-27  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Corrected ColoredLifeGame and LifeGame so they don't use the front buffer
+	*   anymore.
+	* GCC and wxWidgets 2.8 compliance.
+	* Finished to implement overlays with colour materials.
+	* Removed StatusBar, it is now implemented using overlays.
+	* The CPU and GPU steps times are in ProceduralGenerator. RenderPanel just
+	*   retrieves them to update the status bar.
+	* Added a Render method to ProceduralGenerator.
+	* Worked on render loop, nearly ended.
+	* Just need to correct few bugs, I think the rendered buffer is the back
+	*   buffer instead of front buffer.
+	* The GPU step is on the GUI thread and the CPU step is in another thread.
+	* The two steps are fired using a timer on the render panel.
+	* Corrected DoRender function for PanelOverlay and BorderPanelOverlay.
+	* Still working on TextOverlay.
+
+2015-02-26  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Added the arial.ttf file to the datas, it is copied to bin folder after
+	*   Generator build.
+	* Added the possibility to modify the buffer access flags in
+	*   GeometryBuffers, VertexBuffer, and IndexBuffer.
+	* Generator is now a shared library project.
+	* Added two macros : CONSTRUCT_NAMED and CONSTRUCT_ANONYMOUS to construct
+	*   objects using initializer_lists if available, or using the traditional
+	*   constructors if not available.
+	* Corrected Font bugs.
+	* Added text overlays shader programs, which add a sampler with the text
+	*   texture.
+	* Implementing the overlays that will display the CPU and GPU times.
+	* Those times are now computed by ProceduralGenerator.
+
+2015-02-24  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* PanelOverlay is working.
+	* BorderPanelOverlay should be working too.
+	* Still some work with TextOverlays.
+	* Removed OverlayRenderer and GlOverlayRenderer classes, each overlay class
+	*   renders itself.
+	* Added font support in Generator, which now depends on FreeType library.
+	* Added optional initializer_list constructor for Point, DynPoint and Vertex.
+	* Corrected Translator, for non existing files.
+	* Added GeometryBuffers class, to handle the vertex and index buffers.
+
+2015-02-23  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Implemented Translator class.
+	* Removed Unicode, now Generator and plugins are compiled in MBCS, using
+	*   UTF-8 std::string.
+	* In ProceduralGenerator application, the String variables are converted
+	*   to wxString using wxConvUTF8.
+	* Removed wxFrame from ProceduralGenerator. Now only the borders size are
+	*   given to ProceduralGenerator constructor.
+	* Removed wxWidgets from CMakeLists.txt, for Generator and plug-ins.
+	* The only remaining needed library for Generator is OpenGL.
+	* Removed Policy class.
+	* Uniformed the functions names (using CamelCase, except for 'swap' method)
+
+2015-02-22  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Removed nude pointers on ProceduralGenerator objects.
+
+2015-02-20  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Updated OCLProcessing.
+	* Plugin reviewed.
+	* Reviewed the includes to remove most wxWidgets includes.
+	* wxImage is removed from TextEffects
+
+2015-02-18  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Removed wxImage for every plug-in except for TextEffects.
+	* Also removed wxTextFile, wxVsprintf.
+
+2015-02-17  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Corrected a bug in Voronoi2D and added a 'Reset' button.
+	* Introduced Position and Size classes.
+	* Removed few wxThings from Generator and plug-ins.
+	* Now the display size respects the image size ratio so no more deforming
+	*   stretches.
+
+2015-02-16  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Removed ControlInfos and SpecificControlParameters.
+	* Added Control and child classes.
+	* Removed wxString, wxSize and wxPoint from Generator and plugins.
+
+2015-02-15  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Few files renaming.
+	* Also added a namespace for OpenGL objects
+	* Corrected the last bugs.
+
+2015-02-14  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Added doxygen for Core.
+	* Updated doxydoc.
+	* Removed Buffer pointers.
+	* Corrected plugins.
+
+2015-02-13  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* GCC compliance for frame variables.
+	* OpenCV 2.4.9 compliance on Linux.
+	* Removed every pointer from Generator and plugins.
+
+2015-02-12  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Removed ProceduralGenerator nude pointers
+	* Removed OpenGl nude pointers, introduced two classes : GlHolder which
+	*   holds a weak pointer to the OpenGl instance, and GlObject which holds
+	*   the creation, destruction and validity check functions for OpenGL
+	*   objects (such as textures, buffers, ...).
+	* GCC compliance.
+	* Removed OpenGl includes where it is not necessary, so now
+	*   ProceduralGenerator don't include it.
+	* Reviewed includes and precompiled headers.
+	* Removed every wxEvent handler in Generator and plugins.
+
+2015-02-11  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Nearly removed every wxEvent handler from Generator.
+	* Implemented the config panel using only signals in Generator.
+	* All the controls creation and events are now in ProceduralGenerator
+	*   application.
+
+2015-02-10  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* GCC compliance
+	* Replaced wxThreads by std::threads and condition_variables
+
+2015-02-09  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Added vec2, vec3 and mat4 frame variables support.
+	* Corrected shaders.
+	* TextEffect is modernised, it is now rendered using only one pass.
+
+2015-02-06  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Updated setup.
+	* Updated OpenCLProcessing.
+	* Began TextEffects update, but I will have to review it completely.
+	* Updated version numbers, to 2.0.0 for each project.
+	* Updated the OpenGL code. The ProceduralGenerator now holds a shader
+	*   program which is used to render a simple texture => The computation
+	*   result.
+
 2013-05-13  Sylvain Doremus  <dragonjoker59@hotmail.com>
 
 	* Corrected GUI/thread related bugs in TextEffects, ImageEffects and

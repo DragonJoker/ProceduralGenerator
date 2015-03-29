@@ -1,33 +1,28 @@
 project( DiffusionLimitedAggregation )
+include_directories( ${CMAKE_SOURCE_DIR}/Core/Generator/Src )
 
-option( PGEN_BUILD_DIFFUSIONLIMITEDAGGREGATION "Build Diffusion Limited Aggregation plugin" TRUE )
+set( BinsDependencies
+	${BinsDependencies}
+	DiffusionLimitedAggregation
+	PARENT_SCOPE
+)
 
-if( ${PGEN_BUILD_DIFFUSIONLIMITEDAGGREGATION} )
-	include_directories( ${CMAKE_SOURCE_DIR}/Core/Generator/Src )
+set( DLA_VERSION_MAJOR	2 )
+set( DLA_VERSION_MINOR	0 )
+set( DLA_VERSION_BUILD	0 )
 
-	set( BinsDependencies
-		${BinsDependencies}
-		DiffusionLimitedAggregation
-		PARENT_SCOPE
-	)
+add_target(
+	DiffusionLimitedAggregation
+	plugin
+	"Generator"
+	"Generator;${OPT_LINKS}"
+	"PrecompiledHeader.h"
+	"PrecompiledHeader.cpp"
+	"${wxWidgets_CFLAGS}"
+	"${wxWidgets_CXXFLAGS}"
+)
 
-	set( DLA_VERSION_MAJOR	1 )
-	set( DLA_VERSION_MINOR	3 )
-	set( DLA_VERSION_BUILD	3 )
-
-	add_target(
-		DiffusionLimitedAggregation
-		plugin
-		"Generator"
-		"Generator;${OPT_LINKS}"
-		"PrecompiledHeader.h"
-		"PrecompiledHeader.cpp"
-		"${wxWidgets_CFLAGS}"
-		"${wxWidgets_CXXFLAGS}"
- )
-
-	copy_languages( DiffusionLimitedAggregation ../internationalisation ProceduralGenerator "fr" )
-	set( Build "yes (version ${DLA_VERSION_MAJOR}.${DLA_VERSION_MINOR}.${DLA_VERSION_BUILD})" PARENT_SCOPE )
-	add_target_astyle( DiffusionLimitedAggregation ".h;.inl;.hpp;.c;.cpp" )
-	set_property( TARGET DiffusionLimitedAggregation PROPERTY FOLDER "Plugins" )
-endif()
+copy_languages( DiffusionLimitedAggregation ../internationalisation ProceduralGenerator "fr" )
+set( Build "yes (version ${DLA_VERSION_MAJOR}.${DLA_VERSION_MINOR}.${DLA_VERSION_BUILD})" PARENT_SCOPE )
+add_target_astyle( DiffusionLimitedAggregation ".h;.inl;.hpp;.c;.cpp" )
+set_property( TARGET DiffusionLimitedAggregation PROPERTY FOLDER "Plugins" )

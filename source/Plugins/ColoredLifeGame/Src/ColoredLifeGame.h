@@ -1,9 +1,9 @@
 /*
-This source file is part of ProceduralGenerator (https://sourceforge.net/projects/proceduralgene/ )
+This source file is part of ProceduralGenerator (https://sourceforge.net/projects/proceduralgene/)
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option ) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,84 +18,74 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___CLG_COLORED_LIFE_GAME_H___
 #define ___CLG_COLORED_LIFE_GAME_H___
 
-#include "ClgCell.h"
+#include <Generator.h>
 
-#include <ConfigPanel.h>
-#include <Buffer.h>
+#include "ClgCpuStep.h"
+#include "ClgGpuStep.h"
 
-namespace ProceduralTextures
+namespace ColoredLifeGame
 {
-	typedef Buffer< ClgCell > ClgCellBuffer;
-
-	class ColoredLifeGame
-		: public ProceduralGenerator
+	/*!
+	\author		Sylvain DOREMUS
+	\date		23/05/2012
+	\brief		Colored life game generator
+	*/
+	class Generator
+		: public ProceduralTextures::Generator< CpuStep, GpuStep >
 	{
 	private:
+		/*!
+		\author		Sylvain DOREMUS
+		\date		23/05/2012
+		\brief		The controls IDs
+		*/
 		typedef enum
 		{
-			eRedValue	= 50,
-			eGreenValue	= 51,
-			eBlueValue	= 52,
+			eID_ANY			= -1,
+			eRED_VALUE		= 50,
+			eGREEN_VALUE	= 51,
+			eBLUE_VALUE		= 52,
 		}
 		eIDs;
 
-		class Thread
-			: public ProceduralGenerator::Thread
-		{
-		public:
-			Thread( ProceduralGenerator * p_pParent, size_t p_uiIndex, int iWidth, int iTop, int iBottom, int iTotalHeight, const UbPixel & p_pxColour );
-			virtual ~Thread();
-
-			virtual void Step();
-
-			inline void SetCells( ClgCellBuffer * p_cells, ClgCellBuffer * p_oldCells )
-			{
-				m_cells = p_cells;
-				m_oldCells = p_oldCells;
-			}
-
-		private:
-			int _getAliveNeightbours( int p_x, int p_y );
-
-		private:
-			ClgCellBuffer * m_cells;
-			ClgCellBuffer * m_oldCells;
-		};
-
 	public:
-		ColoredLifeGame( int p_width, int p_height, int p_iWndId, wxFrame * p_pFrame );
-		virtual ~ColoredLifeGame();
-
-		virtual void SwapBuffers();
-
-		virtual void DoSetRed( uint8_t val );
-		virtual void DoSetGreen( uint8_t val );
-		virtual void DoSetBlue( uint8_t val );
+		/**
+		 *\brief		Constructor
+		 */
+		Generator();
+		/**
+		 *\brief		Destructor
+		 */
+		virtual ~Generator();
 
 	private:
-		virtual void DoGlInitialise() {}
-		virtual void DoGlPreRender() {}
-		virtual void DoGlRender( bool & WXUNUSED( p_bChanged ) ) {}
-		virtual void DoGlPostRender() {}
-		virtual void DoGlCleanup() {}
+		/**
+		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		 */
+		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
+		/**
+		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+		 */
+		virtual void DoDestroy();
+		/**
+		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+		 */
 		virtual void DoGeneratePanel();
-
-		void OnSliderRed( wxCommandEvent & p_event );
-		void OnSliderGreen( wxCommandEvent & p_event );
-		void OnSliderBlue( wxCommandEvent & p_event );
-
-	private:
-		ClgCellBuffer m_cells;
-		ClgCellBuffer m_oldCells;
-		UbPixel m_deadPixel;
-		UbPixel m_alivePixel;
-		UiPixel m_stepPixel;
-		SpecificControlParameters< eCONTROL_TYPE_STATIC > m_specStatR;
-		SpecificControlParameters< eCONTROL_TYPE_STATIC > m_specStatG;
-		SpecificControlParameters< eCONTROL_TYPE_STATIC > m_specStatB;
-		SpecificControlParameters< eCONTROL_TYPE_SLIDER > m_specSlideR;
-		SpecificControlParameters< eCONTROL_TYPE_SLIDER > m_specSlideG;
-		SpecificControlParameters< eCONTROL_TYPE_SLIDER > m_specSlideB;
+		/**
+		 *\brief		Sets the red value of the pixel
+		 *\param[in]	val	The new value
+		 */
+		void DoSetRed( int val );
+		/**
+		 *\brief		Sets the green value of the pixel
+		 *\param[in]	val	The new value
+		 */
+		void DoSetGreen( int val );
+		/**
+		 *\brief		Sets the blue value of the pixel
+		 *\param[in]	val	The new value
+		 */
+		void DoSetBlue( int val );
 	};
 }
 
