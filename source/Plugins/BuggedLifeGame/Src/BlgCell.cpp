@@ -2,9 +2,11 @@
 
 #include <GeneratorUtils.h>
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace BuggedLifeGame
 {
-	BlgCell::BlgCell()
+	Cell::Cell()
 		:	m_alivePx( NULL )
 		,	m_deadPx( NULL )
 		,	m_nextPixel( NULL )
@@ -12,47 +14,11 @@ namespace ProceduralTextures
 	{
 	}
 
-	BlgCell::BlgCell( const BlgCell & p_cell )
-		:	m_alivePx( p_cell.m_alivePx )
-		,	m_deadPx( p_cell.m_deadPx )
-		,	m_nextPixel( p_cell.m_nextPixel )
-		,	m_pixel( p_cell.m_pixel )
-		,	m_step( p_cell.m_step )
-		,	m_age( p_cell.m_age )
-		,	m_med( p_cell.m_med )
-		,	m_alive( p_cell.m_alive )
-	{
-		for ( std::size_t i = 0 ; i < 8 ; i++ )
-		{
-			m_neighbours[i] = p_cell.m_neighbours[i];
-		}
-	}
-
-	BlgCell::~BlgCell()
+	Cell::~Cell()
 	{
 	}
 
-	BlgCell & BlgCell::operator =( const BlgCell & p_cell )
-	{
-		m_alivePx	= p_cell.m_alivePx;
-		m_deadPx	= p_cell.m_deadPx;
-		m_alive		= p_cell.m_alive;
-		m_nextPixel	= p_cell.m_nextPixel;
-		m_pixel		= p_cell.m_pixel;
-		m_step		= p_cell.m_step;
-		m_age		= p_cell.m_age;
-		m_med		= p_cell.m_med;
-		m_alive		= p_cell.m_alive;
-
-		for ( std::size_t i = 0 ; i < 8 ; i++ )
-		{
-			m_neighbours[i] = p_cell.m_neighbours[i];
-		}
-
-		return * this;
-	}
-
-	void BlgCell::Set( UbPixel * p_pixel, UbPixel * p_alivePx, UbPixel * p_deadPx, bool p_alive )
+	void Cell::Set( UbPixel * p_pixel, UbPixel * p_alivePx, UbPixel * p_deadPx, bool p_alive )
 	{
 		m_alivePx = p_alivePx;
 		m_deadPx = p_deadPx;
@@ -68,14 +34,14 @@ namespace ProceduralTextures
 		}
 	}
 
-	void BlgCell::Die()
+	void Cell::Die()
 	{
 		m_alive = false;
-		*m_nextPixel = utils::substract( m_pixel, m_step, *m_deadPx );
+		*m_nextPixel = Utils::Subtract( m_pixel, m_step, *m_deadPx );
 		m_med = *m_nextPixel / m_step;
 	}
 
-	void BlgCell::Live()
+	void Cell::Live()
 	{
 		if ( ! m_alive )
 		{
@@ -87,11 +53,11 @@ namespace ProceduralTextures
 
 		m_alive = true;
 		m_age += m_step;
-		*m_nextPixel = utils::add( m_pixel, m_age, *m_alivePx );
+		*m_nextPixel = Utils::Add( m_pixel, m_age, *m_alivePx );
 		m_med = *m_nextPixel / m_step;
 	}
 
-	void BlgCell::Stay()
+	void Cell::Stay()
 	{
 		if ( m_alive )
 		{
@@ -103,7 +69,7 @@ namespace ProceduralTextures
 		}
 	}
 
-	void BlgCell::SetAlive( bool p_alive )
+	void Cell::SetAlive( bool p_alive )
 	{
 		m_alive = p_alive;
 
@@ -117,14 +83,14 @@ namespace ProceduralTextures
 		}
 	}
 
-	void BlgCell::Update()
+	void Cell::Update()
 	{
 		m_pixel.r = 0;
 		m_pixel.g = 0;
 		m_pixel.b = 0;
 		m_pixel.a = 0;
 
-		for ( int i = 0 ; i < 8 ; i++ )
+		for ( int i = 0; i < 8; i++ )
 		{
 			m_pixel += m_neighbours[i]->m_med;
 		}

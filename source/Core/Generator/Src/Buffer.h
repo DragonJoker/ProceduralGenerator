@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option ) any later
+Foundation; either version 2 of the License, or (At your option ) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -19,65 +19,151 @@ http://www.gnu.org/copyleft/lesser.txt.
 #define ___GENERATOR_BUFFER_H___
 
 #include "Pixel.h"
+#include "Size.h"
 
 namespace ProceduralTextures
 {
+	/*!
+	\author		Sylvain DOREMUS
+	\version	0.6.1.0
+	\date		29/08/2011
+	\brief		Pixel buffer definition
+	*/
 	template< typename T >
 	class Buffer
 	{
-	private:
-		T * m_pPixels; //!< The contiguous buffer of values
-		bool m_bOwnsPixels; //!< Tells if the buffer owns it's buffer
-		Size m_ptSize; //!< The dimensions of the buffer
-		std::vector< DynPoint< T > > m_arrayRows;	//!< The array of rows
-
 	public:
-		Buffer( const Size & p_ptSize );
-		Buffer( const Buffer & p_pixelBuffer );
+		/**
+		 *\brief		Default constructor
+		 */
+		Buffer();
+		/**
+		 *\brief		Constructor from a size
+		 *\param[in]	p_ptSize	The buffer dimensions
+		 */
+		Buffer( Size const & p_ptSize );
+		/**
+		 *\brief		Copy constructor
+		 *\param[in]	p_pixelBuffer	The buffer
+		 */
+		Buffer( Buffer const & p_pixelBuffer );
+		/**
+		 *\brief		Copy constructor
+		 *\param[in]	p_pixelBuffer	The buffer
+		 *\return		A reference to this buffer
+		 */
+		Buffer & operator =( Buffer const & p_pixelBuffer );
+		/**
+		 *\brief		Destructor
+		 */
 		virtual ~Buffer();
-
-		Buffer & operator =( const Buffer & p_pixelBuffer );
-		Buffer & operator =( const T * p_pBuffer );
-
-		void clear();
-		void init();
-		void init( const Size & p_ptSize );
+		/**
+		 *\brief		Releases the values buffer
+		 *\remarks		If the buffer doesn't own its data it is just set to NULL
+		 */
+		void Clear();
+		/**
+		 *\brief		Initialises the values buffer and the buffer columns
+		 */
+		void Initialise();
+		/**
+		 *\brief		Initialises the values buffer and the buffer columns
+		 *\param[in]	p_ptSize	The new buffer dimensions
+		 */
+		void Initialise( Size const & p_ptSize );
+		/**
+		 *\brief		Copies the values buffer contained in the given pixel buffer
+		 *\param[in]	p_pixelBuffer	The other buffer
+		 */
+		void Set( Buffer const & p_pixelBuffer );
+		/**
+		 *\brief		Copies the values buffer contained in the given pixel buffer
+		 *\param[in]	p_pBuffer	The other buffer
+		 */
+		void Set( T const * p_pBuffer );
+		/**
+		 *\brief		Swaps this buffer and the one given
+		 *\param[in]	p_pixelBuffer	The other buffer
+		 */
 		void swap( Buffer & p_pixelBuffer );
-		void link( T * p_pBuffer );
-		void unlink();
-		void mirror();
-		void flip();
+		/**
+		 *\brief		Swaps the column order
+		 */
+		void Flip();
+		/**
+		 *\brief		Sets the buffer values from the given buffers
+		 *\see			Pixel::Set
+		 *\param[in]	p_pBuffer1	The first buffer
+		 *\param[in]	p_pBuffer2	The second buffer
+		 */
 		template< typename U, size_t Count1, size_t Count2, bool InvertedX, bool InvertedY >
-		void set( const U * p_pBuffer1, const U * p_pBuffer2 );
-
+		void Set( U const * p_pBuffer1, U const * p_pBuffer2 );
+		/**
+		 *\brief		Retrieves the column At given index
+		 *\param[in]	p_uiIndex	The column index
+		 *\return		The column
+		 */
 		inline const DynPoint< T > & operator []( size_t p_uiIndex )const
 		{
 			return m_arrayRows[p_uiIndex];
 		}
+		/**
+		 *\brief		Retrieves the column At given index
+		 *\param[in]	p_uiIndex	The column index
+		 *\return		The column
+		 */
 		inline DynPoint< T > & operator []( size_t p_uiIndex )
 		{
 			return m_arrayRows[p_uiIndex];
 		}
-		inline const T * const_ptr()const
+		/**
+		 *\brief		Retrieves a constant pointer to the buffer pixels
+		 *\return		The value
+		 */
+		inline const T * ConstPtr()const
 		{
-			return & m_pPixels[0];
+			return m_pixels.data();
 		}
-		inline T * ptr()
+		/**
+		 *\brief		Retrieves a pointer to the buffer pixels
+		 *\return		The value
+		 */
+		inline T * Ptr()
 		{
-			return & m_pPixels[0];
+			return m_pixels.data();
 		}
-		inline Size const & dimensions()const
+		/**
+		 *\brief		Retrieves the buffer dimensions
+		 *\return		The value
+		 */
+		inline Size const & GetDimensions()const
 		{
-			return m_ptSize;
+			return m_size;
 		}
-		inline size_t size()const
+		/**
+		 *\brief		Retrieves the buffer pixels count
+		 *\return		The value
+		 */
+		inline size_t GetElementsCount()const
 		{
-			return m_ptSize[0] * m_ptSize[1] * sizeof( T );
+			return m_size.x() * m_size.y();
 		}
-		inline size_t count()const
+		/**
+		 *\brief		Retrieves the buffer memory size
+		 *\return		The value
+		 */
+		inline size_t GetSize()const
 		{
-			return m_ptSize[0] * m_ptSize[1];
+			return GetElementsCount() * sizeof( T );
 		}
+
+	private:
+		//! The contiguous buffer of values
+		std::vector< T > m_pixels;
+		//! The dimensions of the buffer
+		Size m_size;
+		//! The array of rows
+		std::vector< DynPoint< T > > m_arrayRows;
 	};
 }
 

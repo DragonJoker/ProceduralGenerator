@@ -1,8 +1,8 @@
 #include "DummyFunctor.h"
 
-#include <cmath>
+using namespace ProceduralTextures;
 
-namespace ProceduralTextures
+namespace ImageEffects
 {
 	DummyFunctor::DummyFunctor()
 		:	EffectFunctor( eEFFECT_TYPE_NONE, _( "None" ), true, true )
@@ -13,8 +13,8 @@ namespace ProceduralTextures
 	{
 	}
 
-	void DummyFunctor::operator()( const PixelBuffer & p_bufferIn, PixelBuffer & p_bufferOut )
+	void DummyFunctor::operator()( PixelBuffer const & p_bufferIn, PixelBuffer & p_bufferOut )
 	{
-		p_bufferOut = p_bufferIn;
+		p_bufferOut.Set( p_bufferIn );
 	}
 }

@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option ) any later
+Foundation; either version 2 of the License, or (At your option ) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,52 +18,48 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___GENERATOR_GL_SHADER_OBJECT_H___
 #define ___GENERATOR_GL_SHADER_OBJECT_H___
 
-#include "GeneratorPrerequisites.h"
+#include "GlObject.h"
 
 namespace ProceduralTextures
+{
+namespace gl
 {
 	/*!
 	\author		Sylvain DOREMUS
 	\date		14/02/2010
 	\brief		Shader object implementation
 	*/
-	class GeneratorAPI GlShaderObject
+	class GeneratorAPI ShaderObject
+		: public Object< std::function< uint32_t() >, std::function< bool( uint32_t ) > >
 	{
 	protected:
-		friend class GlShaderProgram;
+		typedef Object< std::function< uint32_t() >, std::function< bool( uint32_t ) > > ParentClass;
 
-	protected:
+	public:
 		/**
 		 *\brief		Constructor
-		 *\param[in]	p_pOpenGl	The OpenGL instance
-		 *\param[in]	p_pParent	The parent program
-		 *\param[in]	p_eType		The object type
+		 *\param[in]	p_openGl	The OpenGL instance
+		 *\param[in]	p_type		The object type
 		 */
-		GlShaderObject( OpenGl * p_pOpenGl, GlShaderProgram * p_pParent, eSHADER_OBJECT_TYPE p_eType );
+		ShaderObject( std::shared_ptr< OpenGl > p_openGl, eSHADER_OBJECT_TYPE p_type );
 		/**
 		 * Destructor
 		 */
-		~GlShaderObject();
-
-	public:
+		~ShaderObject();
 		/**
 		 *\brief		Loads a shader file.
 		 *\param[in]	p_filename	The name of the ASCII file containing the shader.
 		 */
-		void SetFile( const wxString & p_filename );
+		void SetFile( String const & p_filename );
 		/**
 		 *\brief		Load program from text
 		 *\param[in]	p_source	The object string source
 		 */
-		void SetSource( const wxString & p_source );
-		/**
-		 *\brief		Creates the program
-		 */
-		void CreateProgram();
+		void SetSource( String const & p_source );
 		/**
 		 *\brief		Destroys the program
 		 */
-		void DestroyProgram();
+		virtual void Destroy();
 		/**
 		 *\brief		Compiles program
 		 *\return		true if compiled successfully
@@ -71,9 +67,9 @@ namespace ProceduralTextures
 		bool Compile();
 		/**
 		 *\brief		Attaches this shader to the given program
-		 *\param[in]	p_pParent	The parent program
+		 *\param[in]	p_parent	The parent program
 		 */
-		void AttachTo( GlShaderProgram * p_pProgram );
+		void AttachTo( std::shared_ptr< ShaderProgram > p_parent );
 		/**
 		 *\brief		Detaches this shader from it's program
 		 */
@@ -98,7 +94,7 @@ namespace ProceduralTextures
 		 *\brief		Retrieves the shader source
 		 *\return		The value
 		 */
-		inline const wxString & GetSource()const
+		inline String const & GetSource()const
 		{
 			return m_strSource;
 		}
@@ -106,7 +102,7 @@ namespace ProceduralTextures
 		 *\brief		Retrieves the shader source file
 		 *\return		The value
 		 */
-		inline const wxString & GetFile()const
+		inline String const & GetFile()const
 		{
 			return m_pathFile;
 		}
@@ -114,9 +110,17 @@ namespace ProceduralTextures
 		 *\brief		Retrieves the compiler log
 		 *\return		The value
 		 */
-		inline const wxString & GetCompilerLog()const
+		inline String const & GetCompilerLog()const
 		{
 			return m_compilerLog;
+		}
+		/**
+		 *\brief		Retrieves the parent program
+		 *\return		The value
+		 */
+		inline std::shared_ptr< ShaderProgram > GetParent()
+		{
+			return m_parent.lock();
 		}
 
 	protected:
@@ -124,31 +128,28 @@ namespace ProceduralTextures
 		 *\brief		Get compiler messages
 		 *\return		The messages
 		 */
-		wxString RetrieveCompilerLog();
+		String RetrieveCompilerLog();
 
-		//! The OpenGL instance
-		OpenGl * m_pOpenGl;
 		//! The mapping of eSHADER_OBJECT_TYPE to OpenGL corresponding values
-		static GLenum ShaderTypes[eSHADER_OBJECT_TYPE_COUNT];
+		static unsigned int ShaderTypes[eSHADER_OBJECT_TYPE_COUNT];
 		//! The parent program
-		GlShaderProgram * m_pParent;
+		std::weak_ptr< ShaderProgram > m_parent;
 		//! The program type
 		eSHADER_OBJECT_TYPE m_eType;
 		//! ASCII Source-Code
-		wxString m_strSource;
+		String m_strSource;
 		//! File containing Source-Code
-		wxString m_pathFile;
+		String m_pathFile;
 		//! Tells if the program is compiled
 		bool m_bCompiled;
 		//! Tells if the program is in error after compilation
 		bool m_bError;
-		//! Shader Object
-		GLuint m_shaderObject;
 		//! The compiler messages
-		wxString m_compilerLog;
+		String m_compilerLog;
 		//! Tells whether or not this object is attached to a program
 		bool m_bAttached;
 	};
+}
 }
 
 //*************************************************************************************************

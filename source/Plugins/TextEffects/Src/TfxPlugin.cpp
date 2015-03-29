@@ -1,23 +1,25 @@
 #include "TfxPlugin.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace TextEffects
 {
-	IMPLEMENT_PLUGIN( TfxPlugin, TextEffects )
+	IMPLEMENT_PLUGIN( Plugin, Generator )
 
-	TfxPlugin::TfxPlugin()
-		:	Plugin< TextEffects, TfxPlugin >( wxT( "TextEffects" ) )
+	Plugin::Plugin()
+		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "TextEffects" ) )
 	{
 	}
 
-	TfxPlugin::~TfxPlugin()
+	Plugin::~Plugin()
 	{
 	}
 
-	wxString TfxPlugin::GetName()
+	String Plugin::GetName()
 	{
-		wxString l_strBaseName = _( "Text Effects" );
+		String l_strBaseName = _( "Text Effects" );
 #if !defined( NDEBUG )
-		l_strBaseName += wxT( " (Debug)" );
+		l_strBaseName += _T( " (Debug)" );
 #endif
 		return l_strBaseName;
 	}

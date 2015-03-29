@@ -1,23 +1,25 @@
 #include "ClgPlugin.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace ColoredLifeGame
 {
-	IMPLEMENT_PLUGIN( ClgPlugin, ColoredLifeGame )
+	IMPLEMENT_PLUGIN( Plugin, Generator )
 
-	ClgPlugin::ClgPlugin()
-		:	Plugin< ColoredLifeGame, ClgPlugin >( wxT( "ColoredLifeGame" ) )
+	Plugin::Plugin()
+		:	ProceduralTextures::Plugin< Generator, Plugin >( _T( "ColoredLifeGame" ) )
 	{
 	}
 
-	ClgPlugin::~ClgPlugin()
+	Plugin::~Plugin()
 	{
 	}
 
-	wxString ClgPlugin::GetName()
+	String Plugin::GetName()
 	{
-		wxString l_strBaseName = _( "Coloured Life Game" );
+		String l_strBaseName = _( "Coloured Life Game" );
 #if !defined( NDEBUG )
-		l_strBaseName += wxT( " (Debug )" );
+		l_strBaseName += _T( " (Debug )" );
 #endif
 		return l_strBaseName;
 	}

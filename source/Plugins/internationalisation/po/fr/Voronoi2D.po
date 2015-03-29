@@ -1,0 +1,76 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Voronoi2D\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-04 02:38+0100\n"
+"PO-Revision-Date: 2015-03-04 02:59+0100\n"
+"Last-Translator: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language-Team: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.1\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ../include/Voronoi2D\n"
+"X-Poedit-SearchPath-1: ../source/Voronoi2D\n"
+
+#: ..\Voronoi2D\Src\Voronoi2D.cpp:326
+msgid "Chebychev"
+msgstr "Chebychev"
+
+#: ..\Voronoi2D\Src\Voronoi2D.cpp:348
+msgid "Distance Function:"
+msgstr "Fonction de distance"
+
+#: ..\Voronoi2D\Src\Voronoi2D.cpp:322
+msgid "Euclidian"
+msgstr "Euclidienne"
+
+#: ..\Voronoi2D\Src\Voronoi2D.cpp:324
+msgid "Manhattan"
+msgstr "Manhattan"
+
+#: ..\Voronoi2D\Src\Voronoi2D.cpp:342
+msgid "Max Depth:"
+msgstr "Prof. max. :"
+
+#: ..\Voronoi2D\Src\Voronoi2D.cpp:325
+msgid "Minkowski"
+msgstr "Minkowski"
+
+#: ..\Voronoi2D\Src\Voronoi2D.cpp:350 ..\Voronoi2D\Src\Voronoi2D.cpp:396
+#: ..\Voronoi2D\Src\Voronoi2D.cpp:419
+msgid "Minkowski Order : "
+msgstr "Ordre Minkowski :"
+
+#: ..\Voronoi2D\Src\Voronoi2D.cpp:345
+msgid "Neighbours:"
+msgstr "Voisins :"
+
+#: ..\Voronoi2D\Src\Voronoi2D.cpp:341
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#: ..\Voronoi2D\Src\Voronoi2D.cpp:323
+msgid "Squared Euclidian"
+msgstr "Euclidienne au carré"
+
+#: ..\Voronoi2D\Src\V2dPlugin.cpp:20
+msgid "Voronoi 2D"
+msgstr "Voronoi 2D"
+
+#~ msgid "Max Depth :"
+#~ msgstr "Profondeur max. :"
+
+#~ msgid "Neighbours :"
+#~ msgstr "Voisins :"
+
+#~ msgid "Distance Function :"
+#~ msgstr "Calcul distance :"

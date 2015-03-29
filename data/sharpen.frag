@@ -1,3 +1,5 @@
+varying vec2 pxl_texture;
+
 uniform sampler2D pg_texture;
 uniform int pg_width;
 uniform int pg_height;
@@ -21,103 +23,103 @@ vec4 ComputeColour()
 	l_fSharpenMask[8] = 0.0;
 	vec4 color;
 	
-	if (gl_TexCoord[0].x >= 0.0 + l_fOffsetX)
+	if (pxl_texture.x >= 0.0 + l_fOffsetX)
 	{
-		if (gl_TexCoord[0].y >= 0.0 + l_fOffsetY)
+		if (pxl_texture.y >= 0.0 + l_fOffsetY)
 		{
-			color  = texture2D( pg_texture, vec2( gl_TexCoord[0].x - l_fOffsetX,	gl_TexCoord[0].y - l_fOffsetY)) 	* l_fSharpenMask[0];
+			color  = texture2D( pg_texture, vec2( pxl_texture.x - l_fOffsetX,	pxl_texture.y - l_fOffsetY)) 	* l_fSharpenMask[0];
 		}
 		else
 		{
-			color  = texture2D( pg_texture, vec2( gl_TexCoord[0].x - l_fOffsetX,	gl_TexCoord[0].y)) 				* l_fSharpenMask[0];
+			color  = texture2D( pg_texture, vec2( pxl_texture.x - l_fOffsetX,	pxl_texture.y)) 				* l_fSharpenMask[0];
 		}
-		color += texture2D( 	pg_texture, vec2( gl_TexCoord[0].x - l_fOffsetX,	gl_TexCoord[0].y)) 				* l_fSharpenMask[1];
-		if (gl_TexCoord[0].y <= 1.0 - l_fOffsetY)
+		color += texture2D( 	pg_texture, vec2( pxl_texture.x - l_fOffsetX,	pxl_texture.y)) 				* l_fSharpenMask[1];
+		if (pxl_texture.y <= 1.0 - l_fOffsetY)
 		{
-			color += texture2D( pg_texture, vec2( gl_TexCoord[0].x - l_fOffsetX,	gl_TexCoord[0].y + l_fOffsetY)) 	* l_fSharpenMask[2];
+			color += texture2D( pg_texture, vec2( pxl_texture.x - l_fOffsetX,	pxl_texture.y + l_fOffsetY)) 	* l_fSharpenMask[2];
 		}
 		else
 		{
-			color += texture2D( pg_texture, vec2( gl_TexCoord[0].x - l_fOffsetX,	gl_TexCoord[0].y)) 				* l_fSharpenMask[2];
+			color += texture2D( pg_texture, vec2( pxl_texture.x - l_fOffsetX,	pxl_texture.y)) 				* l_fSharpenMask[2];
 		}
 	}
 	else
 	{
-		if (gl_TexCoord[0].y >= 0.0 + l_fOffsetY)
+		if (pxl_texture.y >= 0.0 + l_fOffsetY)
 		{
-			color  = texture2D( pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y - l_fOffsetY)) 	* l_fSharpenMask[0];
+			color  = texture2D( pg_texture, vec2( pxl_texture.x, 				pxl_texture.y - l_fOffsetY)) 	* l_fSharpenMask[0];
 		}
 		else
 		{
-			color  = texture2D( pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y)) 				* l_fSharpenMask[0];
+			color  = texture2D( pg_texture, vec2( pxl_texture.x, 				pxl_texture.y)) 				* l_fSharpenMask[0];
 		}
-		color += texture2D( 	pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y)) 				* l_fSharpenMask[1];
-		if (gl_TexCoord[0].y <= 1.0 - l_fOffsetY)
+		color += texture2D( 	pg_texture, vec2( pxl_texture.x, 				pxl_texture.y)) 				* l_fSharpenMask[1];
+		if (pxl_texture.y <= 1.0 - l_fOffsetY)
 		{
-			color += texture2D( pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y + l_fOffsetY)) 	* l_fSharpenMask[2];
+			color += texture2D( pg_texture, vec2( pxl_texture.x, 				pxl_texture.y + l_fOffsetY)) 	* l_fSharpenMask[2];
 		}
 		else
 		{
-			color += texture2D( pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y)) 				* l_fSharpenMask[2];
+			color += texture2D( pg_texture, vec2( pxl_texture.x, 				pxl_texture.y)) 				* l_fSharpenMask[2];
 		}
 	}
 	
-	if (gl_TexCoord[0].y >= 0.0 + l_fOffsetY)
+	if (pxl_texture.y >= 0.0 + l_fOffsetY)
 	{
-		color += texture2D( 	pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y - l_fOffsetY)) 	* l_fSharpenMask[3];
+		color += texture2D( 	pg_texture, vec2( pxl_texture.x, 				pxl_texture.y - l_fOffsetY)) 	* l_fSharpenMask[3];
 	}
 	else
 	{
-		color += texture2D( 	pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y)) 				* l_fSharpenMask[3];
+		color += texture2D( 	pg_texture, vec2( pxl_texture.x, 				pxl_texture.y)) 				* l_fSharpenMask[3];
 	}
-	color += texture2D( 		pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y)) 				* l_fSharpenMask[4];
-	if (gl_TexCoord[0].y <= 1.0 - l_fOffsetY)
+	color += texture2D( 		pg_texture, vec2( pxl_texture.x, 				pxl_texture.y)) 				* l_fSharpenMask[4];
+	if (pxl_texture.y <= 1.0 - l_fOffsetY)
 	{
-		color += texture2D( 	pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y + l_fOffsetY)) 	* l_fSharpenMask[5];
+		color += texture2D( 	pg_texture, vec2( pxl_texture.x, 				pxl_texture.y + l_fOffsetY)) 	* l_fSharpenMask[5];
 	}
 	else
 	{
-		color += texture2D( 	pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y)) 				* l_fSharpenMask[5];
+		color += texture2D( 	pg_texture, vec2( pxl_texture.x, 				pxl_texture.y)) 				* l_fSharpenMask[5];
 	}
 	
-	if (gl_TexCoord[0].x <= 1.0 - l_fOffsetX)
+	if (pxl_texture.x <= 1.0 - l_fOffsetX)
 	{
-		if (gl_TexCoord[0].y >= 0.0 + l_fOffsetY)
+		if (pxl_texture.y >= 0.0 + l_fOffsetY)
 		{
-			color += texture2D( pg_texture, vec2( gl_TexCoord[0].x + l_fOffsetX, gl_TexCoord[0].y - l_fOffsetY)) 	* l_fSharpenMask[6];
+			color += texture2D( pg_texture, vec2( pxl_texture.x + l_fOffsetX, pxl_texture.y - l_fOffsetY)) 	* l_fSharpenMask[6];
 		}
 		else
 		{
-			color += texture2D( pg_texture, vec2( gl_TexCoord[0].x + l_fOffsetX, gl_TexCoord[0].y)) 				* l_fSharpenMask[6];
+			color += texture2D( pg_texture, vec2( pxl_texture.x + l_fOffsetX, pxl_texture.y)) 				* l_fSharpenMask[6];
 		}
-		color += texture2D( 	pg_texture, vec2( gl_TexCoord[0].x + l_fOffsetX, gl_TexCoord[0].y)) 				* l_fSharpenMask[7];
-		if (gl_TexCoord[0].y <= 1.0 - l_fOffsetY)
+		color += texture2D( 	pg_texture, vec2( pxl_texture.x + l_fOffsetX, pxl_texture.y)) 				* l_fSharpenMask[7];
+		if (pxl_texture.y <= 1.0 - l_fOffsetY)
 		{
-			color += texture2D( pg_texture, vec2( gl_TexCoord[0].x + l_fOffsetX, gl_TexCoord[0].y + l_fOffsetY)) 	* l_fSharpenMask[8];
+			color += texture2D( pg_texture, vec2( pxl_texture.x + l_fOffsetX, pxl_texture.y + l_fOffsetY)) 	* l_fSharpenMask[8];
 		}
 		else
 		{
-			color += texture2D( pg_texture, vec2( gl_TexCoord[0].x + l_fOffsetX, gl_TexCoord[0].y)) 				* l_fSharpenMask[8];
+			color += texture2D( pg_texture, vec2( pxl_texture.x + l_fOffsetX, pxl_texture.y)) 				* l_fSharpenMask[8];
 		}
 	}
 	else
 	{
-		if (gl_TexCoord[0].y >= 0.0 + l_fOffsetY)
+		if (pxl_texture.y >= 0.0 + l_fOffsetY)
 		{
-			color += texture2D( pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y - l_fOffsetY)) 	* l_fSharpenMask[6];
+			color += texture2D( pg_texture, vec2( pxl_texture.x, 				pxl_texture.y - l_fOffsetY)) 	* l_fSharpenMask[6];
 		}
 		else
 		{
-			color += texture2D( pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y)) 				* l_fSharpenMask[6];
+			color += texture2D( pg_texture, vec2( pxl_texture.x, 				pxl_texture.y)) 				* l_fSharpenMask[6];
 		}
-		color += texture2D( 	pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y)) 				* l_fSharpenMask[7];
-		if (gl_TexCoord[0].y <= 1.0 - l_fOffsetY)
+		color += texture2D( 	pg_texture, vec2( pxl_texture.x, 				pxl_texture.y)) 				* l_fSharpenMask[7];
+		if (pxl_texture.y <= 1.0 - l_fOffsetY)
 		{
-			color += texture2D( pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y + l_fOffsetY)) 	* l_fSharpenMask[8];
+			color += texture2D( pg_texture, vec2( pxl_texture.x, 				pxl_texture.y + l_fOffsetY)) 	* l_fSharpenMask[8];
 		}
 		else
 		{
-			color += texture2D( pg_texture, vec2( gl_TexCoord[0].x, 				gl_TexCoord[0].y)) 				* l_fSharpenMask[8];
+			color += texture2D( pg_texture, vec2( pxl_texture.x, 				pxl_texture.y)) 				* l_fSharpenMask[8];
 		}
 	}
 	
@@ -127,7 +129,7 @@ vec4 ComputeColour()
 void main (void)  
 {
 	vec4 tc = vec4( 1.0, 0.0, 0.0, 1.0);
-	vec2 uv = gl_TexCoord[0].xy;
+	vec2 uv = pxl_texture.xy;
 
 	if (pg_sep_type == 0)
 	{

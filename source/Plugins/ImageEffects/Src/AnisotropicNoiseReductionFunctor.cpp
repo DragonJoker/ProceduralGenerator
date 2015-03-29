@@ -1,6 +1,8 @@
 #include "AnisotropicNoiseReductionFunctor.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace ImageEffects
 {
 	const int AnisotropicNoiseReductionFunctor::m_iAdThreshold = 16;
 	const int AnisotropicNoiseReductionFunctor::m_iAdSum = 9;
@@ -18,15 +20,15 @@ namespace ProceduralTextures
 	{
 	}
 
-	void AnisotropicNoiseReductionFunctor::operator()( const PixelBuffer & p_bufferIn, PixelBuffer & p_bufferOut )
+	void AnisotropicNoiseReductionFunctor::operator()( PixelBuffer const & p_bufferIn, PixelBuffer & p_bufferOut )
 	{
 		Pixel< int > l_diff;
 		Pixel< int > l_avrg;
 		UbPixel l_pixel;
 
-		for ( int i = 1 ; i < m_iImgHeight - 1 ; i++ )
+		for ( uint32_t i = 1; i < m_size.y() - 1; i++ )
 		{
-			for ( int j = 1 ; j < m_iImgWidth - 1 ; j++ )
+			for ( uint32_t j = 1; j < m_size.x() - 1; j++ )
 			{
 				l_pixel =	p_bufferIn[i][j];
 				l_avrg  =	m_iAdMask[0] * p_bufferIn[i - 1][j - 1];

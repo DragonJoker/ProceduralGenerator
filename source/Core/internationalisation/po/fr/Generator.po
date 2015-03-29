@@ -1,0 +1,64 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Generator\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-29 11:30+0100\n"
+"PO-Revision-Date: 2015-03-29 11:31-0000\n"
+"Last-Translator: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language-Team: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ../../../Generator/Src\n"
+
+#: ..\Generator\Src\ControlsManager.cpp:255
+msgid "A control with this ID already exists in the manager"
+msgstr "Le gestionnaire a déjà un contrôle avec cet ID"
+
+#: ..\Generator\Src\Generator.h:145
+msgid "Choose a colour"
+msgstr "Choisissez une couleur"
+
+#: ..\Generator\Src\Generator.h:138
+msgid "Choose an image"
+msgstr "Choisissez une image"
+
+#: ..\Generator\Src\ControlsManager.cpp:250
+msgid "This control already exists in the manager"
+msgstr "Le gestionnaire contient déjà ce contrôle"
+
+#: ..\Generator\Src\CtrlControl.cpp:220
+msgid "This control does not exist in my childs"
+msgstr "Ce contrôle n'existe pas dans les enfants de celui-ci"
+
+#: ..\Generator\Src\ControlsManager.cpp:270
+#: ..\Generator\Src\ControlsManager.cpp:285
+msgid "This control does not exist in the manager"
+msgstr "Le gestionnaire ne contient pas ce contrôle."
+
+#~ msgid "All files (*.*)|*.*"
+#~ msgstr "Tous les fichiers (*.*)|*.*"
+
+#~ msgid "Choose a file"
+#~ msgstr "Choisissez un fichier"
+
+#~ msgid "Image loading error"
+#~ msgstr "Erreur de chargement d'image"
+
+#~ msgid "No handler found for this image format"
+#~ msgstr "Aucun gestionnaire pour ce format d'image"
+
+#~ msgid "All supported files (*.bmp;*.gif;*.png;*.jpg)|*.bmp;*.gif;*.png;*.jpg|BITMAP files (*.bmp)|*.bmp|GIF files(*.gif)|*.gif|JPEG files (*.jpg)|*.jpg|PNG files (*.png)|*.png"
+#~ msgstr "Toutes les images (*.bmp;*.gif;*.png;*.jpg)|*.bmp;*.gif;*.png;*.jpg|Images BITMAP (*.bmp)|*.bmp|Images GIF (*.gif)|*.gif|Images JPEG (*.jpg)|*.jpg|Images PNG (*.png)|*.png"
+
+#~ msgid "Choose a picture"
+#~ msgstr "Choisissez une image"

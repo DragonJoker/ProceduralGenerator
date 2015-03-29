@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -20,7 +20,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "EffectFunctor.h"
 
-namespace ProceduralTextures
+namespace ImageEffects
 {
 	class GaussianBlurSharpenFunctor
 		: public EffectFunctor
@@ -31,16 +31,16 @@ namespace ProceduralTextures
 		static const int m_iGaussSum;
 		static const double m_dSharpenZ;
 		static const double m_dSharpenMask[];
-		PixelBuffer m_temporaryBuffer1;
-		PixelBuffer m_temporaryBuffer2;
+		ProceduralTextures::PixelBuffer m_temporaryBuffer1;
+		ProceduralTextures::PixelBuffer m_temporaryBuffer2;
 
 	public:
 		GaussianBlurSharpenFunctor();
 		virtual ~GaussianBlurSharpenFunctor();
 
-		virtual void operator()( const PixelBuffer & p_bufferIn, PixelBuffer & p_bufferOut );
+		virtual void operator()( ProceduralTextures::PixelBuffer const & p_bufferIn, ProceduralTextures::PixelBuffer & p_bufferOut );
 
-		virtual void SetImage( const wxImage & p_image );
+		virtual void SetImage( ProceduralTextures::PixelBuffer const & p_image );
 	};
 }
 

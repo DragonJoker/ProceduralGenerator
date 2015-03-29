@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option ) any later
+Foundation; either version 2 of the License, or (At your option ) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -23,8 +23,18 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace ProceduralTextures
 {
-	namespace utils
+	namespace Utils
 	{
+		/**
+		 *\brief		Returns the size of a static C-Style array
+		 *\param[in]	p_data	The array
+		 *\return		The size
+		 */
+		template< typename T, size_t N >
+		inline size_t GetCountOf( T const( & p_data )[N] )
+		{
+			return N;
+		}
 		/**
 		 *\brief		Puts a value between two bounds
 		 *\param[in]	p_min		The min bound
@@ -32,18 +42,18 @@ namespace ProceduralTextures
 		 *\param[in]	p_value		The value to clamp
 		 *\return		The clamped value
 		 */
-		template < typename T > inline T clamp( const T & p_min, const T & p_max, const T & p_value )
+		template< typename T > inline T Clamp( T const & p_min, T const & p_max, T const & p_value )
 		{
 			return std::max( p_min, std::min( p_max, p_value ) );
 		}
 		/**
-		 *\brief		Substract a value from another one, the result is at least the given minimum value
+		 *\brief		Substract a value from another one, the result is At least the given minimum value
 		 *\param[in]	p_a		The left operand
 		 *\param[in]	p_b		The right operand
 		 *\param[in]	p_min	The minimum value
 		 *\return		The result
 		 */
-		template< typename T, typename U, typename V > inline V substract( T const & p_a, U const & p_b, V const & p_min )
+		template< typename T, typename U, typename V > inline V Subtract( T const & p_a, U const & p_b, V const & p_min )
 		{
 			V l_vReturn;
 
@@ -65,13 +75,13 @@ namespace ProceduralTextures
 		 *\param[in]	p_min	The minimal pixel
 		 *\return		(\p p_a - \p p_b ) with each component of the result >= to the same component from \p p_min
 		 */
-		template<> inline UbPixel substract< UbPixel, UiPixel, UbPixel >( const UbPixel & p_a, const UiPixel & p_b, const UbPixel & p_min )
+		template<> inline UbPixel Subtract< UbPixel, UiPixel, UbPixel >( UbPixel const & p_a, UiPixel const & p_b, UbPixel const & p_min )
 		{
 			UbPixel l_result;
-			l_result.r = substract( p_a.r, p_b.r, p_min.r );
-			l_result.g = substract( p_a.g, p_b.g, p_min.g );
-			l_result.b = substract( p_a.b, p_b.b, p_min.b );
-			l_result.a = substract( p_a.a, p_b.a, p_min.a );
+			l_result.r = Subtract( p_a.r, p_b.r, p_min.r );
+			l_result.g = Subtract( p_a.g, p_b.g, p_min.g );
+			l_result.b = Subtract( p_a.b, p_b.b, p_min.b );
+			l_result.a = Subtract( p_a.a, p_b.a, p_min.a );
 			return l_result;
 		}
 		/**
@@ -81,23 +91,23 @@ namespace ProceduralTextures
 		 *\param[in]	p_min	The minimal pixel
 		 *\return		(\p p_a - \p p_b ) with each component of the result >= to the same component from \p p_min
 		 */
-		template<> inline UbPixel substract< UiPixel, UiPixel, UbPixel >( const UiPixel & p_a, const UiPixel & p_b, const UbPixel & p_min )
+		template<> inline UbPixel Subtract< UiPixel, UiPixel, UbPixel >( UiPixel const & p_a, UiPixel const & p_b, UbPixel const & p_min )
 		{
 			UbPixel l_result;
-			l_result.r = substract( p_a.r, p_b.r, p_min.r );
-			l_result.g = substract( p_a.g, p_b.g, p_min.g );
-			l_result.b = substract( p_a.b, p_b.b, p_min.b );
-			l_result.a = substract( p_a.a, p_b.a, p_min.a );
+			l_result.r = Subtract( p_a.r, p_b.r, p_min.r );
+			l_result.g = Subtract( p_a.g, p_b.g, p_min.g );
+			l_result.b = Subtract( p_a.b, p_b.b, p_min.b );
+			l_result.a = Subtract( p_a.a, p_b.a, p_min.a );
 			return l_result;
 		}
 		/**
-		 *\brief		Adds a value to another one, the result is at most the given maximum value
+		 *\brief		Adds a value to another one, the result is At most the given maximum value
 		 *\param[in]	p_a		The left operand
 		 *\param[in]	p_b		The right operand
-		 *\param[in]	p_min	The minimum value
+		 *\param[in]	p_max	The maximum value
 		 *\return		The result
 		 */
-		template< typename T, typename U, typename V > inline V add( T const & p_a, U const & p_b, V const & p_max )
+		template< typename T, typename U, typename V > inline V Add( T const & p_a, U const & p_b, V const & p_max )
 		{
 			V l_vReturn;
 
@@ -119,13 +129,13 @@ namespace ProceduralTextures
 		 *\param[in]	p_max	The maximal pixel
 		 *\return		(\p p_a + \p p_b ) with each component of the result <= to the same component from \p p_max
 		 */
-		template<> inline UbPixel add< UbPixel, UiPixel, UbPixel >( const UbPixel & p_a, const UiPixel & p_b, const UbPixel & p_max )
+		template<> inline UbPixel Add< UbPixel, UiPixel, UbPixel >( UbPixel const & p_a, UiPixel const & p_b, UbPixel const & p_max )
 		{
 			UbPixel l_result;
-			l_result.r = add( p_a.r, p_b.r, p_max.r );
-			l_result.g = add( p_a.g, p_b.g, p_max.g );
-			l_result.b = add( p_a.b, p_b.b, p_max.b );
-			l_result.a = add( p_a.a, p_b.a, p_max.a );
+			l_result.r = Add( p_a.r, p_b.r, p_max.r );
+			l_result.g = Add( p_a.g, p_b.g, p_max.g );
+			l_result.b = Add( p_a.b, p_b.b, p_max.b );
+			l_result.a = Add( p_a.a, p_b.a, p_max.a );
 			return l_result;
 		}
 		/**
@@ -135,48 +145,103 @@ namespace ProceduralTextures
 		 *\param[in]	p_max	The maximal pixel
 		 *\return		(\p p_a + \p p_b ) with each component of the result <= to the same component from \p p_max
 		*/
-		template<> inline UbPixel add< UiPixel, UiPixel, UbPixel >( const UiPixel & p_a, const UiPixel & p_b, const UbPixel & p_max )
+		template<> inline UbPixel Add< UiPixel, UiPixel, UbPixel >( UiPixel const & p_a, UiPixel const & p_b, UbPixel const & p_max )
 		{
 			UbPixel l_result;
-			l_result.r = add( p_a.r, p_b.r, p_max.r );
-			l_result.g = add( p_a.g, p_b.g, p_max.g );
-			l_result.b = add( p_a.b, p_b.b, p_max.b );
-			l_result.a = add( p_a.a, p_b.a, p_max.a );
+			l_result.r = Add( p_a.r, p_b.r, p_max.r );
+			l_result.g = Add( p_a.g, p_b.g, p_max.g );
+			l_result.b = Add( p_a.b, p_b.b, p_max.b );
+			l_result.a = Add( p_a.a, p_b.a, p_max.a );
 			return l_result;
 		}
 		/**
-		 *\brief		Computes euclidian length of the point (like it is a vector )
-		 *\param[in]	p_ptPoint	The point
-		 *\return		The length
+		 *\brief		Computes the pixel components value from an unsigned long value
+		 *\param[in]	p_colour	The colour
+		 *\return		The pixel
 		*/
-		inline double length( wxPoint p_ptPoint )
+		inline UbPixel FromRGBColour( uint32_t p_colour )
 		{
-			return sqrt( double( p_ptPoint.x * p_ptPoint.x + p_ptPoint.y * p_ptPoint.y ) );
+			UbPixel l_result;
+			l_result.r = ( p_colour & 0x00FF0000 ) >> 16;
+			l_result.g = ( p_colour & 0x0000FF00 ) >>  8;
+			l_result.b = ( p_colour & 0x000000FF ) >>  0;
+			l_result.a = 255;
+			return l_result;
 		}
 		/**
-		 *\brief		Writes a line in a console, and VisualStudio debug console, if it is used
-		 *\param[in]	p_msg	The message
+		 *\brief		Computes the pixel components value from an unsigned long value
+		 *\param[in]	p_colour	The colour
+		 *\return		The pixel
 		*/
-		bool Trace( wxString const & p_msg );
+		inline UbPixel FromBGRColour( uint32_t p_colour )
+		{
+			UbPixel l_result;
+			l_result.b = ( p_colour & 0x00FF0000 ) >> 16;
+			l_result.g = ( p_colour & 0x0000FF00 ) >>  8;
+			l_result.r = ( p_colour & 0x000000FF ) >>  0;
+			l_result.a = 255;
+			return l_result;
+		}
+		/*!
+		\author 	Sylvain Doremus
+		\version	2.0.0
+		\date		10/02/2015
+		\brief		Trace class
+		*/
+		class GeneratorAPI Tracer
+		{
+		public:
+			/**
+			 *\brief		Writes a line in a console, and VisualStudio debug console, if it is used
+			 *\param[in]	p_msg	The message
+			 */
+			static bool Trace( std::string const & p_msg );
+			/**
+			 *\brief		Writes a line in a console, and VisualStudio debug console, if it is used
+			 *\param[in]	p_msg	The message
+			 */
+			static bool Trace( std::wstring const & p_msg );
+			/**
+			 *\brief		Writes a line in a console, and VisualStudio debug console, if it is used
+			 *\param[in]	p_szFormat	The line format, see printf
+			 *\param[in]	...			The parameters, according to line format
+			 */
+			static bool Trace( char const * p_szFormat, ... );
+			/**
+			 *\brief		Writes a line in a console, and VisualStudio debug console, if it is used
+			 *\param[in]	p_szFormat	The line format, see printf
+			 *\param[in]	...			The parameters, according to line format
+			 */
+			static bool Trace( wchar_t const * p_szFormat, ... );
+		};
+	}
+
+	namespace System
+	{
 		/**
-		 *\brief		Writes a line in a console, and VisualStudio debug console, if it is used
-		 *\param[in]	p_szFormat	The line format, see printf
-		 *\param[in]	...			The parameters, according to line format
-		*/
-		bool Trace( char const * p_szFormat, ... );
+		 *\brief		Retrieves the given screen size
+		 *\param[in]	p_screen	The screen index
+		 *\param[out]	p_size		Receives the screen size
+		 *\return		\p true if the size was retrieved
+		 */
+		bool GeneratorAPI GetScreenSize( uint32_t p_screen, Size & p_size );
 		/**
-		 *\brief		Writes a line in a console, and VisualStudio debug console, if it is used
-		 *\param[in]	p_szFormat	The line format, see printf
-		 *\param[in]	...			The parameters, according to line format
-		*/
-		bool Trace( wchar_t const * p_szFormat, ... );
+		 *\brief		Counts available CPUs
+		 *\return		The CPU count
+		 */
+		int GeneratorAPI GetCPUCount();
+		/**
+		 *\brief		Retrieves the executable directory
+		 *\return		The directory
+		 */
+		String GeneratorAPI GetExecutableDirectory();
 	}
 }
 
 #ifndef NDEBUG
-#	define TRACE utils::Trace
+#	define TRACE ProceduralTextures::Utils::Tracer::Trace
 #else
-#	define TRACE false && utils::Trace
+#	define TRACE false && ProceduralTextures::Utils::Tracer::Trace
 #endif
 
 #endif

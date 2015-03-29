@@ -1,8 +1,8 @@
 #include "GrayScaleFunctor.h"
 
-#include <cmath>
+using namespace ProceduralTextures;
 
-namespace ProceduralTextures
+namespace ImageEffects
 {
 	GrayScaleFunctor::GrayScaleFunctor()
 		:	EffectFunctor( eEFFECT_TYPE_GRAYSCALE, _( "Gray scale" ), true, true )
@@ -13,13 +13,13 @@ namespace ProceduralTextures
 	{
 	}
 
-	void GrayScaleFunctor::operator()( const PixelBuffer & p_bufferIn, PixelBuffer & p_bufferOut )
+	void GrayScaleFunctor::operator()( PixelBuffer const & p_bufferIn, PixelBuffer & p_bufferOut )
 	{
 		uint8_t l_ucFactor;
 
-		for ( int i = 0 ; i < m_iImgHeight ; i++ )
+		for ( uint32_t i = 0; i < m_size.y(); i++ )
 		{
-			for ( int j = 0 ; j < m_iImgWidth ; j++ )
+			for ( uint32_t j = 0; j < m_size.x(); j++ )
 			{
 				l_ucFactor = uint8_t( double( p_bufferIn[i][j].r ) * 0.21 + double( p_bufferIn[i][j].g ) * 0.71 + double( p_bufferIn[i][j].b ) * 0.07 );
 				l_ucFactor = std::min( l_ucFactor, uint8_t( 255 ) );

@@ -1,8 +1,10 @@
 #include "SierpinskyGasket.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace IteratedFunctionSystem
 {
-	SierpinskiGasket::SierpinskiGasket( PixelBuffer * p_pBackBuffer, int p_iWidth, int p_iHeight )
+	SierpinskiGasket::SierpinskiGasket( std::shared_ptr< PixelBuffer > p_pBackBuffer, int p_iWidth, int p_iHeight )
 		:	IfsGenerator( p_pBackBuffer, p_iWidth, p_iHeight, 50, 50, 50, Point2d( 0, 0 ), 3 )
 	{
 		DoInitialiseVariations();

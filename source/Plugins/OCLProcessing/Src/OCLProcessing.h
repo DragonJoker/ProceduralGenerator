@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,24 +18,30 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___OCL_OCL_PROCESSING_H___
 #define ___OCL_OCL_PROCESSING_H___
 
-#include <ConfigPanel.h>
+#include <Generator.h>
 
-#include "OclEffect.h"
+#include "OclCpuStep.h"
+#include "OclGpuStep.h"
 
-#include <vector>
-#include <map>
-#include <string>
-
-namespace ProceduralTextures
+namespace OCLProcessing
 {
-	class OCLProcessing
-		:	public ProceduralGenerator
+	/*!
+	\author		Sylvain DOREMUS
+	\date		23/05/2012
+	\brief		Life game geenrator
+	*/
+	class Generator
+		: public ProceduralTextures::Generator< CpuStep, GpuStep >
 	{
 	private:
-		typedef std::vector< Effect * >	EffectPtrArray;
-
+		/*!
+		\author		Sylvain DOREMUS
+		\date		23/05/2012
+		\brief		The controls IDs
+		*/
 		typedef enum
 		{
+			eID_ANY				= -1,
 			eID_IMAGEPATH		= 52,
 			eID_SEPTYPE			= 53,
 			eID_SEPOFFSET		= 54,
@@ -48,73 +54,84 @@ namespace ProceduralTextures
 		}	eID;
 
 	public:
-		OCLProcessing( int p_width, int p_height, int iWndId, wxFrame * p_pFrame );
-		virtual ~OCLProcessing();
-
-		void SetImagePath( const wxString & p_strImagePath );
-		void ResetTime();
-
-		bool EffectAdd();
-		bool EffectRemove( size_t p_uiIndex );
-		void EffectLoadFile( size_t p_uiIndex, const wxString & p_strPath );
-		void EffectLoadKernel( size_t p_uiIndex, const wxString & p_strName );
-		void EffectSetImagePath( size_t p_uiIndex, size_t p_iImage, const wxString & p_strImagePath );
-		wxString EffectGetCompilerLog( size_t p_uiIndex );
-		bool EffectApply( size_t p_uiIndex );
-
-		inline void SetSeparationOffset( int p_iOffset )
-		{
-			m_iSeparationOffset = p_iOffset;
-		}
-		inline void SetSeparationType( eSEPARATION p_eType )
-		{
-			m_eSeparationType = p_eType;
-		}
+		/**
+		 *\brief		Constructor
+		 */
+		Generator();
+		/**
+		 *\brief		Destructor
+		 */
+		virtual ~Generator();
 
 	private:
-		virtual void DoResize( const wxSize & p_size );
-		virtual void DoGlInitialise();
-		virtual void DoGlPreRender();
-		virtual void DoGlRender( bool & p_bChanged );
-		virtual void DoGlPostRender();
-		virtual void DoGlCleanup();
+		/**
+		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		 */
+		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
+		/**
+		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+		 */
+		virtual void DoDestroy();
+		/**
+		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+		 */
 		virtual void DoGeneratePanel();
+		/**
+		 *\brief		Resets the time index
+		 */
+		void OnResetTime();
+		/**
+		 *\brief		Sets the separator type
+		 *\param[in]	p_value	The new value
+		 */
+		void OnSepType( int p_value );
+		/**
+		 *\brief		Sets the separator offset
+		 *\param[in]	p_value	The new value
+		 */
+		void OnSepOffset( int p_value );
+		/**
+		 *\brief		Selects a shader
+		 */
+		void OnSelectProgram( uint32_t p_value );
+		/**
+		 *\brief		Removes the current chader
+		 */
+		void OnRemove();
+		/**
+		 *\brief		Retrieves the compiler log
+		 */
+		void OnCompilerLog();
+		/**
+		 *\brief		Sets the OpenCL program file path
+		 *\param[in]	p_path	The new value
+		 */
+		void OnFilePath();
+		/**
+		 *\brief		Sets the OpenCL kernel
+		 *\param[in]	p_value	The new value
+		 */
+		void OnSelectKernel( uint32_t p_value );
+		/**
+		 *\brief		Sets the image buffer
+		 *\param[in]	p_path	The new value
+		 */
 
-		void OnSepType( wxCommandEvent & p_event );
-		void OnSepOffset( wxCommandEvent & p_event );
-		void OnResetTime( wxCommandEvent & p_event );
-		void OnSelectProgram( wxCommandEvent & p_event );
-		void OnRemove( wxCommandEvent & p_event );
-		void OnCompilerLog( wxCommandEvent & p_event );
-		void OnImagePath( wxCommandEvent & p_event );
-		void OnFilePath( wxCommandEvent & p_event );
-		void OnSelectKernel( wxCommandEvent & p_event );
+		void OnImage();
 
 	private:
-		wxImage m_image;
-		eSEPARATION m_eSeparationType;
-		int m_iSeparationOffset;
-		GlTexture m_outputTexture;
-		PixelBuffer m_inputBuffer;
-		PixelBuffer m_outputBuffer;
-		EffectPtrArray m_arrayEffects;
-		cl::Platform m_clPlatform;
-		cl::Device m_clDevice;
-		cl::CommandQueue m_clQueue;
-		cl::Context m_clContext;
-		SpecificControlParameters< eCONTROL_TYPE_BUTTON > m_specButtonImage;
-		SpecificControlParameters< eCONTROL_TYPE_STATIC > m_specStaticSeparator;
-		SpecificControlParameters< eCONTROL_TYPE_COMBO > m_specComboSeparator;
-		SpecificControlParameters< eCONTROL_TYPE_SLIDER > m_specSliderOffset;
-		SpecificControlParameters< eCONTROL_TYPE_BUTTON > m_specButtonReset;
-		SpecificControlParameters< eCONTROL_TYPE_STATIC > m_specStaticPrograms;
-		SpecificControlParameters< eCONTROL_TYPE_COMBO > m_specComboPrograms;
-		SpecificControlParameters< eCONTROL_TYPE_FILE_BUTTON > m_specButtonFile;
-		SpecificControlParameters< eCONTROL_TYPE_STATIC > m_specStaticKernel;
-		SpecificControlParameters< eCONTROL_TYPE_COMBO > m_specComboKernels;
-		SpecificControlParameters< eCONTROL_TYPE_BUTTON > m_specButtonCompilerLog;
-		SpecificControlParameters< eCONTROL_TYPE_BUTTON > m_specButtonRemove;
-		Effect * m_pSelectedEffect;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonImage;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_staticSeparator;
+		std::shared_ptr< ProceduralTextures::ComboBoxCtrl > m_comboSeparator;
+		std::shared_ptr< ProceduralTextures::SliderCtrl > m_sliderOffset;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonReset;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_staticPrograms;
+		std::shared_ptr< ProceduralTextures::ComboBoxCtrl > m_comboPrograms;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonFile;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_staticKernel;
+		std::shared_ptr< ProceduralTextures::ComboBoxCtrl > m_comboKernels;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonCompilerLog;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl  > m_buttonRemove;
 	};
 }
 

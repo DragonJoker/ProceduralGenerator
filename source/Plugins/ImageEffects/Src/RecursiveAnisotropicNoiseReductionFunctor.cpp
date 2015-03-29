@@ -1,6 +1,8 @@
 #include "RecursiveAnisotropicNoiseReductionFunctor.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace ImageEffects
 {
 	RecursiveAnisotropicNoiseReductionFunctor::RecursiveAnisotropicNoiseReductionFunctor()
 		:	RecursiveEffectFunctor< AnisotropicNoiseReductionFunctor >( eEFFECT_TYPE_REC_ANISOTROPIC_NR, _( "Recursive anisotropic reduction" ), false, false )
@@ -11,5 +13,3 @@ namespace ProceduralTextures
 	{
 	}
 }
-
-//*************************************************************************************************

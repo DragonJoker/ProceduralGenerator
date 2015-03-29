@@ -1,35 +1,183 @@
 #include "MainFrame.h"
 #include "Application.h"
 #include "ProjectListDialog.h"
-#include "RenderPanel.h"
-#include "StatusBar.h"
+
 #include "exit.xpm"
 #include "print_screen.xpm"
 #include "select.xpm"
 #include "pg.xpm"
+#include "button.xpm"
 #if defined( PGEN_RECORDS )
 #	include "record.xpm"
 #	include "stop.xpm"
 #endif
 
-namespace ProceduralTextures
+#pragma warning( push )
+#pragma warning( disable:4996 )
+#include <wx/button.h>
+#include <wx/colordlg.h>
+#include <wx/dir.h>
+#include <wx/display.h>
+#include <wx/dynlib.h>
+#include <wx/filedlg.h>
+#include <wx/filename.h>
+#include <wx/icon.h>
+#include <wx/image.h>
+#include <wx/msgdlg.h>
+#include <wx/mstream.h>
+#include <wx/dcclient.h>
+#include <wx/sizer.h>
+#include <wx/slider.h>
+#include <wx/stdpaths.h>
+#include <wx/toolbar.h>
+#pragma warning( pop )
+
+#include <Plugin.h>
+
+#include "RenderPanel.h"
+
+using namespace ProceduralTextures;
+
+namespace ProceduralGenerator
 {
+#ifndef NDEBUG
+	const int OPTIONS_PANEL_HEIGHT = 256;
+#else
+	const int OPTIONS_PANEL_HEIGHT = 512;
+#endif
+	namespace detail
+	{
+		bool OpenFile( wxWindow * p_parent, String & p_path, String const & p_prompt, String const & p_wildcard )
+		{
+			bool l_return = false;
+			wxString l_wildcard = wxString( p_wildcard.c_str(), wxConvUTF8 );
+			wxString l_prompt = wxString( p_prompt.c_str(), wxConvUTF8 );
+			wxFileDialog l_dialog( p_parent, l_prompt, wxT( "./data" ), wxEmptyString, l_wildcard, wxFD_OPEN | wxFD_FILE_MUST_EXIST );
+
+			if ( l_dialog.ShowModal() == wxID_OK )
+			{
+				p_path = String( l_dialog.GetPath().mb_str( wxConvUTF8 ) );
+				l_return = true;
+			}
+
+			return l_return;
+		}
+
+		bool SaveFile( wxWindow * p_parent, String & p_path, String const & p_prompt, String const & p_wildcard )
+		{
+			bool l_return = false;
+			wxString l_wildcard = wxString( p_wildcard.c_str(), wxConvUTF8 );
+			wxString l_prompt = wxString( p_prompt.c_str(), wxConvUTF8 );
+			wxFileDialog l_dialog( p_parent, l_prompt, wxT( "./data" ), wxEmptyString, l_wildcard, wxFD_SAVE | wxFD_OVERWRITE_PROMPT );
+
+			if ( l_dialog.ShowModal() == wxID_OK )
+			{
+				p_path = String( l_dialog.GetPath().mb_str( wxConvUTF8 ) );
+				l_return = true;
+			}
+
+			return l_return;
+		}
+
+		void LoadImageBuffer( wxImage & p_image, ProceduralTextures::PixelBuffer & p_buffer )
+		{
+			Size l_sizeReturn( p_image.GetWidth(), p_image.GetHeight() );
+			p_buffer.Initialise( l_sizeReturn );
+
+			if ( !p_image.HasAlpha() )
+			{
+				p_image.InitAlpha();
+			}
+
+			if ( p_image.HasAlpha() )
+			{
+				p_buffer.Set< PG_UINT8_RGBA >( p_image.GetData(), p_image.GetAlpha() );
+			}
+			else
+			{
+				p_buffer.Set< PG_UINT8_RGB >( p_image.GetData(), NULL );
+			}
+		}
+
+		bool SelectImage( wxWindow * p_parent, ProceduralTextures::PixelBuffer & p_buffer, String const & p_prompt )
+		{
+			bool l_return = false;
+			wxString l_wildcard = _( "All supported files " );
+			l_wildcard += wxT( "(*.bmp;*.gif;*.png;*.jpg)|*.bmp;*.gif;*.png;*.jpg|" );
+			l_wildcard += _( "BITMAP files" );
+			l_wildcard += wxT( " (*.bmp)|*.bmp|" );
+			l_wildcard += _( "GIF files" );
+			l_wildcard += wxT( " (*.gif)|*.gif|" );
+			l_wildcard += _( "JPEG files" );
+			l_wildcard += wxT( " (*.jpg)|*.jpg|" );
+			l_wildcard += _( "PNG files" );
+			l_wildcard += wxT( " (*.png)|*.png" );
+			wxString l_prompt = _( "Choose a picture" );
+			wxFileDialog l_dialog( p_parent, l_prompt, wxT( "./data" ), wxEmptyString, l_wildcard, wxFD_OPEN | wxFD_FILE_MUST_EXIST );
+
+			if ( l_dialog.ShowModal() == wxID_OK )
+			{
+				wxImage l_image;
+
+				if ( l_image.LoadFile( l_dialog.GetPath() ) )
+				{
+					l_image = l_image.Mirror( false );
+					LoadImageBuffer( l_image, p_buffer );
+					l_return = true;
+				}
+				else
+				{
+					wxMessageBox( _( "Image loading error" ), _( "No handler found for this image format" ), wxOK | wxCENTRE | wxICON_INFORMATION );
+				}
+			}
+
+			return l_return;
+		}
+
+		bool SelectColour( wxWindow * p_parent, uint32_t & p_colour, String const & p_prompt )
+		{
+			bool l_return = false;
+			wxColourDialog l_dialog( NULL );
+
+			if ( l_dialog.ShowModal() == wxID_OK )
+			{
+				wxColour l_colour = l_dialog.GetColourData().GetColour();
+				p_colour = l_colour.GetPixel();
+				l_return = true;
+			}
+
+			return l_return;
+		}
+
+		void SetCursor( wxWindow * p_parent, eMOUSE_CURSOR p_cursor )
+		{
+			switch ( p_cursor )
+			{
+			case eMOUSE_CURSOR_ARROW:
+				p_parent->SetCursor( wxCURSOR_ARROW );
+				break;
+
+			case eMOUSE_CURSOR_HAND:
+				p_parent->SetCursor( wxCURSOR_HAND );
+				break;
+
+			case eMOUSE_CURSOR_TEXT:
+				p_parent->SetCursor( wxCURSOR_IBEAM );
+				break;
+			}
+		}
+	}
+
 	IMPLEMENT_CLASS( MainFrame, wxFrame );
 
 	MainFrame::MainFrame()
-		:	wxFrame( NULL, eID_MAIN_FRAME, wxT( "Procedural Generator" ), wxPoint( 0, 0 ), wxDefaultSize, wxRESIZE_BORDER | wxMAXIMIZE_BOX | wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN )
-		,	m_pRenderPanel( NULL )
-		,	m_pConfigPanel( NULL )
-		,	m_pPlugin( NULL )
-		,	m_pStatusBar( NULL )
+		: wxFrame( NULL, eID_MAIN_FRAME, wxT( "Procedural Generator" ), wxPoint( 0, 0 ), wxDefaultSize, wxRESIZE_BORDER | wxMAXIMIZE_BOX | wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN )
+		, m_pRenderPanel( NULL )
 	{
-		SetBackgroundColour( * wxBLACK );
-		SetForegroundColour( * wxWHITE );
-		m_pStatusBar = new StatusBar( this );
-		SetStatusBar( m_pStatusBar );
-		Connect( eEVENT_CPU_STEP_END,			wxEVT_NULL,	wxCommandEventHandler( MainFrame::OnCpuStepEnd ) );
-		Connect( eGUI_EVENT_SHOW_MESSAGE_BOX,	wxEVT_NULL,	wxCommandEventHandler( MainFrame::OnShowMessageBox ), NULL, this );
-		Connect( eGUI_EVENT_RESIZE_PARENT,		wxEVT_NULL,	wxCommandEventHandler( MainFrame::OnResize ), NULL, this );
+		SetBackgroundColour( *wxBLACK );
+		SetForegroundColour( *wxWHITE );
+		Connect( eGUI_EVENT_SHOW_MESSAGE_BOX, wxEVT_NULL, wxCommandEventHandler( MainFrame::OnShowMessageBox ), NULL, this );
+		Connect( eGUI_EVENT_RESIZE_PARENT, wxEVT_NULL, wxCommandEventHandler( MainFrame::OnResize ), NULL, this );
 	}
 
 	MainFrame::~MainFrame()
@@ -38,7 +186,7 @@ namespace ProceduralTextures
 
 	void MainFrame::Initialise()
 	{
-		wxSize l_size( 256, 256 );
+		wxSize l_size( OPTIONS_PANEL_HEIGHT, OPTIONS_PANEL_HEIGHT );
 		wxIcon l_icon = wxIcon( pg_xpm );
 		SetIcon( l_icon );
 		SetClientSize( l_size );
@@ -48,14 +196,25 @@ namespace ProceduralTextures
 		m_pRenderPanel = new RenderPanel( this, l_attribList, wxPoint( 0, 0 ), l_size );
 		m_pRenderPanel->SetBackgroundColour( GetBackgroundColour() );
 		m_pRenderPanel->SetForegroundColour( GetForegroundColour() );
+		wxBoxSizer * l_pSizer = new wxBoxSizer( wxHORIZONTAL );
+		l_pSizer->Add( m_pRenderPanel, wxSizerFlags( 1 ).Expand().FixedMinSize() );
+		SetSizer( l_pSizer, true );
+		l_pSizer->SetSizeHints( this );
 		Show();
 		DoSelectGenerator();
 	}
 
+#if defined( PGEN_RECORDS )
+	void MainFrame::StopRecord()
+	{
+		GetToolBar()->EnableTool( eID_STOP, false );
+		GetToolBar()->EnableTool( eID_RECORD, true );
+		m_pRenderPanel->StopRecord();
+	}
+#endif
+
 	void MainFrame::DoBuildMenuBar()
 	{
-		wxPNGHandler * l_pHandler = new wxPNGHandler;
-		wxImage::AddHandler( l_pHandler );
 		wxToolBar * l_pToolbar = CreateToolBar( wxTB_FLAT | wxTB_HORIZONTAL );
 		wxMemoryInputStream l_isSelect( select_png, sizeof( select_png ) );
 		wxImage l_imgSelect( l_isSelect, wxBITMAP_TYPE_PNG );
@@ -66,8 +225,8 @@ namespace ProceduralTextures
 		l_pToolbar->SetBackgroundColour( GetBackgroundColour() );
 		l_pToolbar->SetForegroundColour( GetForegroundColour() );
 		wxToolBarToolBase * l_pTool;
-		l_pTool = l_pToolbar->AddTool( eID_SELECT_GENERATOR,	_( "Generator" ),	l_imgSelect.Rescale(	32, 32, wxIMAGE_QUALITY_HIGH ),	_( "Choose a generator" ) );
-		l_pTool = l_pToolbar->AddTool( eID_PRINT_SCREEN,		_( "Snapshot" ),	l_imgPrint.Rescale(	32, 32, wxIMAGE_QUALITY_HIGH ),	_( "Take a snapshot" ) );
+		l_pTool = l_pToolbar->AddTool( eID_SELECT_GENERATOR, _( "Generator" ), l_imgSelect.Rescale( 32, 32, wxIMAGE_QUALITY_HIGH ), _( "Choose a generator" ) );
+		l_pTool = l_pToolbar->AddTool( eID_PRINT_SCREEN, _( "Snapshot" ), l_imgPrint.Rescale( 32, 32, wxIMAGE_QUALITY_HIGH ), _( "Take a snapshot" ) );
 #if defined( PGEN_RECORDS )
 		wxImage l_imgRecord;
 		l_imgRecord.Create( record_xpm );
@@ -75,13 +234,13 @@ namespace ProceduralTextures
 		l_imgStop.Create( stop_xpm );
 		wxImage l_imgRecordDis = l_imgRecord.ConvertToGreyscale();
 		wxImage l_imgStopDis = l_imgStop.ConvertToGreyscale();
-		l_pTool = l_pToolbar->AddTool( eID_RECORD,				_( "Record" ),	l_imgRecord.Rescale(	32, 32, wxIMAGE_QUALITY_HIGH ),	_( "Record a video" ) );
+		l_pTool = l_pToolbar->AddTool( eID_RECORD, _( "Record" ), l_imgRecord.Rescale( 32, 32, wxIMAGE_QUALITY_HIGH ), _( "Record a video" ) );
 		l_pTool->SetDisabledBitmap( l_imgRecordDis.Rescale( 32, 32, wxIMAGE_QUALITY_HIGH ) );
-		l_pTool = l_pToolbar->AddTool( eID_STOP,				_( "Stop" ),	l_imgStop.Rescale(	32, 32, wxIMAGE_QUALITY_HIGH ),	_( "Stop recording" ) );
+		l_pTool = l_pToolbar->AddTool( eID_STOP, _( "Stop" ), l_imgStop.Rescale( 32, 32, wxIMAGE_QUALITY_HIGH ), _( "Stop recording" ) );
 		l_pTool->Enable( false );
 		l_pTool->SetDisabledBitmap( l_imgStopDis.Rescale( 32, 32, wxIMAGE_QUALITY_HIGH ) );
 #endif
-		l_pTool = l_pToolbar->AddTool( eID_EXIT,				_( "Quit" ),	l_imgExit.Rescale(	32, 32, wxIMAGE_QUALITY_HIGH ),	_( "Quit ProceduralGenerator" ) );
+		l_pTool = l_pToolbar->AddTool( eID_EXIT, _( "Quit" ), l_imgExit.Rescale( 32, 32, wxIMAGE_QUALITY_HIGH ), _( "Quit ProceduralGenerator" ) );
 		l_pToolbar->Realize();
 	}
 
@@ -90,37 +249,29 @@ namespace ProceduralTextures
 #if defined( PGEN_RECORDS )
 		m_pRenderPanel->StopRecord();
 #endif
-		m_pRenderPanel->SetGenerator( NULL );
-		DoDestroyGenerator();
-		ProceduralGenerator * l_pGenerator = DoCreateGenerator();
+		std::shared_ptr< GeneratorBase > l_generator = m_pRenderPanel->GetGenerator();
+		m_pRenderPanel->SetGenerator( nullptr );
+		DoDestroyGenerator( l_generator );
+
+		l_generator = DoCreateGenerator();
 		Maximize( false );
-		m_pRenderPanel->SetGenerator( l_pGenerator );
+		m_pRenderPanel->SetGenerator( l_generator );
 
-		if ( l_pGenerator )
+		if ( l_generator )
 		{
-			m_pRenderPanel->SetInitialSize( l_pGenerator->GetDisplaySize() );
-			m_savedTime = wxGetLocalTimeMillis();
-			wxBoxSizer * l_pSizer = new wxBoxSizer( wxHORIZONTAL );
-			l_pSizer->Add(	m_pRenderPanel,	wxSizerFlags( 1 ).Expand().FixedMinSize() );
-
-			if ( m_pConfigPanel )
-			{
-				l_pSizer->Add(	m_pConfigPanel,	wxSizerFlags( 0 ).Expand() );
-			}
-
-			SetSizer( l_pSizer, true );
-			l_pSizer->SetSizeHints( this );
+			m_pRenderPanel->SetInitialSize( wxSize( l_generator->GetDisplaySize().x(), l_generator->GetDisplaySize().y() ) );
+			GetSizer()->SetSizeHints( this );
 		}
 	}
 
-	ProceduralGenerator * MainFrame::DoCreateGenerator()
+	std::shared_ptr< GeneratorBase > MainFrame::DoCreateGenerator()
 	{
-		ProceduralGenerator * l_pReturn = NULL;
+		std::shared_ptr< GeneratorBase > l_pReturn;
 		wxArrayString l_choices;
 
-		for ( PluginStrMap::iterator l_it = m_mapPluginsByName.begin() ; l_it != m_mapPluginsByName.end() ; ++l_it )
+		for ( auto l_pluginDllPair : m_mapPluginsByName )
 		{
-			l_choices.push_back( l_it->first );
+			l_choices.push_back( l_pluginDllPair.first );
 		}
 
 		ProjectListDialog l_dialog( this, l_choices );
@@ -129,41 +280,41 @@ namespace ProceduralTextures
 		{
 			wxString l_strProjectName = l_dialog.GetProject();
 			wxSize l_sizeResolution = l_dialog.GetResolution();
-			PluginStrMap::iterator l_it = m_mapPluginsByName.find( l_strProjectName );
+			auto l_it = m_mapPluginsByName.find( l_strProjectName );
 
 			if ( l_it != m_mapPluginsByName.end() )
 			{
-				m_pPlugin = l_it->second;
-				l_pReturn = m_pPlugin->CreateGenerator( l_sizeResolution.x, l_sizeResolution.y, MainFrame::eID_MAIN_FRAME, this );
+				PluginBase * l_plugin = l_it->second.first;
+				Size l_frameSize( GetSize().x, GetSize().y );
+				Size l_clientSize( GetClientSize().x, GetClientSize().y );
 
-				if ( l_pReturn->NeedsConfigPanel() )
+				try
 				{
-					wxEventType l_arrayTypes[eEVENT_TYPE_COUNT];
-					l_arrayTypes[eEVENT_TYPE_SLIDER_UPDATED			]	= wxEVT_COMMAND_SLIDER_UPDATED;
-					l_arrayTypes[eEVENT_TYPE_SCROLL_THUMBRELEASE	]	= wxEVT_SCROLL_THUMBRELEASE;
-					l_arrayTypes[eEVENT_TYPE_SCROLL_THUMBTRACK		]	= wxEVT_SCROLL_THUMBTRACK;
-					l_arrayTypes[eEVENT_TYPE_COMBOBOX_SELECTED		]	= wxEVT_COMMAND_COMBOBOX_SELECTED;
-					l_arrayTypes[eEVENT_TYPE_BUTTON_CLIKED			]	= wxEVT_COMMAND_BUTTON_CLICKED;
-					l_arrayTypes[eEVENT_TYPE_TEXT_UPDATED			]	= wxEVT_COMMAND_TEXT_UPDATED;
-					l_arrayTypes[eEVENT_TYPE_TEXT_ENTER				]	= wxEVT_COMMAND_TEXT_ENTER;
-					m_pConfigPanel = new ConfigPanel( l_arrayTypes, l_pReturn, this, wxID_ANY );
+					l_pReturn = l_plugin->CreateGenerator();
+					l_pReturn->SetShowMessageBoxCallback( std::bind( &MainFrame::FireShowMessageBox, this, std::placeholders::_1, std::placeholders::_2 ) );
+					l_pReturn->SetResizeCallback( std::bind( &MainFrame::FireResize, this, std::placeholders::_1 ) );
+					l_pReturn->SetOpenFileCallback( std::bind( &detail::OpenFile, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3 ) );
+					l_pReturn->SetSaveFileCallback( std::bind( &detail::SaveFile, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3 ) );
+					l_pReturn->SetSelectImageCallback( std::bind( &detail::SelectImage, this, std::placeholders::_1, std::placeholders::_2 ) );
+					l_pReturn->SetSelectColourCallback( std::bind( &detail::SelectColour, this, std::placeholders::_1, std::placeholders::_2 ) );
+					l_pReturn->SetSetCursorCallback( std::bind( &detail::SetCursor, this, std::placeholders::_1 ) );
+					l_pReturn->Create( Size( l_sizeResolution.x, l_sizeResolution.y ), l_frameSize - l_clientSize );
+					SetLabel( l_strProjectName );
 				}
-
-				SetLabel( l_strProjectName );
+				catch ( std::exception & l_exc )
+				{
+					l_pReturn.reset();
+					wxMessageBox( _( "The generator loading failed due to the following error:" ) + wxT( "\n" ) + wxString( l_exc.what(), wxConvUTF8 ), _( "Generator loading error" ) );
+				}
 			}
 		}
 
 		return l_pReturn;
 	}
 
-	void MainFrame::DoDestroyGenerator()
+	void MainFrame::DoDestroyGenerator( std::shared_ptr< GeneratorBase > & p_generator )
 	{
-		if ( m_pConfigPanel )
-		{
-			m_pConfigPanel->Close();
-			m_pConfigPanel->Destroy();
-			m_pConfigPanel = NULL;
-		}
+		p_generator.reset();
 	}
 
 	void MainFrame::DoLoadPlugins()
@@ -173,7 +324,7 @@ namespace ProceduralTextures
 		wxArrayString l_arrayDirs = l_dataDir.GetDirs();
 		wxString l_strUsrPath = l_dataDir.GetVolume() + l_dataDir.GetVolumeSeparator();
 
-		for ( size_t i = 0 ; i < l_arrayDirs.size() && l_arrayDirs[i] != wxT( "bin" ) ; i++ )
+		for ( size_t i = 0; i < l_arrayDirs.size() && l_arrayDirs[i] != wxT( "bin" ); i++ )
 		{
 			l_strUsrPath += wxFileName::GetPathSeparator() + l_arrayDirs[i];
 		}
@@ -181,6 +332,30 @@ namespace ProceduralTextures
 		wxString l_strPluginsPath = l_strUsrPath + wxFileName::GetPathSeparator() + wxT( "lib" ) + wxFileName::GetPathSeparator() + wxT( "ProceduralGenerator" ) + wxFileName::GetPathSeparator();
 
 		DoLoadPlugins( l_strPluginsPath );
+	}
+
+	void MainFrame::DoClose()
+	{
+		Hide();
+
+		if ( m_pRenderPanel )
+		{
+			std::shared_ptr< GeneratorBase > l_generator = m_pRenderPanel->GetGenerator();
+			m_pRenderPanel->SetGenerator( NULL );
+			DoDestroyGenerator( l_generator );
+			m_pRenderPanel->Close();
+		}
+
+		std::shared_ptr< GeneratorBase > l_generator;
+		DoDestroyGenerator( l_generator );
+
+		for ( auto l_pluginDllPair : m_mapPluginsByName )
+		{
+			l_pluginDllPair.second.first->Destroy();
+			delete l_pluginDllPair.second.second;
+		}
+
+		m_mapPluginsByName.clear();
 	}
 
 	void MainFrame::DoLoadPlugins( wxString const & p_strPath )
@@ -194,7 +369,7 @@ namespace ProceduralTextures
 			bool l_bRes = l_dir.GetFirst( &l_strFileName, wxString( wxT( "lib*" ) ) + wxDynamicLibrary::GetDllExt(), wxDIR_FILES );
 #elif defined _WIN32
 			bool l_bRes = l_dir.GetFirst( &l_strFileName, wxString( wxT( "*" ) ) + wxDynamicLibrary::GetDllExt(), wxDIR_FILES );
-#endif // defined
+#endif
 
 			while ( l_bRes )
 			{
@@ -202,19 +377,17 @@ namespace ProceduralTextures
 
 				if ( l_pDll->Load( p_strPath + l_strFileName ) )
 				{
-					wxMilliSleep( 100 );
-
 					if ( l_pDll->HasSymbol( wxT( "CreatePlugin" ) ) )
 					{
 						wxDYNLIB_FUNCTION( PluginBase::PCreatePluginFunction, CreatePlugin, *l_pDll );
 
 						if ( pfnCreatePlugin )
 						{
-							PluginBase * l_pPlugin = pfnCreatePlugin( l_pDll, wxTheApp );
+							PluginBase * l_pPlugin = pfnCreatePlugin();
 
 							if ( l_pPlugin )
 							{
-								m_mapPluginsByName.insert( std::make_pair( l_pPlugin->GetName(), l_pPlugin ) );
+								m_mapPluginsByName.insert( std::make_pair( wxString( l_pPlugin->GetName().c_str(), wxConvUTF8 ), std::make_pair( l_pPlugin, l_pDll ) ) );
 							}
 						}
 					}
@@ -233,38 +406,32 @@ namespace ProceduralTextures
 		}
 	}
 
-	void MainFrame::DoClose()
+	void MainFrame::FireShowMessageBox( String const p_title, String const & p_message )
 	{
-		Hide();
+		wxCommandEvent l_event( wxEVT_NULL, eGUI_EVENT_SHOW_MESSAGE_BOX );
+		l_event.SetString( wxString( p_title.c_str(), wxConvUTF8 ) + wxT( "||" ) + wxString( p_message.c_str(), wxConvUTF8 ) );
+		GetEventHandler()->AddPendingEvent( l_event );
+	}
 
-		if ( m_pRenderPanel )
-		{
-			m_pRenderPanel->SetGenerator( NULL );
-			DoDestroyGenerator();
-			m_pRenderPanel->Close();
-		}
-
-		DoDestroyGenerator();
-
-		for ( PluginStrMap::iterator l_it = m_mapPluginsByName.begin() ; l_it != m_mapPluginsByName.end() ; ++l_it )
-		{
-			l_it->second->Destroy();
-		}
-
-		m_mapPluginsByName.clear();
+	void MainFrame::FireResize( Size const & p_size )
+	{
+		wxCommandEvent l_event( wxEVT_NULL, eGUI_EVENT_RESIZE_PARENT );
+		l_event.SetExtraLong( p_size.x() );
+		l_event.SetInt( p_size.y() );
+		GetEventHandler()->AddPendingEvent( l_event );
 	}
 
 	BEGIN_EVENT_TABLE( MainFrame, wxFrame )
-		EVT_PAINT(	MainFrame::OnPaint )
-		EVT_SIZE(	MainFrame::OnSize )
-		EVT_CLOSE(	MainFrame::OnClose )
-		EVT_KEY_UP(	MainFrame::OnKeyUp )
-		EVT_MENU(	eID_EXIT,				MainFrame::OnExit )
-		EVT_MENU(	eID_SELECT_GENERATOR,	MainFrame::OnSelectGenerator )
-		EVT_MENU(	eID_PRINT_SCREEN,		MainFrame::OnPrintScreen )
+		EVT_PAINT( MainFrame::OnPaint )
+		EVT_SIZE( MainFrame::OnSize )
+		EVT_CLOSE( MainFrame::OnClose )
+		EVT_KEY_UP( MainFrame::OnKeyUp )
+		EVT_MENU( eID_EXIT, MainFrame::OnExit )
+		EVT_MENU( eID_SELECT_GENERATOR, MainFrame::OnSelectGenerator )
+		EVT_MENU( eID_PRINT_SCREEN, MainFrame::OnPrintScreen )
 #if defined( PGEN_RECORDS )
-		EVT_MENU(	eID_RECORD,				MainFrame::OnRecord )
-		EVT_MENU(	eID_STOP,				MainFrame::OnStop )
+		EVT_MENU( eID_RECORD, MainFrame::OnRecord )
+		EVT_MENU( eID_STOP, MainFrame::OnStop )
 #endif
 	END_EVENT_TABLE()
 
@@ -276,11 +443,6 @@ namespace ProceduralTextures
 
 	void MainFrame::OnSize( wxSizeEvent & p_event )
 	{
-		if ( m_pConfigPanel )
-		{
-			m_pConfigPanel->Show( !IsFullScreen() );
-		}
-
 #if defined( PGEN_RECORDS )
 
 		if ( GetToolBar() )
@@ -331,55 +493,6 @@ namespace ProceduralTextures
 		p_event.Skip();
 	}
 
-	void MainFrame::OnCpuStepEnd( wxCommandEvent & p_event )
-	{
-		typedef std::basic_stringstream< wxChar > wxStringStream;
-		wxStringStream l_streamMsCpu;
-		wxStringStream l_streamFpsCpu;
-		wxStringStream l_streamMsGpu;
-		wxStringStream l_streamFpsGpu;
-		wxMilliClock_t l_diff = 0;
-		wxString l_strStatus = wxT( "C : " );
-		m_time = wxGetLocalTimeMillis();
-		l_diff = m_time - m_savedTime;
-		m_savedTime = wxGetLocalTimeMillis();
-
-		if ( l_diff != 0 )
-		{
-			l_streamMsCpu.width( 5 );
-			l_streamMsCpu.fill( wxT( '0' ) );
-			l_streamMsCpu << std::right << l_diff.GetValue();
-			l_streamFpsCpu.width( 4 );
-			l_streamFpsCpu.fill( wxT( '0' ) );
-			l_streamFpsCpu << std::right << ( 1000 / l_diff.GetValue() );
-			m_pStatusBar->SetStatusText( l_strStatus + l_streamMsCpu.str() + wxT( "ms - " ) + l_streamFpsCpu.str() + wxT( " FPS" ), 0 );
-			m_pStatusBar->Refresh();
-		}
-
-		if ( m_pRenderPanel )
-		{
-			m_pRenderPanel->Render();
-			m_time = wxGetLocalTimeMillis();
-			l_strStatus = wxT( "R : " );
-			l_diff = m_time - m_savedTime;
-			m_savedTime = wxGetLocalTimeMillis();
-
-			if ( l_diff != 0 )
-			{
-				l_streamMsGpu.width( 5 );
-				l_streamMsGpu.fill( wxT( '0' ) );
-				l_streamMsGpu << std::right << l_diff.GetValue();
-				l_streamFpsGpu.width( 4 );
-				l_streamFpsGpu.fill( wxT( '0' ) );
-				l_streamFpsGpu << std::right << ( 1000 / l_diff.GetValue() );
-				m_pStatusBar->SetStatusText( l_strStatus + l_streamMsGpu.str() + wxT( "ms - " ) + l_streamFpsGpu.str() + wxT( " FPS" ), 1 );
-				m_pStatusBar->Refresh();
-			}
-		}
-
-		p_event.Skip();
-	}
-
 	void MainFrame::OnShowMessageBox( wxCommandEvent & p_event )
 	{
 		wxString l_strTitle = wxMessageBoxCaptionStr;
@@ -392,7 +505,7 @@ namespace ProceduralTextures
 			l_strMessage = l_strMessage.substr( l_uiIndex + 2 );
 		}
 
-		wxMessageBox( l_strMessage, l_strTitle, p_event.GetInt(), this );
+		wxMessageBox( l_strMessage, l_strTitle, wxOK | wxCENTRE | wxICON_INFORMATION, this );
 		p_event.Skip();
 	}
 
@@ -414,13 +527,6 @@ namespace ProceduralTextures
 		}
 
 		p_event.Skip();
-	}
-
-	void MainFrame::StopRecord()
-	{
-		GetToolBar()->EnableTool( eID_STOP, false );
-		GetToolBar()->EnableTool( eID_RECORD, true );
-		m_pRenderPanel->StopRecord();
 	}
 
 	void MainFrame::OnStop( wxCommandEvent & p_event )

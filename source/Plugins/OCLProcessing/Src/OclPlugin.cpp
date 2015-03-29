@@ -1,23 +1,25 @@
 #include "OclPlugin.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace OCLProcessing
 {
-	IMPLEMENT_PLUGIN( OclPlugin, OCLProcessing )
+	IMPLEMENT_PLUGIN( Plugin, Generator )
 
-	OclPlugin::OclPlugin()
-		:	Plugin< OCLProcessing, OclPlugin >( wxT( "OCLProcessing" ) )
+	Plugin::Plugin()
+		:	ProceduralTextures::Plugin< Generator, Plugin >( _T( "OCLProcessing" ) )
 	{
 	}
 
-	OclPlugin::~OclPlugin()
+	Plugin::~Plugin()
 	{
 	}
 
-	wxString OclPlugin::GetName()
+	String Plugin::GetName()
 	{
-		wxString l_strBaseName = _( "OpenCL Processing" );
+		String l_strBaseName = _( "OpenCL Processing" );
 #if !defined( NDEBUG )
-		l_strBaseName += wxT( " (Debug)" );
+		l_strBaseName += _T( " (Debug)" );
 #endif
 		return l_strBaseName;
 	}

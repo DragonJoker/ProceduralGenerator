@@ -1,23 +1,25 @@
 #include "SfxPlugin.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace ShaderEffects
 {
-	IMPLEMENT_PLUGIN( SfxPlugin, ShaderEffects )
+	IMPLEMENT_PLUGIN( Plugin, Generator )
 
-	SfxPlugin::SfxPlugin()
-		:	Plugin< ShaderEffects, SfxPlugin >( wxT( "ShaderEffects" ) )
+	Plugin::Plugin()
+		:	ProceduralTextures::Plugin< Generator, Plugin >( _T( "ShaderEffects" ) )
 	{
 	}
 
-	SfxPlugin::~SfxPlugin()
+	Plugin::~Plugin()
 	{
 	}
 
-	wxString SfxPlugin::GetName()
+	String Plugin::GetName()
 	{
-		wxString l_strBaseName = _( "Shader Effects" );
+		String l_strBaseName = _( "Shader Effects" );
 #if !defined( NDEBUG )
-		l_strBaseName += wxT( " (Debug)" );
+		l_strBaseName += _T( " (Debug)" );
 #endif
 		return l_strBaseName;
 	}

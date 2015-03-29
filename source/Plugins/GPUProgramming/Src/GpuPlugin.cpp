@@ -1,23 +1,25 @@
 #include "GpuPlugin.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace GpuProgramming
 {
-	IMPLEMENT_PLUGIN( GpuPlugin, GpuProgramming )
+	IMPLEMENT_PLUGIN( Plugin, Generator )
 
-	GpuPlugin::GpuPlugin()
-		:	Plugin< GpuProgramming, GpuPlugin >( wxT( "GpuProgramming" ) )
+	Plugin::Plugin()
+		:	ProceduralTextures::Plugin< Generator, Plugin >( _T( "GpuProgramming" ) )
 	{
 	}
 
-	GpuPlugin::~GpuPlugin()
+	Plugin::~Plugin()
 	{
 	}
 
-	wxString GpuPlugin::GetName()
+	String Plugin::GetName()
 	{
-		wxString l_strBaseName = _( "GPU Programming" );
+		String l_strBaseName = _( "GPU Programming" );
 #if !defined( NDEBUG )
-		l_strBaseName += wxT( " (Debug )" );
+		l_strBaseName += _T( " (Debug )" );
 #endif
 		return l_strBaseName;
 	}

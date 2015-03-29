@@ -1,8 +1,10 @@
 #include "HeighwayDragon.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace IteratedFunctionSystem
 {
-	HeighwayDragon::HeighwayDragon( PixelBuffer * p_pBackBuffer, int p_iWidth, int p_iHeight )
+	HeighwayDragon::HeighwayDragon( std::shared_ptr< PixelBuffer > p_pBackBuffer, int p_iWidth, int p_iHeight )
 		:	IfsGenerator( p_pBackBuffer, p_iWidth, p_iHeight, 160, 4, 160, Point2d( 0.5, 0.0 ), 2 )
 	{
 		DoInitialiseVariations();

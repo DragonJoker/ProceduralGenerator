@@ -1,0 +1,161 @@
+#include "CpuStep.h"
+
+#include "GeneratorUtils.h"
+
+namespace ProceduralTextures
+{
+	Thread::Thread( std::shared_ptr< CpuStepBase > p_pParent, size_t p_uiIndex, int iWidth, int iTop, int iBottom, int iTotalHeight )
+		: m_pParent( p_pParent )
+		, m_uiIndex( p_uiIndex )
+		, m_iWidth( iWidth )
+		, m_iBottom( iBottom )
+		, m_iTop( iTop )
+		, m_iHeight( iTotalHeight )
+		, m_threadEndIndex( 0 )
+	{
+		m_launched = false;
+		m_stopped = false;
+	}
+
+	Thread::~Thread()
+	{
+	}
+
+	void Thread::Run()
+	{
+		m_thread = std::thread( [this]()
+		{
+			do
+			{
+				if ( IsLaunched() )
+				{
+					{
+						std::unique_lock< std::mutex > l_lock( m_mutex );
+						m_launched = false;
+						DoStep();
+					}
+
+					m_signalThreadEnd( m_uiIndex );
+				}
+				else
+				{
+					std::this_thread::sleep_for( std::chrono::milliseconds( 10 ) );
+				}
+			}
+			while ( !IsStopped() && m_thread.joinable() );
+
+			m_stoppedCondition.notify_one();
+		} );
+	}
+
+	void Thread::Stop()
+	{
+		m_launched = false;
+		m_stopped = true;
+		std::unique_lock< std::mutex > l_lock( m_mutex );
+		m_signalThreadEnd( m_uiIndex );
+		m_thread.detach();
+		m_stoppedCondition.wait_for( l_lock, std::chrono::milliseconds( 1000 ) );
+	}
+
+	//*************************************************************************************************
+
+	CpuStepBase::CpuStepBase( std::shared_ptr< GeneratorBase > p_generator, Size const & p_size )
+		: m_generator( p_generator )
+		, m_sizeImage( p_size )
+		, m_initialised( false )
+		, m_threadsCount( System::GetCPUCount() )
+		, m_finalBuffer( std::make_shared< ProceduralTextures::PixelBuffer >( p_size ) )
+	{
+		m_stopped = false;
+	}
+
+	CpuStepBase::~CpuStepBase()
+	{
+		m_finalBuffer->Clear();
+		m_finalBuffer.reset();
+	}
+
+	void CpuStepBase::Initialise()
+	{
+		DoInitialise();
+		m_initialised = true;
+	}
+
+	void CpuStepBase::Cleanup()
+	{
+		m_initialised = false;
+		DoCleanup();
+		DoThreadsCleanup();
+	}
+
+	void CpuStepBase::Run()
+	{
+		m_thread = std::thread( [this]()
+		{
+			do
+			{
+				std::unique_lock< std::mutex > l_lock( m_mutexWake );
+				bool l_go = m_conditionWake.wait_for( l_lock, std::chrono::milliseconds( 10 ) ) == std::cv_status::no_timeout;
+				l_lock.unlock();
+
+				if ( l_go )
+				{
+					Render();
+				}
+			}
+			while ( !IsStopped() && m_thread.joinable() );
+
+			m_stoppedCondition.notify_one();
+		} );
+	}
+
+	void CpuStepBase::Stop()
+	{
+		std::unique_lock< std::mutex > l_lock( m_mutex );
+		m_thread.detach();
+		m_stopped = true;
+		m_stoppedCondition.wait_for( l_lock, std::chrono::milliseconds( 1000 ) );
+	}
+
+	void CpuStepBase::SwapBuffers()
+	{
+		DoSwapBuffers();
+	}
+
+	void CpuStepBase::Render()
+	{
+		m_startTime = Clock::now();
+		DoStartRender();
+		Wait( std::chrono::milliseconds( -1 ) );
+	}
+
+	void CpuStepBase::Resize( int p_iWidth, int p_iHeight )
+	{
+		Resize( Size( p_iWidth, p_iHeight ) );
+	}
+
+	void CpuStepBase::Resize( Size const & p_size )
+	{
+		m_sizeImage = p_size;
+	}
+
+	void CpuStepBase::Wake()
+	{
+		std::unique_lock< std::mutex > l_lock( m_mutexWake );
+		m_conditionWake.notify_one();
+	}
+
+	void CpuStepBase::Wait( std::chrono::milliseconds p_timeout )
+	{
+		std::unique_lock< std::mutex > l_lock( m_mutexEnd );
+		m_conditionEnd.wait_for( l_lock, p_timeout );
+	}
+
+	void CpuStepBase::DoStartRender()
+	{
+		m_endedThreadsCount = 0;
+		DoInitialiseStep();
+		DoThreadsStart();
+	}
+}

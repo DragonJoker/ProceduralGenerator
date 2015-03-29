@@ -2,9 +2,11 @@
 
 #include <GeneratorUtils.h>
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace ColoredLifeGame
 {
-	ClgCell::ClgCell()
+	Cell::Cell()
 		:	m_nextPixel( NULL )
 		,	m_deadPixel( NULL )
 		,	m_alivePixel( NULL )
@@ -12,30 +14,11 @@ namespace ProceduralTextures
 	{
 	}
 
-	ClgCell::ClgCell( const ClgCell & cell )
-		:	m_nextPixel( cell.m_nextPixel )
-		,	m_deadPixel( cell.m_deadPixel )
-		,	m_alivePixel( cell.m_alivePixel )
-		,	m_stepPixel( cell.m_stepPixel )
-		,	m_alive( cell.m_alive )
+	Cell::~Cell()
 	{
 	}
 
-	ClgCell::~ClgCell()
-	{
-	}
-
-	ClgCell  & ClgCell::operator =( const ClgCell & cell )
-	{
-		m_nextPixel		= cell.m_nextPixel;
-		m_deadPixel		= cell.m_deadPixel;
-		m_alivePixel	= cell.m_alivePixel;
-		m_stepPixel		= cell.m_stepPixel;
-		m_alive			= cell.m_alive;
-		return * this;
-	}
-
-	void ClgCell::Set( UbPixel * p_pixel, UbPixel * p_deadPixel, UbPixel * p_alivePixel, UiPixel * p_stepPixel, bool p_alive )
+	void Cell::Set( UbPixel * p_pixel, UbPixel * p_deadPixel, UbPixel * p_alivePixel, UiPixel * p_stepPixel, bool p_alive )
 	{
 		m_nextPixel		= p_pixel;
 		m_deadPixel		= p_deadPixel;
@@ -64,13 +47,13 @@ namespace ProceduralTextures
 		}
 	}
 
-	void ClgCell::Die()
+	void Cell::Die()
 	{
 		m_alive = false;
-		*m_nextPixel = utils::add( *m_nextPixel, *m_stepPixel, *m_deadPixel );
+		*m_nextPixel = Utils::Add( *m_nextPixel, *m_stepPixel, *m_deadPixel );
 	}
 
-	void ClgCell::Live()
+	void Cell::Live()
 	{
 		m_alive = true;
 		m_nextPixel->r = m_alivePixel->r;
@@ -79,7 +62,7 @@ namespace ProceduralTextures
 		m_nextPixel->a = m_alivePixel->a;
 	}
 
-	void ClgCell::SetAlive( bool p_alive )
+	void Cell::SetAlive( bool p_alive )
 	{
 		if ( p_alive )
 		{

@@ -3,123 +3,104 @@
 #	pragma warning( disable:4127 )	//l'expression conditionnelle est une constante
 #endif
 
+#include <cassert>
+
 namespace ProceduralTextures
 {
 	template< typename T >
-	Buffer< T >::Buffer( const Size & p_ptSize )
-		:	m_pPixels( NULL )
-		,	m_ptSize( p_ptSize )
-		,	m_bOwnsPixels( true )
+	Buffer< T >::Buffer()
+		: m_size()
 	{
-		init();
+	}
+
+	template< typename T >
+	Buffer< T >::Buffer( Size const & p_ptSize )
+		: m_size( p_ptSize )
+	{
+		Initialise();
 	}
 
 	template< typename T >
 	Buffer< T >::Buffer( const Buffer< T > & p_pixelBuffer )
-		:	m_pPixels( NULL )
-		,	m_ptSize( p_pixelBuffer.m_ptSize )
-		,	m_bOwnsPixels( true )
+		: m_size( p_pixelBuffer.m_size )
 	{
-		init();
-		memcpy( m_pPixels, p_pixelBuffer.m_pPixels, m_ptSize[0] * m_ptSize[1] * sizeof( T ) );
-	}
-
-	template< typename T >
-	Buffer< T >::~Buffer()
-	{
-		clear();
+		Initialise();
+		memcpy( m_pixels.data(), p_pixelBuffer.m_pixels.data(), GetSize() );
 	}
 
 	template< typename T >
 	Buffer< T > & Buffer< T >::operator =( const Buffer< T > & p_pixelBuffer )
 	{
-		memcpy( m_pPixels, p_pixelBuffer.m_pPixels, m_ptSize[0] * m_ptSize[1] * sizeof( T ) );
-		return * this;
+		m_size = p_pixelBuffer.m_size;
+		Initialise();
+		memcpy( m_pixels.data(), p_pixelBuffer.m_pixels.data(), GetSize() );
+		return *this;
 	}
 
 	template< typename T >
-	Buffer< T > & Buffer< T >::operator =( const T * p_pBuffer )
+	Buffer< T >::~Buffer()
 	{
-		memcpy( m_pPixels, p_pBuffer, m_ptSize[0] * m_ptSize[1] * sizeof( T ) );
-		return * this;
+		Clear();
 	}
 
 	template< typename T >
-	void Buffer< T >::clear()
+	void Buffer< T >::Clear()
 	{
-		if ( m_bOwnsPixels && m_pPixels )
-		{
-			delete [] m_pPixels;
-		}
-
-		m_pPixels = NULL;
+		m_pixels.clear();
 	}
 
 	template< typename T >
-	void Buffer< T >::init()
+	void Buffer< T >::Initialise()
 	{
-		clear();
-		m_pPixels = new T[m_ptSize[0] * m_ptSize[1]];
-		memset( m_pPixels, 0, m_ptSize[0] * m_ptSize[1] * sizeof( T ) );
+		m_pixels = std::vector< T >( GetElementsCount() );
 		m_arrayRows.clear();
-		m_arrayRows.reserve( m_ptSize[1] );
+		m_arrayRows.reserve( m_size.y() );
 
-		for ( size_t i = 0 ; i < m_ptSize[1] ; i++ )
+		for ( size_t i = 0; i < m_size.y(); i++ )
 		{
-			m_arrayRows.push_back( DynPoint< T >( m_ptSize[0], & m_pPixels[i * m_ptSize[0]] ) );
+			m_arrayRows.push_back( DynPoint< T >( m_size.x(), &m_pixels[i * m_size.x()] ) );
 		}
 	}
 
 	template< typename T >
-	void Buffer< T >::init( const Size & p_ptSize )
+	void Buffer< T >::Initialise( Size const & p_size )
 	{
-		m_ptSize = p_ptSize;
-		init();
+		m_size = p_size;
+		Initialise();
+	}
+
+	template< typename T >
+	void Buffer< T >::Set( Buffer const & p_buffer )
+	{
+		memcpy( m_pixels.data(), p_buffer.m_pixels.data(), std::min( GetSize(), p_buffer.GetSize() ) );
+	}
+
+	template< typename T >
+	void Buffer< T >::Set( T const * p_buffer )
+	{
+		memcpy( m_pixels.data(), p_buffer, GetSize() );
 	}
 
 	template< typename T >
 	void Buffer< T >::swap( Buffer< T > & p_pixelBuffer )
 	{
-		std::swap( m_pPixels, p_pixelBuffer.m_pPixels );
+		std::swap( m_pixels, p_pixelBuffer.m_pixels );
 		std::swap( m_arrayRows, p_pixelBuffer.m_arrayRows );
+		std::swap( m_size, p_pixelBuffer.m_size );
 	}
 
 	template< typename T >
-	void Buffer< T >::link( T * p_pBuffer )
+	void Buffer< T >::Flip()
 	{
-		clear();
-		m_pPixels = p_pBuffer;
-
-		for ( size_t i = 0; i < m_ptSize[1]; i++ )
+		for ( size_t i = 0; i < m_size.y() / 2; i++ )
 		{
-			m_arrayRows[i].LinkCoords( &m_pPixels[i * m_ptSize[0]] );
-		}
-	}
-
-	template< typename T >
-	void Buffer< T >::unlink()
-	{
-		T * l_pTmp = m_pPixels;
-		init();
-		memcpy( m_pPixels, l_pTmp, size() );
-	}
-
-	template< typename T >
-	void Buffer< T >::mirror()
-	{
-	}
-	template< typename T >
-	void Buffer< T >::flip()
-	{
-		for ( size_t i = 0; i < m_ptSize[1] / 2; i++ )
-		{
-			m_arrayRows[i].swap( m_arrayRows[m_ptSize[1] - 1 - i] );
+			m_arrayRows[i].swap( m_arrayRows[m_size.y() - 1 - i] );
 		}
 	}
 
 	template< typename T >
 	template< typename U, size_t Count1, size_t Count2, bool InvertedX, bool InvertedY >
-	void Buffer< T >::set( const U * p_pBuffer1, const U * p_pBuffer2 )
+	void Buffer< T >::Set( const U * p_pBuffer1, const U * p_pBuffer2 )
 	{
 		BufferCopier< T, U, Count1, Count2, InvertedX, InvertedY >()( this, p_pBuffer1, p_pBuffer2 );
 	}

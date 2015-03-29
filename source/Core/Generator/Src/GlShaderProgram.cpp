@@ -1,286 +1,381 @@
 #include "GlShaderProgram.h"
 #include "GlShaderObject.h"
 #include "GlFrameVariable.h"
+#include "GlVec2FrameVariable.h"
+#include "GlVec3FrameVariable.h"
+#include "GlVec4FrameVariable.h"
+#include "GlMat4FrameVariable.h"
 #include "OpenGl.h"
+#include "GeneratorUtils.h"
 
 namespace ProceduralTextures
 {
-	GlShaderProgram::GlShaderProgram( OpenGl * p_pOpenGl, const wxArrayString & p_shaderFiles )
-		:	m_bLinked( false )
-		,	m_bError( false )
-		,	m_programObject( 0 )
-		,	m_pOpenGl( p_pOpenGl )
+	namespace gl
 	{
-		for ( int i = eSHADER_OBJECT_TYPE_VERTEX ; i < eSHADER_OBJECT_TYPE_COUNT && i < static_cast< int >( p_shaderFiles.size() ) ; i++ )
+		namespace
 		{
-			if ( ! p_shaderFiles[i].empty() )
+			template< typename Variable >
+			std::shared_ptr< Variable > CreateFrameVariable( String const & p_name, std::shared_ptr< OpenGl > p_openGl, std::shared_ptr< ShaderProgram > p_program, FrameVariablePtrList & p_list, std::map< String, std::weak_ptr< Variable > > & p_map )
 			{
-				CreateObject( eSHADER_OBJECT_TYPE( i ) );
-				SetProgramFile( p_shaderFiles[i], eSHADER_OBJECT_TYPE( i ) );
+				std::shared_ptr< Variable > l_pReturn = std::make_shared< Variable >( p_openGl, p_program );
+				l_pReturn->SetName( p_name );
+				p_list.push_back( l_pReturn );
+				p_map.insert( std::make_pair( p_name, l_pReturn ) );
+				return l_pReturn;
 			}
-		}
-	}
-
-	GlShaderProgram::GlShaderProgram( OpenGl * p_pOpenGl )
-		:	m_bLinked( false )
-		,	m_bError( false )
-		,	m_programObject( 0 )
-		,	m_pOpenGl( p_pOpenGl )
-	{
-		for ( int i = eSHADER_OBJECT_TYPE_VERTEX ; i < eSHADER_OBJECT_TYPE_COUNT ; i++ )
-		{
-			m_pShaders[i] = NULL;
-		}
-	}
-
-	GlShaderProgram::~GlShaderProgram()
-	{
-		for ( int i = eSHADER_OBJECT_TYPE_VERTEX ; i < eSHADER_OBJECT_TYPE_COUNT ; i++ )
-		{
-			if ( m_pShaders[i] )
+			template< typename Variable >
+			std::shared_ptr< Variable > GetFrameVariable( String const & p_name, std::map< String, std::weak_ptr< Variable > > & p_map )
 			{
-				delete m_pShaders[i];
-				m_pShaders[i] = NULL;
-			}
-		}
+				std::shared_ptr< Variable > l_pReturn;
+				auto l_it = p_map.find( p_name );
 
-		for ( FrameVariablePtrList::iterator it = m_listFrameVariables.begin() ; it != m_listFrameVariables.end() ; ++it )
-		{
-			delete( * it );
-		}
-
-		m_listFrameVariables.clear();
-	}
-
-	bool GlShaderProgram::Initialise()
-	{
-		bool l_bReturn = false;
-
-		if ( ! m_bLinked && ! m_bError )
-		{
-			Cleanup();
-			m_programObject = m_pOpenGl->CreateProgram();
-
-			for ( int i = eSHADER_OBJECT_TYPE_VERTEX ; i < eSHADER_OBJECT_TYPE_COUNT ; i++ )
-			{
-				if ( m_pShaders[i] && ! m_pShaders[i]->GetSource().empty() )
+				if ( l_it != p_map.end() )
 				{
-					m_pShaders[i]->CreateProgram();
+					l_pReturn = l_it->second.lock();
 				}
-			}
 
-			for ( int i = eSHADER_OBJECT_TYPE_VERTEX ; i < eSHADER_OBJECT_TYPE_COUNT ; i++ )
-			{
-				if ( m_pShaders[i] && ! m_pShaders[i]->GetSource().empty() )
-				{
-					if ( ! m_pShaders[i]->Compile() )
-					{
-						Cleanup();
-						m_bError = true;
-						return false;
-					}
-				}
+				return l_pReturn;
 			}
+		}
 
-			if ( ! Link() )
+		ShaderProgram::ShaderProgram( std::shared_ptr< OpenGl > p_pOpenGl )
+			: Object( p_pOpenGl,
+					  std::bind( &OpenGl::CreateProgram, p_pOpenGl ),
+					  std::bind( &OpenGl::DeleteProgram, p_pOpenGl, std::placeholders::_1 ),
+					  std::bind( &OpenGl::IsProgram, p_pOpenGl, std::placeholders::_1 )
+					)
+			, m_bLinked( false )
+			, m_bError( false )
+			, m_shaders( eSHADER_OBJECT_TYPE_COUNT )
+		{
+		}
+
+		ShaderProgram::~ShaderProgram()
+		{
+			m_shaders.clear();
+			m_listFrameVariables.clear();
+		}
+
+		bool ShaderProgram::Initialise()
+		{
+			bool l_bReturn = false;
+
+			if ( ! m_bLinked && ! m_bError )
 			{
 				Cleanup();
-				m_bError = true;
-				return false;
-			}
+				Create();
 
-			l_bReturn = true;
-		}
-
-		return l_bReturn;
-	}
-
-	void GlShaderProgram::Cleanup()
-	{
-		for ( FrameVariablePtrList::iterator it = m_listFrameVariables.begin() ; it != m_listFrameVariables.end() ; ++it )
-		{
-			delete( * it );
-		}
-
-		m_listFrameVariables.clear();
-
-		for ( int i = eSHADER_OBJECT_TYPE_VERTEX ; i < eSHADER_OBJECT_TYPE_COUNT ; i++ )
-		{
-			if ( m_pShaders[i] && ! m_pShaders[i]->GetSource().empty() )
-			{
-				m_pShaders[i]->DestroyProgram();
-			}
-		}
-
-		if ( m_programObject != 0 )
-		{
-			m_pOpenGl->DeleteProgram( m_programObject );
-		}
-	}
-
-	void GlShaderProgram::CreateObject( eSHADER_OBJECT_TYPE p_eType )
-	{
-		if ( !m_pShaders[p_eType] )
-		{
-			m_pShaders[p_eType] = new GlShaderObject( m_pOpenGl, this, p_eType );
-		}
-	}
-
-	void GlShaderProgram::DestroyObject( eSHADER_OBJECT_TYPE p_eType )
-	{
-		if ( m_pShaders[p_eType] )
-		{
-			m_pShaders[p_eType]->DestroyProgram();
-			delete m_pShaders[p_eType];
-			m_pShaders[p_eType] = NULL;
-		}
-	}
-
-	bool GlShaderProgram::Link()
-	{
-		bool l_bReturn = false;
-
-		if ( ! m_bError && m_pOpenGl->IsProgram( m_programObject ) )
-		{
-			for ( int i = eSHADER_OBJECT_TYPE_VERTEX ; i < eSHADER_OBJECT_TYPE_COUNT ; i++ )
-			{
-				if ( m_pShaders[i] != NULL )
+				for ( auto l_shader : m_shaders )
 				{
-					m_pShaders[i]->AttachTo( this );
+					if ( !m_bError && l_shader && !l_shader->GetSource().empty() )
+					{
+						l_shader->Create();
+
+						if ( !l_shader->Compile() )
+						{
+							m_bError = true;
+						}
+					}
+				}
+
+				if ( m_bError )
+				{
+					Cleanup();
+				}
+				else if ( !Link() )
+				{
+					Cleanup();
+					m_bError = true;
+				}
+
+				l_bReturn = !m_bError;
+			}
+
+			return l_bReturn;
+		}
+
+		void ShaderProgram::Cleanup()
+		{
+			for ( auto l_shader : m_shaders )
+			{
+				if ( l_shader && !l_shader->GetSource().empty() )
+				{
+					l_shader->Destroy();
 				}
 			}
 
-			GLint l_iLinked = 0;
-			GLint l_iValidated = 0;
-			m_pOpenGl->LinkProgram( m_programObject );
-			m_pOpenGl->GetProgramiv( m_programObject, GL_LINK_STATUS, & l_iLinked );
-			m_pOpenGl->GetProgramiv( m_programObject, GL_VALIDATE_STATUS, & l_iValidated );
-			m_linkerLog = RetrieveLinkerLog();
-
-			if ( l_iLinked && l_iValidated && m_linkerLog.find( wxT( "ERROR" ) ) == wxString::npos )
-			{
-				m_bLinked = true;
-				m_linkerLog.clear();
-			}
-
-			l_bReturn = m_bLinked;
+			Destroy();
 		}
 
-		return l_bReturn;
-	}
-
-	wxString GlShaderProgram::RetrieveLinkerLog()
-	{
-		wxString l_log;
-		GLint l_iLength = 0;
-		GLsizei l_uiLength = 0;
-
-		if ( m_programObject != 0 )
+		bool ShaderProgram::Bind()
 		{
-			m_pOpenGl->GetProgramiv( m_programObject, GL_INFO_LOG_LENGTH , & l_iLength );
+			return GetOpenGl()->UseProgram( GetGlName() );
+		}
 
-			if ( l_iLength > 1 )
+		void ShaderProgram::Unbind()
+		{
+			GetOpenGl()->UseProgram( 0 );
+		}
+
+		void ShaderProgram::CreateObject( eSHADER_OBJECT_TYPE p_eType )
+		{
+			if ( !m_shaders[p_eType] )
 			{
-				char * l_pTmp = new char[l_iLength];
-				m_pOpenGl->GetProgramInfoLog( m_programObject, l_iLength, & l_uiLength, l_pTmp );
-				l_log = wxString( l_pTmp, wxConvLibc );
-				delete [] l_pTmp;
+				m_shaders[p_eType] = std::make_shared< ShaderObject >( GetOpenGl(), p_eType );
 			}
 		}
 
-		return l_log;
-	}
-
-	bool GlShaderProgram::Activate()
-	{
-		bool l_bReturn = true;
-
-		if ( m_programObject != 0 && m_bLinked && ! m_bError )
+		void ShaderProgram::DestroyObject( eSHADER_OBJECT_TYPE p_eType )
 		{
-			if ( m_pOpenGl->UseProgram( m_programObject ) )
+			if ( m_shaders[p_eType] )
 			{
-				l_bReturn = ApplyAllVariables();
+				m_shaders[p_eType]->Destroy();
+				m_shaders[p_eType].reset();
 			}
 		}
 
-		return l_bReturn;
-	}
-
-	void GlShaderProgram::Deactivate()
-	{
-		if ( m_programObject != 0 && m_bLinked && ! m_bError )
+		bool ShaderProgram::Link()
 		{
-			m_pOpenGl->UseProgram( 0 );
-		}
-	}
+			bool l_bReturn = false;
 
-	void GlShaderProgram::SetProgramFile( const wxString & p_strFile, eSHADER_OBJECT_TYPE p_eType )
-	{
-		if ( m_pShaders[p_eType] != NULL )
-		{
-			m_pShaders[p_eType]->SetFile( p_strFile );
-			ResetToCompile();
-		}
-	}
+			if ( ! m_bError && IsValid() )
+			{
+				for ( auto l_shader : m_shaders )
+				{
+					if ( l_shader )
+					{
+						l_shader->AttachTo( shared_from_this() );
+					}
+				}
 
-	GlShaderObject * GlShaderProgram::GetObject( eSHADER_OBJECT_TYPE p_eType )
-	{
-		return m_pShaders[p_eType];
-	}
+				GLint l_iLinked = 0;
+				GetOpenGl()->LinkProgram( GetGlName() );
+				GetOpenGl()->GetProgramParameter( GetGlName(), GL_LINK_STATUS, &l_iLinked );
+				m_linkerLog = RetrieveLinkerLog();
 
-	int GlShaderProgram::GetAttributeLocation( const wxString & p_strName )const
-	{
-		int l_iReturn = GL_INVALID_INDEX;
+				if ( l_iLinked && m_linkerLog.find( _T( "ERROR" ) ) == String::npos )
+				{
+					m_bLinked = true;
+					m_linkerLog.clear();
+				}
+				else
+				{
+					TRACE( m_linkerLog );
+				}
 
-		if ( m_programObject != GL_INVALID_INDEX && m_pOpenGl->IsProgram( m_programObject ) )
-		{
-			l_iReturn = m_pOpenGl->GetAttribLocation( m_programObject, p_strName.char_str() );
-		}
+				l_bReturn = m_bLinked;
+			}
 
-		return l_iReturn;
-	}
-
-	void GlShaderProgram::SetProgramText( const wxString & p_strFile, eSHADER_OBJECT_TYPE p_eType )
-	{
-		if ( m_pShaders[p_eType] != NULL )
-		{
-			m_pShaders[p_eType]->SetFile( wxEmptyString );
-			m_pShaders[p_eType]->SetSource( p_strFile );
-			ResetToCompile();
-		}
-	}
-
-	void GlShaderProgram::ResetToCompile()
-	{
-		m_bLinked = false;
-		m_bError = false;
-	}
-
-	bool GlShaderProgram::ApplyAllVariables()
-	{
-		bool l_bReturn = true;
-
-		for ( FrameVariablePtrList::iterator it = m_listFrameVariables.begin() ; it != m_listFrameVariables.end() && l_bReturn ; ++it )
-		{
-			l_bReturn = ( * it )->Apply();
+			return l_bReturn;
 		}
 
-		return l_bReturn;
-	}
+		String ShaderProgram::RetrieveLinkerLog()
+		{
+			String l_log;
+			GLint l_iLength = 0;
+			GLsizei l_uiLength = 0;
 
-	GlFrameVariable< float > * GlShaderProgram::CreateFloatFrameVariable( const wxString & p_strName )
-	{
-		GlFrameVariable< float > * l_pReturn = new GlFrameVariable< float >( m_pOpenGl, this );
-		l_pReturn->SetName( p_strName );
-		m_listFrameVariables.push_back( l_pReturn );
-		return l_pReturn;
-	}
+			if ( IsValid() )
+			{
+				GetOpenGl()->GetProgramParameter( GetGlName(), GL_INFO_LOG_LENGTH , &l_iLength );
 
-	GlFrameVariable< int > * GlShaderProgram::CreateIntFrameVariable( const wxString & p_strName )
-	{
-		GlFrameVariable< int > * l_pReturn = new GlFrameVariable< int >( m_pOpenGl, this );
-		l_pReturn->SetName( p_strName );
-		m_listFrameVariables.push_back( l_pReturn );
-		return l_pReturn;
+				if ( l_iLength > 1 )
+				{
+					std::vector< char > l_pTmp( l_iLength + 1 );
+					GetOpenGl()->GetProgramInfoLog( GetGlName(), l_iLength, &l_uiLength, l_pTmp.data() );
+					l_log = StringUtils::ToString( l_pTmp.data() );
+				}
+			}
+
+			return l_log;
+		}
+
+		bool ShaderProgram::Activate()
+		{
+			bool l_bReturn = true;
+
+			if ( IsValid() && m_bLinked && !m_bError )
+			{
+				if ( Bind() )
+				{
+					l_bReturn = ApplyAllVariables();
+				}
+			}
+
+			return l_bReturn;
+		}
+
+		void ShaderProgram::Deactivate()
+		{
+			if ( GetGlName() != 0 && m_bLinked && ! m_bError )
+			{
+				Unbind();
+			}
+		}
+
+		void ShaderProgram::SetProgramFile( String const & p_strFile, eSHADER_OBJECT_TYPE p_eType )
+		{
+			if ( m_shaders[p_eType] )
+			{
+				m_shaders[p_eType]->SetFile( p_strFile );
+				ResetToCompile();
+			}
+		}
+
+		String ShaderProgram::GetCompilerLog( eSHADER_OBJECT_TYPE p_eType )const
+		{
+			String l_log;
+
+			if ( m_shaders[p_eType] )
+			{
+				l_log = m_shaders[p_eType]->GetCompilerLog();
+			}
+
+			return l_log;
+		}
+
+		uint32_t ShaderProgram::GetAttributeLocation( String const & p_strName )const
+		{
+			uint32_t l_iReturn = GL_INVALID_INDEX;
+
+			if ( IsValid() )
+			{
+				l_iReturn = GetOpenGl()->GetAttribLocation( GetGlName(), StringUtils::ToStdString( p_strName ).c_str() );
+			}
+
+			return l_iReturn;
+		}
+
+		uint32_t ShaderProgram::GetUniformLocation( String const & p_strName )const
+		{
+			uint32_t l_iReturn = GL_INVALID_INDEX;
+
+			if ( IsValid() )
+			{
+				l_iReturn = GetOpenGl()->GetUniformLocation( GetGlName(), StringUtils::ToStdString( p_strName ).c_str() );
+			}
+
+			return l_iReturn;
+		}
+
+		void ShaderProgram::SetProgramText( String const & p_strFile, eSHADER_OBJECT_TYPE p_eType )
+		{
+			if ( m_shaders[p_eType] )
+			{
+				m_shaders[p_eType]->SetFile( String() );
+				m_shaders[p_eType]->SetSource( p_strFile );
+				ResetToCompile();
+			}
+		}
+
+		void ShaderProgram::ResetToCompile()
+		{
+			m_bLinked = false;
+			m_bError = false;
+		}
+
+		bool ShaderProgram::ApplyAllVariables()
+		{
+			bool l_bReturn = true;
+			auto it = m_listFrameVariables.begin();
+
+			while ( it != m_listFrameVariables.end() && l_bReturn )
+			{
+				l_bReturn = ( *it )->Apply();
+				++it;
+			}
+
+			return l_bReturn;
+		}
+
+		std::shared_ptr< FrameVariable< float > > ShaderProgram::CreateFloatFrameVariable( String const & p_strName )
+		{
+			return CreateFrameVariable( p_strName, GetOpenGl(), shared_from_this(), m_listFrameVariables, m_floatFrameVariables );
+		}
+
+		std::shared_ptr< FrameVariable< int > > ShaderProgram::CreateIntFrameVariable( String const & p_strName )
+		{
+			return CreateFrameVariable( p_strName, GetOpenGl(), shared_from_this(), m_listFrameVariables, m_intFrameVariables );
+		}
+
+		std::shared_ptr< Vec2FrameVariable< float > > ShaderProgram::CreateVec2FloatFrameVariable( String const & p_strName )
+		{
+			return CreateFrameVariable( p_strName, GetOpenGl(), shared_from_this(), m_listFrameVariables, m_vec2fFrameVariables );
+		}
+
+		std::shared_ptr< Vec2FrameVariable< int > > ShaderProgram::CreateVec2IntFrameVariable( String const & p_strName )
+		{
+			return CreateFrameVariable( p_strName, GetOpenGl(), shared_from_this(), m_listFrameVariables, m_vec2iFrameVariables );
+		}
+
+		std::shared_ptr< Vec3FrameVariable< float > > ShaderProgram::CreateVec3FloatFrameVariable( String const & p_strName )
+		{
+			return CreateFrameVariable( p_strName, GetOpenGl(), shared_from_this(), m_listFrameVariables, m_vec3fFrameVariables );
+		}
+
+		std::shared_ptr< Vec3FrameVariable< int > > ShaderProgram::CreateVec3IntFrameVariable( String const & p_strName )
+		{
+			return CreateFrameVariable( p_strName, GetOpenGl(), shared_from_this(), m_listFrameVariables, m_vec3iFrameVariables );
+		}
+
+		std::shared_ptr< Vec4FrameVariable< float > > ShaderProgram::CreateVec4FloatFrameVariable( String const & p_strName )
+		{
+			return CreateFrameVariable( p_strName, GetOpenGl(), shared_from_this(), m_listFrameVariables, m_vec4fFrameVariables );
+		}
+
+		std::shared_ptr< Vec4FrameVariable< int > > ShaderProgram::CreateVec4IntFrameVariable( String const & p_strName )
+		{
+			return CreateFrameVariable( p_strName, GetOpenGl(), shared_from_this(), m_listFrameVariables, m_vec4iFrameVariables );
+		}
+
+		std::shared_ptr< Mat4FrameVariable< float > > ShaderProgram::CreateMat4FloatFrameVariable( String const & p_strName )
+		{
+			return CreateFrameVariable( p_strName, GetOpenGl(), shared_from_this(), m_listFrameVariables, m_mat4FrameVariables );
+		}
+
+		std::shared_ptr< FrameVariable< float > > ShaderProgram::GetFloatFrameVariable( String const & p_strName )
+		{
+			return GetFrameVariable( p_strName, m_floatFrameVariables );
+		}
+
+		std::shared_ptr< FrameVariable< int > > ShaderProgram::GetIntFrameVariable( String const & p_strName )
+		{
+			return GetFrameVariable( p_strName, m_intFrameVariables );
+		}
+
+		std::shared_ptr< Vec2FrameVariable< float > > ShaderProgram::GetVec2FloatFrameVariable( String const & p_strName )
+		{
+			return GetFrameVariable( p_strName, m_vec2fFrameVariables );
+		}
+
+		std::shared_ptr< Vec2FrameVariable< int > > ShaderProgram::GetVec2IntFrameVariable( String const & p_strName )
+		{
+			return GetFrameVariable( p_strName, m_vec2iFrameVariables );
+		}
+
+		std::shared_ptr< Vec3FrameVariable< float > > ShaderProgram::GetVec3FloatFrameVariable( String const & p_strName )
+		{
+			return GetFrameVariable( p_strName, m_vec3fFrameVariables );
+		}
+
+		std::shared_ptr< Vec3FrameVariable< int > > ShaderProgram::GetVec3IntFrameVariable( String const & p_strName )
+		{
+			return GetFrameVariable( p_strName, m_vec3iFrameVariables );
+		}
+
+		std::shared_ptr< Vec4FrameVariable< float > > ShaderProgram::GetVec4FloatFrameVariable( String const & p_strName )
+		{
+			return GetFrameVariable( p_strName, m_vec4fFrameVariables );
+		}
+
+		std::shared_ptr< Vec4FrameVariable< int > > ShaderProgram::GetVec4IntFrameVariable( String const & p_strName )
+		{
+			return GetFrameVariable( p_strName, m_vec4iFrameVariables );
+		}
+
+		std::shared_ptr< Mat4FrameVariable< float > > ShaderProgram::GetMat4FloatFrameVariable( String const & p_strName )
+		{
+			return GetFrameVariable( p_strName, m_mat4FrameVariables );
+		}
 	}
 }

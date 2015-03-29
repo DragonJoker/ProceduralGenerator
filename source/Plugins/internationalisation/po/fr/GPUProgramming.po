@@ -1,0 +1,110 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GPUProgramming\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-04 02:25+0100\n"
+"PO-Revision-Date: 2015-03-29 11:28-0000\n"
+"Last-Translator: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language-Team: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ../include/GPUProgramming\n"
+"X-Poedit-SearchPath-1: ../source/GPUProgramming\n"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:154
+msgid "Choose a fragment shader file"
+msgstr "Choisissez un fichier de fragment shader"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:153
+msgid "Choose a vertex shader file"
+msgstr "Choisissez un fichier de vertex shader"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:155
+msgid "Compile"
+msgstr "Compiler"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:274
+msgid "Compile and Link result"
+msgstr "Résultat compilation"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:156
+msgid "Compiler Log"
+msgstr "Log"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:256
+msgid "Fragment Shader :"
+msgstr "Shader fragment"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:154
+msgid "Fragment shader GLSL files (*.glsl;*.frag )|*.glsl;*.frag"
+msgstr "Fichiers Fragment shader GLSL (*.glsl;*.frag)|*.gsls;*.frag"
+
+#: ..\GPUProgramming\Src\GpuPlugin.cpp:20
+msgid "GPU Programming"
+msgstr "Programmation GPU"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:266
+msgid "Linker :"
+msgstr "Linker :"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:178
+msgid "New..."
+msgstr "Nouveau..."
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:271
+msgid "No error"
+msgstr "Aucune erreur"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:157
+msgid "Remove"
+msgstr "Supprimer"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:150
+msgid "Reset Time"
+msgstr "Reset temps"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:151
+msgid "Shaders"
+msgstr "Shaders"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:244
+msgid "Vertex Shader :"
+msgstr "Shader vertex :"
+
+#: ..\GPUProgramming\Src\GpuProgramming.cpp:153
+msgid "Vertex shader GLSL files (*.glsl;*.vert )|*.glsl;*.vert"
+msgstr "Fichiers Vertex shader GLSL (*.glsl;*.vert)|*.gsls;*.vert"
+
+#~ msgid "Image"
+#~ msgstr "Image"
+
+#~ msgid "Vertex"
+#~ msgstr "Vertex"
+
+#~ msgid "Pixel"
+#~ msgstr "Pixel"
+
+#~ msgid "Compiler log"
+#~ msgstr "Log de compilation"
+
+#~ msgid "Vertex shader GLSL files (*.glsl;*.vert)|*.glsl;*.vert"
+#~ msgstr "Fichiers vertex shader GLSL (*.glsl;*.vert)|*.glsl;*.vert"
+
+#~ msgid "Fragment shader GLSL files (*.glsl;*.frag)|*.glsl;*.frag"
+#~ msgstr "Fichiers fragment shader GLSL (*.glsl;*.frag)|*.glsl;*.frag"
+
+#~ msgid "Image loading error"
+#~ msgstr "Erreur de chargement d'image"
+
+#~ msgid "No handler found for this image format"
+#~ msgstr "Aucun gestionnaire trouvé pour ce format d'image."

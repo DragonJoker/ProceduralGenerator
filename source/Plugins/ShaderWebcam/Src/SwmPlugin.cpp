@@ -1,23 +1,25 @@
 #include "SwmPlugin.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace ShaderWebcam
 {
-	IMPLEMENT_PLUGIN( SwmPlugin, ShaderWebcam )
+	IMPLEMENT_PLUGIN( Plugin, Generator )
 
-	SwmPlugin :: SwmPlugin()
-		:	Plugin< ShaderWebcam, SwmPlugin >( wxT( "ShaderWebcam" ) )
+	Plugin::Plugin()
+		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "ShaderWebcam" ) )
 	{
 	}
 
-	SwmPlugin :: ~SwmPlugin()
+	Plugin::~Plugin()
 	{
 	}
 
-	wxString SwmPlugin :: GetName()
+	String Plugin::GetName()
 	{
-		wxString l_strBaseName = _( "Shader Webcam" );
+		String l_strBaseName = _( "Shader Webcam" );
 #if !defined( NDEBUG )
-		l_strBaseName += wxT( " (Debug)" );
+		l_strBaseName += _T( " (Debug)" );
 #endif
 		return l_strBaseName;
 	}

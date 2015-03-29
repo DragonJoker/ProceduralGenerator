@@ -1,30 +1,19 @@
 #include "LgCell.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace LifeGame
 {
-	LgCell::LgCell()
+	Cell::Cell()
 		:	m_pixel( NULL )
 	{
 	}
 
-	LgCell::LgCell( const LgCell & cell )
-		:	m_pixel( cell.m_pixel )
-		,	m_alive( cell.m_alive )
+	Cell::~Cell()
 	{
 	}
 
-	LgCell::~LgCell()
-	{
-	}
-
-	LgCell & LgCell::operator =( const LgCell & cell )
-	{
-		m_pixel = cell.m_pixel;
-		m_alive = cell.m_alive;
-		return * this;
-	}
-
-	void LgCell::Set( UbPixel * p_pixel, bool p_alive )
+	void Cell::Set( UbPixel * p_pixel, bool p_alive )
 	{
 		m_pixel = p_pixel;
 		m_alive = p_alive;
@@ -35,7 +24,7 @@ namespace ProceduralTextures
 		}
 	}
 
-	void LgCell::Die()
+	void Cell::Die()
 	{
 		m_alive = false;
 		m_pixel->r = 255;
@@ -43,7 +32,7 @@ namespace ProceduralTextures
 		m_pixel->b = 255;
 	}
 
-	void LgCell::Live()
+	void Cell::Live()
 	{
 		m_alive = true;
 		m_pixel->r = 0;
@@ -51,7 +40,7 @@ namespace ProceduralTextures
 		m_pixel->b = 0;
 	}
 
-	void LgCell::SetAlive( bool p_alive )
+	void Cell::SetAlive( bool p_alive )
 	{
 		if ( p_alive )
 		{

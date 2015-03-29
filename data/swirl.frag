@@ -1,3 +1,5 @@
+varying vec2 pxl_texture;
+
 uniform sampler2D pg_texture;
 uniform int pg_width;
 uniform int pg_height;
@@ -8,7 +10,7 @@ void main (void)
 	float angle = 0.8;
 	vec2 center = vec2( float( pg_width) / 2.0, float( pg_height) / 2.0);
 
-	vec2 uv = gl_TexCoord[0].st;
+	vec2 uv = pxl_texture;
 	vec2 texSize = vec2( float( pg_width), float( pg_height));	
 	vec2 tc = uv * texSize;
 	tc -= center;

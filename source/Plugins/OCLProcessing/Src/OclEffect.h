@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -19,17 +19,21 @@ http://www.gnu.org/copyleft/lesser.txt.
 #define ___OCL_EFFECT_H___
 
 #include <GeneratorPrerequisites.h>
+#include <Size.h>
+
+#include <OpenGl.h>
+
 #include "cl.hpp"
 
 #include <vector>
 #include <map>
 #include <string>
 
-namespace ProceduralTextures
+namespace OCLProcessing
 {
 	namespace ocl
 	{
-		bool CheckErr( cl_int p_iErr, const char * p_szName );
+		bool CheckErr( cl_int p_iErr, ProceduralTextures::String const & p_text, bool p_throws = false );
 	}
 
 	typedef enum
@@ -48,27 +52,25 @@ namespace ProceduralTextures
 	class Effect
 	{
 	public:
-		Effect( cl::Context const & p_clContext, cl::Device const & p_clDevice, cl::CommandQueue const & p_clQueue, wxImage * p_pImage, PixelBuffer * p_pBuffer );
+		Effect( cl::Context const & p_clContext, cl::Device const & p_clDevice, cl::CommandQueue const & p_clQueue, std::shared_ptr< ProceduralTextures::PixelBuffer > p_pBuffer );
 		virtual ~Effect();
 
-		bool LoadFile( wxString const & p_strPath );
-		bool LoadKernel( wxString const & p_strName );
+		bool LoadFile( ProceduralTextures::String const & p_strPath );
+		bool LoadKernel( ProceduralTextures::String const & p_strName );
 		void Compile();
-		void SetImagePath( size_t p_iImage, wxString const & p_strImagePath );
 
 		void Initialise();
+		void Resize( ProceduralTextures::Size const & p_size );
 		void Cleanup();
 
 		bool Apply( eSEPARATION p_eType, int p_iOffset );
 
-		wxString GetCompilerLog();
-		wxString GetLinkerLog();
-
+		ProceduralTextures::String GetCompilerLog();
 		void UpdateImages();
 
 		inline void ResetTime()
 		{
-			m_llStartTime = wxGetLocalTimeMillis();
+			m_llStartTime = ProceduralTextures::Clock::now();
 		}
 		inline bool IsInitialised()const
 		{
@@ -84,29 +86,21 @@ namespace ProceduralTextures
 		}
 
 	private:
-		void DoInitialiseImages();
-		void DoCleanupImages();
-
-	private:
-		wxImage * m_pImage;
-		std::vector< wxImage * > m_arrayImages;
-		std::vector< wxString > m_arrayImagesFiles;
 		cl::Context m_clContext;
 		cl::Device m_clDevice;
 		cl::CommandQueue m_clQueue;
 		cl::Program m_clProgram;
 		cl::Kernel m_clKernel;
-		wxString m_strFile;
-		wxString m_strKernel;
+		ProceduralTextures::String m_strFile;
+		ProceduralTextures::String m_strKernel;
 		bool m_bNewProgram;
-		wxMilliClock_t m_llStartTime;
-		int m_iWidth;
-		int m_iHeight;
+		ProceduralTextures::Clock::time_point m_llStartTime;
+		ProceduralTextures::Size m_size;
+		bool m_changed;
 		bool m_bLoaded;
 		cl::Image2D m_inputImage2DBuffer;
 		cl::Image2D m_outputImage2DBuffer;
-		wxImage * m_outputImage;
-		PixelBuffer * m_pInputBuffer;
+		std::weak_ptr< ProceduralTextures::PixelBuffer > m_pInputBuffer;
 		int m_iArgsCount;
 		std::vector< stKERNEL > m_arrayKernels;
 		bool m_bProgramLoaded;

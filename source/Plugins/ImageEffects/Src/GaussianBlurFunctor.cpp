@@ -1,8 +1,8 @@
 #include "GaussianBlurFunctor.h"
 
-#include <cmath>
+using namespace ProceduralTextures;
 
-namespace ProceduralTextures
+namespace ImageEffects
 {
 	const int GaussianBlurFunctor::m_iGaussLvl = 7;
 	const int GaussianBlurFunctor::m_iGaussMask[] = {1, 6, 15, 20, 15, 6, 1};
@@ -18,13 +18,13 @@ namespace ProceduralTextures
 	{
 	}
 
-	void GaussianBlurFunctor::operator()( const PixelBuffer & p_bufferIn, PixelBuffer & p_bufferOut )
+	void GaussianBlurFunctor::operator()( PixelBuffer const & p_bufferIn, PixelBuffer & p_bufferOut )
 	{
 		Pixel< double > l_linc;
 
-		for ( int i = m_iGaussLvl - 1 ; i < m_iImgHeight ; i++ )
+		for ( uint32_t i = m_iGaussLvl - 1; i < m_size.y(); i++ )
 		{
-			for ( int j = 0 ; j < m_iImgWidth ; j++ )
+			for ( uint32_t j = 0; j < m_size.x(); j++ )
 			{
 				l_linc  =	m_iGaussMask[0] * p_bufferIn[i - 6][j];
 				l_linc +=	m_iGaussMask[1] * p_bufferIn[i - 5][j];
@@ -38,9 +38,9 @@ namespace ProceduralTextures
 			}
 		}
 
-		for ( int i = 0 ; i < m_iImgHeight ; i++ )
+		for ( uint32_t i = 0; i < m_size.y(); i++ )
 		{
-			for ( int j = m_iGaussLvl - 1 ; j < m_iImgWidth ; j++ )
+			for ( uint32_t j = m_iGaussLvl - 1; j < m_size.x(); j++ )
 			{
 				l_linc  =	m_iGaussMask[0] * m_temporaryBuffer[i][j - 6];
 				l_linc +=	m_iGaussMask[1] * m_temporaryBuffer[i][j - 5];
@@ -55,9 +55,9 @@ namespace ProceduralTextures
 		}
 	}
 
-	void GaussianBlurFunctor::SetImage( const wxImage & p_image )
+	void GaussianBlurFunctor::SetImage( PixelBuffer const & p_image )
 	{
 		EffectFunctor::SetImage( p_image );
-		m_temporaryBuffer.init( Size( m_iImgWidth, m_iImgHeight ) );
+		m_temporaryBuffer.Initialise( m_size );
 	}
 }

@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,7 +18,14 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___ProjectListFrame___
 #define ___ProjectListFrame___
 
-namespace ProceduralTextures
+#pragma warning( push )
+#pragma warning( disable:4996 )
+#include <wx/combobox.h>
+#include <wx/dialog.h>
+#include <wx/stattext.h>
+#pragma warning( pop )
+
+namespace ProceduralGenerator
 {
 	class ProjectListDialog
 		: public wxDialog
@@ -32,7 +39,7 @@ namespace ProceduralTextures
 		};
 
 	public:
-		ProjectListDialog( wxWindow * p_parent, const wxArrayString & p_choices );
+		ProjectListDialog( wxWindow * p_parent, wxArrayString const & p_choices );
 		~ProjectListDialog();
 
 		wxString GetProject();

@@ -1,0 +1,195 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: OCLProcessing\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-29 11:18+0100\n"
+"PO-Revision-Date: 2015-03-29 11:25-0000\n"
+"Last-Translator: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language-Team: dragonjoker <dragonjoker59@hotmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ../include/OCLProcessing\n"
+"X-Poedit-SearchPath-1: ../source/OCLProcessing\n"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:233
+msgid "Building the OpenCL program"
+msgstr "Compilation du programme OpenCL"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:166
+msgid "Choose an OpenCL program file"
+msgstr "Choisissez un fichier OpenCL"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:159
+msgid "Compile and Link result"
+msgstr "Résultat de compilation"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:62
+msgid "Compiler log"
+msgstr "Log de compilation"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:187
+msgid "Couldn't load OpenCL program:"
+msgstr "Impossible de charger le programme OpenCL :"
+
+#: ..\OCLProcessing\Src\OclGpuStep.cpp:54
+msgid "Creating an OpenCL command queue"
+msgstr "Création de la file de commandes OpenCL"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:231
+msgid "Creating an OpenCL program"
+msgstr "Création d'un programme OpenCL"
+
+#: ..\OCLProcessing\Src\OclGpuStep.cpp:41
+msgid "Creating the OpenCL context"
+msgstr "Création du contexte OpenCL"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:111
+msgid "Error encountered during OpenCL operation:"
+msgstr "Erreur rencontrée lors d'une opération OpenCL :"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:113
+msgid "Error: "
+msgstr "Erreur :"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:374
+msgid "Finishing the queue"
+msgstr "Finalisation de la file"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:35
+msgid "Horizontally"
+msgstr "Horizontale"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:44
+msgid "Image"
+msgstr "Image"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:59
+msgid "Kernels"
+msgstr "Noyaux"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:308
+msgid "Loading an OpenCL image (input)"
+msgstr "Chargement d'une image OpenCL (entrée)"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:314
+msgid "Loading an OpenCL image (output)"
+msgstr "Chargement d'une image OpenCL (sortie)"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:41
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:116
+msgid "New..."
+msgstr "Nouveau..."
+
+#: ..\OCLProcessing\Src\OclGpuStep.cpp:135
+msgid "No error"
+msgstr "Aucune erreur"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:34
+msgid "Not separated"
+msgstr "Non séparé"
+
+#: ..\OCLProcessing\Src\OclPlugin.cpp:20
+msgid "OpenCL Processing"
+msgstr "Effets par OpenCL"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:187
+msgid "OpenCL error"
+msgstr "Erreur OpenCL"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:166
+msgid "OpenCL files (*.cl)|*.cl"
+msgstr "Fichiers OpenCL (*.cl)|*.cl"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:57
+msgid "Program"
+msgstr "Programme"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:40
+msgid "Program 1"
+msgstr "Programme 1"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:54
+msgid "Programs"
+msgstr "Programmes"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:379
+msgid "Queuing the OpenCL image reading operation"
+msgstr "Mise dans la file de la lecture d'une image OpenCL"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:330
+msgid "Queuing the OpenCL image writing operation"
+msgstr "Mise dans la file de l'écriture dans une image OpenCL"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:369
+msgid "Queuing the OpenCL kernel execution"
+msgstr "Mise dans la file de l'exécution du noyau"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:64
+msgid "Remove"
+msgstr "Supprimer"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:52
+msgid "Reset Time"
+msgstr "Reset temps"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:254
+msgid "Retrieving an OpenCL kernel"
+msgstr "Récupération d'un noyau OpenCL"
+
+#: ..\OCLProcessing\Src\OclGpuStep.cpp:47
+msgid "Retrieving the OpenCL devices"
+msgstr "Récupération des périphériques OpenCL"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:259
+msgid "Retrieving the OpenCL kernel parameters"
+msgstr "Récupération des paramètres du noyau OpenCL"
+
+#: ..\OCLProcessing\Src\OclGpuStep.cpp:26
+msgid "Retrieving the OpenCL platforms"
+msgstr "Récupération des plateformes OpenCL"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:46
+msgid "Separation"
+msgstr "Séparation"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:355
+msgid "Setting kernel parameter 0"
+msgstr "Définition du paramètre 0 du noyau"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:359
+msgid "Setting kernel parameter 1"
+msgstr "Définition du paramètre 1 du noyau"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:346
+msgid "Setting kernel parameter pg_sep_offset"
+msgstr "Définition du paramètre 'pg_sep_offset' du noyau"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:342
+msgid "Setting kernel parameter pg_sep_type"
+msgstr "Définition du paramètre 'pg_sep_type' du noyau"
+
+#: ..\OCLProcessing\Src\OclEffect.cpp:351
+msgid "Setting kernel parameter pg_time"
+msgstr "Définition du paramètre 'pg_time' du noyau"
+
+#: ..\OCLProcessing\Src\OCLProcessing.cpp:36
+msgid "Vertically"
+msgstr "Verticale"
+
+#~ msgid "Choose an OpenCL file"
+#~ msgstr "Choisissez un fichier OpenCL"
+
+#~ msgid "Program :"
+#~ msgstr "Programme :"
+
+#~ msgid "Kernel"
+#~ msgstr "Kernel"
+
+#~ msgid "Compile"
+#~ msgstr "Compiler"

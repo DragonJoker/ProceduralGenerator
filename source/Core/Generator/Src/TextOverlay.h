@@ -1,9 +1,9 @@
-/*
-This source file is part of ProceduralGenerator (https://sourceforge.net/projects/proceduralgene/ )
+﻿/*
+This source file is part of Castor3D (http://castor3d.developpez.com/castor3d.htm)
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option ) any later
+Foundation; either version 2 of the License, or (at your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -18,246 +18,306 @@ http://www.gnu.org/copyleft/lesser.txt.
 #ifndef ___GENERATOR_TEXT_OVERLAY_H___
 #define ___GENERATOR_TEXT_OVERLAY_H___
 
-#include "Pixel.h"
-#include "GlVertexBuffer.h"
-#include "GlIndexBuffer.h"
-#include "GlTexture.h"
-#include "GlFrameBuffer.h"
+#include "Overlay.h"
+#include "Vertex.h"
+
+#pragma warning( push )
+#pragma warning( disable:4251 )
+#pragma warning( disable:4275 )
 
 namespace ProceduralTextures
 {
-	typedef std::vector< uint8_t > ByteArray;
-
 	/*!
-	\author		Sylvain DOREMUS
-	\date		15/05/2013
-	\brief		Class used to display 2D text
+	\author 	Sylvain DOREMUS
+	\date 		02/03/2015
+	\version	2.0.0
+	\brief		Horizontal alignments
+	*/
+	typedef enum eHALIGN
+	{
+		//! Aligned on the left
+		eHALIGN_LEFT,
+		//! Centered horizontally
+		eHALIGN_CENTER,
+		//! Aligned on the right
+		eHALIGN_RIGHT,
+	}	eHALIGN;
+	/*!
+	\author 	Sylvain DOREMUS
+	\date 		02/03/2015
+	\version	2.0.0
+	\brief		Vertical alignments
+	*/
+	typedef enum eVALIGN
+	{
+		//! Aligned on the top
+		eVALIGN_TOP,
+		//! Centered vertically
+		eVALIGN_CENTER,
+		//! Aligned on the bottom
+		eVALIGN_BOTTOM,
+	}	eVALIGN;
+	/*!
+	\author 	Sylvain DOREMUS
+	\date 		23/02/2015
+	\version	2.0.0
+	\brief		A character in a text overlay : position, size and value
+	*/
+	class GeneratorAPI Character
+	{
+	public:
+		/**
+		 *\brief		Constructor
+		 *\param[in]	p_value		The character value
+		 *\param[in]	p_position	The character position
+		 *\param[in]	p_size		The character size
+		 */
+		Character( char32_t p_value, Position const & p_position, Size const & p_size )
+			: m_value( p_value )
+			, m_position( p_position )
+			, m_size( p_size )
+		{
+		}
+		/**
+		 *\brief		Destructor
+		 */
+		virtual ~Character()
+		{
+		}
+		/**
+		 *\brief		Retrieves the character value
+		 *\return		The value
+		 */
+		inline char32_t GetValue()const
+		{
+			return m_value;
+		}
+		/**
+		 *\brief		Retrieves the character position
+		 *\return		The value
+		 */
+		inline Position const & GetPosition()const
+		{
+			return m_position;
+		}
+		/**
+		 *\brief		Retrieves the character size
+		 *\return		The value
+		 */
+		inline Size const & GetSize()const
+		{
+			return m_size;
+		}
+
+	private:
+		//! The character value
+		char32_t m_value;
+		//! The character position
+		Position m_position;
+		//! The character size
+		Size m_size;
+	};
+	/*!
+	\author 	Sylvain DOREMUS
+	\date 		23/02/2015
+	\version	2.0.0
+	\brief		An overlay with a text
 	*/
 	class GeneratorAPI TextOverlay
+		:	public Overlay
 	{
-	private:
-		/*!
-		\author		Sylvain DOREMUS
-		\date		15/05/2013
-		\brief		Class holding a glyph (id est a character bitmap)
-		*/
-		class Glyph
-		{
-		public:
-			/**
-			 *\brief		Default constructor
-			 */
-			Glyph();
-			/**
-			 *\brief		Copy assignment constructor
-			 *\param[in]	p_glyph	The source object
-			 */
-			Glyph( const Glyph & p_glyph );
-			/**
-			 *\brief		Copy assignment operator
-			 *\param[in]	p_glyph	The source object
-			 *\return		A reference to this object
-			 */
-			Glyph & operator =( const Glyph & p_glyph );
-			/**
-			 *\brief		Destructor
-			 */
-			~Glyph();
-			/**
-			 *\brief		Retrieves the glyph dimensions
-			 *\return		The current value
-			 */
-			inline const wxSize & GetSize()const
-			{
-				return m_size;
-			}
-			/**
-			 *\brief		Retrieves the glyph position
-			 *\return		The current value
-			 */
-			inline const wxPoint & GetPosition()const
-			{
-				return m_ptPosition;
-			}
-			/**
-			 *\brief		Retrieves the glyph image
-			 *\return		The current value
-			 */
-			inline const ByteArray & GetBitmap()const
-			{
-				return m_bitmap;
-			}
-			/**
-			 *\brief		Sets the glyph image
-			 *\param[in]	val	The new value
-			 */
-			inline void	SetBitmap( const ByteArray & val )
-			{
-				m_bitmap = val;
-			}
-			/**
-			 *\brief		Sets the glyph position
-			 *\param[in]	val	The new value
-			 */
-			inline void SetPosition( const wxPoint & val )
-			{
-				m_ptPosition = val;
-			}
-			/**
-			 *\brief		Sets the glyph dimensions
-			 *\param[in]	val	The new value
-			 */
-			inline void SetSize( const wxSize & val )
-			{
-				m_size = val;
-			}
-
-		private:
-			//! The glyph position
-			wxPoint m_ptPosition;
-			//! The glyph dimensions
-			wxSize m_size;
-			//! The glyph image
-			ByteArray m_bitmap;
-		};
-		//! Typedef on a glyph vector
-		typedef std::vector< Glyph > GlyphArray;
+	public:
+		typedef std::map< char32_t, Position > GlyphPositionMap;
+		typedef std::vector< Character > CharacterArray;
 
 	public:
 		/**
 		 *\brief		Constructor
-		 *\param[in]	p_pOpenGl	The OpenGL instance
+		 *\param[in]	p_openGl	The OpenGl instance
+		 *\param[in]	p_material	The material
+		 *\param[in]	p_parent	The parent overlay (if any)
 		 */
-		TextOverlay( OpenGl * p_pOpenGl );
+		TextOverlay( std::shared_ptr< gl::OpenGl > p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent );
 		/**
 		 *\brief		Destructor
 		 */
-		~TextOverlay();
+		virtual ~TextOverlay();
 		/**
-		 *\brief		All OpenGL global initialisations must be made in this function
+		 *\brief		Sets the text font
+		 *\param[in]	p_font	The new value
 		 */
-		void Initialise();
+		void SetFont( std::shared_ptr< Font > p_font );
 		/**
-		 *\brief		All OpenGL global cleanups must be made in this function
+		 *\brief		Sets the shader program
+		 *\param[in]	p_type		The new value
+		 *\param[in]	p_program	The new value
 		 */
-		void Cleanup();
+		virtual void SetProgram( eMATERIAL_TYPE p_type, std::shared_ptr< gl::ShaderProgram > p_program );
 		/**
-		 *\brief		Retrieves font's glyph and initialises the overlay to given parameters
-		 *\param[in]	p_iHeight	The font pixel height
-		 *\param[in]	p_eStyle	The font style
-		 *\param[in]	p_eWeight	The font weight
+		 *\brief		Retrieves the wanted glyph position
+		 *\param[in]	p_char	The glyph index
+		 *\return		The position
 		 */
-		void Create( int p_iHeight, wxFontStyle p_eStyle, wxFontWeight p_eWeight );
+		Position const & GetGlyphPosition( char32_t p_char )const;
 		/**
-		 *\brief		Draws the text overlay into a given frame buffer
-		 *\param[in]	p_frameBuffer	The frame buffer that receives the rendering
+		 *\brief		Retrieves the font
+		 *\return		The value
 		 */
-		void Draw( GlFrameBuffer & p_frameBuffer );
-		/**
-		 *\brief		Defines the text, tells it is modified
-		 *\param[in]	p_strText	The new value
-		 */
-		inline void	SetText( const wxString & p_strText )
+		std::shared_ptr< Font > GetFont()const
 		{
-			m_strText = p_strText;
-			m_bTextModified = true;
+			return m_wpFont.lock();
 		}
 		/**
-		 *\brief		Defines the overlay size, sets it modified
-		 *\param[in]	p_size	The new value
+		 *\brief		Retrieves the overlay text
+		 *\return		The value
 		 */
-		inline void	SetSize( const wxSize & p_size )
+		inline String const & GetCaption()const
 		{
-			m_size = p_size;
-			m_bMatrixModified = true;
+			return m_caption;
 		}
 		/**
-		 *\brief		Defines the overlay size, sets it modified
-		 *\param[in]	p_size	The new value
+		 *\brief		Retrieves the horizontal alignment
+		 *\return		The value
 		 */
-		inline void	SetPosition( const wxPoint & p_position )
+		inline eHALIGN GetHAlign()const
 		{
-			m_position = p_position;
-			m_bMatrixModified = true;
+			return m_hAlign;
 		}
 		/**
-		 *\brief		Defines the overlay background colour
-		 *\param[in]	p_colour	The new value
+		 *\brief		Retrieves the vertical alignment
+		 *\return		The value
 		 */
-		void SetBackground( wxColour const & p_colour );
+		inline eVALIGN GetVAlign()const
+		{
+			return m_vAlign;
+		}
 		/**
-		 *\brief		Defines the overlay foreground colour
-		 *\param[in]	p_colour	The new value
+		 *\brief		Sets the overlay text
+		 *\param[in]	p_caption	The new value
 		 */
-		void SetForeground( wxColour const & p_colour );
+		inline void SetCaption( String const & p_caption )
+		{
+			m_changed = m_caption != p_caption;
+			m_caption = p_caption;
+		}
 		/**
-		 *\brief		Defines the overlay background image
-		 *\param[in]	p_image	The new value
+		 *\brief		Sets text wrapping mode
+		 *\param[in]	p_mode	The new value
 		 */
-		void SetBackground( wxImage const & p_image );
+		inline void SetTextWrappingMode( eTEXT_WRAPPING_MODE p_mode )
+		{
+			m_changed = m_wrappingMode != p_mode;
+			m_wrappingMode = p_mode;
+		}
 		/**
-		 *\brief		Defines the overlay foreground image
-		 *\param[in]	p_image	The new value
+		 *\brief		Sets the horizontal alignment
+		 *\param[in]	p_align	The new value
 		 */
-		void SetForeground( wxImage const & p_image );
+		inline void SetHAlign( eHALIGN p_align )
+		{
+			m_changed = m_hAlign != p_align;
+			m_hAlign = p_align;
+		}
+		/**
+		 *\brief		Sets the vertical alignment
+		 *\param[in]	p_align	The new value
+		 */
+		inline void SetVAlign( eVALIGN p_align )
+		{
+			m_changed = m_vAlign != p_align;
+			m_vAlign = p_align;
+		}
+		/**
+		 *\brief		Retrieves an iterator to the beginning of the characters array
+		 *\return		The iterator
+		 */
+		inline CharacterArray::const_iterator Begin()const
+		{
+			return m_characters.begin();
+		}
+		/**
+		 *\brief		Retrieves an iterator to the end of the characters array
+		 *\return		The iterator
+		 */
+		inline CharacterArray::const_iterator End()const
+		{
+			return m_characters.end();
+		}
 
-	private:
-		void DoSubRender();
+	protected:
+		/**
+		 *\brief		Initialises the overlay and its buffers
+		 */
+		virtual void DoInitialise();
+		/**
+		 *\brief		Cleans the overlay and its buffers up
+		 */
+		virtual void DoCleanup();
+		/**
+		 *\brief		Draws the overlay
+		 */
+		virtual void DoRender();
+		/**
+		 *\brief		Updates the vertex buffer
+		 */
+		virtual void DoUpdate();
+		/**
+		 *\brief		Updates the overlay position and size, taking care of wanted pixel size and position
+		 */
+		virtual void DoUpdatePositionAndSize( Size const & p_size );
+		/**
+		 *\brief		Adds a word to the vertex buffer
+		 *\param[in]	p_word		The word to add
+		 *\param[in]	p_wordWidth	The word width
+		 *\param[in]	p_position	The word position
+		 *\param[in]	p_size		The overlay size
+		 *\param[out]	p_lineWidth	The line width
+		 *\param[out]	p_lineVtx	The line
+		 *\param[out]	p_linesVtx	the lines
+		 */
+		void DoWriteWord( String const & p_word, int32_t p_wordWidth, Size const & p_size, Position & p_position, int32_t & p_lineWidth, std::vector< VertexI > & p_lineVtx, std::vector< std::vector< VertexI > > & p_linesVtx );
+		/**
+		 *\brief		Horizontally align a line
+		 *\param[in]	p_width		The overlay width
+		 *\param[out]	p_lineWidth	The line width
+		 *\param[out]	p_lineVtx	The line
+		 *\param[out]	p_linesVtx	the lines
+		 */
+		void DoAlignHorizontally( int32_t p_width, int32_t & p_lineWidth, std::vector< VertexI > & p_lineVtx, std::vector< std::vector< VertexI > > & p_linesVtx );
+		/**
+		 *\brief		Vertically align a line
+		 *\param[in]	p_height		The overlay width
+		 *\param[out]	p_linesHeight	The lines height
+		 *\param[out]	p_linesVtx		the lines
+		 */
+		void DoAlignVertically( int32_t p_height, int32_t p_linesHeight, std::vector< std::vector< VertexI > > & p_linesVtx );
 
-	private:
-		//! The OpenGl instance
-		OpenGl * m_pOpenGl;
-		//! The vertices buffer
-		GlVertexBuffer m_vtxBuffer;
-		//! The indices buffer
-		GlIndexBuffer m_idxBuffer;
-		//! The background texture, may be an image or a colour or nothing
-		GlTexture m_textureBackground;
-		//! Tells if the background has been modified
-		bool m_bBackgroundModified;
-		//! The foreground texture, may be an image or a colour or nothing
-		GlTexture m_textureForeground;
-		//! Tells if the foreground has been modified
-		bool m_bForegroundModified;
-		//! The currently displayed text texture
-		GlTexture m_textureText;
-		//! The background texture with the text cut into it
-		GlTexture m_textureBackgroundCut;
-		//! Frame buffer receiving the result of background - text
-		GlFrameBuffer m_frameBufferBackgroundCut;
-		//! Texture receiving the result of (text * foreground )
-		GlTexture m_textureBlendedText;
-		//! Frame buffer receiving the result of (text * foreground )
-		GlFrameBuffer m_frameBufferBlendedText;
-		//! The texture bound to the result frame buffer
-		GlTexture m_textureResult;
-		//! Frame buffer receiving the result of (background - text ) + (text * foreground )
-		GlFrameBuffer m_frameBufferResult;
-		//! The font glyphs
-		GlyphArray m_arrayGlyphs;
-		//! The current overlay text
-		wxString m_strText;
-		//! Tells if the text has been modified and needs redraw
-		bool m_bTextModified;
-		//! The maximum height, for line ends
-		int m_iMaxHeight;
-		//! Blend mode for text colour
-		GlTexture::BlendMode m_blendRgbTxt;
-		//! Blend mode for text alpha
-		GlTexture::BlendMode m_blendAlphaTxt;
-		//! Blend mode for background colour
-		GlTexture::BlendMode m_blendRgbImg;
-		//! Blend mode for background alpha
-		GlTexture::BlendMode m_blendAlphaImg;
-		//! The overlay dimensions
-		wxSize m_size;
-		//! The overlay position
-		wxPoint m_position;
-		//! Tells if the matrix has been modified and needs recomputing
-		bool m_bMatrixModified;
-		//! Transformation matrix
-		GLfloat m_matrix[16];
+	protected:
+		//! The current overlay caption
+		String m_caption;
+		//! The previous overlay caption
+		String m_previousCaption;
+		//! The font
+		std::weak_ptr< Font > m_wpFont;
+		//! The texture that will receive the glyphs
+		std::shared_ptr< gl::Texture > m_glyphsTexture;
+		//! The uniform containing the text sampler
+		std::weak_ptr< gl::FrameVariable< int > > m_uniformTextTexture;
+		//! Glyphs positions in the texture
+		GlyphPositionMap m_glyphsPositions;
+		//! The wrapping mode
+		eTEXT_WRAPPING_MODE m_wrappingMode;
+		//! The horizontal alignment
+		eHALIGN m_hAlign;
+		//! The vertical alignment
+		eVALIGN m_vAlign;
+		//! The previous display size
+		Size m_previousDisplaySize;
+		//! The characters array
+		CharacterArray m_characters;
 	};
 }
+
+#pragma warning( pop )
 
 #endif

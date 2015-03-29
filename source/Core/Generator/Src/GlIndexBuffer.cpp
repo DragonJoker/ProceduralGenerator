@@ -1,47 +1,51 @@
 #include "GlIndexBuffer.h"
+#include "OpenGl.h"
 
 namespace ProceduralTextures
 {
-	GlIndexBuffer::GlIndexBuffer( OpenGl * p_pOpenGl )
-		:	GlBuffer( p_pOpenGl, GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW )
+	namespace gl
 	{
-		m_pBuffer[0] = 0;
-		m_pBuffer[1] = 1;
-		m_pBuffer[2] = 2;
-		m_pBuffer[3] = 0;
-		m_pBuffer[4] = 2;
-		m_pBuffer[5] = 3;
-	}
-
-	GlIndexBuffer::~GlIndexBuffer()
-	{
-	}
-
-	bool GlIndexBuffer::Initialise()
-	{
-		bool l_return = Create();
-
-		if ( l_return )
+		IndexBuffer::IndexBuffer( std::shared_ptr< OpenGl > p_pOpenGl, uint32_t p_mode )
+			: BufferObject( p_pOpenGl, GL_ELEMENT_ARRAY_BUFFER, p_mode )
 		{
-			l_return = Bind();
+			m_pBuffer[0] = 0;
+			m_pBuffer[1] = 1;
+			m_pBuffer[2] = 2;
+			m_pBuffer[3] = 0;
+			m_pBuffer[4] = 2;
+			m_pBuffer[5] = 3;
+		}
+
+		IndexBuffer::~IndexBuffer()
+		{
+		}
+
+		bool IndexBuffer::Initialise()
+		{
+			bool l_return = Create();
 
 			if ( l_return )
 			{
-				Data( m_pBuffer, sizeof( m_pBuffer ) );
-				Unbind();
+				l_return = Bind();
+
+				if ( l_return )
+				{
+					Data( m_pBuffer.data(), m_pBuffer.size() * sizeof( uint32_t ) );
+					Unbind();
+				}
 			}
+
+			return l_return;
 		}
 
-		return l_return;
-	}
+		bool IndexBuffer::Activate()
+		{
+			return Bind();
+		}
 
-	bool GlIndexBuffer::Activate()
-	{
-		return Bind();
-	}
-
-	void GlIndexBuffer::Deactivate()
-	{
-		Unbind();
+		void IndexBuffer::Deactivate()
+		{
+			Unbind();
+		}
 	}
 }

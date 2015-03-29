@@ -1,3 +1,5 @@
+varying vec2 pxl_texture;
+
 uniform sampler2D pg_texture;
 uniform int pg_sep_offset;
 uniform int pg_sep_type;
@@ -6,7 +8,7 @@ vec4 ComputeColour()
 {
 	float gamma = 0.6;
 	float numColors = 8.0;
-	vec3 c = texture2D( pg_texture, gl_TexCoord[0].xy).rgb;
+	vec3 c = texture2D( pg_texture, pxl_texture).rgb;
 	c = pow(c, vec3(gamma, gamma, gamma));
 	c = c * numColors;
 	c = floor(c);
@@ -18,7 +20,7 @@ vec4 ComputeColour()
 void main()
 {
 	vec4 tc = vec4( 1.0, 0.0, 0.0, 1.0);
-	vec2 uv = gl_TexCoord[0].xy;
+	vec2 uv = pxl_texture;
 
 	if (pg_sep_type == 0)
 	{

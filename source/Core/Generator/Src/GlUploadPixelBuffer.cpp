@@ -1,14 +1,18 @@
 #include "GlUploadPixelBuffer.h"
 #include "Buffer.h"
+#include "OpenGl.h"
 
 namespace ProceduralTextures
 {
-	GlUploadPixelBuffer::GlUploadPixelBuffer( OpenGl * p_pOpenGl )
-		:	GlPixelBuffer( p_pOpenGl, GL_PIXEL_UNPACK_BUFFER, GL_STREAM_DRAW )
+	namespace gl
 	{
-	}
+		UploadPixelBuffer::UploadPixelBuffer( std::shared_ptr< OpenGl > p_pOpenGl )
+			: GpuIOBuffer( p_pOpenGl, GL_PIXEL_UNPACK_BUFFER, GL_STREAM_DRAW )
+		{
+		}
 
-	GlUploadPixelBuffer::~GlUploadPixelBuffer()
-	{
+		UploadPixelBuffer::~UploadPixelBuffer()
+		{
+		}
 	}
 }

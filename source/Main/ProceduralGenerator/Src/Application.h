@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -20,29 +20,29 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "MainFrame.h"
 
-namespace ProceduralTextures
+#pragma warning( push )
+#pragma warning( disable:4996 )
+#include <wx/app.h>
+#pragma warning( pop )
+
+namespace ProceduralGenerator
 {
-	class ProceduralGeneratorApp
+	class Application
 		:	public wxApp
 	{
 	private:
 		MainFrame * m_mainFrame;
-		wxLocale * m_pLocale;
+		std::unique_ptr< wxLocale > m_pLocale;
 
 	public:
-		ProceduralGeneratorApp();
-		~ProceduralGeneratorApp();
+		Application();
+		~Application();
 
 		virtual bool OnInit();
 		virtual int OnExit();
-
-		MainFrame * GetMainFrame()const
-		{
-			return m_mainFrame;
-		}
 	};
 }
 
-DECLARE_APP( ProceduralTextures::ProceduralGeneratorApp );
+DECLARE_APP( ProceduralGenerator::Application );
 
 #endif

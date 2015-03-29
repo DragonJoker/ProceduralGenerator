@@ -7,45 +7,69 @@ namespace ProceduralTextures
 {
 //*************************************************************************************************
 
-	template < typename T >
+	template< typename T >
 	DynPoint< T >::DynPoint( size_t p_uiCount )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( true )
-		,	m_uiCount( p_uiCount )
+		: m_coords( NULL )
+		, m_bOwnCoords( true )
+		, m_uiCount( p_uiCount )
 	{
 		if ( m_uiCount > 0 )
 		{
 			m_coords = new T[m_uiCount];
 		}
 	}
-	template < typename T >
+
+#if HAS_INITIALIZER_LISTS
+	template< typename T >
+	template< typename U >
+	DynPoint< T >::DynPoint( std::initializer_list< U > p_values )
+		: m_coords( NULL )
+		, m_bOwnCoords( true )
+		, m_uiCount( p_values.size() )
+	{
+		if ( m_uiCount )
+		{
+			m_coords = new T[m_uiCount];
+			auto l_it = p_values.begin();
+			size_t i = 0;
+
+			while ( l_it != p_values.end() && i < m_uiCount )
+			{
+				m_coords[i++] = T( *l_it );
+				++l_it;
+			}
+		}
+	}
+#endif
+
+	template< typename T >
 	template< typename U >
 	DynPoint< T >::DynPoint( size_t p_uiCount, const U * p_pData )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( false )
-		,	m_uiCount( p_uiCount )
+		: m_coords( NULL )
+		, m_bOwnCoords( false )
+		, m_uiCount( p_uiCount )
 	{
 		m_coords = ( T * )p_pData;
 	}
 
-	template < typename T >
+	template< typename T >
 	template< typename U >
-	DynPoint< T >::DynPoint( const U & p_vA, const U & p_vB )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( true )
-		,	m_uiCount( 2 )
+	DynPoint< T >::DynPoint( U const & p_vA, U const & p_vB )
+		: m_coords( NULL )
+		, m_bOwnCoords( true )
+		, m_uiCount( 2 )
 	{
 		m_coords = new T[m_uiCount];
 		m_coords[0] = p_vA;
 		m_coords[1] = p_vB;
 	}
 
-	template < typename T >
+	template< typename T >
 	template< typename U >
-	DynPoint< T >::DynPoint( const U & p_vA, const U & p_vB, const U & p_vC )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( true )
-		,	m_uiCount( 3 )
+	DynPoint< T >::DynPoint( U const & p_vA, U const & p_vB, U const & p_vC )
+		: m_coords( NULL )
+		, m_bOwnCoords( true )
+		, m_uiCount( 3 )
 	{
 		m_coords = new T[m_uiCount];
 		m_coords[0] = p_vA;
@@ -53,12 +77,12 @@ namespace ProceduralTextures
 		m_coords[2] = p_vC;
 	}
 
-	template < typename T >
+	template< typename T >
 	template< typename U >
-	DynPoint< T >::DynPoint( const U & p_vA, const U & p_vB, const U & p_vC, const U & p_vD )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( true )
-		,	m_uiCount( 4 )
+	DynPoint< T >::DynPoint( U const & p_vA, U const & p_vB, U const & p_vC, U const & p_vD )
+		: m_coords( NULL )
+		, m_bOwnCoords( true )
+		, m_uiCount( 4 )
 	{
 		m_coords = new T[m_uiCount];
 		m_coords[0] = p_vA;
@@ -67,25 +91,25 @@ namespace ProceduralTextures
 		m_coords[3] = p_vD;
 	}
 
-	template < typename T >
+	template< typename T >
 	template< typename U >
 	DynPoint< T >::DynPoint( const DynPoint< U > & p_ptPoint )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( true )
-		,	m_uiCount( p_ptPoint.m_uiCount )
+		: m_coords( NULL )
+		, m_bOwnCoords( true )
+		, m_uiCount( p_ptPoint.m_uiCount )
 	{
 		if ( m_uiCount > 0 )
 		{
 			m_coords = new T[m_uiCount];
 		}
 
-		for ( size_t i = 0 ; i < m_uiCount ; i++ )
+		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
-			Policy< T >::assign( m_coords[i], p_ptPoint[i] );
+			m_coords[i] = T( p_ptPoint[i] );
 		}
 	}
 
-	template < typename T >
+	template< typename T >
 	inline DynPoint < T >::~DynPoint()
 	{
 		if ( m_bOwnCoords )
@@ -93,8 +117,8 @@ namespace ProceduralTextures
 			delete [] m_coords;
 		}
 	}
-	template < typename T >
-	inline void DynPoint < T >::LinkCoords( const void * p_pCoords )
+	template< typename T >
+	inline void DynPoint < T >::Link( const void * p_pCoords )
 	{
 		if ( m_bOwnCoords )
 		{
@@ -105,8 +129,8 @@ namespace ProceduralTextures
 		m_coords = ( T * )p_pCoords;
 		m_bOwnCoords = false;
 	}
-	template < typename T >
-	inline void DynPoint < T >::UnlinkCoords()
+	template< typename T >
+	inline void DynPoint < T >::Unlink()
 	{
 		if ( ! m_bOwnCoords )
 		{
@@ -115,21 +139,21 @@ namespace ProceduralTextures
 
 		m_bOwnCoords = true;
 	}
-	template < typename T >
+	template< typename T >
 	inline void DynPoint < T >::ToValues( T * p_pResult )const
 	{
 		if ( m_coords != NULL )
 		{
-			Policy< T >::assign( p_pResult[0], m_coords[0] );
+			p_pResult[0] = T( m_coords[0] );
 
-			for ( size_t i = 0 ; i < m_uiCount ; i++ )
+			for ( size_t i = 0; i < m_uiCount; i++ )
 			{
-				Policy< T >::assign( p_pResult[i], m_coords[i] );
+				p_pResult[i] = m_coords[i];
 			}
 		}
 	}
 
-	template < typename T >
+	template< typename T >
 	DynPoint< T >::DynPoint( const DynPoint< T > & p_pt )
 		:	m_coords( NULL )
 		,	m_bOwnCoords( p_pt.m_bOwnCoords )
@@ -142,7 +166,7 @@ namespace ProceduralTextures
 				m_coords = new T[m_uiCount];
 			}
 
-			for ( size_t i = 0 ; i < m_uiCount ; i++ )
+			for ( size_t i = 0; i < m_uiCount; i++ )
 			{
 				m_coords[i] = p_pt[i];
 			}
@@ -152,7 +176,7 @@ namespace ProceduralTextures
 			m_coords = p_pt.m_coords;
 		}
 	}
-	template < typename T >
+	template< typename T >
 	DynPoint< T > & DynPoint < T >::operator =( const DynPoint< T > & p_pt )
 	{
 		if ( m_bOwnCoords )
@@ -171,7 +195,7 @@ namespace ProceduralTextures
 				m_coords = new T[m_uiCount];
 			}
 
-			for ( size_t i = 0 ; i < m_uiCount ; i++ )
+			for ( size_t i = 0; i < m_uiCount; i++ )
 			{
 				m_coords[i] = p_pt[i];
 			}
@@ -183,7 +207,7 @@ namespace ProceduralTextures
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
 	DynPoint< T > & DynPoint < T >::operator =( const DynPoint< U > & p_pt )
 	{
@@ -200,9 +224,9 @@ namespace ProceduralTextures
 		{
 			m_coords = new T[m_uiCount];
 
-			for ( size_t i = 0 ; i < m_uiCount ; i++ )
+			for ( size_t i = 0; i < m_uiCount; i++ )
 			{
-				Policy< T >::assign( m_coords[i], p_pt.m_coords[i] );
+				m_coords[i] = T( p_pt.m_coords[i] );
 			}
 		}
 		else
@@ -212,148 +236,148 @@ namespace ProceduralTextures
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
 	inline DynPoint < T > & DynPoint < T >::operator +=( const DynPoint< U > & p_pt )
 	{
-		for ( size_t i = 0 ; i < m_uiCount && i < p_pt.m_uiCount ; i++ )
+		for ( size_t i = 0; i < m_uiCount && i < p_pt.m_uiCount; i++ )
 		{
-			Policy< T >::ass_add( at( i ), p_pt[i] );
+			m_coords[i] = T( m_coords[i] + p_pt[i] );
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
 	inline DynPoint < T > & DynPoint < T >::operator +=( const U * p_coords )
 	{
-		for ( size_t i = 0 ; i < m_uiCount ; i++ )
+		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
-			Policy< T >::ass_add( at( i ), p_coords[i] );
+			m_coords[i] = T( m_coords[i] + p_coords[i] );
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator +=( const U & p_coord )
+	inline DynPoint < T > & DynPoint < T >::operator +=( U const & p_coord )
 	{
-		for ( size_t i = 0 ; i < m_uiCount ; i++ )
+		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
-			Policy< T >::ass_add( at( i ), p_coord );
+			m_coords[i] = T( m_coords[i] + p_coord );
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
 	inline DynPoint < T > & DynPoint < T >::operator -=( const DynPoint< U > & p_pt )
 	{
-		for ( size_t i = 0 ; i < m_uiCount && i < p_pt.m_uiCount ; i++ )
+		for ( size_t i = 0; i < m_uiCount && i < p_pt.m_uiCount; i++ )
 		{
-			Policy< T >::ass_substract( at( i ), p_pt[i] );
+			m_coords[i] = T( m_coords[i] - p_pt[i] );
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
 	inline DynPoint < T > & DynPoint < T >::operator -=( const U * p_coords )
 	{
-		for ( size_t i = 0 ; i < m_uiCount ; i++ )
+		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
-			Policy< T >::ass_substract( at( i ), p_coords[i] );
+			m_coords[i] = T( m_coords[i] - p_coords[i] );
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator -=( const U & p_coord )
+	inline DynPoint < T > & DynPoint < T >::operator -=( U const & p_coord )
 	{
-		for ( size_t i = 0 ; i < m_uiCount ; i++ )
+		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
-			Policy< T >::ass_substract( at( i ), p_coord );
+			m_coords[i] = T( m_coords[i] - p_coord );
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
 	inline DynPoint < T > & DynPoint < T >::operator *=( const DynPoint< U > & p_pt )
 	{
-		for ( size_t i = 0 ; i < m_uiCount && i < p_pt.m_uiCount ; i++ )
+		for ( size_t i = 0; i < m_uiCount && i < p_pt.m_uiCount; i++ )
 		{
-			Policy< T >::ass_multiply( at( i ), p_pt[i] );
+			m_coords[i] = T( m_coords[i] * p_pt[i] );
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
 	inline DynPoint < T > & DynPoint < T >::operator *=( const U * p_coords )
 	{
-		for ( size_t i = 0 ; i < m_uiCount ; i++ )
+		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
-			Policy< T >::ass_multiply( at( i ), p_coords[i] );
+			m_coords[i] = T( m_coords[i] * p_coords[i] );
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator *=( const U & p_coord )
+	inline DynPoint < T > & DynPoint < T >::operator *=( U const & p_coord )
 	{
-		for ( size_t i = 0 ; i < m_uiCount ; i++ )
+		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
-			Policy< T >::ass_multiply( at( i ), p_coord );
+			m_coords[i] = T( m_coords[i] * p_coord );
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
 	inline DynPoint < T > & DynPoint < T >::operator /=( const DynPoint< U > & p_pt )
 	{
-		for ( size_t i = 0 ; i < m_uiCount && i < p_pt.m_uiCount ; i++ )
+		for ( size_t i = 0; i < m_uiCount && i < p_pt.m_uiCount; i++ )
 		{
-			if ( ! Policy< T >::is_null( p_pt[i] ) )
+			if ( p_pt[i] )
 			{
-				Policy< T >::ass_divide( at( i ), p_pt[i] );
+				m_coords[i] = T( m_coords[i] / p_pt[i] );
 			}
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
 	inline DynPoint < T > & DynPoint < T >::operator /=( const U * p_coords )
 	{
-		for ( size_t i = 0 ; i < m_uiCount ; i++ )
+		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
-			if ( ! Policy< T >::is_null( p_coords[i] ) )
+			if ( p_coords[i] )
 			{
-				Policy< T >::ass_divide( at( i ), p_coords[i] );
+				m_coords[i] = T( m_coords[i] / p_coords[i] );
 			}
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator /=( const U & p_coord )
+	inline DynPoint < T > & DynPoint < T >::operator /=( U const & p_coord )
 	{
-		if ( ! Policy< T >::is_null( p_coord ) )
+		if ( p_coord )
 		{
-			for ( size_t i = 0 ; i < m_uiCount ; i++ )
+			for ( size_t i = 0; i < m_uiCount; i++ )
 			{
-				Policy< T >::ass_divide( at( i ), p_coord );
+				m_coords[i] = T( m_coords[i] / p_coord );
 			}
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	template< typename U >
 	inline DynPoint < T > & DynPoint < T >::operator ^=( const DynPoint< U > & p_pt )
 	{
@@ -362,14 +386,14 @@ namespace ProceduralTextures
 			T l_valuesA[3], l_valuesB[3];
 			p_pt.ToValues( l_valuesA );
 			ToValues( l_valuesB );
-			Policy< T >::assign( m_coords[0], Policy< T >::substract( Policy< T >::multiply( l_valuesB[1], l_valuesA[2] ), Policy< T >::multiply( l_valuesA[1], l_valuesB[2] ) ) );
-			Policy< T >::assign( m_coords[1], Policy< T >::substract( Policy< T >::multiply( l_valuesB[2], l_valuesA[0] ), Policy< T >::multiply( l_valuesA[2], l_valuesB[0] ) ) );
-			Policy< T >::assign( m_coords[2], Policy< T >::substract( Policy< T >::multiply( l_valuesB[0], l_valuesA[1] ), Policy< T >::multiply( l_valuesA[0], l_valuesB[1] ) ) );
+			m_coords[0] = T( l_valuesB[1] * l_valuesA[2] ) - T( l_valuesA[1] * l_valuesB[2] );
+			m_coords[1] = T( l_valuesB[2] * l_valuesA[0] ) - T( l_valuesA[2] * l_valuesB[0] );
+			m_coords[2] = T( l_valuesB[0] * l_valuesA[1] ) - T( l_valuesA[0] * l_valuesB[1] );
 		}
 
 		return * this;
 	}
-	template < typename T >
+	template< typename T >
 	void DynPoint < T >::swap( DynPoint< T > & p_pt )
 	{
 		size_t l_uiTmp = p_pt.m_uiCount;
@@ -391,9 +415,9 @@ namespace ProceduralTextures
 	{
 		bool l_bReturn = ( p_ptA.GetElementCount() == p_ptB.GetElementCount() );
 
-		for ( size_t i = 0 ; i < p_ptA.GetElementCount() && l_bReturn ; i++ )
+		for ( size_t i = 0; i < p_ptA.GetElementCount() && l_bReturn; i++ )
 		{
-			l_bReturn = Policy< T >::equals( p_ptA[i], p_ptB[i] );
+			l_bReturn = p_ptA[i] == p_ptB[i];
 		}
 
 		return l_bReturn;
@@ -403,10 +427,10 @@ namespace ProceduralTextures
 	{
 		return !( p_ptA == p_ptB );
 	}
-	template < typename T >
+	template< typename T >
 	inline std::ostream & operator << ( std::ostream & l_streamOut, const DynPoint< T > & p_pt )
 	{
-		for ( size_t i = 0 ; i < p_pt.GetElementCount() ; i++ )
+		for ( size_t i = 0; i < p_pt.GetElementCount(); i++ )
 		{
 			l_streamOut << "\t" << p_pt[i];
 		}
@@ -414,10 +438,10 @@ namespace ProceduralTextures
 		l_streamOut << std::endl;
 		return l_streamOut;
 	}
-	template < typename T >
+	template< typename T >
 	inline std::istream & operator >> ( std::istream & l_streamIn, DynPoint< T > & p_pt )
 	{
-		for ( size_t i = 0 ; i < p_pt.GetElementCount() ; i++ )
+		for ( size_t i = 0; i < p_pt.GetElementCount(); i++ )
 		{
 			l_streamIn >> p_pt[i];
 		}
@@ -439,7 +463,7 @@ namespace ProceduralTextures
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator +( const DynPoint< T > & p_pt, const U & p_coord )
+	inline DynPoint < T > operator +( const DynPoint< T > & p_pt, U const & p_coord )
 	{
 		DynPoint < T > l_ptResult( p_pt );
 		l_ptResult += p_coord;
@@ -460,7 +484,7 @@ namespace ProceduralTextures
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator -( const DynPoint< T > & p_pt, const U & p_coord )
+	inline DynPoint < T > operator -( const DynPoint< T > & p_pt, U const & p_coord )
 	{
 		DynPoint < T > l_ptResult( p_pt );
 		l_ptResult -= p_coord;
@@ -481,7 +505,7 @@ namespace ProceduralTextures
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator *( const DynPoint< T > & p_pt, const U & p_coord )
+	inline DynPoint < T > operator *( const DynPoint< T > & p_pt, U const & p_coord )
 	{
 		DynPoint < T > l_ptResult( p_pt );
 		l_ptResult *= p_coord;
@@ -502,7 +526,7 @@ namespace ProceduralTextures
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator /( const DynPoint< T > & p_pt, const U & p_coord )
+	inline DynPoint < T > operator /( const DynPoint< T > & p_pt, U const & p_coord )
 	{
 		DynPoint < T > l_ptResult( p_pt );
 		l_ptResult /= p_coord;
@@ -516,42 +540,42 @@ namespace ProceduralTextures
 		return l_ptResult;
 	}
 
-	template < typename T >
+	template< typename T >
 	inline DynPoint < T > operator *( int p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint * p_value;
 	}
-	template < typename T >
+	template< typename T >
 	inline DynPoint < T > operator +( int p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint + p_value;
 	}
-	template < typename T >
+	template< typename T >
 	inline DynPoint < T > operator -( int p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint - p_value;
 	}
-	template < typename T >
+	template< typename T >
 	inline DynPoint < T > operator /( int p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint / p_value;
 	}
-	template < typename T >
+	template< typename T >
 	inline DynPoint < T > operator *( double p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint * p_value;
 	}
-	template < typename T >
+	template< typename T >
 	inline DynPoint < T > operator +( double p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint + p_value;
 	}
-	template < typename T >
+	template< typename T >
 	inline DynPoint < T > operator -( double p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint - p_value;
 	}
-	template < typename T >
+	template< typename T >
 	inline DynPoint < T > operator /( double p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint / p_value;
@@ -560,215 +584,258 @@ namespace ProceduralTextures
 //*************************************************************************************************
 
 	template < typename T, size_t Count >
-	Point < T, Count >::Point()
-		:	m_coords( NULL )
-		,	m_bOwnCoords( true )
+	Point< T, Count >::Point()
+		: m_bOwnCoords( true )
 	{
+		m_coords.dyn = NULL;
+
 		if ( Count > 0 )
 		{
-			m_coords = new T[Count];
+			m_coords.dyn = new T[Count];
 		}
 
-		for ( size_t i = 0 ; i < Count ; i++ )
+		for ( size_t i = 0; i < Count; i++ )
 		{
-			Policy< T >::init( at( i ) );
+			m_coords.dyn[i] = T();
 		}
 	}
 
+#if HAS_INITIALIZER_LISTS
 	template < typename T, size_t Count >
 	template< typename U >
-	Point < T, Count >::Point( const U * p_pValues )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( true )
+	Point< T, Count >::Point( std::initializer_list< U > p_values )
+		: m_bOwnCoords( true )
 	{
+		m_coords.dyn = NULL;
+
 		if ( Count > 0 )
 		{
-			m_coords = new T[Count];
+			m_coords.dyn = new T[Count];
 		}
 
-		if ( p_pValues == NULL )
+		if ( p_values.size() )
 		{
-			for ( size_t i = 0 ; i < Count ; i++ )
+			auto l_it = p_values.begin();
+			size_t i = 0;
+
+			while ( l_it != p_values.end() && i < Count )
 			{
-				Policy< T >::init( at( i ) );
+				m_coords.dyn[i++] = T( *l_it );
+				++l_it;
 			}
 		}
 		else
 		{
-			for ( size_t i = 0 ; i < Count ; i++ )
+			for ( size_t i = 0; i < Count; i++ )
 			{
-				Policy< T >::assign( at( i ), p_pValues[i] );
+				m_coords.dyn[i] = T();
+			}
+		}
+	}
+#endif
+
+	template < typename T, size_t Count >
+	template< typename U >
+	Point< T, Count >::Point( const U * p_pValues )
+		: m_bOwnCoords( true )
+	{
+		m_coords.dyn = NULL;
+
+		if ( Count > 0 )
+		{
+			m_coords.dyn = new T[Count];
+		}
+
+		if ( !p_pValues )
+		{
+			for ( size_t i = 0; i < Count; i++ )
+			{
+				m_coords.dyn[i] = T();
+			}
+		}
+		else
+		{
+			for ( size_t i = 0; i < Count; i++ )
+			{
+				m_coords.dyn[i] = p_pValues[i];
+			}
+		}
+	}
+
+	template < typename T, size_t Count >
+	template< typename U >
+	Point< T, Count >::Point( U const & p_vA )
+		: m_bOwnCoords( true )
+	{
+		m_coords.dyn = NULL;
+
+		if ( Count > 0 )
+		{
+			m_coords.dyn = new T[Count];
+			m_coords.dyn[0] = T( p_vA );
+		}
+
+		if ( Count > 1 )
+		{
+			for ( size_t i = 1; i < Count; i++ )
+			{
+				m_coords.dyn[i] = T();
 			}
 		}
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	Point < T, Count >::Point( const U & p_vA )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( true )
+	Point< T, Count >::Point( U const & p_vA, U const & p_vB )
+		: m_bOwnCoords( true )
 	{
+		m_coords.dyn = NULL;
+
 		if ( Count > 0 )
 		{
-			m_coords = new T[Count];
-			Policy< T >::assign( at( 0 ), p_vA );
+			m_coords.dyn = new T[Count];
+			m_coords.dyn[0] = T( p_vA );
 		}
 
 		if ( Count > 1 )
 		{
-			for ( size_t i = 1 ; i < Count ; i++ )
+			m_coords.dyn[1] = T( p_vB );
+
+			for ( size_t i = 2; i < Count; i++ )
 			{
-				Policy< T >::init( at( i ) );
+				m_coords.dyn[i] = T();
 			}
 		}
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	Point < T, Count >::Point( const U & p_vA, const U & p_vB )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( true )
+	Point< T, Count >::Point( U const & p_vA, U const & p_vB, U const & p_vC )
+		: m_bOwnCoords( true )
 	{
+		m_coords.dyn = NULL;
+
 		if ( Count > 0 )
 		{
-			m_coords = new T[Count];
-			Policy< T >::assign( at( 0 ), p_vA );
+			m_coords.dyn = new T[Count];
+			m_coords.dyn[0] = T( p_vA );
 		}
 
 		if ( Count > 1 )
 		{
-			Policy< T >::assign( at( 1 ), p_vB );
-
-			for ( size_t i = 2 ; i < Count ; i++ )
-			{
-				Policy< T >::init( at( i ) );
-			}
-		}
-	}
-	template < typename T, size_t Count >
-	template< typename U >
-	Point < T, Count >::Point( const U & p_vA, const U & p_vB, const U & p_vC )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( true )
-	{
-		if ( Count > 0 )
-		{
-			m_coords = new T[Count];
-			Policy< T >::assign( at( 0 ), p_vA );
-		}
-
-		if ( Count > 1 )
-		{
-			Policy< T >::assign( at( 1 ), p_vB );
+			m_coords.dyn[1] = T( p_vB );
 		}
 
 		if ( Count > 2 )
 		{
-			Policy< T >::assign( at( 2 ), p_vC );
+			m_coords.dyn[2] = T( p_vC );
 
-			for ( size_t i = 3 ; i < Count ; i++ )
+			for ( size_t i = 3; i < Count; i++ )
 			{
-				Policy< T >::init( at( i ) );
+				m_coords.dyn[i] = T();
 			}
 		}
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	Point < T, Count >::Point( const U & p_vA, const U & p_vB, const U & p_vC, const U & p_vD )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( true )
+	Point< T, Count >::Point( U const & p_vA, U const & p_vB, U const & p_vC, U const & p_vD )
+		: m_bOwnCoords( true )
 	{
+		m_coords.dyn = NULL;
+
 		if ( Count > 0 )
 		{
-			m_coords = new T[Count];
-			Policy< T >::assign( at( 0 ), p_vA );
+			m_coords.dyn = new T[Count];
+			m_coords.dyn[0] = T( p_vA );
 		}
 
 		if ( Count > 1 )
 		{
-			Policy< T >::assign( at( 1 ), p_vB );
+			m_coords.dyn[1] = T( p_vB );
 		}
 
 		if ( Count > 2 )
 		{
-			Policy< T >::assign( at( 2 ), p_vC );
+			m_coords.dyn[2] = T( p_vC );
 		}
 
 		if ( Count > 3 )
 		{
-			Policy< T >::assign( at( 3 ), p_vD );
+			m_coords.dyn[3] = T( p_vD );
 
-			for ( size_t i = 4 ; i < Count ; i++ )
+			for ( size_t i = 4; i < Count; i++ )
 			{
-				Policy< T >::init( at( i ) );
+				m_coords.dyn[i] = T();
 			}
 		}
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	Point < T, Count >::Point( const Point< U, _Count > & p_pt )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( p_pt.m_bOwnCoords )
+	Point< T, Count >::Point( const Point< U, _Count > & p_pt )
+		:	m_bOwnCoords( p_pt.m_bOwnCoords )
 	{
+		m_coords.dyn = NULL;
+
 		if ( m_bOwnCoords )
 		{
 			if ( Count > 0 )
 			{
-				m_coords = new T[Count];
+				m_coords.dyn = new T[Count];
 			}
 
 			size_t i;
 
-			for ( i = 0 ; i < Count && i < _Count ; i++ )
+			for ( i = 0; i < Count && i < _Count; i++ )
 			{
-				Policy< T >::assign( m_coords[i], p_pt[i] );
+				m_coords.dyn[i] = T( p_pt[i] );
 			}
 
-			for ( ; i < Count ; i++ )
+			for ( ; i < Count; i++ )
 			{
-				Policy< T >::init( at( i ) );
+				m_coords.dyn[i] = T();
 			}
 		}
 		else
 		{
-			m_coords = ( T * )( p_pt.m_coords );
+			m_coords.dyn = ( T * )( p_pt.m_coords.dyn );
 		}
 	}
 	template < typename T, size_t Count >
-	inline Point < T, Count >::~Point()
+	inline Point< T, Count >::~Point()
 	{
 		if ( m_bOwnCoords )
 		{
-			delete [] m_coords;
+			delete [] m_coords.dyn;
 		}
 	}
 	template < typename T, size_t Count >
-	Point < T, Count >::Point( const Point< T, Count > & p_pt )
-		:	m_coords( NULL )
-		,	m_bOwnCoords( p_pt.m_bOwnCoords )
+	Point< T, Count >::Point( const Point< T, Count > & p_pt )
+		:	m_bOwnCoords( p_pt.m_bOwnCoords )
 	{
+		m_coords.dyn = NULL;
+
 		if ( m_bOwnCoords )
 		{
 			if ( Count > 0 )
 			{
-				m_coords = new T[Count];
+				m_coords.dyn = new T[Count];
 			}
 
-			for ( size_t i = 0 ; i < Count ; i++ )
+			for ( size_t i = 0; i < Count; i++ )
 			{
-				m_coords[i] = p_pt[i];
+				m_coords.dyn[i] = p_pt[i];
 			}
 		}
 		else
 		{
-			m_coords = p_pt.m_coords;
+			m_coords.dyn = p_pt.m_coords.dyn;
 		}
 	}
 	template < typename T, size_t Count >
-	inline Point< T, Count > & Point < T, Count >::operator =( const Point< T, Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator =( const Point< T, Count > & p_pt )
 	{
 		if ( m_bOwnCoords )
 		{
-			delete [] m_coords;
-			m_coords = NULL;
+			delete [] m_coords.dyn;
+			m_coords.dyn = NULL;
 		}
 
 		m_bOwnCoords = p_pt.m_bOwnCoords;
@@ -777,29 +844,29 @@ namespace ProceduralTextures
 		{
 			if ( Count > 0 )
 			{
-				m_coords = new T[Count];
+				m_coords.dyn = new T[Count];
 			}
 
-			for ( size_t i = 0 ; i < Count ; i++ )
+			for ( size_t i = 0; i < Count; i++ )
 			{
-				m_coords[i] = p_pt[i];
+				m_coords.dyn[i] = p_pt[i];
 			}
 		}
 		else
 		{
-			m_coords = p_pt.m_coords;
+			m_coords.dyn = p_pt.m_coords.dyn;
 		}
 
 		return * this;
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	inline Point< T, Count > & Point < T, Count >::operator =( const Point< U, _Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator =( const Point< U, _Count > & p_pt )
 	{
 		if ( m_bOwnCoords )
 		{
-			delete [] m_coords;
-			m_coords = NULL;
+			delete [] m_coords.dyn;
+			m_coords.dyn = NULL;
 		}
 
 		m_bOwnCoords = p_pt.m_bOwnCoords;
@@ -808,136 +875,136 @@ namespace ProceduralTextures
 		{
 			if ( Count > 0 )
 			{
-				m_coords = new T[Count];
+				m_coords.dyn = new T[Count];
 			}
 
 			size_t i;
 
-			for ( i = 0 ; i < Count && i < _Count ; i++ )
+			for ( i = 0; i < Count && i < _Count; i++ )
 			{
-				Policy< T >::assign( m_coords[i], p_pt[i] );
+				m_coords.dyn[i] = T( p_pt[i] );
 			}
 
-			for ( ; i < Count ; i++ )
+			for ( ; i < Count; i++ )
 			{
-				Policy< T >::init( m_coords[i] );
+				m_coords.dyn[i] = T();
 			}
 		}
 		else
 		{
-			m_coords = ( T * )( p_pt.m_coords );
+			m_coords.dyn = ( T * )( p_pt.m_coords.dyn );
 		}
 
 		return * this;
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	inline Point < T, Count > & Point < T, Count >::operator +=( const Point< U, _Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator +=( const Point< U, _Count > & p_pt )
 	{
-		for ( size_t i = 0 ; i < Count && i < _Count ; i++ )
+		for ( size_t i = 0; i < Count && i < _Count; i++ )
 		{
-			Policy< T >::ass_add( at( i ), p_pt[i] );
+			m_coords.dyn[i] = T( m_coords.dyn[i] + p_pt[i] );
 		}
 
 		return * this;
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point < T, Count > & Point < T, Count >::operator +=( const U * p_coords )
+	inline Point< T, Count > & Point< T, Count >::operator +=( const U * p_coords )
 	{
-		for ( size_t i = 0 ; i < Count ; i++ )
+		for ( size_t i = 0; i < Count; i++ )
 		{
-			Policy< T >::ass_add( at( i ), p_coords[i] );
+			m_coords.dyn[i] = T( m_coords.dyn[i] + p_coords[i] );
 		}
 
 		return * this;
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point < T, Count > & Point < T, Count >::operator +=( const U & p_coord )
+	inline Point< T, Count > & Point< T, Count >::operator +=( U const & p_coord )
 	{
-		for ( size_t i = 0 ; i < Count ; i++ )
+		for ( size_t i = 0; i < Count; i++ )
 		{
-			Policy< T >::ass_add( at( i ), p_coord );
+			m_coords.dyn[i] = T( m_coords.dyn[i] + p_coord );
 		}
 
 		return * this;
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	inline Point < T, Count > & Point < T, Count >::operator -=( const Point< U, _Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator -=( const Point< U, _Count > & p_pt )
 	{
-		for ( size_t i = 0 ; i < Count && i < _Count ; i++ )
+		for ( size_t i = 0; i < Count && i < _Count; i++ )
 		{
-			Policy< T >::ass_substract( at( i ), p_pt[i] );
+			m_coords.dyn[i] = T( m_coords.dyn[i] - p_pt[i] );
 		}
 
 		return * this;
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point < T, Count > & Point < T, Count >::operator -=( const U * p_coords )
+	inline Point< T, Count > & Point< T, Count >::operator -=( const U * p_coords )
 	{
-		for ( size_t i = 0 ; i < Count ; i++ )
+		for ( size_t i = 0; i < Count; i++ )
 		{
-			Policy< T >::ass_substract( at( i ), p_coords[i] );
+			m_coords.dyn[i] = T( m_coords.dyn[i] - p_coords[i] );
 		}
 
 		return * this;
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point < T, Count > & Point < T, Count >::operator -=( const U & p_coord )
+	inline Point< T, Count > & Point< T, Count >::operator -=( U const & p_coord )
 	{
-		for ( size_t i = 0 ; i < Count ; i++ )
+		for ( size_t i = 0; i < Count; i++ )
 		{
-			Policy< T >::ass_substract( at( i ), p_coord );
+			m_coords.dyn[i] = T( m_coords.dyn[i] - p_coord );
 		}
 
 		return * this;
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	inline Point < T, Count > & Point < T, Count >::operator *=( const Point< U, _Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator *=( const Point< U, _Count > & p_pt )
 	{
-		for ( size_t i = 0 ; i < Count && i < _Count ; i++ )
+		for ( size_t i = 0; i < Count && i < _Count; i++ )
 		{
-			Policy< T >::ass_multiply( at( i ), p_pt[i] );
+			m_coords.dyn[i] = T( m_coords.dyn[i] * p_pt[i] );
 		}
 
 		return * this;
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point < T, Count > & Point < T, Count >::operator *=( const U * p_coords )
+	inline Point< T, Count > & Point< T, Count >::operator *=( const U * p_coords )
 	{
-		for ( size_t i = 0 ; i < Count ; i++ )
+		for ( size_t i = 0; i < Count; i++ )
 		{
-			Policy< T >::ass_multiply( at( i ), p_coords[i] );
+			m_coords.dyn[i] = T( m_coords.dyn[i] * p_coords[i] );
 		}
 
 		return * this;
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point < T, Count > & Point < T, Count >::operator *=( const U & p_coord )
+	inline Point< T, Count > & Point< T, Count >::operator *=( U const & p_coord )
 	{
-		for ( size_t i = 0 ; i < Count ; i++ )
+		for ( size_t i = 0; i < Count; i++ )
 		{
-			Policy< T >::ass_multiply( at( i ), p_coord );
+			m_coords.dyn[i] = T( m_coords.dyn[i] * p_coord );
 		}
 
 		return * this;
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	inline Point < T, Count > & Point < T, Count >::operator /=( const Point< U, _Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator /=( const Point< U, _Count > & p_pt )
 	{
-		for ( size_t i = 0 ; i < Count && i < _Count ; i++ )
+		for ( size_t i = 0; i < Count && i < _Count; i++ )
 		{
-			if ( ! Policy< T >::is_null( p_pt[i] ) )
+			if ( p_pt[i] )
 			{
-				Policy< T >::ass_divide( at( i ), p_pt[i] );
+				m_coords.dyn[i] = T( m_coords.dyn[i] / p_pt[i] );
 			}
 		}
 
@@ -945,13 +1012,13 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point < T, Count > & Point < T, Count >::operator /=( const U * p_coords )
+	inline Point< T, Count > & Point< T, Count >::operator /=( const U * p_coords )
 	{
-		for ( size_t i = 0 ; i < Count ; i++ )
+		for ( size_t i = 0; i < Count; i++ )
 		{
-			if ( ! Policy< T >::is_null( p_coords[i] ) )
+			if ( p_coords[i] )
 			{
-				Policy< T >::ass_divide( at( i ), p_coords[i] );
+				m_coords.dyn[i] = T( m_coords.dyn[i] / p_coords[i] );
 			}
 		}
 
@@ -959,13 +1026,13 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point < T, Count > & Point < T, Count >::operator /=( const U & p_coord )
+	inline Point< T, Count > & Point< T, Count >::operator /=( U const & p_coord )
 	{
-		if ( ! Policy< T >::is_null( p_coord ) )
+		if ( p_coord )
 		{
-			for ( size_t i = 0 ; i < Count ; i++ )
+			for ( size_t i = 0; i < Count; i++ )
 			{
-				Policy< T >::ass_divide( at( i ), p_coord );
+				m_coords.dyn[i] = T( m_coords.dyn[i] / p_coord );
 			}
 		}
 
@@ -973,157 +1040,56 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	inline Point < T, Count > & Point < T, Count >::operator ^=( const Point< U, _Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator ^=( const Point< U, _Count > & p_pt )
 	{
 		if ( Count == 3 )
 		{
 			T l_valuesA[Count], l_valuesB[Count];
 			p_pt.ToValues( l_valuesA );
 			ToValues( l_valuesB );
-			Policy< T >::assign( m_coords[0], Policy< T >::substract( Policy< T >::multiply( l_valuesB[1], l_valuesA[2] ), Policy< T >::multiply( l_valuesA[1], l_valuesB[2] ) ) );
-			Policy< T >::assign( m_coords[1], Policy< T >::substract( Policy< T >::multiply( l_valuesB[2], l_valuesA[0] ), Policy< T >::multiply( l_valuesA[2], l_valuesB[0] ) ) );
-			Policy< T >::assign( m_coords[2], Policy< T >::substract( Policy< T >::multiply( l_valuesB[0], l_valuesA[1] ), Policy< T >::multiply( l_valuesA[0], l_valuesB[1] ) ) );
+			m_coords.dyn[0] = T( l_valuesB[1] * l_valuesA[2] ) - T( l_valuesA[1] * l_valuesB[2] );
+			m_coords.dyn[1] = T( l_valuesB[2] * l_valuesA[0] ) - T( l_valuesA[2] * l_valuesB[0] );
+			m_coords.dyn[2] = T( l_valuesB[0] * l_valuesA[1] ) - T( l_valuesA[0] * l_valuesB[1] );
 		}
 
 		return * this;
 	}
 	template < typename T, size_t Count >
-	inline void Point < T, Count >::Reverse()
-	{
-		for ( size_t i = 0 ; i < Count ; i++ )
-		{
-			Policy< T >::ass_negate( at( i ) );
-		}
-	}
-	template < typename T, size_t Count >
-	inline void Point < T, Count >::Normalise()
-	{
-		T l_length = GetLength();
-
-		if ( Policy< T >::is_null( l_length ) )
-		{
-			return;
-		}
-
-		operator /=( l_length );
-	}
-	template < typename T, size_t Count >
-	inline Point< T, Count > Point < T, Count >::GetNormalised()const
-	{
-		Point< T, Count > l_ptReturn( * this );
-		l_ptReturn.Normalise();
-		return l_ptReturn;
-	}
-	template < typename T, size_t Count >
-	inline T Point < T, Count >::Dot( const Point< T, Count > & p_vertex )const
-	{
-		T l_tReturn;
-		Policy< T >::init( l_tReturn );
-
-		for ( size_t i = 0 ; i < Count ; i++ )
-		{
-			Policy< T >::ass_add( l_tReturn, Policy< T >::multiply( at( i ), p_vertex[i] ) );
-		}
-
-		return l_tReturn;
-	}
-	template < typename T, size_t Count >
-	inline double Point < T, Count >::GetSquaredLength()const
-	{
-		double l_dReturn = 0.0;
-
-		for ( size_t i = 0 ; i < Count ; i++ )
-		{
-			l_dReturn += Policy< T >::multiply( at( i ), at( i ) );
-		}
-
-		return l_dReturn;
-	}
-	template < typename T, size_t Count >
-	inline double Point < T, Count >::GetLength()const
-	{
-		return sqrt( this->GetSquaredLength() );
-	}
-	template < typename T, size_t Count >
-	inline double Point < T, Count >::GetManhattanLength()const
-	{
-		double l_dReturn = 0.0;
-
-		for ( size_t i = 0 ; i < Count ; i++ )
-		{
-			l_dReturn += abs< double >( at( i ) );
-		}
-
-		return l_dReturn;
-	}
-	template < typename T, size_t Count >
-	inline double Point < T, Count >::GetMinkowskiLength( double p_dOrder )const
-	{
-		double l_dReturn = 0.0;
-
-		for ( size_t i = 0 ; i < Count ; i++ )
-		{
-			l_dReturn += std::pow( abs< double >( at( i ) ), p_dOrder );
-		}
-
-		l_dReturn = std::pow( l_dReturn, 1.0 / p_dOrder );
-		return l_dReturn;
-	}
-	template < typename T, size_t Count >
-	inline double Point < T, Count >::GetChebychevLength()const
-	{
-		double l_dReturn = 0.0;
-
-		for ( size_t i = 0 ; i < Count ; i++ )
-		{
-			l_dReturn = std::max( l_dReturn, abs< double >( at( i ) ) );
-		}
-
-		return l_dReturn;
-	}
-	template < typename T, size_t Count >
-	inline double Point < T, Count >::GetCosTheta( const Point< T, Count > & p_vector )const
-	{
-		return Dot( p_vector ) / ( GetLength() * p_vector.GetLength() );
-	}
-	template < typename T, size_t Count >
-	inline void Point < T, Count >::LinkCoords( const void * p_pCoords )
+	inline void Point< T, Count >::Link( const void * p_pCoords )
 	{
 		if ( m_bOwnCoords )
 		{
-			delete [] m_coords;
-			m_coords = NULL;
+			delete [] m_coords.dyn;
+			m_coords.dyn = NULL;
 		}
 
-		m_coords = ( T * )p_pCoords;
+		m_coords.dyn = ( T * )p_pCoords;
 		m_bOwnCoords = false;
 	}
 	template < typename T, size_t Count >
-	inline void Point < T, Count >::UnlinkCoords()
+	inline void Point< T, Count >::Unlink()
 	{
 		if ( ! m_bOwnCoords )
 		{
-			m_coords = new T[Count];
+			m_coords.dyn = new T[Count];
 		}
 
 		m_bOwnCoords = true;
 	}
 	template < typename T, size_t Count >
-	void Point < T, Count >::swap( Point< T, Count > & p_pt )
+	void Point< T, Count >::swap( Point< T, Count > & p_pt )
 	{
-		std::swap( m_coords, p_pt.m_coords );
+		std::swap( m_coords.dyn, p_pt.m_coords.dyn );
 		std::swap( m_bOwnCoords, p_pt.m_bOwnCoords );
 	}
 	template < typename T, size_t Count >
-	inline void Point < T, Count >::ToValues( T * p_pResult )const
+	inline void Point< T, Count >::ToValues( T * p_pResult )const
 	{
-		if ( m_coords != NULL )
+		if ( m_coords.dyn )
 		{
-			Policy< T >::assign( p_pResult[0], m_coords[0] );
-
-			for ( size_t i = 0 ; i < Count ; i++ )
+			for ( size_t i = 0; i < Count; i++ )
 			{
-				Policy< T >::assign( p_pResult[i], m_coords[i] );
+				p_pResult[i] = m_coords.dyn[i];
 			}
 		}
 	}
@@ -1135,9 +1101,9 @@ namespace ProceduralTextures
 	{
 		bool l_bReturn = ( Count == _Count );
 
-		for ( size_t i = 0 ; i < Count && l_bReturn ; i++ )
+		for ( size_t i = 0; i < Count && l_bReturn; i++ )
 		{
-			l_bReturn = Policy< T >::equals( p_ptA[i], p_ptB[i] );
+			l_bReturn = p_ptA[i] == p_ptB[i];
 		}
 
 		return l_bReturn;
@@ -1150,7 +1116,7 @@ namespace ProceduralTextures
 	template < typename T, size_t Count >
 	inline std::ostream & operator << ( std::ostream & l_streamOut, const Point< T, Count > & p_pt )
 	{
-		for ( size_t i = 0 ; i < Count ; i++ )
+		for ( size_t i = 0; i < Count; i++ )
 		{
 			l_streamOut << "\t" << p_pt[i];
 		}
@@ -1161,7 +1127,7 @@ namespace ProceduralTextures
 	template < typename T, size_t Count >
 	inline std::istream & operator >> ( std::istream & l_streamIn, Point< T, Count > & p_pt )
 	{
-		for ( size_t i = 0 ; i < Count ; i++ )
+		for ( size_t i = 0; i < Count; i++ )
 		{
 			l_streamIn >> p_pt[i];
 		}
@@ -1169,136 +1135,238 @@ namespace ProceduralTextures
 		return l_streamIn;
 	}
 	template < typename T, size_t Count, typename U, size_t _Count >
-	inline Point < T, Count > operator +( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
+	inline Point< T, Count > operator +( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
 	{
-		Point < T, Count > l_ptResult( p_ptA );
+		Point< T, Count > l_ptResult( p_ptA );
 		l_ptResult += p_ptB;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point < T, Count > operator +( const Point< T, Count > & p_pt, const U * p_coords )
+	inline Point< T, Count > operator +( const Point< T, Count > & p_pt, const U * p_coords )
 	{
-		Point < T, Count > l_ptResult( p_pt );
+		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult += p_coords;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point < T, Count > operator +( const Point< T, Count > & p_pt, const U & p_coord )
+	inline Point< T, Count > operator +( const Point< T, Count > & p_pt, U const & p_coord )
 	{
-		Point < T, Count > l_ptResult( p_pt );
+		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult += p_coord;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U, size_t _Count >
-	inline Point < T, Count > operator -( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
+	inline Point< T, Count > operator -( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
 	{
-		Point < T, Count > l_ptResult( p_ptA );
+		Point< T, Count > l_ptResult( p_ptA );
 		l_ptResult -= p_ptB;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point < T, Count > operator -( const Point< T, Count > & p_pt, const U * p_coords )
+	inline Point< T, Count > operator -( const Point< T, Count > & p_pt, const U * p_coords )
 	{
-		Point < T, Count > l_ptResult( p_pt );
+		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult -= p_coords;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point < T, Count > operator -( const Point< T, Count > & p_pt, const U & p_coord )
+	inline Point< T, Count > operator -( const Point< T, Count > & p_pt, U const & p_coord )
 	{
-		Point < T, Count > l_ptResult( p_pt );
+		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult -= p_coord;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U, size_t _Count >
-	inline Point < T, Count > operator *( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
+	inline Point< T, Count > operator *( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
 	{
-		Point < T, Count > l_ptResult( p_ptA );
+		Point< T, Count > l_ptResult( p_ptA );
 		l_ptResult *= p_ptB;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point < T, Count > operator *( const Point< T, Count > & p_pt, const U * p_coords )
+	inline Point< T, Count > operator *( const Point< T, Count > & p_pt, const U * p_coords )
 	{
-		Point < T, Count > l_ptResult( p_pt );
+		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult *= p_coords;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point < T, Count > operator *( const Point< T, Count > & p_pt, const U & p_coord )
+	inline Point< T, Count > operator *( const Point< T, Count > & p_pt, U const & p_coord )
 	{
-		Point < T, Count > l_ptResult( p_pt );
+		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult *= p_coord;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U, size_t _Count >
-	inline Point < T, Count > operator /( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
+	inline Point< T, Count > operator /( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
 	{
-		Point < T, Count > l_ptResult( p_ptA );
+		Point< T, Count > l_ptResult( p_ptA );
 		l_ptResult /= p_ptB;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point < T, Count > operator /( const Point< T, Count > & p_pt, const U * p_coords )
+	inline Point< T, Count > operator /( const Point< T, Count > & p_pt, const U * p_coords )
 	{
-		Point < T, Count > l_ptResult( p_pt );
+		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult /= p_coords;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point < T, Count > operator /( const Point< T, Count > & p_pt, const U & p_coord )
+	inline Point< T, Count > operator /( const Point< T, Count > & p_pt, U const & p_coord )
 	{
-		Point < T, Count > l_ptResult( p_pt );
+		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult /= p_coord;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U, size_t _Count >
-	inline Point < T, Count > operator ^( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
+	inline Point< T, Count > operator ^( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
 	{
-		Point < T, Count > l_ptResult( p_ptA );
+		Point< T, Count > l_ptResult( p_ptA );
 		l_ptResult ^= p_ptB;
 		return l_ptResult;
 	}
 
 	template < typename T, size_t Count >
-	inline Point < T, Count > operator *( int p_value, const Point < T, Count > & p_ptPoint )
+	inline Point< T, Count > operator *( int p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint * p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point < T, Count > operator +( int p_value, const Point < T, Count > & p_ptPoint )
+	inline Point< T, Count > operator +( int p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint + p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point < T, Count > operator -( int p_value, const Point < T, Count > & p_ptPoint )
+	inline Point< T, Count > operator -( int p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint - p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point < T, Count > operator /( int p_value, const Point < T, Count > & p_ptPoint )
+	inline Point< T, Count > operator /( int p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint / p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point < T, Count > operator *( double p_value, const Point < T, Count > & p_ptPoint )
+	inline Point< T, Count > operator *( double p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint * p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point < T, Count > operator +( double p_value, const Point < T, Count > & p_ptPoint )
+	inline Point< T, Count > operator +( double p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint + p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point < T, Count > operator -( double p_value, const Point < T, Count > & p_ptPoint )
+	inline Point< T, Count > operator -( double p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint - p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point < T, Count > operator /( double p_value, const Point < T, Count > & p_ptPoint )
+	inline Point< T, Count > operator /( double p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint / p_value;
+	}
+	template < typename T, size_t Count >
+	inline void Reverse( Point< T, Count > const & p_pt )
+	{
+		for ( size_t i = 0; i < Count; i++ )
+		{
+			p_pt[i] = -p_pt[i];
+		}
+	}
+	template < typename T, size_t Count >
+	inline void Normalise( Point< T, Count > & p_pt )
+	{
+		T l_length = GetDistance( p_pt, Point< T, Count >() );
+
+		if ( !l_length )
+		{
+			return;
+		}
+
+		p_pt /= ( l_length );
+	}
+	template < typename T, size_t Count >
+	inline Point< T, Count > GetNormalised( Point< T, Count > const & p_pt )
+	{
+		Point< T, Count > l_ptReturn( p_pt );
+		Normalise( l_ptReturn );
+		return l_ptReturn;
+	}
+	template < typename T, size_t Count >
+	inline T Dot( Point< T, Count > const & p_a, Point< T, Count > const & p_b )
+	{
+		T l_tReturn = T();
+
+		for ( size_t i = 0; i < Count; i++ )
+		{
+			l_tReturn += p_a[i] * p_b[i];
+		}
+
+		return l_tReturn;
+	}
+	template < typename T, size_t Count >
+	inline double GetSquaredDistance( Point< T, Count > const & p_a, Point< T, Count > const & p_b )
+	{
+		Point< T, Count > l_diff( p_a - p_b );
+		double l_dReturn = 0.0;
+
+		for ( size_t i = 0; i < Count; i++ )
+		{
+			l_dReturn += l_diff[i] * l_diff[i];
+		}
+
+		return l_dReturn;
+	}
+	template < typename T, size_t Count >
+	inline double GetDistance( Point< T, Count > const & p_a, Point< T, Count > const & p_b )
+	{
+		return sqrt( GetSquaredDistance( p_a, p_b ) );
+	}
+	template < typename T, size_t Count >
+	inline double GetManhattanDistance( Point< T, Count > const & p_a, Point< T, Count > const & p_b )
+	{
+		Point< T, Count > l_diff( p_a - p_b );
+		double l_dReturn = 0.0;
+
+		for ( size_t i = 0; i < Count; i++ )
+		{
+			l_dReturn += std::abs( l_diff[i] );
+		}
+
+		return l_dReturn;
+	}
+	template < typename T, size_t Count >
+	inline double GetMinkowskiDistance( double p_dOrder, Point< T, Count > const & p_a, Point< T, Count > const & p_b )
+	{
+		Point< T, Count > l_diff( p_a - p_b );
+		double l_dReturn = 0.0;
+
+		for ( size_t i = 0; i < Count; i++ )
+		{
+			l_dReturn += std::pow( std::abs( l_diff[i] ), p_dOrder );
+		}
+
+		l_dReturn = std::pow( l_dReturn, 1.0 / p_dOrder );
+		return l_dReturn;
+	}
+	template < typename T, size_t Count >
+	inline double GetChebychevDistance( Point< T, Count > const & p_a, Point< T, Count > const & p_b )
+	{
+		Point< T, Count > l_diff( p_a - p_b );
+		double l_dReturn = 0.0;
+
+		for ( size_t i = 0; i < Count; i++ )
+		{
+			l_dReturn = std::max( l_dReturn, std::abs( l_diff[i] ) );
+		}
+
+		return l_dReturn;
+	}
+	template < typename T, size_t Count >
+	inline double GetCosTheta( Point< T, Count > const & p_a, Point< T, Count > const & p_b )
+	{
+		return Dot( p_b ) / ( GetDistance( p_a ) * GetDistance( p_b ) );
 	}
 
 //*************************************************************************************************

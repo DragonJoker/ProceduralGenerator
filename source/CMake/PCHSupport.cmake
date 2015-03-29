@@ -128,7 +128,6 @@ MACRO( add_target_precompiled_header TARGET_NAME PCH_HEADER PCH_SOURCE TARGET_CX
     	
 		pch_get_compile_flags( ${TARGET_CXX_FLAGS} PCH_COMPILE_FLAGS )
     	
-		#message( "command  ${PCH_HEADER} ${PCH_OUTPUT}" )
 		pch_get_compile_command( PCH_COMMAND  ${CMAKE_CURRENT_SOURCE_DIR}/Src/${PCH_NAME} ${PCH_OUTPUT} )
     	
 		add_custom_command( OUTPUT ${PCH_OUTPUT} COMMAND ${PCH_COMMAND} IMPLICIT_DEPENDS CXX ${CMAKE_CURRENT_SOURCE_DIR}/Src/${PCH_NAME} )

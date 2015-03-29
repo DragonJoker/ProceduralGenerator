@@ -1,3 +1,5 @@
+varying vec2 pxl_texture;
+
 uniform sampler2D pg_texture;
 uniform int pg_sep_offset;
 uniform int pg_sep_type;
@@ -14,7 +16,7 @@ float semi_rand(vec2 co)
 
 vec4 ComputeColour()
 {
-	vec2 uv = gl_TexCoord[0].xy;
+	vec2 uv = pxl_texture.xy;
 	float rnd_factor = 0.05;
 
     vec2 rnd = vec2(semi_rand( uv.xy), semi_rand( uv.yx));
@@ -24,7 +26,7 @@ vec4 ComputeColour()
 void main()
 {
 	vec4 tc = vec4( 1.0, 0.0, 0.0, 1.0);
-	vec2 uv = gl_TexCoord[0].xy;
+	vec2 uv = pxl_texture.xy;
 
 	if (pg_sep_type == 0)
 	{

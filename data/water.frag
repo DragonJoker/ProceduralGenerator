@@ -1,3 +1,6 @@
+varying vec2 pxl_texture;
+varying vec2 pxl_texture1;
+
 uniform sampler2D Tex0, Tex1, Tex2;
 uniform float WaveHeight, R0;
 varying vec3 ecPos, nor, lightDir;
@@ -7,10 +10,10 @@ void main(void)
 	float fresnel, specular;
 	vec3 normal, lightVec, refVec;
 
-	vec4 normalMap = texture2D(Tex2, gl_TexCoord[1].xy);
+	vec4 normalMap = texture2D(Tex2, pxl_texture1.xy);
 	normal = normalize(2.0 * normalMap.rgb - 1.0); // decoding normal map
 
-	vec3 ProjCoords = gl_TexCoord[0].xyz;
+	vec3 ProjCoords = pxl_texture.xyz;
 	ProjCoords.xy += WaveHeight* normal.rg; // perturbation
 
 	vec4 refractionMap = texture2DProj(Tex0, ProjCoords);

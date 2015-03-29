@@ -1,3 +1,19 @@
+###########################################################
+#
+# Find Visual Leak Detector on client machine
+#
+## 1: Setup:
+# The following variables are searched for defaults
+#  VLD_ROOT_DIR:            Base directory of VLD tree to use.
+#
+## 2: Variable
+# The following are set after configuration is done: 
+#  
+#  VLD_INCLUDE_DIR
+#  VLD_LIBRARY
+#
+###########################################################
+
 FIND_PACKAGE( PackageHandleStandardArgs )
 
 if( MSVC )

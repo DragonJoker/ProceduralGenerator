@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -15,19 +15,34 @@ the program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place - Suite 330, Boston, MA 02111-1307, USA, or go to
 http://www.gnu.org/copyleft/lesser.txt.
 */
-#ifndef ___MainFrame___
-#define ___MainFrame___
+#ifndef ___PROCEDURAL_GENERATOR_MAIN_FRAME_H___
+#define ___PROCEDURAL_GENERATOR_MAIN_FRAME_H___
 
-namespace ProceduralTextures
+#include <chrono>
+#include <functional>
+#include <map>
+#include <vector>
+
+#pragma warning( push )
+#pragma warning( disable:4996 )
+#include <wx/dynlib.h>
+#include <wx/frame.h>
+#include <wx/object.h>
+#include <wx/panel.h>
+#pragma warning( pop )
+
+#include <GeneratorPrerequisites.h>
+
+namespace ProceduralGenerator
 {
 	class RenderPanel;
-	class StatusBar;
+	typedef std::chrono::high_resolution_clock clock;
 
 	class MainFrame
 		:	public wxFrame
 	{
 	private:
-		typedef std::map< wxString, PluginBase * > PluginStrMap;
+		typedef std::map< wxString, std::pair< ProceduralTextures::PluginBase *, wxDynamicLibrary * > > PluginStrMap;
 
 	public:
 		enum eID
@@ -52,11 +67,13 @@ namespace ProceduralTextures
 		DECLARE_CLASS( MainFrame );
 		void DoBuildMenuBar();
 		void DoSelectGenerator();
-		ProceduralGenerator * DoCreateGenerator();
-		void DoDestroyGenerator();
+		std::shared_ptr< ProceduralTextures::GeneratorBase > DoCreateGenerator();
+		void DoDestroyGenerator( std::shared_ptr< ProceduralTextures::GeneratorBase > & p_generator );
 		void DoLoadPlugins();
 		void DoClose();
 		void DoLoadPlugins( wxString const & p_strPath );
+		void FireShowMessageBox( ProceduralTextures::String const p_title, ProceduralTextures::String const & p_message );
+		void FireResize( ProceduralTextures::Size const & p_size );
 
 		DECLARE_EVENT_TABLE();
 		void OnPaint( wxPaintEvent & p_event );
@@ -68,7 +85,6 @@ namespace ProceduralTextures
 		void OnExit( wxCommandEvent & p_event );
 		void OnSelectGenerator( wxCommandEvent & p_event );
 		void OnPrintScreen( wxCommandEvent & p_event );
-		void OnCpuStepEnd( wxCommandEvent & p_event );
 		void OnShowMessageBox( wxCommandEvent & p_event );
 		void OnResize( wxCommandEvent & p_event );
 #if defined( PGEN_RECORDS )
@@ -78,12 +94,8 @@ namespace ProceduralTextures
 
 	private:
 		RenderPanel * m_pRenderPanel;
-		ConfigPanel * m_pConfigPanel;
 		PluginStrMap m_mapPluginsByName;
-		PluginBase * m_pPlugin;
-		StatusBar  * m_pStatusBar;
-		wxMilliClock_t m_savedTime;
-		wxMilliClock_t m_time;
+		uint32_t m_indexCpuStepEnd;
 	};
 }
 

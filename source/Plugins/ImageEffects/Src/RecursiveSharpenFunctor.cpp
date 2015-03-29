@@ -1,6 +1,8 @@
 #include "RecursiveSharpenFunctor.h"
 
-namespace ProceduralTextures
+using namespace ProceduralTextures;
+
+namespace ImageEffects
 {
 	RecursiveSharpenFunctor::RecursiveSharpenFunctor()
 		:	RecursiveEffectFunctor< SharpenFunctor >( eEFFECT_TYPE_REC_SHARPEN, _( "Recursive sharpen" ), false, false )
@@ -11,5 +13,3 @@ namespace ProceduralTextures
 	{
 	}
 }
-
-//*************************************************************************************************

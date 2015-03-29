@@ -1,11 +1,12 @@
 #include "WaveFunctor.h"
 
-#include <cmath>
+using namespace ProceduralTextures;
 
-namespace ProceduralTextures
+namespace ImageEffects
 {
-	double	WaveFunctor::m_dDegToRad = M_PI / 180.0;
-	double	WaveFunctor::m_dPiMult2 = M_PI * 2;
+	const double pi = 3.14159265358979323846;
+	double	WaveFunctor::m_dDegToRad = pi / 180.0;
+	double	WaveFunctor::m_dPiMult2 = pi * 2;
 	double	WaveFunctor::m_dCos[360];
 	double	WaveFunctor::m_dSin[360];
 
@@ -26,7 +27,7 @@ namespace ProceduralTextures
 		,	m_dNbPixelsX( 5.0 )
 		,	m_dNbPixelsY( 5.0 )
 	{
-		for ( int i = 0 ; i < 360 ; i++ )
+		for ( int i = 0; i < 360; i++ )
 		{
 			m_dCos[i] = cos( double( i ) * m_dDegToRad );
 			m_dSin[i] = sin( double( i ) * m_dDegToRad );
@@ -37,25 +38,25 @@ namespace ProceduralTextures
 	{
 	}
 
-	void WaveFunctor::operator()( const PixelBuffer & p_bufferIn, PixelBuffer & p_bufferOut )
+	void WaveFunctor::operator()( PixelBuffer const & p_bufferIn, PixelBuffer & p_bufferOut )
 	{
 		int x;
 		int y;
 		UbPixel l_pixel;
 
-		for ( int i = 0 ; i < m_iImgHeight ; i++ )
+		for ( uint32_t i = 0; i < m_size.y(); i++ )
 		{
-			m_iDecalY = int( m_dCurTranslateY + m_dSin[int( m_dTimeIndexY + m_dScaleY * 360.0 * double( i ) / double( m_iImgHeight ) ) % 360] * m_dNbPixelsY );
+			m_iDecalY = int( m_dCurTranslateY + m_dSin[int( m_dTimeIndexY + m_dScaleY * 360.0 * double( i ) / double( m_size.y() ) ) % 360] * m_dNbPixelsY );
 
 			if ( m_iDecalY >= 0 )
 			{
-				if ( i + m_iDecalY < m_iImgHeight )
+				if ( i + m_iDecalY < m_size.y() )
 				{
 					y = i + m_iDecalY;
 				}
 				else
 				{
-					y = i + m_iDecalY - m_iImgHeight;
+					y = i + m_iDecalY - m_size.y();
 				}
 			}
 			else
@@ -66,23 +67,23 @@ namespace ProceduralTextures
 				}
 				else
 				{
-					y = i + m_iDecalY + m_iImgHeight;
+					y = i + m_iDecalY + m_size.y();
 				}
 			}
 
-			for ( int j = 0 ; j < m_iImgWidth ; j++ )
+			for ( uint32_t j = 0; j < m_size.x(); j++ )
 			{
-				m_iDecalX = int( m_dCurTranslateX + m_dCos[int( m_dTimeIndexX + m_dScaleX * 360.0 * double( j ) / double( m_iImgWidth ) ) % 360] * m_dNbPixelsX );
+				m_iDecalX = int( m_dCurTranslateX + m_dCos[int( m_dTimeIndexX + m_dScaleX * 360.0 * double( j ) / double( m_size.x() ) ) % 360] * m_dNbPixelsX );
 
 				if ( m_iDecalX >= 0 )
 				{
-					if ( j + m_iDecalX < m_iImgWidth )
+					if ( j + m_iDecalX < m_size.x() )
 					{
 						x = j + m_iDecalX;
 					}
 					else
 					{
-						x = j + m_iDecalX - m_iImgWidth;
+						x = j + m_iDecalX - m_size.x();
 					}
 				}
 				else
@@ -93,7 +94,7 @@ namespace ProceduralTextures
 					}
 					else
 					{
-						x = j + m_iDecalX + m_iImgWidth;
+						x = j + m_iDecalX + m_size.x();
 					}
 				}
 
@@ -116,14 +117,14 @@ namespace ProceduralTextures
 			m_dTimeIndexY -= 360.0;
 		}
 
-		if ( m_dCurTranslateX + m_dNbPixelsX >= m_iImgWidth )
+		if ( m_dCurTranslateX + m_dNbPixelsX >= m_size.x() )
 		{
-			m_dCurTranslateX -= m_iImgWidth;
+			m_dCurTranslateX -= m_size.x();
 		}
 
-		if ( m_dCurTranslateY + m_dNbPixelsY >= m_iImgHeight )
+		if ( m_dCurTranslateY + m_dNbPixelsY >= m_size.y() )
 		{
-			m_dCurTranslateY -= m_iImgHeight;
+			m_dCurTranslateY -= m_size.y();
 		}
 	}
 }

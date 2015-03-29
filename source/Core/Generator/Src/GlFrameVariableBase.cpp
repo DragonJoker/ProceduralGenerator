@@ -4,16 +4,19 @@
 
 namespace ProceduralTextures
 {
-	GlFrameVariableBase::GlFrameVariableBase( OpenGl * p_pOpenGl, GlShaderProgram * p_pProgram )
-		:	m_glIndex( GL_INVALID_INDEX )
-		,	m_used( true )
-		,	m_pProgram( p_pProgram )
-		,	m_bChanged( true )
-		,	m_pOpenGl( p_pOpenGl )
+	namespace gl
 	{
-	}
+		FrameVariableBase::FrameVariableBase( std::shared_ptr< OpenGl > p_pOpenGl, std::shared_ptr< ShaderProgram > p_pProgram )
+			: Holder( p_pOpenGl )
+			, m_glIndex( GL_INVALID_INDEX )
+			, m_used( true )
+			, m_program( p_pProgram )
+			, m_changed( true )
+		{
+		}
 
-	GlFrameVariableBase::~GlFrameVariableBase()
-	{
+		FrameVariableBase::~FrameVariableBase()
+		{
+		}
 	}
 }

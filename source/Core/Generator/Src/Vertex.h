@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option ) any later
+Foundation; either version 2 of the License, or (At your option ) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -28,75 +28,204 @@ namespace ProceduralTextures
 	\date		29/08/2011
 	\brief		Vertex definition
 	*/
-	class GeneratorAPI Vertex
+	template< typename PosType = float >
+	class GeneratorAPI TVertex
 	{
 	public:
+		typedef Point< PosType, 2 > TPoint;
+
+	public:
+		/**
+		 *\brief		Default constructor
+		 */
+		TVertex()
+			: m_bOwnBuffer( false )
+			, m_pBuffer( NULL )
+		{
+			Count++;
+			Unlink();
+		}
 		/**
 		 *\brief		Specified constructor
+		 *\param[in]	p_position	The position
+		 *\param[in]	p_texture	The texture coordinates
 		 */
-		Vertex();
+		TVertex( TPoint const & p_position, Point2f const & p_texture )
+			: m_bOwnBuffer( false )
+			, m_pBuffer( NULL )
+		{
+			Count++;
+			Unlink();
+			SetPosition( p_position );
+			SetTexture( p_texture );
+		}
 		/**
 		 *\brief		Copy constructor
 		 */
-		Vertex( const Vertex & p_vertex );
-		/**
-		 *\brief		Constructor from the difference between second and first argument
-		 */
-		 Vertex( const Vertex & p_v1, const Vertex & p_v2 );
+		TVertex( TVertex const & p_vertex )
+			: m_bOwnBuffer( false )
+			, m_pBuffer( NULL )
+			, m_position( p_vertex.m_position )
+			, m_texture( p_vertex.m_texture )
+		{
+			Count++;
+			Unlink();
+		}
 		/**
 		 *\brief		Destructor
 		 */
-		virtual ~Vertex();
+		virtual ~TVertex()
+		{
+			if ( m_bOwnBuffer && m_pBuffer )
+			{
+				delete [] m_pBuffer;
+				m_pBuffer = NULL;
+			}
+
+			Count--;
+		}
 		/**
 		 *\brief		Copy assignment operator
 		 */
-		virtual Vertex  & operator =( const Vertex & p_vertex );
+		virtual TVertex & operator =( TVertex< PosType > const & p_vertex )
+		{
+			m_position = p_vertex.m_position;
+			m_texture = p_vertex.m_texture;
+
+			if ( m_bOwnBuffer && m_pBuffer )
+			{
+				delete [] m_pBuffer;
+				m_pBuffer = NULL;
+			}
+
+			m_bOwnBuffer = false;
+			Unlink();
+			return * this;
+		}
 		/**
 		 *\brief		Links the vertex coords to the ones in parameter.
 		 *\remarks		The vertex no longer owns it's coords
 		 *\param[in]	p_pBuffer	The coordinates buffer
 		 */
-		void LinkCoords( float * p_pBuffer );
+		void Link( uint8_t * p_pBuffer )
+		{
+			size_t l_count = GetStride();
+			std::vector< uint8_t > l_pBufferSave( l_count );
+
+			if ( m_pBuffer )
+			{
+				memcpy( &l_pBufferSave[0], m_pBuffer, GetStride() );
+			}
+			else
+			{
+				memcpy( &l_pBufferSave[0], m_position.ConstPtr(), 2 * sizeof( PosType ) );
+				memcpy( &l_pBufferSave[2 * sizeof( PosType )], m_texture.ConstPtr(), 2 * sizeof( float ) );
+			}
+
+			m_position.Unlink();
+			m_texture.Unlink();
+
+			if ( m_bOwnBuffer && m_pBuffer )
+			{
+				delete [] m_pBuffer;
+				m_pBuffer = NULL;
+			}
+
+			m_pBuffer = p_pBuffer;
+			m_bOwnBuffer = false;
+			DoLink();
+			memcpy( m_pBuffer, &l_pBufferSave[0], GetStride() );
+		}
 		/**
 		 *\brief		Unlinks the vertex coords.
 		 *\remarks		The vertex now owns it's coords
 		 */
-		void UnlinkCoords();
+		void Unlink()
+		{
+			size_t l_count = GetStride();
+			std::vector< uint8_t > l_pBufferSave( l_count );
+
+			if ( m_pBuffer )
+			{
+				memcpy( &l_pBufferSave[0], m_pBuffer, GetStride() );
+			}
+			else
+			{
+				memcpy( &l_pBufferSave[0], m_position.ConstPtr(), 2 * sizeof( PosType ) );
+				memcpy( &l_pBufferSave[2 * sizeof( PosType )], m_texture.ConstPtr(), 2 * sizeof( float ) );
+			}
+
+			m_position.Unlink();
+			m_texture.Unlink();
+
+			if ( !m_bOwnBuffer )
+			{
+				m_pBuffer = new uint8_t[l_count];
+			}
+
+			m_bOwnBuffer = true;
+			DoLink();
+			memcpy( m_pBuffer, &l_pBufferSave[0], GetStride() );
+		}
 		/**
 		 *\brief		Sets the vertex position
 		 *\param[in]	val	The new value
 		 */
-		void SetCoords( const Point2f & val );
+		void SetPosition( TPoint const & val )
+		{
+			m_position[0] = val[0];
+			m_position[1] = val[1];
+		}
 		/**
 		 *\brief		Sets the vertex position
 		 *\param[in]	x, y	The new value
 		 */
-		void SetCoords( float x, float y );
+		void SetPosition( PosType x, PosType y )
+		{
+			m_position[0] = x;
+			m_position[1] = y;
+		}
 		/**
 		 *\brief		Sets the vertex position
 		 *\param[in]	p_pCoords	The new value
 		 */
-		void SetCoords( const float * p_pCoords );
+		void SetPosition( const PosType * p_pCoords )
+		{
+			m_position[0] = p_pCoords[0];
+			m_position[1] = p_pCoords[1];
+		}
 		/**
 		 *\brief		Sets the vertex texture coordinates
 		 *\param[in]	val	The new value
 		 */
-		void SetTexCoord( const Point2f & val );
+		void SetTexture( Point2f const & val )
+		{
+			m_texture[0] = val[0];
+			m_texture[1] = val[1];
+		}
 		/**
 		 *\brief		Sets the vertex texture coordinates
 		 *\param[in]	x, y	The new value
 		 */
-		void SetTexCoord( float x, float y );
+		void SetTexture( float x, float y )
+		{
+			m_texture[0] = x;
+			m_texture[1] = y;
+		}
 		/**
 		 *\brief		Sets the vertex texture coordinates
 		 *\param[in]	p_pCoords	The new value
 		 */
-		void SetTexCoord( const float * p_pCoords );
+		void SetTexture( const float * p_pCoords )
+		{
+			m_texture[0] = p_pCoords[0];
+			m_texture[1] = p_pCoords[1];
+		}
 		/**
 		 *\brief		Retrieves the vertex position
 		 *\return		The value
 		 */
-		inline Point2f & GetCoords()
+		inline TPoint & GetPosition()
 		{
 			return m_position;
 		}
@@ -104,7 +233,7 @@ namespace ProceduralTextures
 		 *\brief		Retrieves the vertex position
 		 *\return		The value
 		 */
-		inline const Point2f & GetCoords()const
+		inline TPoint const & GetPosition()const
 		{
 			return m_position;
 		}
@@ -112,7 +241,7 @@ namespace ProceduralTextures
 		 *\brief		Retrieves the vertex texture coordinates
 		 *\return		The value
 		 */
-		inline Point2f & GetTexCoord()
+		inline Point2f & GetTexture()
 		{
 			return m_texture;
 		}
@@ -120,7 +249,7 @@ namespace ProceduralTextures
 		 *\brief		Retrieves the vertex texture coordinates
 		 *\return		The value
 		 */
-		inline const Point2f & GetTexCoord()const
+		inline Point2f const & GetTexture()const
 		{
 			return m_texture;
 		}
@@ -128,17 +257,17 @@ namespace ProceduralTextures
 		 *\brief		Retrieves a constant pointer to the vertex buffer
 		 *\return		The value
 		 */
-		inline const float * const_ptr()const
+		inline const uint8_t * ConstPtr()const
 		{
-			return reinterpret_cast< const float * >( m_pBuffer );
+			return m_pBuffer;
 		}
 		/**
 		 *\brief		Retrieves a pointer to the vertex buffer
 		 *\return		The value
 		 */
-		inline float * ptr()
+		inline uint8_t * Ptr()
 		{
-			return reinterpret_cast< float * >( m_pBuffer );
+			return m_pBuffer;
 		}
 		/**
 		 *\brief		Retrieves the vertex stride (size of a vertex)
@@ -146,30 +275,34 @@ namespace ProceduralTextures
 		 */
 		inline size_t GetStride()const
 		{
-			return 4 * sizeof( float );
+			return 2 * sizeof( PosType ) + 2 * sizeof( float );
 		}
 		/**
-		 *\brief		Retrieves the vertex position component at wanted index
+		 *\brief		Retrieves the vertex position component At wanted index
 		 *\param[in]	p_uiIndex	The index
 		 *\return		The value
 		 */
-		inline float & operator []( size_t p_uiIndex )
+		inline PosType & operator []( size_t p_uiIndex )
 		{
-			return GetCoords()[p_uiIndex];
+			return GetPosition()[p_uiIndex];
 		}
 		/**
-		 *\brief		Retrieves the vertex position constant component at wanted index
+		 *\brief		Retrieves the vertex position constant component At wanted index
 		 *\param[in]	p_uiIndex	The index
 		 *\return		The value
 		 */
-		inline const float & operator []( size_t p_uiIndex )const
+		inline PosType const & operator []( size_t p_uiIndex )const
 		{
-			return GetCoords()[p_uiIndex];
+			return GetPosition()[p_uiIndex];
 		}
 
 	private:
-		void DoLink();
-        
+		void DoLink()
+		{
+			m_position.Link( &m_pBuffer[0] );
+			m_texture.Link( &m_pBuffer[2 * sizeof( PosType )] );
+		}
+
 	public:
 		//! Number of components of a Vertex (total of coordinates for coords, normal, tangent, texture coords ).
 		static size_t Size;
@@ -180,9 +313,9 @@ namespace ProceduralTextures
 		//! Tells if this element owns it's buffer or not
 		bool m_bOwnBuffer;
 		//! The buffer, containing buffer values
-		float * m_pBuffer;
+		uint8_t * m_pBuffer;
 		//! The vertex position
-		Point2f m_position;
+		TPoint m_position;
 		//! The vertex texture coordinates
 		Point2f m_texture;
 	};

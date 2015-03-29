@@ -3,7 +3,7 @@ This source file is part of ProceduralGenerator (https://sourceforge.net/project
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
+Foundation; either version 2 of the License, or (At your option) any later
 version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
@@ -20,7 +20,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "EffectFunctor.h"
 
-namespace ProceduralTextures
+namespace ImageEffects
 {
 	class SharpenFunctor
 		: public EffectFunctor
@@ -33,7 +33,7 @@ namespace ProceduralTextures
 		SharpenFunctor();
 		virtual ~SharpenFunctor();
 
-		virtual void operator()( const PixelBuffer & p_bufferIn, PixelBuffer & p_bufferOut );
+		virtual void operator()( ProceduralTextures::PixelBuffer const & p_bufferIn, ProceduralTextures::PixelBuffer & p_bufferOut );
 	};
 }
 

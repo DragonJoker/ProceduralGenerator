@@ -1,473 +1,410 @@
-#include "TextOverlay.h"
-#include "OpenGl.h"
+﻿#include "TextOverlay.h"
+
+#include "Font.h"
+#include "GeometryBuffers.h"
+#include "GlFrameVariable.h"
+#include "GlVec4FrameVariable.h"
+#include "GlShaderProgram.h"
+#include "GlTexture.h"
+#include "GlVertexBuffer.h"
 #include "Buffer.h"
 
-using namespace ProceduralTextures;
+#if defined( DrawText )
+#	undef DrawText
+#endif
 
 namespace ProceduralTextures
 {
-	TextOverlay::Glyph::Glyph()
+	TextOverlay::TextOverlay( std::shared_ptr< gl::OpenGl > p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent )
+		: Overlay( p_openGl, p_material, eOVERLAY_TYPE_TEXT, p_parent )
+		, m_wrappingMode( eTEXT_WRAPPING_MODE_NONE )
+		, m_glyphsTexture( std::make_shared< gl::Texture >( p_openGl ) )
+		, m_hAlign( eHALIGN_LEFT )
+		, m_vAlign( eVALIGN_CENTER )
 	{
-	}
-
-	TextOverlay::Glyph::Glyph( const Glyph & p_glyph )
-		:	m_ptPosition( p_glyph.m_ptPosition )
-		,	m_size( p_glyph.m_size )
-		,	m_bitmap( p_glyph.m_bitmap )
-	{
-	}
-
-	TextOverlay::Glyph & TextOverlay::Glyph::operator =( Glyph const & p_glyph )
-	{
-		m_ptPosition	= p_glyph.m_ptPosition;
-		m_size			= p_glyph.m_size;
-		m_bitmap		= p_glyph.m_bitmap;
-		return * this;
-	}
-
-	TextOverlay::Glyph::~Glyph()
-	{
-		m_bitmap.clear();
-	}
-
-	//*************************************************************************************************
-
-	TextOverlay::TextOverlay( OpenGl * p_pOpenGl )
-		:	m_pOpenGl( p_pOpenGl )
-		,	m_vtxBuffer( p_pOpenGl )
-		,	m_idxBuffer( p_pOpenGl )
-		,	m_textureBackground( p_pOpenGl )
-		,	m_textureForeground( p_pOpenGl )
-		,	m_textureText( p_pOpenGl )
-		,	m_textureBlendedText( p_pOpenGl )
-		,	m_frameBufferBlendedText( p_pOpenGl )
-		,	m_textureBackgroundCut( p_pOpenGl )
-		,	m_frameBufferBackgroundCut( p_pOpenGl )
-		,	m_textureResult( p_pOpenGl )
-		,	m_frameBufferResult( p_pOpenGl )
-		,	m_bTextModified( false )
-		,	m_bBackgroundModified( false )
-		,	m_bForegroundModified( false )
-		,	m_bMatrixModified( false )
-		,	m_iMaxHeight( 0 )
-		,	m_arrayGlyphs( 256 )
-	{
-		std::memset( m_matrix, 0, sizeof( m_matrix ) );
-		m_matrix[ 0] = 1.0;
-		m_matrix[ 5] = 1.0;
-		m_matrix[10] = 1.0;
-		m_matrix[15] = 1.0;
-		m_blendRgbTxt.function		= GL_MODULATE;
-		m_blendRgbTxt.source1		= GL_TEXTURE;
-		m_blendRgbTxt.operand1		= GL_SRC_ALPHA;
-		m_blendRgbTxt.source2		= GL_CONSTANT;
-		m_blendRgbTxt.operand2		= GL_SRC_COLOR;
-		m_blendRgbTxt.source3		= GL_NONE;
-		m_blendRgbTxt.operand3		= GL_NONE;
-		m_blendAlphaTxt.function	= GL_REPLACE;
-		m_blendAlphaTxt.source1		= GL_TEXTURE;
-		m_blendAlphaTxt.operand1	= GL_SRC_ALPHA;
-		m_blendAlphaTxt.source2		= GL_NONE;
-		m_blendAlphaTxt.operand2	= GL_NONE;
-		m_blendAlphaTxt.source3		= GL_NONE;
-		m_blendAlphaTxt.operand3	= GL_NONE;
-		m_blendRgbImg.function		= GL_MODULATE;
-		m_blendRgbImg.source1		= GL_PREVIOUS;
-		m_blendRgbImg.operand1		= GL_ONE_MINUS_SRC_ALPHA;
-		m_blendRgbImg.source2		= GL_TEXTURE;
-		m_blendRgbImg.operand2		= GL_SRC_COLOR;
-		m_blendRgbImg.source3		= GL_NONE;
-		m_blendRgbImg.operand3		= GL_NONE;
-		m_blendAlphaImg.function	= GL_REPLACE;
-		m_blendAlphaImg.source1		= GL_PREVIOUS;
-		m_blendAlphaImg.operand1	= GL_ONE_MINUS_SRC_ALPHA;
-		m_blendAlphaImg.source2		= GL_NONE;
-		m_blendAlphaImg.operand2	= GL_NONE;
-		m_blendAlphaImg.source3		= GL_NONE;
-		m_blendAlphaImg.operand3	= GL_NONE;
 	}
 
 	TextOverlay::~TextOverlay()
 	{
+		m_glyphsTexture.reset();
+		m_wpFont.reset();
 	}
 
-	void TextOverlay::Initialise()
+	void TextOverlay::SetFont( std::shared_ptr< Font > p_font )
 	{
-		m_textureBackground.Create();
-		m_textureForeground.Create();
-		m_textureText.Create();
-		m_textureBackgroundCut.Create();
-		m_frameBufferBackgroundCut.Create();
-		m_textureBlendedText.Create();
-		m_frameBufferBlendedText.Create();
-		m_textureResult.Create();
-		m_frameBufferResult.Create();
-		m_vtxBuffer.Initialise();
-		m_idxBuffer.Initialise();
-		m_textureBackground.Initialise( m_size );
-		m_textureForeground.Initialise( m_size );
-		m_textureText.Initialise( m_size );
-		m_textureBackgroundCut.Initialise( m_size );
-		m_frameBufferBackgroundCut.Initialise( m_size );
-		m_textureBlendedText.Initialise( m_size );
-		m_frameBufferBlendedText.Initialise( m_size );
-		m_textureResult.Initialise( m_size );
-		m_frameBufferResult.Initialise( m_size );
-		m_textureBackground.GetBuffer().init();
-		m_textureForeground.GetBuffer().init();
-		m_textureText.GetBuffer().init();
-
-		for ( int y = 0 ; y < m_size.y ; y++ )
+		if ( p_font )
 		{
-			for ( int x = 0 ; x < m_size.x ; x++ )
+			m_wpFont = p_font;
+		}
+
+		m_changed = true;
+	}
+
+	void TextOverlay::SetProgram( eMATERIAL_TYPE p_type, std::shared_ptr< gl::ShaderProgram > p_program )
+	{
+		m_material.SetType( p_type, p_program );
+		std::shared_ptr< gl::FrameVariable< int > > l_tex = p_program->GetIntFrameVariable( _T( "pxl_mapText" ) );
+		m_uniformTextTexture = l_tex;
+
+		if ( l_tex )
+		{
+			switch ( p_type )
 			{
-				m_textureBackground.GetBuffer()[y][x].r = 0;
-				m_textureBackground.GetBuffer()[y][x].g = 0;
-				m_textureBackground.GetBuffer()[y][x].b = 0;
-				m_textureBackground.GetBuffer()[y][x].a = 0;
-				m_textureForeground.GetBuffer()[y][x].r = 255;
-				m_textureForeground.GetBuffer()[y][x].g = 255;
-				m_textureForeground.GetBuffer()[y][x].b = 255;
-				m_textureForeground.GetBuffer()[y][x].a = 255;
+			case eMATERIAL_TYPE_COLOUR:
+				l_tex->SetValue( 0 );
+				break;
+
+			case eMATERIAL_TYPE_TEXTURE:
+				l_tex->SetValue( 1 );
+				break;
 			}
 		}
 	}
 
-	void TextOverlay::Cleanup()
+	Position const & TextOverlay::GetGlyphPosition( char32_t p_char )const
 	{
-		m_textureBackground.Cleanup();
-		m_textureForeground.Cleanup();
-		m_textureText.Cleanup();
-		m_textureBackgroundCut.Cleanup();
-		m_textureBlendedText.Cleanup();
-		m_textureResult.Cleanup();
-		m_frameBufferBackgroundCut.Cleanup();
-		m_frameBufferBlendedText.Cleanup();
-		m_frameBufferResult.Cleanup();
-		m_vtxBuffer.Destroy();
-		m_idxBuffer.Destroy();
-		m_textureBackground.Destroy();
-		m_textureForeground.Destroy();
-		m_textureText.Destroy();
-		m_textureBackgroundCut.Destroy();
-		m_textureBlendedText.Destroy();
-		m_textureResult.Destroy();
-		m_frameBufferBackgroundCut.Destroy();
-		m_frameBufferBlendedText.Destroy();
-		m_frameBufferResult.Destroy();
+		auto l_it = m_glyphsPositions.find( p_char );
+
+		if ( l_it == m_glyphsPositions.end() )
+		{
+			throw std::runtime_error( std::string( "No loaded glyph for character " ) + std::to_string( p_char ) );
+		}
+
+		return l_it->second;
 	}
 
-	void TextOverlay::Create( int p_iHeight, wxFontStyle p_eStyle, wxFontWeight p_eWeight )
+	void TextOverlay::DoInitialise()
 	{
-		m_textureBackground.Resize( m_size );
-		m_textureForeground.Resize( m_size );
-		m_textureText.Resize( m_size );
-		m_textureBackgroundCut.Resize( m_size );
-		m_frameBufferBackgroundCut.Resize( m_size );
-		m_frameBufferBackgroundCut.AttachTexture( GL_COLOR_ATTACHMENT0, &m_textureBackgroundCut );
-		m_textureBlendedText.Resize( m_size );
-		m_frameBufferBlendedText.Resize( m_size );
-		m_frameBufferBlendedText.AttachTexture( GL_COLOR_ATTACHMENT0, &m_textureBlendedText );
-		m_textureResult.Resize( m_size );
-		m_frameBufferResult.Resize( m_size );
-		m_frameBufferResult.AttachTexture( GL_COLOR_ATTACHMENT0, &m_textureResult );
-		m_iMaxHeight = p_iHeight + 10;
-		wxSize l_sizeImg( m_iMaxHeight, m_iMaxHeight );
-		wxFont l_font( p_iHeight, wxFONTFAMILY_SWISS, p_eStyle, p_eWeight, false, wxT( "Arial" ) );
-		// We first create an image to write each character into.
-		wxBitmap l_bitmapMeasure( l_sizeImg.x, l_sizeImg.y, 24 );
-		wxMemoryDC l_dcMeasure( l_bitmapMeasure );
-		l_dcMeasure.SetFont( l_font );
+		std::shared_ptr< Font > l_font = GetFont();
 
-		// Then we draw the characters.
-		for ( uint16_t i = 0 ; i < 256 ; i++ )
+		if ( l_font )
 		{
-			wxChar l_chars[2] = { uint8_t( i ), 0 };
-			int l_iWidth = l_dcMeasure.GetTextExtent( l_chars ).x;
+			uint32_t l_uiMaxWidth = l_font->GetMaxWidth();
+			uint32_t l_uiMaxHeight = l_font->GetMaxHeight();
+			uint32_t l_glyphsXCount = 16;
+			uint32_t l_glyphsYCount = uint32_t( std::ceil( std::distance( l_font->Begin(), l_font->End() ) / double( l_glyphsXCount ) ) );
+			Size l_sizeImg( l_uiMaxWidth * l_glyphsXCount, l_uiMaxHeight * l_glyphsYCount );
 
-			if ( l_iWidth > 0 )
+			m_glyphsTexture->Create();
+			m_glyphsTexture->Initialise( l_sizeImg );
+
+			Font::GlyphMap::const_iterator l_it = l_font->Begin();
+			uint32_t l_uiTotalWidth = l_sizeImg.x();
+			uint32_t l_uiTotalHeight = l_sizeImg.y();
+			uint32_t l_uiOffY = l_uiTotalHeight - l_uiMaxHeight;
+			UbPixel * l_pBuffer = m_glyphsTexture->GetBuffer().Ptr();
+			size_t l_bufsize = m_glyphsTexture->GetBuffer().GetSize();
+
+			for ( uint32_t y = 0; y < l_glyphsYCount && l_it != l_font->End(); ++y )
 			{
-				wxBitmap l_bitmap( l_iWidth, l_sizeImg.y, 24 );
-				wxMemoryDC l_dc( l_bitmap );
-				l_dc.SetBackground( *wxBLACK_BRUSH );
-				l_dc.Clear();
-				l_dc.SetTextBackground( *wxBLACK );
-				l_dc.SetTextForeground( *wxWHITE );
-				l_dc.DrawText( l_chars, 0, 5 );
-				ByteArray l_buffer( m_iMaxHeight * m_iMaxHeight );
-				wxNativePixelData l_data( l_bitmap );
-				uint8_t * l_pBuffer = &l_buffer[0];
+				uint32_t l_uiOffX = 0;
 
-				if ( l_data )
+				for ( uint32_t x = 0; x < l_glyphsXCount && l_it != l_font->End(); ++x )
 				{
-					wxNativePixelData::Iterator l_it( l_data );
+					Glyph const & l_glyph = l_it->second;
+					Size l_size = l_glyph.GetSize();
+					uint32_t l_glyphPitch = l_size.x() * 4;
+					std::vector< UbPixel > l_buffer = l_glyph.GetBitmap();
 
-					for ( int y = 0 ; y < m_iMaxHeight ; ++y )
+					for ( uint32_t glyphY = 0; glyphY < l_size.y(); ++glyphY )
 					{
-						wxNativePixelData::Iterator l_itRowStart = l_it;
+						uint32_t l_lineOffset = l_uiTotalWidth * ( l_uiOffY + glyphY );// Go to the good line.
+						assert( l_lineOffset + l_uiOffX + l_size.x() <= l_bufsize );
+						std::memcpy( &l_pBuffer[l_lineOffset + l_uiOffX], &l_buffer[glyphY * l_size.x()], l_glyphPitch );
+					}
 
-						for ( int x = 0 ; x < m_iMaxHeight ; ++x, ++l_it )
+					m_glyphsPositions[l_glyph.GetCharacter()] = Position( l_uiOffX, l_uiOffY );
+					l_uiOffX += l_uiMaxWidth;
+					++l_it;
+				}
+
+				l_uiOffY -= l_uiMaxHeight;
+			}
+
+			m_glyphsTexture->Bind();
+			m_glyphsTexture->UploadSync();
+			m_glyphsTexture->Unbind();
+		}
+	}
+
+	void TextOverlay::DoCleanup()
+	{
+		if ( m_glyphsTexture )
+		{
+			m_glyphsTexture->Cleanup();
+			m_glyphsTexture->Destroy();
+		}
+	}
+
+	void TextOverlay::DoRender()
+	{
+		if ( GetFont() && !m_caption.empty() )
+		{
+			uint32_t l_index = 0;
+
+			if ( m_material.GetType() == eMATERIAL_TYPE_TEXTURE )
+			{
+				l_index++;
+			}
+
+			m_uniformTextTexture.lock()->SetValue( l_index );
+			m_material.Activate();
+			m_glyphsTexture->Activate( GL_TEXTURE0 + l_index );
+			m_geometryBuffers->Draw( m_material.GetVertexAttribute(), m_material.GetTextureAttribute() );
+			m_glyphsTexture->Deactivate( GL_TEXTURE0 + l_index );
+			m_material.Deactivate();
+		}
+	}
+
+	void TextOverlay::DoUpdate()
+	{
+		Position l_ovPosition = GetAbsolutePixelPosition();
+		std::shared_ptr< Font > l_font = GetFont();
+
+		if ( !m_caption.empty() && l_font )
+		{
+			if ( m_previousCaption != m_caption || m_changed || m_previousDisplaySize != m_displaySize )
+			{
+				m_previousCaption = m_caption;
+				m_previousDisplaySize = m_displaySize;
+				m_characters.clear();
+				Size l_size = GetAbsolutePixelSize();
+				Position l_position;
+				std::vector< String > l_lines;
+				size_t l_pos = 0;
+				String l_caption( m_previousCaption );
+
+				while ( ( l_pos = l_caption.find( _T( '\n' ) ) ) != String::npos )
+				{
+					String l_token = l_caption.substr( 0, l_pos );
+					l_lines.push_back( l_token );
+					l_caption.erase( 0, l_pos + 1 );
+				}
+
+				std::vector< std::vector< VertexI > > l_linesVtx;
+				std::vector< VertexI > l_lineVtx;
+
+				l_lines.push_back( l_caption );
+				int32_t l_lineWidth = 0;
+
+				for ( auto const & l_line : l_lines )
+				{
+					int32_t l_wordWidth = 0;
+					String l_word;
+
+					for ( StringUtils::Utf8Iterator l_itLine = l_line.begin(); l_itLine != l_line.end() && l_position.y() < int32_t( l_size.y() ); ++l_itLine )
+					{
+						char const & l_character = *l_itLine;
+						Glyph const & l_glyph = l_font->GetGlyphAt( l_character );
+						uint32_t l_charWidth = std::max( l_glyph.GetSize().x(), l_glyph.GetAdvance().x() );
+
+						if ( l_character == _T( '\r' ) )
 						{
-							*l_pBuffer = l_it.Red();
-							l_pBuffer++;
+							DoWriteWord( l_word, l_wordWidth, l_size, l_position, l_lineWidth, l_lineVtx, l_linesVtx );
+							l_position.x() = 0;
+							l_wordWidth = 0;
 						}
-
-						l_it = l_itRowStart;
-						l_it.OffsetY( l_data, 1 );
-					}
-				}
-
-				m_arrayGlyphs[i].SetSize( wxSize( l_iWidth, m_iMaxHeight ) );
-				m_arrayGlyphs[i].SetPosition( wxPoint( 0, 0 ) );
-				m_arrayGlyphs[i].SetBitmap( l_buffer );
-			}
-		}
-	}
-
-	void TextOverlay::Draw( GlFrameBuffer & p_frameBuffer )
-	{
-		if ( m_bBackgroundModified )
-		{
-			m_textureBackground.Activate();
-			m_textureBackground.UploadSync();
-			m_textureBackground.Deactivate();
-			m_bBackgroundModified = false;
-		}
-
-		if ( m_bForegroundModified )
-		{
-			m_textureForeground.Activate();
-			m_textureForeground.UploadSync();
-			m_textureForeground.Deactivate();
-			m_bForegroundModified = false;
-		}
-
-		m_textureBackground.Initialise( m_size );
-		m_textureForeground.Initialise( m_size );
-		m_textureText.Initialise( m_size );
-		m_textureBackgroundCut.Initialise( m_size );
-		m_frameBufferBackgroundCut.Initialise( m_size );
-		m_textureBlendedText.Initialise( m_size );
-		m_frameBufferBlendedText.Initialise( m_size );
-		m_textureResult.Initialise( m_size );
-		m_frameBufferResult.Initialise( m_size );
-
-		if ( m_bTextModified && m_arrayGlyphs.size() > 0 )
-		{
-			wxPoint l_ptPos( 0, 0 );
-			wxChar c;
-			size_t l_uiIndex = 0;
-			PixelBuffer & l_pxBuffer = m_textureText.GetBuffer();
-			l_pxBuffer.init();
-
-			for ( wxString::iterator l_it = m_strText.begin() ; l_it != m_strText.end() ; ++l_it )
-			{
-				c = *l_it;
-				wxSize const & l_sizeChar = m_arrayGlyphs[c].GetSize();
-				wxPoint const & l_ptCharPos = m_arrayGlyphs[c].GetPosition();
-				ByteArray const & l_buffer = m_arrayGlyphs[c].GetBitmap();
-				l_uiIndex = 0;
-
-				if ( c == wxT( '\n' ) )
-				{
-					l_ptPos = wxPoint( 0, l_ptPos.y + m_iMaxHeight );
-				}
-				else if ( c == wxT( '\r' ) )
-				{
-					l_ptPos = wxPoint( 0, l_ptPos.y );
-				}
-				else
-				{
-					if ( l_ptPos.x + l_ptCharPos.x + l_sizeChar.x >= m_size.x )
-					{
-						l_ptPos = wxPoint( 0, l_ptPos.y + m_iMaxHeight );
-					}
-
-					if ( l_ptPos.y + l_ptCharPos.y + l_sizeChar.y <= m_size.y )
-					{
-						for ( int y = 0 ; y < l_sizeChar.y ; y++ )
+						else if ( l_character == _T( ' ' ) )
 						{
-							for ( int x = 0 ; x < l_sizeChar.x ; x++ )
-							{
-								uint8_t l_r = l_buffer[l_uiIndex++];
-
-								if ( l_r != 0 )
-								{
-									if ( l_ptPos.x + x + l_ptCharPos.x >= 0 )
-									{
-										l_pxBuffer[( m_size.y - 1 ) - ( l_ptCharPos.y + l_ptPos.y + y )][l_ptPos.x + x + l_ptCharPos.x].Set( l_r, l_r, l_r, l_r );
-									}
-									else
-									{
-										l_pxBuffer[( m_size.y - 1 ) - ( l_ptCharPos.y + l_ptPos.y + y )][l_ptPos.x + x].Set( l_r, l_r, l_r, l_r );
-									}
-								}
-							}
+							DoWriteWord( l_word, l_wordWidth, l_size, l_position, l_lineWidth, l_lineVtx, l_linesVtx );
+							l_word.clear();
+							l_wordWidth = 0;
+							l_position.x() += l_charWidth;
+						}
+						else if ( l_character == _T( '\t' ) )
+						{
+							DoWriteWord( l_word, l_wordWidth, l_size, l_position, l_lineWidth, l_lineVtx, l_linesVtx );
+							l_word.clear();
+							l_wordWidth = 0;
+							l_position.x() += l_charWidth;
+						}
+						else
+						{
+							l_word += l_character;
+							l_wordWidth += l_charWidth;
 						}
 					}
 
-					l_ptPos.x += l_sizeChar.x + l_ptCharPos.x;
-				}
-			}
-
-			wxBitmap l_bitmap( m_size.x, m_size.y, 24 );
-			wxNativePixelData l_data( l_bitmap );
-			UbPixel * l_pBuffer = l_pxBuffer.ptr();
-
-			if ( l_data )
-			{
-				wxNativePixelData::Iterator l_it( l_data );
-
-				for ( int y = 0 ; y < m_iMaxHeight ; ++y )
-				{
-					wxNativePixelData::Iterator l_itRowStart = l_it;
-
-					for ( int x = 0 ; x < m_iMaxHeight ; ++x, ++l_it )
+					if ( !l_word.empty() )
 					{
-						l_it.Red()		= l_pBuffer->r;
-						l_it.Green()	= l_pBuffer->r;
-						l_it.Blue()		= l_pBuffer->r;
+						DoWriteWord( l_word, l_wordWidth, l_size, l_position, l_lineWidth, l_lineVtx, l_linesVtx );
+
+						if ( !l_lineVtx.empty() )
+						{
+							DoAlignHorizontally( l_size.x(), l_lineWidth, l_lineVtx, l_linesVtx );
+						}
 					}
 
-					l_it = l_itRowStart;
-					l_it.OffsetY( l_data, 1 );
+					l_linesVtx.push_back( l_lineVtx );
+					l_position.x() = 0;
+					l_position.y() += l_font->GetMaxHeight();
+				}
+
+				DoAlignVertically( l_size.y(), l_position.y(), l_linesVtx );
+				std::vector< VertexI > l_arrayVtx;
+
+				for ( auto && l_lineVtx : l_linesVtx )
+				{
+					l_arrayVtx.insert( l_arrayVtx.end(), l_lineVtx.begin(), l_lineVtx.end() );
+				}
+
+				if ( !l_arrayVtx.empty() )
+				{
+					m_geometryBuffers->GetVertexBuffer()->SetBuffer( l_arrayVtx );
+				}
+			}
+		}
+	}
+
+	void TextOverlay::DoUpdatePositionAndSize( Size const & p_size )
+	{
+	}
+
+	void TextOverlay::DoWriteWord( String const & p_word, int32_t p_wordWidth, Size const & p_size, Position & p_position, int32_t & p_lineWidth, std::vector< VertexI > & p_lineVtx, std::vector< std::vector< VertexI > > & p_linesVtx )
+	{
+		Position l_ovPosition = GetAbsolutePixelPosition();
+		std::shared_ptr< Font > l_font = GetFont();
+		uint32_t l_maxHeight = l_font->GetMaxHeight();
+
+		if ( p_position.x() + p_wordWidth > int32_t( p_size.x() ) && m_wrappingMode == eTEXT_WRAPPING_MODE_BREAK_WORDS )
+		{
+			p_position.x() = 0;
+			p_position.y() += l_maxHeight;
+		}
+
+		for ( auto && l_it = p_word.begin(); l_it != p_word.end() && p_position.y() < int32_t( p_size.y() ); ++l_it )
+		{
+			char const & l_character = *l_it;
+			int32_t l_charCrop = 0;
+			Glyph const & l_glyph = l_font->GetGlyphAt( l_character );
+			Size l_charSize( std::max( l_glyph.GetSize().x(), l_glyph.GetAdvance().x() ), std::max( l_glyph.GetSize().y(), l_glyph.GetAdvance().y() ) );
+
+			p_position.x() += l_glyph.GetPosition().x();
+
+			if ( p_position.x() > int32_t( p_size.x() ) )
+			{
+				// The character is beyond limits
+				if ( m_wrappingMode == eTEXT_WRAPPING_MODE_NONE )
+				{
+					l_charSize.x() = 0;
+				}
+				else if ( m_wrappingMode == eTEXT_WRAPPING_MODE_BREAK )
+				{
+					p_position.x() = 0;
+					p_position.y() += l_maxHeight;
+					DoAlignHorizontally( p_size.x(), p_lineWidth, p_lineVtx, p_linesVtx );
+				}
+			}
+			else if ( p_position.x() + l_charSize.x() > p_size.x() )
+			{
+				// A part of the character is beyond limits
+				if ( m_wrappingMode == eTEXT_WRAPPING_MODE_NONE )
+				{
+					l_charSize.x() = p_size.x() - p_position.x();
+				}
+				else if ( m_wrappingMode == eTEXT_WRAPPING_MODE_BREAK )
+				{
+					p_position.x() = 0;
+					p_position.y() += l_maxHeight;
+					DoAlignHorizontally( p_size.x(), p_lineWidth, p_lineVtx, p_linesVtx );
 				}
 			}
 
-			m_textureText.Activate();
-			m_textureText.UploadSync();
-			m_textureText.Deactivate();
-			m_bTextModified = false;
-		}
+			if ( p_position.y() > int32_t( p_size.y() ) )
+			{
+				// The character is beyond limits
+				l_charSize.y() = 0;
+			}
+			else if ( p_position.y() + l_maxHeight > p_size.y() )
+			{
+				// A part of the character is beyond limits
+				l_charCrop = p_position.y() + l_maxHeight - p_size.y();
+			}
 
-		if ( m_bMatrixModified )
-		{
-			wxSize const & l_size = p_frameBuffer.GetSize();
-			m_matrix[ 0] = m_size.x / GLfloat( l_size.x );
-			m_matrix[ 5] = m_size.y / GLfloat( l_size.y );
-			m_matrix[12] = m_position.x / GLfloat( l_size.x );
-			m_matrix[13] = m_position.y / GLfloat( l_size.y );
-			m_bMatrixModified = false;
-		}
+			if ( l_charSize.x() > 0 && l_charSize.y() > 0 && l_charCrop < int32_t( l_charSize.y() ) )
+			{
+				Position l_position( p_position.x(), p_position.y() + l_maxHeight - l_glyph.GetPosition().y() );
+				uint32_t l_width = l_charSize.x();
+				uint32_t l_height = l_charSize.y() - l_charCrop;
+				Position l_uvPosition = GetGlyphPosition( l_character );
+				Size l_texDim = m_glyphsTexture->GetBuffer().GetDimensions();
+				double l_uvX = double( l_uvPosition.x() ) / l_texDim.x();
+				double l_uvY = double( l_uvPosition.y() ) / l_texDim.y();
+				double l_uvStepX = double( l_charSize.x() ) / l_texDim.y();
+				double l_uvStepY = double( l_charSize.y() ) / l_texDim.y();
+				double l_uvCrop = double( l_charCrop ) / l_texDim.y();
+				p_lineWidth += l_width;
 
-		m_pOpenGl->ClearColor( 0.0, 0.0, 0.0, 0.0 );
-		m_pOpenGl->MatrixMode( GL_MODELVIEW );
-		m_pOpenGl->LoadIdentity();
-		// First, we blend text with chosen text foreground
-		m_frameBufferBlendedText.Activate();
-		m_pOpenGl->Clear( GL_COLOR_BUFFER_BIT );
-		m_textureForeground.Activate(	GL_TEXTURE0,	GL_REPLACE,	NULL,			NULL );
-		m_textureText.Activate(	GL_TEXTURE1,	GL_COMBINE,	&m_blendRgbTxt,	&m_blendAlphaTxt );
-		DoSubRender();
-		m_textureText.Deactivate(	GL_TEXTURE1 );
-		m_textureForeground.Deactivate(	GL_TEXTURE0 );
-		m_frameBufferBlendedText.Deactivate();
-		m_pOpenGl->Enable( GL_BLEND );
-		m_pOpenGl->BlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-		// Then we blend the blended text with the background to obtain the full overlay
-		m_frameBufferResult.Activate();
-		m_pOpenGl->Clear( GL_COLOR_BUFFER_BIT );
-		m_textureText.Activate(	GL_TEXTURE0 );
-		DoSubRender();
-		m_textureText.Deactivate(	GL_TEXTURE0 );
-		m_frameBufferResult.Deactivate();
-		// Eventually we render the overlay into the given buffer
-		m_pOpenGl->MatrixMode( GL_MODELVIEW );
-		m_pOpenGl->LoadIdentity();
-		m_pOpenGl->MultMatrix( m_matrix );
-		p_frameBuffer.Activate();
-		m_textureResult.Activate(	GL_TEXTURE0 );
-		DoSubRender();
-		m_textureResult.Deactivate(	GL_TEXTURE0 );
-		p_frameBuffer.Deactivate();
-		m_pOpenGl->Disable( GL_BLEND );
+				VertexI l_vertexTR( CONSTRUCT_ANONYMOUS( VertexI::TPoint, int32_t( l_ovPosition.x() + l_position.x() + l_width ), int32_t( l_ovPosition.y() + l_position.y() ) ), CONSTRUCT_ANONYMOUS( Point2d, l_uvX + l_uvStepX, l_uvY + l_uvStepY ) );
+				VertexI l_vertexTL( CONSTRUCT_ANONYMOUS( VertexI::TPoint, int32_t( l_ovPosition.x() + l_position.x() ), int32_t( l_ovPosition.y() + l_position.y() ) ), CONSTRUCT_ANONYMOUS( Point2d, l_uvX, l_uvY + l_uvStepY ) );
+				VertexI l_vertexBL( CONSTRUCT_ANONYMOUS( VertexI::TPoint, int32_t( l_ovPosition.x() + l_position.x() ), int32_t( l_ovPosition.y() + l_position.y() + l_height ) ), CONSTRUCT_ANONYMOUS( Point2d, l_uvX, l_uvY + l_uvCrop ) );
+				VertexI l_vertexBR( CONSTRUCT_ANONYMOUS( VertexI::TPoint, int32_t( l_ovPosition.x() + l_position.x() + l_width ), int32_t( l_ovPosition.y() + l_position.y() + l_height ) ), CONSTRUCT_ANONYMOUS( Point2d, l_uvX + l_uvStepX, l_uvY + l_uvCrop ) );
+
+				p_lineVtx.push_back( l_vertexBL );
+				p_lineVtx.push_back( l_vertexBR );
+				p_lineVtx.push_back( l_vertexTL );
+
+				p_lineVtx.push_back( l_vertexTR );
+				p_lineVtx.push_back( l_vertexTL );
+				p_lineVtx.push_back( l_vertexBR );
+
+				m_characters.push_back( Character( l_glyph.GetCharacter(), l_vertexTL.GetPosition(), Size( l_width, l_height ) ) );
+			}
+
+			p_position.x() += l_charSize.x();
+		}
 	}
 
-	void TextOverlay::SetBackground( wxColour const & p_colour )
+	void TextOverlay::DoAlignHorizontally( int32_t p_width, int32_t & p_lineWidth, std::vector< VertexI > & p_lineVtx, std::vector< std::vector< VertexI > > & p_linesVtx )
 	{
-		PixelBuffer & l_buffer = m_textureBackground.GetBuffer();
-		l_buffer.init( Size( m_size.x, m_size.y ) );
-
-		for ( int y = 0 ; y < m_size.y ; y++ )
+		if ( m_hAlign != eHALIGN_LEFT )
 		{
-			for ( int x = 0 ; x < m_size.x ; x++ )
+			int32_t l_offset = 0;
+
+			if ( m_hAlign == eHALIGN_CENTER )
 			{
-				l_buffer[y][x].r = p_colour.Red();
-				l_buffer[y][x].g = p_colour.Green();
-				l_buffer[y][x].b = p_colour.Blue();
-				l_buffer[y][x].a = p_colour.Alpha();
+				l_offset = ( p_width - p_lineWidth ) / 2;
+			}
+			else
+			{
+				l_offset = p_width - p_lineWidth;
+			}
+
+			for ( auto && l_vertex : p_lineVtx )
+			{
+				VertexI::TPoint & l_position = l_vertex.GetPosition();
+				l_position[0] += l_offset;
 			}
 		}
 
-		m_bBackgroundModified = true;
+		p_linesVtx.push_back( p_lineVtx );
+		p_lineVtx.clear();
+		p_lineWidth = 0;
 	}
 
-	void TextOverlay::SetForeground( wxColour const & p_colour )
+	void TextOverlay::DoAlignVertically( int32_t p_height, int32_t p_linesHeight, std::vector< std::vector< VertexI > > & p_linesVtx )
 	{
-		PixelBuffer & l_buffer = m_textureForeground.GetBuffer();
-		l_buffer.init( Size( m_size.x, m_size.y ) );
-
-		for ( int y = 0 ; y < m_size.y ; y++ )
+		if ( m_vAlign != eVALIGN_TOP )
 		{
-			for ( int x = 0 ; x < m_size.x ; x++ )
+			int32_t l_offset = 0;
+
+			if ( m_vAlign == eVALIGN_CENTER )
 			{
-				l_buffer[y][x].r = p_colour.Red();
-				l_buffer[y][x].g = p_colour.Green();
-				l_buffer[y][x].b = p_colour.Blue();
-				l_buffer[y][x].a = p_colour.Alpha();
+				l_offset = ( p_height - p_linesHeight ) / 2;
 			}
-		}
-
-		m_bForegroundModified = true;
-	}
-
-	void TextOverlay::SetBackground( wxImage const & p_image )
-	{
-		wxImage l_image = p_image.ResampleBicubic( m_size.x, m_size.y );
-		PixelBuffer & l_buffer = m_textureBackground.GetBuffer();
-		l_buffer.init( Size( m_size.x, m_size.y ) );
-
-		if ( p_image.HasAlpha() )
-		{
-			l_buffer.set< PG_UINT8_RGBA >( p_image.GetData(), p_image.GetAlpha() );
-		}
-		else
-		{
-			l_buffer.set< PG_UINT8_RGB >( p_image.GetData(), NULL );
-		}
-
-		m_bBackgroundModified = true;
-	}
-
-	void TextOverlay::SetForeground( wxImage const & p_image )
-	{
-		wxImage l_image = p_image.ResampleBicubic( m_size.x, m_size.y );
-		PixelBuffer & l_buffer = m_textureForeground.GetBuffer();
-		l_buffer.init( Size( m_size.x, m_size.y ) );
-
-		if ( p_image.HasAlpha() )
-		{
-			l_buffer.set< PG_UINT8_RGBA >( p_image.GetData(), p_image.GetAlpha() );
-		}
-		else
-		{
-			l_buffer.set< PG_UINT8_RGB >( p_image.GetData(), NULL );
-		}
-
-		m_bForegroundModified = true;
-	}
-
-	void TextOverlay::DoSubRender()
-	{
-		if ( m_vtxBuffer.Activate() )
-		{
-			if ( m_idxBuffer.Activate() )
+			else
 			{
-				m_pOpenGl->DrawElements( GL_TRIANGLES, GlIndexBuffer::Size, GL_UNSIGNED_INT, 0 );
-				m_idxBuffer.Deactivate();
+				l_offset = p_height - p_linesHeight;
 			}
 
-			m_vtxBuffer.Deactivate();
+			for ( auto && l_lineVtx : p_linesVtx )
+			{
+				for ( auto && l_vertex : l_lineVtx )
+				{
+					VertexI::TPoint & l_position = l_vertex.GetPosition();
+					l_position[1] += l_offset;
+				}
+			}
 		}
 	}
 }
