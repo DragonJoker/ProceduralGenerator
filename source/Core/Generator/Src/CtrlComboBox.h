@@ -74,7 +74,7 @@ namespace ProceduralTextures
 		void RemoveItem( int p_value );
 		/**
 		 *\brief		Sets an item text
-		 *\param[in]	p_value	The item index
+		 *\param[in]	p_index	The item index
 		 *\param[in]	p_text	The item text
 		 */
 		void SetItemText( int p_index, String const & p_text );

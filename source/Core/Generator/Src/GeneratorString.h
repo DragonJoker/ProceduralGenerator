@@ -305,7 +305,7 @@ namespace ProceduralTextures
 			}
 			/**
 			 *\brief		Copy constructor
-			 *\param[in]	p_src	The other object
+			 *\param[in]	p_it	The other object
 			 */
 			Utf8Iterator( Utf8Iterator const & p_it )
 				: m_it( p_it.m_it )
@@ -345,7 +345,7 @@ namespace ProceduralTextures
 			}
 			/**
 			 *\brief		Copy assignment operator
-			 *\param[in]	p_src	The other object
+			 *\param[in]	p_it	The other object
 			 *\return		A reference to this object
 			 */
 			Utf8Iterator & operator=( Utf8Iterator const & p_it )
@@ -537,6 +537,7 @@ namespace ProceduralTextures
 		};
 		/**
 		 *\brief		Addition operator
+		 *\param[in]	p_it		The iterator
 		 *\param[in]	p_offset	The offset to add
 		 *\return		A reference to this object
 		 */
@@ -548,6 +549,7 @@ namespace ProceduralTextures
 		}
 		/**
 		 *\brief		Subtraction operator
+		 *\param[in]	p_it		The iterator
 		 *\param[in]	p_offset	The offset to subtract
 		 *\return		A reference to this object
 		 */

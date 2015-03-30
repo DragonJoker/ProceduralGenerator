@@ -105,7 +105,6 @@ namespace ProceduralTextures
 		 *\brief		Shows a message box
 		 *\param[in]	p_title		The box title
 		 *\param[in]	p_message	The box message
-		 *\param[in]	p_flags		The box flags
 		 */
 		void ShowMessageBox( String const & p_title, String const & p_message );
 		/**

@@ -231,7 +231,7 @@ namespace ProceduralTextures
 		}
 		/**
 		 *\brief		Sets the left border thickness
-		 *\param[in]	p_fSize	The new value
+		 *\param[in]	p_size	The new value
 		 */
 		inline void SetLeftBorderPixelSize( int p_size )
 		{
@@ -240,7 +240,7 @@ namespace ProceduralTextures
 		}
 		/**
 		 *\brief		Sets the top border thickness
-		 *\param[in]	p_fSize	The new value
+		 *\param[in]	p_size	The new value
 		 */
 		inline void SetTopBorderPixelSize( int p_size )
 		{
@@ -249,7 +249,7 @@ namespace ProceduralTextures
 		}
 		/**
 		 *\brief		Sets the right border thickness
-		 *\param[in]	p_fSize	The new value
+		 *\param[in]	p_size	The new value
 		 */
 		inline void SetRightBorderPixelSize( int p_size )
 		{
@@ -258,7 +258,7 @@ namespace ProceduralTextures
 		}
 		/**
 		 *\brief		Sets the bottom border thickness
-		 *\param[in]	p_fSize	The new value
+		 *\param[in]	p_size	The new value
 		 */
 		inline void SetBottomBorderPixelSize( int p_size )
 		{
@@ -267,7 +267,7 @@ namespace ProceduralTextures
 		}
 		/**
 		 *\brief		Sets the borders thicknesses
-		 *\param[in]	p_ptSize	The new value
+		 *\param[in]	p_size	The new value
 		 */
 		inline void SetBordersPixelSize( Point4i const & p_size )
 		{
@@ -292,11 +292,11 @@ namespace ProceduralTextures
 		}
 		/**
 		 *\brief		Sets the borders outer part UV
-		 *\param[in]	val	The new value (left, top, right and bottom)
+		 *\param[in]	p_uv	The new value (left, top, right and bottom)
 		 */
-		inline void SetBordersOuterUV( Point4d const & val )
+		inline void SetBordersOuterUV( Point4d const & p_uv )
 		{
-			m_borderOuterUv = val;
+			m_borderOuterUv = p_uv;
 		}
 		/**
 		 *\brief		Retrieves the borders outer part UV
@@ -308,11 +308,11 @@ namespace ProceduralTextures
 		}
 		/**
 		 *\brief		Sets the borders inner part UV
-		 *\param[in]	val	The new value (left, top, right and bottom)
+		 *\param[in]	p_uv	The new value (left, top, right and bottom)
 		 */
-		inline void SetBordersInnerUV( Point4d const & val )
+		inline void SetBordersInnerUV( Point4d const & p_uv )
 		{
-			m_borderInnerUv = val;
+			m_borderInnerUv = p_uv;
 		}
 		/**
 		 *\brief		Retrieves the borders inner part UV

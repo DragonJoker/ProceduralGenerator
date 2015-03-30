@@ -118,31 +118,37 @@ namespace ProceduralTextures
 
 		/**
 		 *\brief		Creates the given control's overlays and binds its callbacks to appropriate events
+		 *\param[in]	p_parent	The control's parent
 		 *\param[in]	p_control	The control
 		 */
 		void Create( std::shared_ptr< Control > p_parent, std::shared_ptr< ButtonCtrl > p_control );
 		/**
 		 *\brief		Creates the given control's overlays and binds its callbacks to appropriate events
+		 *\param[in]	p_parent	The control's parent
 		 *\param[in]	p_control	The control
 		 */
 		void Create( std::shared_ptr< Control > p_parent, std::shared_ptr< ComboBoxCtrl > p_control );
 		/**
 		 *\brief		Creates the given control's overlays and binds its callbacks to appropriate events
+		 *\param[in]	p_parent	The control's parent
 		 *\param[in]	p_control	The control
 		 */
 		void Create( std::shared_ptr< Control > p_parent, std::shared_ptr< EditCtrl > p_control );
 		/**
 		 *\brief		Creates the given control's overlays and binds its callbacks to appropriate events
+		 *\param[in]	p_parent	The control's parent
 		 *\param[in]	p_control	The control
 		 */
 		void Create( std::shared_ptr< Control > p_parent, std::shared_ptr< ListBoxCtrl > p_control );
 		/**
 		 *\brief		Creates the given control's overlays and binds its callbacks to appropriate events
+		 *\param[in]	p_parent	The control's parent
 		 *\param[in]	p_control	The control
 		 */
 		void Create( std::shared_ptr< Control > p_parent, std::shared_ptr< SliderCtrl > p_control );
 		/**
 		 *\brief		Creates the given control's overlays and binds its callbacks to appropriate events
+		 *\param[in]	p_parent	The control's parent
 		 *\param[in]	p_control	The control
 		 */
 		void Create( std::shared_ptr< Control > p_parent, std::shared_ptr< StaticCtrl > p_control );

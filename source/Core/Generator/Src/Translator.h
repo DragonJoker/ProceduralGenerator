@@ -125,13 +125,13 @@ namespace ProceduralTextures
 		static void Cleanup();
 		/**
 		 *\brief		Translates a string
-		 *\param[in]	p_str	The string to translate
+		 *\param[in]	p_txt	The string to translate
 		 *\return		The translated string
 		 */
 		static String TranslateString( char const * p_txt );
 		/**
 		 *\brief		Translates a string
-		 *\param[in]	p_str	The string to translate
+		 *\param[in]	p_txt	The string to translate
 		 *\return		The translated string
 		 */
 		static String TranslateString( String const & p_txt )

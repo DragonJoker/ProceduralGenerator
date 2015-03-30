@@ -356,7 +356,7 @@ namespace ProceduralTextures
 			m_workerThreads.push_back( std::move( l_pThread ) );
 		}
 		/**
-		 *\copydoc		ProceduralTextures::CpuStep::DoThreadsStart
+		 *\copydoc		ProceduralTextures::CpuStepBase::DoThreadsStart
 		 */
 		virtual void DoThreadsStart()
 		{
@@ -381,7 +381,7 @@ namespace ProceduralTextures
 			}
 		}
 		/**
-		 *\copydoc		ProceduralTextures::CpuStep::DoThreadsCleanup
+		 *\copydoc		ProceduralTextures::CpuStepBase::DoThreadsCleanup
 		 */
 		virtual void DoThreadsCleanup()
 		{
@@ -399,7 +399,7 @@ namespace ProceduralTextures
 		}
 		/**
 		 *\brief		Applies a function to each thread
-		 *\param|in]	p_function	The function to apply
+		 *\param[in]	p_function	The function to apply
 		 */
 		void DoForEachThread( std::function< void( TThread & ) > p_function )
 		{
@@ -411,7 +411,7 @@ namespace ProceduralTextures
 		}
 		/**
 		 *\brief		Applies a function to each thread
-		 *\param|in]	p_function	The function to apply
+		 *\param[in]	p_function	The function to apply
 		 */
 		void DoForEachThread( std::function< void( TThread const & ) > p_function )const
 		{
@@ -423,7 +423,7 @@ namespace ProceduralTextures
 		}
 		/**
 		 *\brief		Applies a function to one thread
-		 *\param|in]	p_function	The function to apply
+		 *\param[in]	p_function	The function to apply
 		 */
 		template< typename R >
 		R DoForOneThread( size_t p_index, std::function< R( TThread & ) > p_function )
@@ -433,7 +433,7 @@ namespace ProceduralTextures
 		}
 		/**
 		 *\brief		Applies a function to one thread
-		 *\param|in]	p_function	The function to apply
+		 *\param[in]	p_function	The function to apply
 		 */
 		template< typename R >
 		R DoForOneThread( size_t p_index, std::function< R( TThread const & ) > p_function )const

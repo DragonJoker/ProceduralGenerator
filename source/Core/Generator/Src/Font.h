@@ -67,7 +67,7 @@ namespace ProceduralTextures
 		 *\param[in]	p_path		The font file path
 		 *\param[in]	p_height	The font char height
 		 */
-		Font( String const & p_path, uint32_t p_uiHeight );
+		Font( String const & p_path, uint32_t p_height );
 		/**
 		 *\brief		Destructor
 		 */

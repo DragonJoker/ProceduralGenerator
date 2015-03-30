@@ -32,7 +32,8 @@ namespace ProceduralTextures
 	public:
 		/**
 		 *\brief		Constructor
-		 *\param[in]	p_caption	The caption
+		 *\param[in]	p_values	The values list
+		 *\param[in]	p_selected	The selected value index (-1 for no selection)
 		 *\param[in]	p_id		The ID
 		 *\param[in]	p_position	The position
 		 *\param[in]	p_size		The size
@@ -42,7 +43,8 @@ namespace ProceduralTextures
 		ListBoxCtrl( StringArray const & p_values, int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
 		/**
 		 *\brief		Constructor
-		 *\param[in]	p_caption	The caption
+		 *\param[in]	p_values	The values list
+		 *\param[in]	p_selected	The selected value index (-1 for no selection)
 		 *\param[in]	p_id		The ID
 		 *\param[in]	p_position	The position
 		 *\param[in]	p_size		The size
@@ -98,7 +100,7 @@ namespace ProceduralTextures
 		void Clear();
 		/**
 		 *\brief		Sets the selected item
-		 *\param[in]	p_value	The new value
+		 *\param[in]	p_index	The new value
 		 */
 		void SetSelected( int p_index );
 		/**

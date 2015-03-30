@@ -35,7 +35,8 @@ namespace ProceduralTextures
 	public:
 		/**
 		 *\brief		Constructor
-		 *\param[in]	p_caption	The caption
+		 *\param[in]	p_range		The slider min and max values
+		 *\param[in]	p_value		The slider initial value
 		 *\param[in]	p_id		The ID
 		 *\param[in]	p_position	The position
 		 *\param[in]	p_size		The size

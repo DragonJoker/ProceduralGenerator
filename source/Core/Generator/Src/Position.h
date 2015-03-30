@@ -330,6 +330,7 @@ namespace ProceduralTextures
 	}
 	/**
 	 *\brief		Computes the squared Euclidian distance from the point to the origin
+	 *\param[in]	p_a, p_b	The two positions
 	 *\return		The squared Euclidian distance
 	 */
 	inline double GetSquaredDistance( Position const & p_a, Position const & p_b )
@@ -339,6 +340,7 @@ namespace ProceduralTextures
 	}
 	/**
 	 *\brief		Computes the Euclidian distance from the point to the origin
+	 *\param[in]	p_a, p_b	The two positions
 	 *\return		The Euclidian distance
 	 */
 	inline double GetDistance( Position const & p_a, Position const & p_b = Position() )
@@ -347,6 +349,7 @@ namespace ProceduralTextures
 	}
 	/**
 	 *\brief		Computes the Manhattan distance from the point to the origin
+	 *\param[in]	p_a, p_b	The two positions
 	 *\return		The Manhattan distance
 	 */
 	inline double GetManhattanDistance( Position const & p_a, Position const & p_b = Position() )
@@ -356,7 +359,8 @@ namespace ProceduralTextures
 	}
 	/**
 	 *\brief		Computes the Minkowski distance from the point to the origin
-	 *\param[in]	p_order	The Minkowski order
+	 *\param[in]	p_order		The Minkowski order
+	 *\param[in]	p_a, p_b	The two positions
 	 *\return		The Minkowski distance
 	 */
 	inline double GetMinkowskiDistance( double p_order, Position const & p_a, Position const & p_b = Position() )
@@ -366,6 +370,7 @@ namespace ProceduralTextures
 	}
 	/**
 	 *\brief		Computes the Chebychev distance from the point to the origin
+	 *\param[in]	p_a, p_b	The two positions
 	 *\return		The Chebychev distance
 	 */
 	inline double GetChebychevDistance( Position const & p_a, Position const & p_b = Position() )

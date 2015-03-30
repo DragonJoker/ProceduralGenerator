@@ -69,7 +69,7 @@ namespace ProceduralTextures
 		 *\param[in]	p_position	The overlay position
 		 *\param[in]	p_size		The overlay size
 		 *\param[in]	p_material	The overlay material
-		 *\param[in]	p_pParent	The parent overlay
+		 *\param[in]	p_parent	The parent overlay
 		 *\return		The created overlay
 		 */
 		std::shared_ptr< PanelOverlay > CreatePanel( String const & p_name, Point2d const & p_position, Point2d const & p_size, Material const & p_material, std::shared_ptr< Overlay > p_parent = nullptr );
@@ -79,7 +79,7 @@ namespace ProceduralTextures
 		 *\param[in]	p_position	The overlay pixel position
 		 *\param[in]	p_size		The overlay pixel size
 		 *\param[in]	p_material	The overlay material
-		 *\param[in]	p_pParent	The parent overlay
+		 *\param[in]	p_parent	The parent overlay
 		 *\return		The created overlay
 		 */
 		std::shared_ptr< PanelOverlay > CreatePanel( String const & p_name, Position const & p_position, Size const & p_size, Material const & p_material, std::shared_ptr< Overlay > p_parent = nullptr );
@@ -91,7 +91,7 @@ namespace ProceduralTextures
 		 *\param[in]	p_material			The overlay material
 		 *\param[in]	p_bordersSize		The overlay borders size
 		 *\param[in]	p_bordersMaterial	The overlay borders material
-		 *\param[in]	p_pParent			The parent overlay
+		 *\param[in]	p_parent			The parent overlay
 		 *\return		The created overlay
 		 */
 		std::shared_ptr< BorderPanelOverlay > CreateBorderPanel( String const & p_name, Point2d const & p_position, Point2d const & p_size, Material const & p_material, Point4d const & p_bordersSize, Material const & p_bordersMaterial, std::shared_ptr< Overlay > p_parent = nullptr );
@@ -103,7 +103,7 @@ namespace ProceduralTextures
 		 *\param[in]	p_material			The overlay material
 		 *\param[in]	p_bordersSize		The overlay borders pixel size
 		 *\param[in]	p_bordersMaterial	The overlay borders material
-		 *\param[in]	p_pParent			The parent overlay
+		 *\param[in]	p_parent			The parent overlay
 		 *\return		The created overlay
 		 */
 		std::shared_ptr< BorderPanelOverlay > CreateBorderPanel( String const & p_name, Position const & p_position, Size const & p_size, Material const & p_material, Point4i const & p_bordersSize, Material const & p_bordersMaterial, std::shared_ptr< Overlay > p_parent = nullptr );
@@ -114,7 +114,7 @@ namespace ProceduralTextures
 		 *\param[in]	p_size		The overlay size
 		 *\param[in]	p_material	The overlay material
 		 *\param[in]	p_font		The overlay font
-		 *\param[in]	p_pParent	The parent overlay
+		 *\param[in]	p_parent	The parent overlay
 		 *\return		The created overlay
 		 */
 		std::shared_ptr< TextOverlay > CreateText( String const & p_name, Point2d const & p_position, Point2d const & p_size, Material const & p_material, std::shared_ptr< Font > p_font, std::shared_ptr< Overlay > p_parent = nullptr );
@@ -125,14 +125,14 @@ namespace ProceduralTextures
 		 *\param[in]	p_size		The overlay pixel size
 		 *\param[in]	p_material	The overlay material
 		 *\param[in]	p_font		The overlay font
-		 *\param[in]	p_pParent	The parent overlay
+		 *\param[in]	p_parent	The parent overlay
 		 *\return		The created overlay
 		 */
 		std::shared_ptr< TextOverlay > CreateText( String const & p_name, Position const & p_position, Size const & p_size, Material const & p_material, std::shared_ptr< Font > p_font, std::shared_ptr< Overlay > p_parent = nullptr );
 		/**
 		 *\brief		Add an overlay to the lists
 		 *\param[in]	p_overlay	The overlay
-		 *\param[in]	p_pParent	The parent overlay
+		 *\param[in]	p_parent	The parent overlay
 		 */
 		void AddOverlay( std::shared_ptr< Overlay > p_overlay, std::shared_ptr< Overlay > p_parent );
 		/**
@@ -145,7 +145,7 @@ namespace ProceduralTextures
 		 *\param[in]	p_zIndex	The wanted z-index
 		 *\param[in]	p_overlay	The overlay
 		 */
-		void AddOverlay( uint64_t p_zIndex, std::shared_ptr< Overlay > p_pOverlay );
+		void AddOverlay( uint64_t p_zIndex, std::shared_ptr< Overlay > p_overlay );
 		/**
 		 *\brief		Checks if an overlay exists at given z-index
 		 *\param[in]	p_zIndex	The z-index

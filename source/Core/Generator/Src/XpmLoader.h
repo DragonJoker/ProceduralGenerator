@@ -43,7 +43,7 @@ namespace ProceduralTextures
 		~XpmLoader();
 		/**
 		 *\brief		Loads the image data
-		 *\param[in]	p_path	The file data
+		 *\param[in]	p_data	The file data
 		 *\param[in]	p_size	The data size
 		 *\return		The image buffer
 		 */
