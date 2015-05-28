@@ -114,135 +114,136 @@ function( PluginsSummary msg )
 	SET( msg "${msg}${msg_tmp}" PARENT_SCOPE )
 endfunction( PluginsSummary )
 
-function( PluginsSetup )
-	cpack_add_component_group( Plugins
+macro( PluginsSetup )
+	setup_add_component_group( Plugins
+		DISPLAY_NAME "ProceduralGenerator plug-ins"
 		DESCRIPTION "ProceduralGenerator plug-ins"
 	)
 
 	if( ${PGEN_BUILD_LIFE_GAME} )
-		cpack_add_component( LifeGame
+		setup_add_component( LifeGame
 			DISPLAY_NAME "LifeGame plug-in"
 			DESCRIPTION "Simple life game implementation"
 			GROUP Plugins
 			DEPENDS Generator
-			INSTALL_TYPES Full
+			#INSTALL_TYPES Minimal Developer Full
 		)
 	endif()
 	if( ${PGEN_BUILD_BUGGED_LIFE_GAME} )
-		cpack_add_component( BuggedLifeGame
+		setup_add_component( BuggedLifeGame
 			DISPLAY_NAME "BuggerdLifeGame plug-in"
 			DESCRIPTION "A bugged life game implementation that still has a nice render"
 			GROUP Plugins
 			DEPENDS Generator
-			INSTALL_TYPES Minimal Developer Full
+			#INSTALL_TYPES Minimal Developer Full
 		)
 	endif()
 	if( ${PGEN_BUILD_COLORED_LIFE_GAME} )
-		cpack_add_component( ColoredLifeGame
+		setup_add_component( ColoredLifeGame
 			DISPLAY_NAME "ColoredLifeGame plug-in"
 			DESCRIPTION "A coloured life game implementation"
 			GROUP Plugins
 			DEPENDS Generator
-			INSTALL_TYPES Minimal Developer Full
+			#INSTALL_TYPES Minimal Developer Full
 		)
 	endif()
 	if( ${PGEN_BUILD_PERLIN_NOISE} )
-		cpack_add_component( PerlinNoise
+		setup_add_component( PerlinNoise
 			DISPLAY_NAME "PerlinNoise plug-in"
 			DESCRIPTION "A Perlin nois implementation"
 			GROUP Plugins
 			DEPENDS Generator
-			INSTALL_TYPES Minimal Developer Full
+			#INSTALL_TYPES Minimal Developer Full
 		)
 	endif()
 	if( ${PGEN_BUILD_DIFFUSION_LIMITED_AGGREGATION} )
-		cpack_add_component( DiffusionLimitedAggregation
+		setup_add_component( DiffusionLimitedAggregation
 			DISPLAY_NAME "DiffusionLimitedAggregation plug-in"
 			DESCRIPTION "A diffusion limited aggregation implementation"
 			GROUP Plugins
 			DEPENDS Generator
-			INSTALL_TYPES Minimal Developer Full
+			#INSTALL_TYPES Minimal Developer Full
 		)
 	endif()
 	if( ${PGEN_BUILD_ITERATED_FUNCTION_SYSTEM} )
-		cpack_add_component( IteratedFunctionSystem
+		setup_add_component( IteratedFunctionSystem
 			DISPLAY_NAME "IteratedFunctionSystem plug-in"
 			DESCRIPTION "An iterated function systems implementation, with few IFS already implemented"
 			GROUP Plugins
 			DEPENDS Generator
-			INSTALL_TYPES Minimal Developer Full
+			#INSTALL_TYPES Minimal Developer Full
 		)
 	endif()
 	if( ${PGEN_BUILD_VORONOI_2D} )
-		cpack_add_component( Voronoi2D
+		setup_add_component( Voronoi2D
 			DISPLAY_NAME "Voronoi2D plug-in"
 			DESCRIPTION "A slow Voronoi diagram implementation"
 			GROUP Plugins
 			DEPENDS Generator
-			INSTALL_TYPES Minimal Developer Full
+			#INSTALL_TYPES Minimal Developer Full
 		)
 	endif()
 	if( ${PGEN_BUILD_IMAGE_EFFECTS} )
-		cpack_add_component( ImageEffects
+		setup_add_component( ImageEffects
 			DISPLAY_NAME "ImageEffects plug-in"
 			DESCRIPTION "Image processing, using CPU"
 			GROUP Plugins
 			DEPENDS Generator
-			INSTALL_TYPES Minimal Developer Full
+			#INSTALL_TYPES Minimal Developer Full
 		)
 	endif()
 	if( ${PGEN_BUILD_SHADER_EFFECTS} )
-		cpack_add_component( ShaderEffects
+		setup_add_component( ShaderEffects
 			DISPLAY_NAME "ShaderEffects plug-in"
 			DESCRIPTION "Image processing, using GPU"
 			GROUP Plugins
 			DEPENDS Generator
-			INSTALL_TYPES Minimal Developer Full
+			#INSTALL_TYPES Minimal Developer Full
 		)
 	endif()
 	if( ${PGEN_BUILD_GPU_PROGRAMMING} )
-		cpack_add_component( GPUProgramming
+		setup_add_component( GPUProgramming
 			DISPLAY_NAME "GPUProgramming plug-in"
 			DESCRIPTION "Shader programming plug-in"
 			GROUP Plugins
 			DEPENDS Generator
-			INSTALL_TYPES Minimal Developer Full
+			#INSTALL_TYPES Minimal Developer Full
 		)
 	endif()
 	if( ${PGEN_BUILD_TEXT_EFFECTS} )
 		STRING( FIND "${TFX}" "yes" POS )
 		if( ${POS} STREQUAL 0 )
-			cpack_add_component( TextEffects
+			setup_add_component( TextEffects
 				DISPLAY_NAME "TextEffects plug-in"
 				DESCRIPTION "Text rendering plug-in"
 				GROUP Plugins
 				DEPENDS Generator
-				INSTALL_TYPES Minimal Developer Full
+				#INSTALL_TYPES Minimal Developer Full
 			)
 		endif()
 	endif()
 	if( ${PGEN_BUILD_OCL_PROCESSING} )
 		STRING( FIND "${OCL}" "yes" POS )
 		if( ${POS} STREQUAL 0 )
-			cpack_add_component( OCLProcessing
+			setup_add_component( OCLProcessing
 				DISPLAY_NAME "OCLProcessing plug-in"
 				DESCRIPTION "OpenCL programmong plug-in"
 				GROUP Plugins
 				DEPENDS Generator
-				INSTALL_TYPES Minimal Developer Full
+				#INSTALL_TYPES Minimal Developer Full
 			)
 		endif()
 	endif()
 	if( ${PGEN_BUILD_SHADER_WEBCAM} )
 		STRING( FIND "${SWM}" "yes" POS )
 		if( ${POS} STREQUAL 0 )
-			cpack_add_component( ShaderWebcam
+			setup_add_component( ShaderWebcam
 				DISPLAY_NAME "ShaderWebcam plug-in"
 				DESCRIPTION "Image processing using GPU, on webcam images"
 				GROUP Plugins
 				DEPENDS Generator
-				INSTALL_TYPES Minimal Developer Full
+				#INSTALL_TYPES Minimal Developer Full
 			)
 		endif()
 	endif()
-endfunction( PluginsSetup )
+endmacro( PluginsSetup )

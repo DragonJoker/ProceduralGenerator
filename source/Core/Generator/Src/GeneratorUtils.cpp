@@ -204,5 +204,12 @@ namespace ProceduralTextures
 #else
 #	error "Unsupported platform"
 #endif
+
+		String GetDataDirectory()
+		{
+			String l_return = GetExecutableDirectory();
+			l_return = l_return.substr( 0, l_return.find_last_of( FOLDER_SEPARATOR ) + 1 ) + _T( "share" ) + FOLDER_SEPARATOR + _T( "ProceduralGenerator" );
+			return l_return;
+		}
 	}
 }

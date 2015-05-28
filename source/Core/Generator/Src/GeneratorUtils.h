@@ -235,6 +235,11 @@ namespace ProceduralTextures
 		 *\return		The directory
 		 */
 		String GeneratorAPI GetExecutableDirectory();
+		/**
+		 *\brief		Retrieves the data directory
+		 *\return		The directory
+		 */
+		String GeneratorAPI GetDataDirectory();
 	}
 }
 

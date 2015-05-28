@@ -61,11 +61,11 @@ namespace ProceduralGenerator
 	}
 
 #if defined( PGEN_FFMPEG )
-	static const AVCodecID		g_iCodecID		= CODEC_ID_H264;
-	static const int 			g_iBitRate		= 600000;
-	static const AVPixelFormat	g_iPixFmt		= PIX_FMT_YUV420P;
+	static const AVCodecID g_iCodecID = AV_CODEC_ID_H264;
+	static const int g_iBitRate = 600000;
+	static const AVPixelFormat g_iPixFmt = PIX_FMT_YUV420P;
 #endif
-	static const int 			g_iWantedFPS	= 25;
+	static const int g_iWantedFPS = 25;
 
 	//*************************************************************************************************
 

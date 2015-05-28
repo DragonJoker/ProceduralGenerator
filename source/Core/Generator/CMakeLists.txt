@@ -175,11 +175,11 @@ if( FREETYPE_FOUND )
 				${CMAKE_COMMAND} -E
 					copy_if_different
 					${CMAKE_CURRENT_SOURCE_DIR}/Data/arial.ttf
-					${PROJECTS_BINARIES_OUTPUT_DIR}/$<CONFIGURATION>/bin
+					${PROJECTS_BINARIES_OUTPUT_DIR}/$<CONFIGURATION>/share/ProceduralGenerator
 		)
 		install(
 			FILES ${CMAKE_CURRENT_SOURCE_DIR}/Data/arial.ttf
-			DESTINATION bin
+			DESTINATION share/ProceduralGenerator
 			COMPONENT Generator
 		)
 	endif ()

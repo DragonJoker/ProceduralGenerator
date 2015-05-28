@@ -202,7 +202,13 @@ if( wxWidgets_FOUND )
 			)
 		endif ()
 	endif ()
-
+	
+	install(
+		DIRECTORY ${CMAKE_SOURCE_DIR}/../data
+		DESTINATION share/ProceduralGenerator
+		COMPONENT ProceduralGenerator_Samples
+	)
+	
 	copy_languages( ProceduralGenerator ../internationalisation ProceduralGenerator "fr" )
 	add_target_astyle( ProceduralGenerator ".h;.inl;.hpp;.c;.cpp" )
 	set_property( TARGET ProceduralGenerator PROPERTY FOLDER "Main" )

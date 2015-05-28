@@ -8,35 +8,39 @@ endfunction( CoreBuild )
 function( CoreSummary msg )
 endfunction( CoreSummary )
 
-function( CoreSetup )
-	cpack_add_component_group( Development
+macro( CoreSetup )
+	setup_add_component_group( Runtime
+		DISPLAY_NAME "ProceduralGenerator runtime"
+		DESCRIPTION "Runtime applications for ProceduralGenerator"
+	)
+	setup_add_component_group( Development
 		DISPLAY_NAME "ProceduralGenerator SDK"
 		DESCRIPTION "All the libraries and includes needed to develop a plug-in for ProceduralGenerator"
 	)
-	cpack_add_component_group( Documentation
+	setup_add_component_group( Documentation
 		DISPLAY_NAME "Documentation"
 		DESCRIPTION "Projects documentations"
 	)
 
-	cpack_add_component( Generator
+	setup_add_component( Generator
 		DISPLAY_NAME "ProceduralGenerator library"
 		DESCRIPTION "Base generator library used to develop plug-ins"
 		REQUIRED
-		GROUP Development
-		INSTALL_TYPES Developer Full
+		GROUP Runtime
+		#INSTALL_TYPES Minimal Developer Full
 	)
-	cpack_add_component( Generator_dev
+	setup_add_component( Generator_dev
 		DISPLAY_NAME "ProceduralGenerator includes"
 		DESCRIPTION "Base generator includes used to develop plug-ins"
 		REQUIRED
 		GROUP Development
-		INSTALL_TYPES Developer Full
+		#INSTALL_TYPES Developer Full
 	)
-	cpack_add_component( Generator_doc
+	setup_add_component( Generator_doc
 		DISPLAY_NAME "ProceduralGenerator help"
 		DESCRIPTION "ProceduralGenerator HTML documentation"
 		GROUP Documentation
-		INSTALL_TYPES Developer Full
+		#INSTALL_TYPES Developer Full
 	)
-endfunction( CoreSetup )
+endmacro( CoreSetup )
 

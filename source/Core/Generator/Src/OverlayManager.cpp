@@ -101,8 +101,8 @@ namespace ProceduralTextures
 		m_programTextTexture->CreateIntFrameVariable( _T( "pxl_mapText" ) );
 		m_programTextTexture->CreateMat4FloatFrameVariable( _T( "mvp" ) );
 
-		LoadFont( DEFAULT_FONT_NAME, 20, System::GetExecutableDirectory() + FOLDER_SEPARATOR + _T( "arial.ttf" ) );
-		LoadFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT, System::GetExecutableDirectory() + FOLDER_SEPARATOR + _T( "arial.ttf" ) );
+		LoadFont( DEFAULT_FONT_NAME, 20, System::GetDataDirectory() + FOLDER_SEPARATOR + _T( "arial.ttf" ) );
+		LoadFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT, System::GetDataDirectory() + FOLDER_SEPARATOR + _T( "arial.ttf" ) );
 	}
 
 	OverlayManager::~OverlayManager()

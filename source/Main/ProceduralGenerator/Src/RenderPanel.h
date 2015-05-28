@@ -39,7 +39,7 @@ extern "C"
 #	include <libavutil/mathematics.h>
 #	include <libavutil/samplefmt.h>
 #	include <libswscale/swscale.h>
-#	include <libswresample/swresample.h>
+//#	include <libswresample/swresample.h>
 }
 #elif defined( PGEN_OCV )
 #	include <opencv2/opencv.hpp>

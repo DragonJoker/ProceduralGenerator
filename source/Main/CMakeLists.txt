@@ -18,29 +18,25 @@ function( MainSummary msg )
 	SET( msg "${msg}${msg_tmp}" PARENT_SCOPE )
 endfunction( MainSummary )
 
-function( MainSetup )
-	cpack_add_component_group( Runtime
-		DISPLAY_NAME "ProceduralGenerator runtime"
-		DESCRIPTION "Runtime applications for ProceduralGenerator"
-	)
-
-	cpack_add_component_group( Samples
+macro( MainSetup )
+	setup_add_component_group( Samples
 		DISPLAY_NAME "ProceduralGenerator sample data"
 		DESCRIPTION "Sample datas for ProceduralGenerator"
 	)
 
-	cpack_add_component( ProceduralGenerator
+	setup_add_component( ProceduralGenerator
 		DISPLAY_NAME "ProceduralGenerator application"
 		DESCRIPTION "The main application used to visualise the plug-ins job"
 		REQUIRED
 		GROUP Runtime
-		INSTALL_TYPES Minimal Developer Full
+		#INSTALL_TYPES Minimal Developer Full
 	)
-	cpack_add_component( ProceduralGenerator_Samples
+	setup_add_component( ProceduralGenerator_Samples
 		DISPLAY_NAME "ProceduralGenerator sample data"
 		DESCRIPTION "Sample images and shaders to use with ProceduralGenerator plug-ins"
 		GROUP Samples
-		INSTALL_TYPES Developer Full
+		DEPENDS ProceduralGenerator
+		#INSTALL_TYPES Developer Full
 	)
-endfunction( MainSetup )
+endmacro( MainSetup )
 
