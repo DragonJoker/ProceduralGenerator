@@ -23,4 +23,9 @@ namespace TextEffects
 #endif
 		return l_strBaseName;
 	}
+
+	bool Plugin::HasCustomisableResolution()
+	{
+		return false;
+	}
 }

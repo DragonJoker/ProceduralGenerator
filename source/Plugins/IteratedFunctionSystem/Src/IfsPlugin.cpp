@@ -23,4 +23,9 @@ namespace IteratedFunctionSystem
 #endif
 		return l_strBaseName;
 	}
+
+	bool Plugin::HasCustomisableResolution()
+	{
+		return true;
+	}
 }

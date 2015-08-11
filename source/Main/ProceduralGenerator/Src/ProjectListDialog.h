@@ -39,7 +39,7 @@ namespace ProceduralGenerator
 		};
 
 	public:
-		ProjectListDialog( wxWindow * p_parent, wxArrayString const & p_choices );
+		ProjectListDialog( wxWindow * p_parent, wxArrayString const & p_choices, std::vector< bool > const & p_customisableResolution );
 		~ProjectListDialog();
 
 		wxString GetProject();
@@ -57,6 +57,7 @@ namespace ProceduralGenerator
 		wxComboBox * m_pComboWidth;
 		wxComboBox * m_pComboHeight;
 		wxStaticText * m_pStaticResolution;
+		std::vector< bool > m_customisableResolution;
 	};
 }
 

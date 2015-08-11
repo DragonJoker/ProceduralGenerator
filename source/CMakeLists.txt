@@ -11,6 +11,21 @@ set( VERSION_MINOR	0 )
 set( VERSION_BUILD	0 )
 set( VERSION_YEAR	2015 )
 
+macro( setup_initialise )
+endmacro( setup_initialise )
+
+macro( setup_add_install_type )
+endmacro( setup_add_install_type )
+
+macro( setup_add_component_group )
+endmacro( setup_add_component_group )
+
+macro( setup_add_component )
+endmacro( setup_add_component )
+
+macro( setup_finalise )
+endmacro( setup_finalise )
+
 # Used to look for external modules
 set( CMAKE_MODULE_PATH
     "${CMAKE_SOURCE_DIR}/CMake"

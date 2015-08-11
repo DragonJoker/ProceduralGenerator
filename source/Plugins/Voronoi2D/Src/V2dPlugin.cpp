@@ -23,4 +23,9 @@ namespace Voronoi2D
 #endif
 		return l_strBaseName;
 	}
+
+	bool Plugin::HasCustomisableResolution()
+	{
+		return true;
+	}
 }

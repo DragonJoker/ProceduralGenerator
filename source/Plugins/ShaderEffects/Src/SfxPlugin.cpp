@@ -23,4 +23,9 @@ namespace ShaderEffects
 #endif
 		return l_strBaseName;
 	}
+
+	bool Plugin::HasCustomisableResolution()
+	{
+		return false;
+	}
 }

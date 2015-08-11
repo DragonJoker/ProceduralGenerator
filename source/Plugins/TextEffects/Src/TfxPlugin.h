@@ -32,6 +32,7 @@ namespace TextEffects
 		virtual ~Plugin();
 
 		virtual ProceduralTextures::String GetName();
+		virtual bool HasCustomisableResolution();
 
 		DECLARE_PLUGIN()
 	};

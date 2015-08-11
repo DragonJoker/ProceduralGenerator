@@ -29,8 +29,10 @@ namespace ProceduralGenerator
 		Translator::Initialise( System::GetExecutableDirectory(), _T( "ProceduralGenerator" ), _T( "ProceduralGenerator" ) );
 		wxAppConsole::SetAppName( wxT( "procedural_generator" ) );
 		wxAppConsole::SetVendorName( wxT( "dragonjoker" ) );
-//		wxAppConsole::SetAppDisplayName( wxT( "Procedural Generator" ) );
-//		wxAppConsole::SetVendorDisplayName( wxT( "DragonJoker" ) );
+#if wxCHECK_VERSION( 2, 9, 0 )
+		wxAppConsole::SetAppDisplayName( wxT( "Procedural Generator" ) );
+		wxAppConsole::SetVendorDisplayName( wxT( "DragonJoker" ) );
+#endif
 		m_mainFrame = new MainFrame;
 		SetTopWindow( m_mainFrame );
 		m_mainFrame->Initialise();

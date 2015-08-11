@@ -15,12 +15,13 @@ using namespace ProceduralTextures;
 
 namespace ProceduralGenerator
 {
-	ProjectListDialog::ProjectListDialog( wxWindow * p_parent, wxArrayString const & p_choices )
+	ProjectListDialog::ProjectListDialog( wxWindow * p_parent, wxArrayString const & p_choices, std::vector< bool > const & p_customisableResolution )
 		: wxDialog( p_parent, wxID_ANY, _( "Choose a generator" ), wxDefaultPosition, wxSize( 400, 20 + DEFAULT_HEIGHT * 6 ) )
 		, m_pComboProjets( NULL )
 		, m_pStaticResolution( NULL )
 		, m_pComboWidth( NULL )
 		, m_pComboHeight( NULL )
+		, m_customisableResolution( p_customisableResolution )
 	{
 		wxStaticLine * l_pLine = NULL;
 		wxStaticText * l_pDesc = NULL;
@@ -115,10 +116,10 @@ namespace ProceduralGenerator
 	}
 
 	BEGIN_EVENT_TABLE( ProjectListDialog, wxDialog )
-		EVT_CLOSE(	ProjectListDialog::_onClose )
-		EVT_BUTTON(	pldOK,			ProjectListDialog::_onOK )
-		EVT_BUTTON(	pldCancel,		ProjectListDialog::_onCancel )
-		EVT_COMBOBOX(	pldProjects,	ProjectListDialog::_onProjects )
+		EVT_CLOSE( ProjectListDialog::_onClose )
+		EVT_BUTTON( pldOK, ProjectListDialog::_onOK )
+		EVT_BUTTON( pldCancel, ProjectListDialog::_onCancel )
+		EVT_COMBOBOX( pldProjects, ProjectListDialog::_onProjects )
 	END_EVENT_TABLE()
 
 	void ProjectListDialog::_onClose( wxCloseEvent & /*p_event*/ )
@@ -138,12 +139,9 @@ namespace ProceduralGenerator
 
 	void ProjectListDialog::_onProjects( wxCommandEvent & p_event )
 	{
-		wxString l_project = p_event.GetString();
+		int l_project = p_event.GetInt();
 
-		if ( l_project.find( _( "Image Effects" ) ) != wxString::npos
-				|| l_project.find( _( "Shader Effects" ) ) != wxString::npos
-				|| l_project.find( _( "Text Effects" ) ) != wxString::npos
-				|| l_project.find( _( "Shader Webcam" ) ) != wxString::npos )
+		if ( l_project >= int( m_customisableResolution.size() ) || l_project < 0 || !m_customisableResolution[l_project] )
 		{
 			m_pComboHeight->Hide();
 			m_pComboWidth->Hide();

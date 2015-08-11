@@ -23,4 +23,9 @@ namespace LifeGame
 #endif
 		return l_strBaseName;
 	}
+
+	bool Plugin::HasCustomisableResolution()
+	{
+		return true;
+	}
 }

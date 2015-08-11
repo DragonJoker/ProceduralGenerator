@@ -59,9 +59,7 @@ namespace ProceduralGenerator
 		~MainFrame();
 
 		void Initialise();
-#if defined( PGEN_RECORDS )
 		void StopRecord();
-#endif
 
 	private:
 		DECLARE_CLASS( MainFrame );
@@ -87,10 +85,8 @@ namespace ProceduralGenerator
 		void OnPrintScreen( wxCommandEvent & p_event );
 		void OnShowMessageBox( wxCommandEvent & p_event );
 		void OnResize( wxCommandEvent & p_event );
-#if defined( PGEN_RECORDS )
 		void OnRecord( wxCommandEvent & p_event );
 		void OnStop( wxCommandEvent & p_event );
-#endif
 
 	private:
 		RenderPanel * m_pRenderPanel;

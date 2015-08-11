@@ -204,14 +204,14 @@ namespace ProceduralGenerator
 		DoSelectGenerator();
 	}
 
-#if defined( PGEN_RECORDS )
 	void MainFrame::StopRecord()
 	{
+#if defined( PGEN_RECORDS )
 		GetToolBar()->EnableTool( eID_STOP, false );
 		GetToolBar()->EnableTool( eID_RECORD, true );
+#endif
 		m_pRenderPanel->StopRecord();
 	}
-#endif
 
 	void MainFrame::DoBuildMenuBar()
 	{
@@ -246,9 +246,7 @@ namespace ProceduralGenerator
 
 	void MainFrame::DoSelectGenerator()
 	{
-#if defined( PGEN_RECORDS )
 		m_pRenderPanel->StopRecord();
-#endif
 		std::shared_ptr< GeneratorBase > l_generator = m_pRenderPanel->GetGenerator();
 		m_pRenderPanel->SetGenerator( nullptr );
 		DoDestroyGenerator( l_generator );
@@ -267,14 +265,16 @@ namespace ProceduralGenerator
 	std::shared_ptr< GeneratorBase > MainFrame::DoCreateGenerator()
 	{
 		std::shared_ptr< GeneratorBase > l_pReturn;
+		std::vector< bool > l_customResolution;
 		wxArrayString l_choices;
 
 		for ( auto l_pluginDllPair : m_mapPluginsByName )
 		{
 			l_choices.push_back( l_pluginDllPair.first );
+			l_customResolution.push_back( l_pluginDllPair.second.first->HasCustomisableResolution() );
 		}
 
-		ProjectListDialog l_dialog( this, l_choices );
+		ProjectListDialog l_dialog( this, l_choices, l_customResolution );
 
 		if ( l_dialog.ShowModal() == wxID_OK )
 		{
@@ -429,10 +429,8 @@ namespace ProceduralGenerator
 		EVT_MENU( eID_EXIT, MainFrame::OnExit )
 		EVT_MENU( eID_SELECT_GENERATOR, MainFrame::OnSelectGenerator )
 		EVT_MENU( eID_PRINT_SCREEN, MainFrame::OnPrintScreen )
-#if defined( PGEN_RECORDS )
 		EVT_MENU( eID_RECORD, MainFrame::OnRecord )
 		EVT_MENU( eID_STOP, MainFrame::OnStop )
-#endif
 	END_EVENT_TABLE()
 
 	void MainFrame::OnPaint( wxPaintEvent & p_event )
@@ -517,13 +515,14 @@ namespace ProceduralGenerator
 		p_event.Skip();
 	}
 
-#if defined( PGEN_RECORDS )
 	void MainFrame::OnRecord( wxCommandEvent & p_event )
 	{
 		if ( m_pRenderPanel->StartRecord() )
 		{
+#if defined( PGEN_RECORDS )
 			GetToolBar()->EnableTool( eID_STOP, true );
 			GetToolBar()->EnableTool( eID_RECORD, false );
+#endif
 		}
 
 		p_event.Skip();
@@ -534,5 +533,4 @@ namespace ProceduralGenerator
 		StopRecord();
 		p_event.Skip();
 	}
-#endif
 }

@@ -27,23 +27,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <GeneratorPrerequisites.h>
 #include <GeneratorSignal.h>
 
-#if defined( PGEN_FFMPEG )
-#	define USE_STREAMS 0
-extern "C"
-{
-#	include <libavutil/opt.h>
-#	include <libavcodec/avcodec.h>
-#	include <libavformat/avformat.h>
-#	include <libavutil/common.h>
-#	include <libavutil/imgutils.h>
-#	include <libavutil/mathematics.h>
-#	include <libavutil/samplefmt.h>
-#	include <libswscale/swscale.h>
-//#	include <libswresample/swresample.h>
-}
-#elif defined( PGEN_OCV )
-#	include <opencv2/opencv.hpp>
-#endif
+#include "Recorder.h"
 
 #undef _
 #define _( x ) wxString( ProceduralTextures::Translator::TranslateString( _T( x ) ).c_str(), wxConvUTF8 )
@@ -66,11 +50,8 @@ namespace ProceduralGenerator
 		std::shared_ptr< ProceduralTextures::GeneratorBase > GetGenerator()const;
 		void SaveFrame();
 		void Render();
-#if defined( PGEN_RECORDS )
 		bool StartRecord();
-		bool IsRecording();
 		void StopRecord();
-#endif
 
 	private:
 		void DoStopGenerator();
@@ -105,26 +86,7 @@ namespace ProceduralGenerator
 		uint32_t m_mouseMoveIndex;
 		wxTimer * m_timer;
 		uint32_t m_count;
-#if defined( PGEN_RECORDS )
-		wxMilliClock_t m_msSaved;
-		uint32_t m_uiRecordedCount;
-		uint64_t m_ui64RecordedTime;
-		std::vector< uint8_t > m_bufferNV12;
-#	if defined( PGEN_FFMPEG )
-		AVCodec * m_pAvCodec;
-		AVFrame * m_pAvFrame;
-		AVPicture m_avEncodedPicture;
-#		if USE_STREAMS
-		AVFormatContext * m_pAvFormatContext;
-		AVStream * m_pAvStream;
-#		else
-		AVCodecContext * m_pAvCodecContext;
-		FILE * m_pFile;
-#		endif
-#	elif defined( PGEN_OCV )
-		cv::VideoWriter m_writer;
-#	endif
-#endif
+		Recorder m_recorder;
 	};
 }
 

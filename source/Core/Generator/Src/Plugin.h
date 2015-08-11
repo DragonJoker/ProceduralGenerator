@@ -86,6 +86,11 @@ namespace ProceduralTextures
 		 *\return		The plugin name
 		 */
 		virtual String GetName() = 0;
+		/**
+		 *\brief		Tells if the plugin resolution is customisable
+		 *\return		The status
+		 */
+		virtual bool HasCustomisableResolution() = 0;
 	};
 	/*!
 	\author 	Sylvain DOREMUS
