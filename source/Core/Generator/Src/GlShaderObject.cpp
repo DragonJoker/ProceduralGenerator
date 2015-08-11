@@ -106,7 +106,7 @@ namespace ProceduralTextures
 				}
 				else
 				{
-					TRACE( m_compilerLog );
+					std::cerr << m_compilerLog << std::endl;
 				}
 
 				l_bReturn = m_bCompiled;
@@ -138,7 +138,7 @@ namespace ProceduralTextures
 				}
 				catch ( ... )
 				{
-					TRACE( "GlShaderObject::Detach - glDetachShader - Exception" );
+					std::cerr << "GlShaderObject::Detach - glDetachShader - Exception" << std::endl;
 				}
 
 				m_parent.reset();

@@ -160,7 +160,7 @@ namespace ProceduralTextures
 				}
 				else
 				{
-					TRACE( m_linkerLog );
+					std::cerr << m_linkerLog << std::endl;
 				}
 
 				l_bReturn = m_bLinked;

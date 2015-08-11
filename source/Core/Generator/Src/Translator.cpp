@@ -83,7 +83,7 @@ namespace ProceduralTextures
 		}
 		else
 		{
-			TRACE( _T( "Couldn't load the translation file " ) + p_path + _T( "\n" ) );
+			std::cerr << "Couldn't load the translation file " << p_path << std::endl;
 		}
 	}
 

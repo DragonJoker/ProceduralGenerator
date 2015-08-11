@@ -283,7 +283,7 @@ namespace ProceduralTextures
 
 			if ( p_position.x() > int32_t( p_size.x() ) )
 			{
-				// The character is beyond limits
+				// The character is beyond X limits
 				if ( m_wrappingMode == eTEXT_WRAPPING_MODE_NONE )
 				{
 					l_charSize.x() = 0;
@@ -297,7 +297,7 @@ namespace ProceduralTextures
 			}
 			else if ( p_position.x() + l_charSize.x() > p_size.x() )
 			{
-				// A part of the character is beyond limits
+				// A part of the character is beyond X limits
 				if ( m_wrappingMode == eTEXT_WRAPPING_MODE_NONE )
 				{
 					l_charSize.x() = p_size.x() - p_position.x();
@@ -312,12 +312,12 @@ namespace ProceduralTextures
 
 			if ( p_position.y() > int32_t( p_size.y() ) )
 			{
-				// The character is beyond limits
+				// The character is beyond Y limits
 				l_charSize.y() = 0;
 			}
 			else if ( p_position.y() + l_maxHeight > p_size.y() )
 			{
-				// A part of the character is beyond limits
+				// A part of the character is beyond Y limits
 				l_charCrop = p_position.y() + l_maxHeight - p_size.y();
 			}
 

@@ -13,14 +13,14 @@ namespace ProceduralTextures
 	{
 		bool CheckGlError( OpenGl & p_gl, String const & p_strMsg )
 		{
-			static const String l_strErrors[] =
+			static const std::string l_strErrors[] =
 			{
-				_T( "GL_INVALID_ENUM" ),
-				_T( "GL_INVALID_VALUE" ),
-				_T( "GL_INVALID_OPERATION" ),
-				_T( "GL_STACK_OVERFLOW" ),
-				_T( "GL_STACK_UNDERFLOW" ),
-				_T( "GL_OUT_OF_MEMORY" ),
+				"GL_INVALID_ENUM",
+				"GL_INVALID_VALUE",
+				"GL_INVALID_OPERATION",
+				"GL_STACK_OVERFLOW",
+				"GL_STACK_UNDERFLOW",
+				"GL_OUT_OF_MEMORY",
 			};
 			GLenum l_error = p_gl.GetError();
 			bool l_bReturn = true;
@@ -28,7 +28,7 @@ namespace ProceduralTextures
 			if ( l_error != GL_NO_ERROR )
 			{
 				l_bReturn = false;
-				TRACE( p_strMsg + _T( " - " ) + l_strErrors[l_error - GL_INVALID_ENUM] + _T( "\n" ) );
+				std::cerr << p_strMsg << " - " << l_strErrors[l_error - GL_INVALID_ENUM] << std::endl;
 			}
 
 			return l_bReturn;
@@ -51,80 +51,80 @@ namespace ProceduralTextures
 
 			if ( glGenerateMipmap != NULL )
 			{
-				m_pfnGenerateMipmap			= glGenerateMipmap;
+				m_pfnGenerateMipmap = glGenerateMipmap;
 			}
 			else
 			{
-				m_pfnGenerateMipmap			= glGenerateMipmapEXT;
+				m_pfnGenerateMipmap = glGenerateMipmapEXT;
 			}
 
-			m_pfnGetError					= &glGetError;
-			m_pfnActiveTexture				= glActiveTexture;
-			m_pfnClientActiveTexture		= glClientActiveTexture;
-			m_pfnGenBuffers					= glGenBuffers;
-			m_pfnBindBuffer					= glBindBuffer;
-			m_pfnDeleteBuffers				= glDeleteBuffers;
-			m_pfnIsBuffer					= glIsBuffer;
-			m_pfnBufferData					= glBufferData;
-			m_pfnBufferSubData				= glBufferSubData;
-			m_pfnGetBufferParameteriv		= glGetBufferParameteriv;
-			m_pfnMapBuffer					= glMapBuffer;
-			m_pfnUnmapBuffer				= glUnmapBuffer;
-			m_pfnGenFramebuffers			= glGenFramebuffers;
-			m_pfnDeleteFramebuffers			= glDeleteFramebuffers;
-			m_pfnIsFramebuffer				= glIsFramebuffer;
-			m_pfnBindFramebuffer			= glBindFramebuffer;
-			m_pfnFramebufferTexture2D		= glFramebufferTexture2D;
-			m_pfnCheckFramebufferStatus		= glCheckFramebufferStatus;
-			m_pfnGetUniformLocation			= glGetUniformLocation;
-			m_pfnUniform1i					= glUniform1i;
-			m_pfnUniform1f					= glUniform1f;
-			m_pfnUniform2iv					= glUniform2iv;
-			m_pfnUniform2fv					= glUniform2fv;
-			m_pfnUniform3iv					= glUniform3iv;
-			m_pfnUniform3fv					= glUniform3fv;
-			m_pfnUniform4iv					= glUniform4iv;
-			m_pfnUniform4fv					= glUniform4fv;
-			m_pfnUniformMatrix4fv			= glUniformMatrix4fv;
-			m_pfnCreateShader				= glCreateShader;
-			m_pfnDeleteShader				= glDeleteShader;
-			m_pfnIsShader					= glIsShader;
-			m_pfnAttachShader				= glAttachShader;
-			m_pfnDetachShader				= glDetachShader;
-			m_pfnCompileShader				= glCompileShader;
-			m_pfnGetShaderiv				= glGetShaderiv;
-			m_pfnGetShaderInfoLog			= glGetShaderInfoLog;
-			m_pfnShaderSource				= glShaderSource;
-			m_pfnCreateProgram				= glCreateProgram;
-			m_pfnDeleteProgram				= glDeleteProgram;
-			m_pfnIsProgram					= glIsProgram;
-			m_pfnLinkProgram				= glLinkProgram;
-			m_pfnUseProgram					= glUseProgram;
-			m_pfnGetProgramiv				= glGetProgramiv;
-			m_pfnGetProgramInfoLog			= glGetProgramInfoLog;
-			m_pfnGetAttribLocation			= glGetAttribLocation;
-			m_pfnEnableVertexAttribArray	= glEnableVertexAttribArray;
-			m_pfnVertexAttribPointer		= glVertexAttribPointer;
-			m_pfnDisableVertexAttribArray	= glDisableVertexAttribArray;
-			m_pfnClearColor					= &glClearColor;
-			m_pfnViewport					= &glViewport;
-			m_pfnClear						= &glClear;
-			m_pfnDrawElements				= &glDrawElements;
-			m_pfnDrawArrays					= &glDrawArrays;
-			m_pfnEnable						= &glEnable;
-			m_pfnDisable					= &glDisable;
-			m_pfnGenTextures				= &glGenTextures;
-			m_pfnDeleteTextures				= &glDeleteTextures;
-			m_pfnIsTexture					= &glIsTexture;
-			m_pfnBindTexture				= &glBindTexture;
-			m_pfnTexSubImage2D				= &glTexSubImage2D;
-			m_pfnTexImage2D					= &glTexImage2D;
-			m_pfnTexParameteri				= &glTexParameteri;
-			m_pfnGetTexImage				= &glGetTexImage;
-			m_pfnReadBuffer					= &glReadBuffer;
-			m_pfnReadPixels					= &glReadPixels;
-			m_pfnBlendFunc					= &glBlendFunc;
-			m_pfnBlendFuncSeparate			= glBlendFuncSeparate;
+			m_pfnGetError = &glGetError;
+			m_pfnActiveTexture = glActiveTexture;
+			m_pfnClientActiveTexture = glClientActiveTexture;
+			m_pfnGenBuffers = glGenBuffers;
+			m_pfnBindBuffer = glBindBuffer;
+			m_pfnDeleteBuffers = glDeleteBuffers;
+			m_pfnIsBuffer = glIsBuffer;
+			m_pfnBufferData = glBufferData;
+			m_pfnBufferSubData = glBufferSubData;
+			m_pfnGetBufferParameteriv = glGetBufferParameteriv;
+			m_pfnMapBuffer = glMapBuffer;
+			m_pfnUnmapBuffer = glUnmapBuffer;
+			m_pfnGenFramebuffers = glGenFramebuffers;
+			m_pfnDeleteFramebuffers = glDeleteFramebuffers;
+			m_pfnIsFramebuffer = glIsFramebuffer;
+			m_pfnBindFramebuffer = glBindFramebuffer;
+			m_pfnFramebufferTexture2D = glFramebufferTexture2D;
+			m_pfnCheckFramebufferStatus = glCheckFramebufferStatus;
+			m_pfnGetUniformLocation = glGetUniformLocation;
+			m_pfnUniform1i = glUniform1i;
+			m_pfnUniform1f = glUniform1f;
+			m_pfnUniform2iv = glUniform2iv;
+			m_pfnUniform2fv = glUniform2fv;
+			m_pfnUniform3iv = glUniform3iv;
+			m_pfnUniform3fv = glUniform3fv;
+			m_pfnUniform4iv = glUniform4iv;
+			m_pfnUniform4fv = glUniform4fv;
+			m_pfnUniformMatrix4fv = glUniformMatrix4fv;
+			m_pfnCreateShader = glCreateShader;
+			m_pfnDeleteShader = glDeleteShader;
+			m_pfnIsShader = glIsShader;
+			m_pfnAttachShader = glAttachShader;
+			m_pfnDetachShader = glDetachShader;
+			m_pfnCompileShader = glCompileShader;
+			m_pfnGetShaderiv = glGetShaderiv;
+			m_pfnGetShaderInfoLog = glGetShaderInfoLog;
+			m_pfnShaderSource = glShaderSource;
+			m_pfnCreateProgram = glCreateProgram;
+			m_pfnDeleteProgram = glDeleteProgram;
+			m_pfnIsProgram = glIsProgram;
+			m_pfnLinkProgram = glLinkProgram;
+			m_pfnUseProgram = glUseProgram;
+			m_pfnGetProgramiv = glGetProgramiv;
+			m_pfnGetProgramInfoLog = glGetProgramInfoLog;
+			m_pfnGetAttribLocation = glGetAttribLocation;
+			m_pfnEnableVertexAttribArray = glEnableVertexAttribArray;
+			m_pfnVertexAttribPointer = glVertexAttribPointer;
+			m_pfnDisableVertexAttribArray = glDisableVertexAttribArray;
+			m_pfnClearColor = &glClearColor;
+			m_pfnViewport = &glViewport;
+			m_pfnClear = &glClear;
+			m_pfnDrawElements = &glDrawElements;
+			m_pfnDrawArrays = &glDrawArrays;
+			m_pfnEnable = &glEnable;
+			m_pfnDisable = &glDisable;
+			m_pfnGenTextures = &glGenTextures;
+			m_pfnDeleteTextures = &glDeleteTextures;
+			m_pfnIsTexture = &glIsTexture;
+			m_pfnBindTexture = &glBindTexture;
+			m_pfnTexSubImage2D = &glTexSubImage2D;
+			m_pfnTexImage2D = &glTexImage2D;
+			m_pfnTexParameteri = &glTexParameteri;
+			m_pfnGetTexImage = &glGetTexImage;
+			m_pfnReadBuffer = &glReadBuffer;
+			m_pfnReadPixels = &glReadPixels;
+			m_pfnBlendFunc = &glBlendFunc;
+			m_pfnBlendFuncSeparate = glBlendFuncSeparate;
 
 			m_initialised = true;
 		}
@@ -133,74 +133,74 @@ namespace ProceduralTextures
 		{
 			m_initialised = false;
 
-			m_pfnGenerateMipmap				= NULL;
-			m_pfnGetError					= NULL;
-			m_pfnActiveTexture				= NULL;
-			m_pfnClientActiveTexture		= NULL;
-			m_pfnGenBuffers					= NULL;
-			m_pfnBindBuffer					= NULL;
-			m_pfnDeleteBuffers				= NULL;
-			m_pfnIsBuffer					= NULL;
-			m_pfnBufferData					= NULL;
-			m_pfnBufferSubData				= NULL;
-			m_pfnGetBufferParameteriv		= NULL;
-			m_pfnMapBuffer					= NULL;
-			m_pfnUnmapBuffer				= NULL;
-			m_pfnGenFramebuffers			= NULL;
-			m_pfnDeleteFramebuffers			= NULL;
-			m_pfnIsFramebuffer				= NULL;
-			m_pfnBindFramebuffer			= NULL;
-			m_pfnFramebufferTexture2D		= NULL;
-			m_pfnCheckFramebufferStatus		= NULL;
-			m_pfnGetUniformLocation			= NULL;
-			m_pfnUniform1i					= NULL;
-			m_pfnUniform1f					= NULL;
-			m_pfnUniform2iv					= NULL;
-			m_pfnUniform2fv					= NULL;
-			m_pfnUniform3iv					= NULL;
-			m_pfnUniform3fv					= NULL;
-			m_pfnUniform4iv					= NULL;
-			m_pfnUniform4fv					= NULL;
-			m_pfnUniformMatrix4fv			= NULL;
-			m_pfnCreateShader				= NULL;
-			m_pfnDeleteShader				= NULL;
-			m_pfnIsShader					= NULL;
-			m_pfnAttachShader				= NULL;
-			m_pfnDetachShader				= NULL;
-			m_pfnCompileShader				= NULL;
-			m_pfnGetShaderiv				= NULL;
-			m_pfnGetShaderInfoLog			= NULL;
-			m_pfnShaderSource				= NULL;
-			m_pfnCreateProgram				= NULL;
-			m_pfnDeleteProgram				= NULL;
-			m_pfnIsProgram					= NULL;
-			m_pfnLinkProgram				= NULL;
-			m_pfnUseProgram					= NULL;
-			m_pfnGetProgramiv				= NULL;
-			m_pfnGetProgramInfoLog			= NULL;
-			m_pfnGetAttribLocation			= NULL;
-			m_pfnEnableVertexAttribArray	= NULL;
-			m_pfnVertexAttribPointer		= NULL;
-			m_pfnDisableVertexAttribArray	= NULL;
-			m_pfnClearColor					= NULL;
-			m_pfnViewport					= NULL;
-			m_pfnClear						= NULL;
-			m_pfnDrawElements				= NULL;
-			m_pfnDrawArrays					= NULL;
-			m_pfnEnable						= NULL;
-			m_pfnDisable					= NULL;
-			m_pfnGenTextures				= NULL;
-			m_pfnDeleteTextures				= NULL;
-			m_pfnIsTexture					= NULL;
-			m_pfnBindTexture				= NULL;
-			m_pfnTexSubImage2D				= NULL;
-			m_pfnTexImage2D					= NULL;
-			m_pfnTexParameteri				= NULL;
-			m_pfnGetTexImage				= NULL;
-			m_pfnReadBuffer					= NULL;
-			m_pfnReadPixels					= NULL;
-			m_pfnBlendFunc					= NULL;
-			m_pfnBlendFuncSeparate			= NULL;
+			m_pfnGenerateMipmap = NULL;
+			m_pfnGetError = NULL;
+			m_pfnActiveTexture = NULL;
+			m_pfnClientActiveTexture = NULL;
+			m_pfnGenBuffers = NULL;
+			m_pfnBindBuffer = NULL;
+			m_pfnDeleteBuffers = NULL;
+			m_pfnIsBuffer = NULL;
+			m_pfnBufferData = NULL;
+			m_pfnBufferSubData = NULL;
+			m_pfnGetBufferParameteriv = NULL;
+			m_pfnMapBuffer = NULL;
+			m_pfnUnmapBuffer = NULL;
+			m_pfnGenFramebuffers = NULL;
+			m_pfnDeleteFramebuffers = NULL;
+			m_pfnIsFramebuffer = NULL;
+			m_pfnBindFramebuffer = NULL;
+			m_pfnFramebufferTexture2D = NULL;
+			m_pfnCheckFramebufferStatus = NULL;
+			m_pfnGetUniformLocation = NULL;
+			m_pfnUniform1i = NULL;
+			m_pfnUniform1f = NULL;
+			m_pfnUniform2iv = NULL;
+			m_pfnUniform2fv = NULL;
+			m_pfnUniform3iv = NULL;
+			m_pfnUniform3fv = NULL;
+			m_pfnUniform4iv = NULL;
+			m_pfnUniform4fv = NULL;
+			m_pfnUniformMatrix4fv = NULL;
+			m_pfnCreateShader = NULL;
+			m_pfnDeleteShader = NULL;
+			m_pfnIsShader = NULL;
+			m_pfnAttachShader = NULL;
+			m_pfnDetachShader = NULL;
+			m_pfnCompileShader = NULL;
+			m_pfnGetShaderiv = NULL;
+			m_pfnGetShaderInfoLog = NULL;
+			m_pfnShaderSource = NULL;
+			m_pfnCreateProgram = NULL;
+			m_pfnDeleteProgram = NULL;
+			m_pfnIsProgram = NULL;
+			m_pfnLinkProgram = NULL;
+			m_pfnUseProgram = NULL;
+			m_pfnGetProgramiv = NULL;
+			m_pfnGetProgramInfoLog = NULL;
+			m_pfnGetAttribLocation = NULL;
+			m_pfnEnableVertexAttribArray = NULL;
+			m_pfnVertexAttribPointer = NULL;
+			m_pfnDisableVertexAttribArray = NULL;
+			m_pfnClearColor = NULL;
+			m_pfnViewport = NULL;
+			m_pfnClear = NULL;
+			m_pfnDrawElements = NULL;
+			m_pfnDrawArrays = NULL;
+			m_pfnEnable = NULL;
+			m_pfnDisable = NULL;
+			m_pfnGenTextures = NULL;
+			m_pfnDeleteTextures = NULL;
+			m_pfnIsTexture = NULL;
+			m_pfnBindTexture = NULL;
+			m_pfnTexSubImage2D = NULL;
+			m_pfnTexImage2D = NULL;
+			m_pfnTexParameteri = NULL;
+			m_pfnGetTexImage = NULL;
+			m_pfnReadBuffer = NULL;
+			m_pfnReadPixels = NULL;
+			m_pfnBlendFunc = NULL;
+			m_pfnBlendFuncSeparate = NULL;
 		}
 
 		GLenum OpenGl::GetError()

@@ -29,59 +29,6 @@
 
 namespace ProceduralTextures
 {
-	namespace Utils
-	{
-		bool Tracer::Trace( std::string const & msg )
-		{
-#if defined( _MSC_VER )
-			::OutputDebugStringA( msg.c_str() );
-#endif
-			std::cout << msg.c_str();
-			return true;
-		}
-
-		bool Tracer::Trace( std::wstring const & msg )
-		{
-#if defined( _MSC_VER )
-			::OutputDebugStringW( msg.c_str() );
-#endif
-			std::wcout << msg.c_str();
-			return true;
-		}
-
-		bool Tracer::Trace( char const * p_szFormat, ... )
-		{
-			char l_szBuffer[1000];
-			va_list l_vaList;
-			va_start( l_vaList, p_szFormat );
-			vsprintf( l_szBuffer, p_szFormat, l_vaList );
-			va_end( l_vaList );
-#if defined( _MSC_VER )
-			::OutputDebugStringA( l_szBuffer );
-#endif
-			std::cout << l_szBuffer;
-			return true;
-		}
-
-		bool Tracer::Trace( wchar_t const * p_szFormat, ... )
-		{
-			wchar_t l_szBuffer[1000];
-			va_list l_vaList;
-			va_start( l_vaList, p_szFormat );
-#if defined( _MSC_VER )
-			wvsprintf( l_szBuffer, p_szFormat, l_vaList );
-#else
-			vswprintf( l_szBuffer, 1000, p_szFormat, l_vaList );
-#endif
-			va_end( l_vaList );
-#if defined( _MSC_VER )
-			::OutputDebugStringW( l_szBuffer );
-#endif
-			std::wcout << l_szBuffer;
-			return true;
-		}
-	}
-
 	namespace System
 	{
 #if defined( _WIN32 )
@@ -149,7 +96,7 @@ namespace ProceduralTextures
 
 			if ( !pdsp )
 			{
-				fprintf( stderr, "Failed to open default display.\n" );
+				std::cerr << "Failed to open default display." << std:endl;
 			}
 			else
 			{
@@ -157,7 +104,7 @@ namespace ProceduralTextures
 
 				if ( !pscr )
 				{
-					fprintf( stderr, "Failed to obtain the default screen of given display.\n" );
+					std::cerr << "Failed to obtain the default screen of given display." << std::endl;
 				}
 				else
 				{

@@ -182,38 +182,6 @@ namespace ProceduralTextures
 			l_result.a = 255;
 			return l_result;
 		}
-		/*!
-		\author 	Sylvain Doremus
-		\version	2.0.0
-		\date		10/02/2015
-		\brief		Trace class
-		*/
-		class GeneratorAPI Tracer
-		{
-		public:
-			/**
-			 *\brief		Writes a line in a console, and VisualStudio debug console, if it is used
-			 *\param[in]	p_msg	The message
-			 */
-			static bool Trace( std::string const & p_msg );
-			/**
-			 *\brief		Writes a line in a console, and VisualStudio debug console, if it is used
-			 *\param[in]	p_msg	The message
-			 */
-			static bool Trace( std::wstring const & p_msg );
-			/**
-			 *\brief		Writes a line in a console, and VisualStudio debug console, if it is used
-			 *\param[in]	p_szFormat	The line format, see printf
-			 *\param[in]	...			The parameters, according to line format
-			 */
-			static bool Trace( char const * p_szFormat, ... );
-			/**
-			 *\brief		Writes a line in a console, and VisualStudio debug console, if it is used
-			 *\param[in]	p_szFormat	The line format, see printf
-			 *\param[in]	...			The parameters, according to line format
-			 */
-			static bool Trace( wchar_t const * p_szFormat, ... );
-		};
 	}
 
 	namespace System
@@ -242,11 +210,5 @@ namespace ProceduralTextures
 		String GeneratorAPI GetDataDirectory();
 	}
 }
-
-#ifndef NDEBUG
-#	define TRACE ProceduralTextures::Utils::Tracer::Trace
-#else
-#	define TRACE false && ProceduralTextures::Utils::Tracer::Trace
-#endif
 
 #endif

@@ -193,7 +193,7 @@ namespace ProceduralTextures
 		}
 		catch ( std::exception & p_exc )
 		{
-			TRACE( "%s\n", p_exc.what() );
+			std::cerr << "%s\n" << p_exc.what() << std::endl;
 		}
 	}
 

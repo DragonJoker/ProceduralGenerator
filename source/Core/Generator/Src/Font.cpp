@@ -114,7 +114,7 @@ namespace ProceduralTextures
 			if ( p_iErr != 0 )
 			{
 				std::map< FT_Error, std::string >::const_iterator l_it = MapErrors.find( p_iErr );
-				std::string l_strError = "ERROR : " + std::string( p_szName ) + " failed - " + std::to_string( p_iErr );
+				std::string l_strError = "ERROR: " + std::string( p_szName ) + " failed - " + std::to_string( p_iErr );
 
 				if ( l_it != MapErrors.end() )
 				{
@@ -289,8 +289,7 @@ namespace ProceduralTextures
 			}
 			catch ( std::runtime_error & p_exc )
 			{
-				std::string l_what = p_exc.what();
-				TRACE( "Font loading failed : " + l_what );
+				std::cerr << "Font loading failed : " << p_exc.what();
 			}
 		}
 	}
