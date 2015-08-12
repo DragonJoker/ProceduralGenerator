@@ -6,8 +6,8 @@
 
 namespace ProceduralTextures
 {
-	ButtonCtrl::ButtonCtrl( String const & p_caption, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
-		: Control( eCONTROL_TYPE_BUTTON, p_id, p_position, p_size, p_style, p_visible )
+	ButtonCtrl::ButtonCtrl( std::shared_ptr< Control > p_parent, String const & p_caption, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
+		: Control( eCONTROL_TYPE_BUTTON, p_parent, p_id, p_position, p_size, p_style, p_visible )
 		, m_caption( p_caption )
 	{
 		m_borders = Point4i( 1, 1, 1, 1 );

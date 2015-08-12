@@ -21,39 +21,37 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <Generator.h>
 
 #include "LgCpuStep.h"
-#include "LgGpuStep.h"
+#include <GpuStep.h>
 
 namespace LifeGame
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/05/2012
-	\brief		Life game generator
+	@author
+		Sylvain DOREMUS
+	@date
+		23/05/2012
+	@brief
+		Life game generator
 	*/
 	class Generator
-		: public ProceduralTextures::Generator< CpuStep, GpuStep >
+		: public ProceduralTextures::Generator< CpuStep, ProceduralTextures::DefaultGpuStep >
 	{
 	public:
-		/**
-		 *\brief		Constructor
+		/** Constructor
 		 */
 		Generator();
-		/**
-		 *\brief		Destructor
+		/** Destructor
 		 */
 		virtual ~Generator();
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		/** @copydoc ProceduralTexture::Generator::DoCreate
 		 */
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+		/** @copydoc ProceduralTexture::Generator::DoDestroy
 		 */
 		virtual void DoDestroy();
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
 		 */
 		virtual void DoGeneratePanel();
 	};

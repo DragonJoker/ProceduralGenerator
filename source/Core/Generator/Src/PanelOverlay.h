@@ -31,42 +31,47 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		23/02/2015
-	\version	2.0.0
-	\brief		A simple rectangular overlay
+	@author
+		Sylvain DOREMUS
+	@date
+		23/02/2015
+	@version
+		2.0.0
+	@brief
+		A simple rectangular overlay
 	*/
 	class GeneratorAPI PanelOverlay
 		:	public Overlay
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGl instance
-		 *\param[in]	p_material	The material
-		 *\param[in]	p_parent	The parent overlay (if any)
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGl instance
+		@param[in] p_material
+			The material
+		@param[in] p_parent
+			The parent overlay (if any)
 		 */
 		PanelOverlay( std::shared_ptr< gl::OpenGl > p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~PanelOverlay();
 
 	protected:
-		/**
-		 *\brief		Initialises the overlay and its buffers
+		/** Initialises the overlay and its buffers
 		 */
 		virtual void DoInitialise();
-		/**
-		 *\brief		Cleans the overlay and its buffers up
+
+		/** Cleans the overlay and its buffers up
 		 */
 		virtual void DoCleanup();
-		/**
-		 *\brief		Draws the overlay
+
+		/** Draws the overlay
 		 */
 		virtual void DoRender();
-		/**
-		 *\brief		Updates the vertex buffer
+
+		/** Updates the vertex buffer
 		 */
 		virtual void DoUpdate();
 	};

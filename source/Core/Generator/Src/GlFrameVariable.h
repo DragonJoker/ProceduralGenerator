@@ -25,33 +25,38 @@ namespace ProceduralTextures
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Represent a single (not vec or mat) uniform variable to pass to shaders
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Represent a single (not vec or mat) uniform variable to pass to shaders
 	*/
 	template< typename T >
 	class GeneratorAPI FrameVariable
 		: public TFrameVariable< T, 1 >
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGL instance
-		 *\param[in]	p_program	The parent shader program
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
+		@param[in] p_program
+			The parent shader program
 		 */
 		FrameVariable( std::shared_ptr< OpenGl > p_openGl, std::shared_ptr< ShaderProgram > p_program )
 			: TFrameVariable< T, 1 >( p_openGl, p_program )
 		{
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~FrameVariable()
 		{
 		}
-		/**
-		 *\brief		Defines the variable's value
-		 *\param[in]	p_value	The new value
+
+		/** Defines the variable's value
+		@param[in] p_value
+			The new value
 		 */
 		inline void SetValue( T p_value )
 		{

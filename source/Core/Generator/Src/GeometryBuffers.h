@@ -27,21 +27,27 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/02/2015
-	\version	2.0.0
-	\brief		Holds the vertex and index buffers for a geometry
+	@author
+		Sylvain DOREMUS
+	@date
+		23/02/2015
+	@version
+		2.0.0
+	@brief
+		Holds the vertex and index buffers for a geometry
 	*/
 	template< typename PosType >
 	class GeneratorAPI TGeometryBuffers
 		: public gl::Holder
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl			The OpenGL instance
-		 *\param[in]	p_mode				The vertex buffer access mode
-		 *\param[in]	p_hasIndexBuffer	Tells the geometry buffers holds an index buffer
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
+		@param[in] p_mode
+			The vertex buffer access mode
+		@param[in] p_hasIndexBuffer
+			Tells the geometry buffers holds an index buffer
 		 */
 		TGeometryBuffers( std::shared_ptr< gl::OpenGl > p_openGl, uint32_t p_mode, bool p_hasIndexBuffer = true )
 			: gl::Holder( p_openGl )
@@ -49,15 +55,16 @@ namespace ProceduralTextures
 			, m_indexBuffer( p_hasIndexBuffer ? std::make_shared< gl::IndexBuffer >( p_openGl, p_mode ) : nullptr )
 		{
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		~TGeometryBuffers()
 		{
 		}
-		/**
-		 *\brief		Initialises the buffers
-		 *\return		true if it is successfully initialised
+
+		/** Initialises the buffers
+		@return
+			true if it is successfully initialised
 		 */
 		bool Initialise()
 		{
@@ -70,8 +77,8 @@ namespace ProceduralTextures
 
 			return l_return;
 		}
-		/**
-		 *\brief		Cleans the buffers and destroys it
+
+		/** Cleans the buffers and destroys it
 		 */
 		void Cleanup()
 		{
@@ -82,10 +89,12 @@ namespace ProceduralTextures
 
 			m_vertexBuffer->Destroy();
 		}
-		/**
-		 *\brief		Tries to activate the buffers and to draw it
-		 *\param[in]	p_vertex	The "vertex" attribute location
-		 *\param[in]	p_texture	The "texture" attribute location
+
+		/** Tries to activate the buffers and to draw it
+		@param[in] p_vertex
+			The "vertex" attribute location
+		@param[in] p_texture
+			The "texture" attribute location
 		 */
 		void Draw( uint32_t p_vertex, uint32_t p_texture )
 		{
@@ -107,17 +116,19 @@ namespace ProceduralTextures
 				m_vertexBuffer->Deactivate();
 			}
 		}
-		/**
-		 *\brief		Retrieves the vertex buffer
-		 *\return		The buffer
+
+		/** Retrieves the vertex buffer
+		@return
+			The buffer
 		 */
 		std::shared_ptr< gl::TVertexBuffer< PosType > > GetVertexBuffer()const
 		{
 			return m_vertexBuffer;
 		}
-		/**
-		 *\brief		Retrieves the index buffer
-		 *\return		The buffer
+
+		/** Retrieves the index buffer
+		@return
+			The buffer
 		 */
 		std::shared_ptr< gl::IndexBuffer > GetIndexBuffer()const
 		{

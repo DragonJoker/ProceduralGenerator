@@ -26,18 +26,24 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace GpuProgramming
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/05/2012
-	\brief		GPU programming generator
+	@author
+		Sylvain DOREMUS
+	@date
+		23/05/2012
+	@brief
+		GPU programming generator
 	*/
 	class Generator
 		: public ProceduralTextures::Generator< CpuStep, GpuStep >
 	{
 	private:
 		/*!
-		\author		Sylvain DOREMUS
-		\date		23/05/2012
-		\brief		The controls IDs
+		@author
+			Sylvain DOREMUS
+		@date
+			23/05/2012
+		@brief
+			The controls IDs
 		*/
 		typedef enum
 		{
@@ -53,54 +59,52 @@ namespace GpuProgramming
 		}	eID;
 
 	public:
-		/**
-		 *\brief		Constructor
+		/** Constructor
 		 */
 		Generator();
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~Generator();
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		/** @copydoc ProceduralTexture::Generator::DoCreate
 		 */
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+
+		/** @copydoc ProceduralTexture::Generator::DoDestroy
 		 */
 		virtual void DoDestroy();
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+
+		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
 		 */
 		virtual void DoGeneratePanel();
-		/**
-		 *\brief		Resets the time index
+
+		/** Resets the time index
 		 */
 		void OnResetTime();
-		/**
-		 *\brief		Selects a shader
+
+		/** Selects a shader
 		 */
 		void OnSelectShader( uint32_t p_value );
-		/**
-		 *\brief		Removes the current chader
+
+		/** Removes the current chader
 		 */
 		void OnRemove();
-		/**
-		 *\brief		Compiles the shader
+
+		/** Compiles the shader
 		 */
 		void OnShaderCompile();
-		/**
-		 *\brief		Retrieves the compiler log
+
+		/** Retrieves the compiler log
 		 */
 		void OnCompilerLog();
-		/**
-		 *\brief		Sets the vertex shader file path
+
+		/** Sets the vertex shader file path
 		 */
 		void OnVertexShaderPath();
-		/**
-		 *\brief		Sets the fragment shader file path
+
+		/** Sets the fragment shader file path
 		 */
 		void OnFragmentShaderPath();
 

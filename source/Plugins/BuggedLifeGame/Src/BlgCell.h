@@ -30,8 +30,8 @@ namespace BuggedLifeGame
 		ProceduralTextures::UbPixel * m_deadPx;
 
 	public:
-		Cell * m_neighbours[8];
-		bool m_alive;
+		std::array< Cell *, 8 > m_neighbours;
+		int m_alive;
 		ProceduralTextures::UbPixel * m_nextPixel;
 		ProceduralTextures::UiPixel m_pixel;
 		ProceduralTextures::UiPixel m_step;
@@ -42,21 +42,13 @@ namespace BuggedLifeGame
 		Cell();
 		~Cell();
 
-		void Set( ProceduralTextures::UbPixel * p_pixel, ProceduralTextures::UbPixel * p_alivePx, ProceduralTextures::UbPixel * p_deadPx, bool p_alive );
+		void Set( ProceduralTextures::UbPixel * p_pixel, ProceduralTextures::UbPixel * p_alivePx, ProceduralTextures::UbPixel * p_deadPx, int p_alive );
 		void Die();
 		void Live();
 		void Stay();
-
-		void SetAlive( bool p_alive );
-
+		void SetAlive( int p_alive );
 		void Update();
-
-		Cell & Copy( Cell const & p_cell );
-
-	private:
-		void _addToPixelRed( uint8_t p_red );
-		void _addToPixelGreen( uint8_t p_green );
-		void _addToPixelBlue( uint8_t p_blue );
+		int CountAliveNeighbours();
 	};
 
 	typedef ProceduralTextures::Buffer< Cell > CellBuffer;

@@ -1,4 +1,6 @@
 project( ShaderWebcam )
+
+set( OpenCV_STATIC FALSE )
 find_package( OpenCV )
 
 if( ${OpenCV_FOUND} )

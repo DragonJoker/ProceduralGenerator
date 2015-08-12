@@ -1,12 +1,11 @@
 #include "ImageEffects.h"
 
 #include "IfxCpuStep.h"
-#include "IfxGpuStep.h"
 
 namespace ImageEffects
 {
 	Generator::Generator()
-		: ProceduralTextures::Generator< CpuStep, GpuStep >( true, ProceduralTextures::DEFAULT_FRAME_TIME )
+		: ProceduralTextures::Generator< CpuStep, ProceduralTextures::DefaultGpuStep >( true, ProceduralTextures::DEFAULT_FRAME_TIME )
 	{
 	}
 
@@ -17,7 +16,7 @@ namespace ImageEffects
 	void Generator::DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize )
 	{
 		m_cpuStep = std::make_shared< CpuStep >( shared_from_this(), p_size );
-		m_gpuStep = std::make_shared< GpuStep >( shared_from_this(), p_size, p_bordersSize );
+		m_gpuStep = std::make_shared< ProceduralTextures::DefaultGpuStep >( shared_from_this(), p_size, p_bordersSize );
 	}
 
 	void Generator::DoDestroy()
@@ -44,13 +43,13 @@ namespace ImageEffects
 			}
 		}
 
-		m_staticFirstFunction = std::make_shared< StaticCtrl >( _( "First Function" ), Position( 10, 10 + DEFAULT_HEIGHT * 0 ), Size( CONFIG_PANEL_WIDTH - 20, DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER | eSTATIC_STYLE_HALIGN_CENTER );
-		m_comboFirstFunction = std::make_shared< ComboBoxCtrl >( l_values1, -1, eID_FIRSTFUNCTION, Position( 10, 10 + DEFAULT_HEIGHT * 1 ), Size( CONFIG_PANEL_WIDTH - 20, DEFAULT_HEIGHT ), eCOMBO_STYLE_READONLY );
+		m_staticFirstFunction = std::make_shared< StaticCtrl >( m_options, _( "First Function" ), Position( 10, 10 + DEFAULT_HEIGHT * 0 ), Size( CONFIG_PANEL_WIDTH - 20, DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER | eSTATIC_STYLE_HALIGN_CENTER );
+		m_comboFirstFunction = std::make_shared< ComboBoxCtrl >( m_options, l_values1, -1, eID_FIRSTFUNCTION, Position( 10, 10 + DEFAULT_HEIGHT * 1 ), Size( CONFIG_PANEL_WIDTH - 20, DEFAULT_HEIGHT ), eCOMBO_STYLE_READONLY );
 		m_comboFirstFunction->Connect( eCOMBOBOX_EVENT_SELECTED, std::bind( &Generator::OnFirstFunction, this, std::placeholders::_1 ) );
-		m_staticSecondFunction = std::make_shared< StaticCtrl >( _( "Second Function" ), Position( 10, 10 + DEFAULT_HEIGHT * 2 ), Size( CONFIG_PANEL_WIDTH - 20, DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER | eSTATIC_STYLE_HALIGN_CENTER );
-		m_comboSecondFunction = std::make_shared< ComboBoxCtrl >( l_values2, -1, eID_SECONDFUNCTION, Position( 10, 10 + DEFAULT_HEIGHT * 3 ), Size( CONFIG_PANEL_WIDTH - 20, DEFAULT_HEIGHT ), eCOMBO_STYLE_READONLY );
+		m_staticSecondFunction = std::make_shared< StaticCtrl >( m_options, _( "Second Function" ), Position( 10, 10 + DEFAULT_HEIGHT * 2 ), Size( CONFIG_PANEL_WIDTH - 20, DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER | eSTATIC_STYLE_HALIGN_CENTER );
+		m_comboSecondFunction = std::make_shared< ComboBoxCtrl >( m_options, l_values2, -1, eID_SECONDFUNCTION, Position( 10, 10 + DEFAULT_HEIGHT * 3 ), Size( CONFIG_PANEL_WIDTH - 20, DEFAULT_HEIGHT ), eCOMBO_STYLE_READONLY );
 		m_comboSecondFunction->Connect( eCOMBOBOX_EVENT_SELECTED, std::bind( &Generator::OnSecondFunction, this, std::placeholders::_1 ) );
-		m_buttonImage = std::make_shared< ButtonCtrl >( _( "Image" ), eID_IMAGEPATH, Position( 10, 10 + DEFAULT_HEIGHT * 4 ), Size( CONFIG_PANEL_WIDTH - 20, DEFAULT_HEIGHT ) );
+		m_buttonImage = std::make_shared< ButtonCtrl >( m_options, _( "Image" ), eID_IMAGEPATH, Position( 10, 10 + DEFAULT_HEIGHT * 4 ), Size( CONFIG_PANEL_WIDTH - 20, DEFAULT_HEIGHT ) );
 		m_buttonImage->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnImage, this ) );
 
 		m_arrayControls.push_back( m_staticFirstFunction );

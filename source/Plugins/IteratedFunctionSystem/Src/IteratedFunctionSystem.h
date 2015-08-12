@@ -21,23 +21,29 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <Generator.h>
 
 #include "IfsCpuStep.h"
-#include "IfsGpuStep.h"
+#include <GpuStep.h>
 
 namespace IteratedFunctionSystem
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/05/2012
-	\brief		Iterated function system generator
+	@author
+		Sylvain DOREMUS
+	@date
+		23/05/2012
+	@brief
+		Iterated function system generator
 	*/
 	class Generator
-		: public ProceduralTextures::Generator< CpuStep, GpuStep >
+		: public ProceduralTextures::Generator< CpuStep, ProceduralTextures::DefaultGpuStep >
 	{
 	private:
 		/*!
-		\author		Sylvain DOREMUS
-		\date		23/05/2012
-		\brief		The controls IDs
+		@author
+			Sylvain DOREMUS
+		@date
+			23/05/2012
+		@brief
+			The controls IDs
 		*/
 		typedef enum
 			: uint32_t
@@ -50,46 +56,41 @@ namespace IteratedFunctionSystem
 		}	eID;
 
 	public:
-		/**
-		 *\brief		Constructor
+		/** Constructor
 		 */
 		Generator();
-		/**
-		 *\brief		Destructor
+		/** Destructor
 		 */
 		virtual ~Generator();
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		/** @copydoc ProceduralTexture::Generator::DoCreate
 		 */
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+		/** @copydoc ProceduralTexture::Generator::DoDestroy
 		 */
 		virtual void DoDestroy();
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
 		 */
 		virtual void DoGeneratePanel();
-		/**
-		 *\brief		Sets the generator angle
-		 *\param[in]	p_value	The new value
+		/** Sets the generator angle
+		@param[in] p_value
+			The new value
 		 */
 		void DoSetAngle( ProceduralTextures::String const & p_value );
-		/**
-		 *\brief		Sets the generator shift
-		 *\param[in]	p_value	The new value
+		/** Sets the generator shift
+		@param[in] p_value
+			The new value
 		 */
 		void DoSetShift( ProceduralTextures::String const & p_value );
-		/**
-		 *\brief		Sets the generator size
-		 *\param[in]	p_value	The new value
+		/** Sets the generator size
+		@param[in] p_value
+			The new value
 		 */
 		void DoSetSize( ProceduralTextures::String const & p_value );
-		/**
-		 *\brief		Sets the IFS generator
-		 *\param[in]	p_value	The new value
+		/** Sets the IFS generator
+		@param[in] p_value
+			The new value
 		 */
 		void DoSetGenerator( int p_value );
 	};

@@ -26,238 +26,282 @@ namespace ProceduralTextures
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Shader program implementation
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Shader program implementation
 	*/
 	class GeneratorAPI ShaderProgram
 		: public Object< std::function< uint32_t() >, std::function< bool( uint32_t ) > >
 		, public std::enable_shared_from_this< ShaderProgram >
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGL instance
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
 		 */
 		ShaderProgram( std::shared_ptr< OpenGl > p_openGl );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		~ShaderProgram();
-		/**
-		 *\brief		Initialises the program
-		 *\return		true if compiled and linked successfully
+
+		/** Initialises the program
+		@return
+			true if compiled and linked successfully
 		 */
 		bool Initialise();
-		/**
-		 *\brief		Cleans the program up
+
+		/** Cleans the program up
 		 */
 		void Cleanup();
-		/**
-		 *\brief		Binds the object on GPU
-		 *\return		false if not bound successfully
+
+		/** Binds the object on GPU
+		@return
+			false if not bound successfully
 		 */
 		virtual bool Bind();
-		/**
-		 *\brief		Unbinds the object on GPU
+
+		/** Unbinds the object on GPU
 		 */
 		virtual void Unbind();
-		/**
-		 *\brief		Creates a shader object
-		 *\param[in]	p_eType	The object type
+
+		/** Creates a shader object
+		@param[in] p_eType
+			The object type
 		 */
 		void CreateObject( eSHADER_OBJECT_TYPE p_eType );
-		/**
-		 *\brief		Destroys a shader object
-		 *\param[in]	p_eType	The object type
+
+		/** Destroys a shader object
+		@param[in] p_eType
+			The object type
 		 */
 		void DestroyObject( eSHADER_OBJECT_TYPE p_eType );
-		/**
-		 *\brief		Activates the program
-		 *\return		true the program and all its variables are activated successfully
+
+		/** Activates the program
+		@return
+			true the program and all its variables are activated successfully
 		 */
 		bool Activate();
-		/**
-		 *\brief		Deactivates the program
+
+		/** Deactivates the program
 		 */
 		void Deactivate();
-		/**
-		 *\brief		Sets the file for the given object
-		 *\param[in]	p_strFile	The file
-		 *\param[in]	p_eType		The object type
+
+		/** Sets the file for the given object
+		@param[in] p_strFile
+			The file
+		@param[in] p_eType
+			The object type
 		 */
 		void SetProgramFile( String const & p_strFile, eSHADER_OBJECT_TYPE p_eType );
-		/**
-		 *\brief		Sets the text for the given object
-		 *\param[in]	p_strSource	The source
-		 *\param[in]	p_eType	The object type
+
+		/** Sets the text for the given object
+		@param[in] p_strSource
+			The source
+		@param[in] p_eType
+			The object type
 		 */
 		void SetProgramText( String const & p_strSource, eSHADER_OBJECT_TYPE p_eType );
-		/**
-		 *\brief		Retrieves the wanted shader object compiler log
-		 *\param[in]	p_eType	The object type
-		 *\return		The compiler log
+
+		/** Retrieves the wanted shader object compiler log
+		@param[in] p_eType
+			The object type
+		@return
+			The compiler log
 		 */
 		String GetCompilerLog( eSHADER_OBJECT_TYPE p_eType )const;
-		/**
-		 *\brief		Links all Shaders held by the program
-		 *\return		true if linked successfully
+
+		/** Links all Shaders held by the program
+		@return
+			true if linked successfully
 		 */
 		bool Link();
-		/**
-		 *\brief		Resets compilation variables to be able to compile again
+
+		/** Resets compilation variables to be able to compile again
 		 */
 		void ResetToCompile();
-		/**
-		 *\brief		Pass all the variables to the shader objects
-		 *\return		true if all the variables are applied successfully
+
+		/** Pass all the variables to the shader objects
+		@return
+			true if all the variables are applied successfully
 		 */
 		bool ApplyAllVariables();
-		/**
-		 *\brief		Retrieves a vertex attribute location from the program
-		 *\param[in]	p_strName	The attribute name
-		 *\return		The attribute location
+
+		/** Retrieves a vertex attribute location from the program
+		@param[in] p_strName
+			The attribute name
+		@return
+			The attribute location
 		 */
 		uint32_t GetAttributeLocation( String const & p_strName )const;
-		/**
-		 *\brief		Retrieves an uniform variable location from the program
-		 *\param[in]	p_strName	The variable name
-		 *\return		The variable location
+
+		/** Retrieves an uniform variable location from the program
+		@param[in] p_strName
+			The variable name
+		@return
+			The variable location
 		 */
 		uint32_t GetUniformLocation( String const & p_strName )const;
-		/**
-		 *\brief		Creates a single float frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a single float frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< FrameVariable< float > > CreateFloatFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a single int frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a single int frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< FrameVariable< int > > CreateIntFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a vec2 float frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a vec2 float frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Vec2FrameVariable< float > > CreateVec2FloatFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a vec2 int frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a vec2 int frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Vec2FrameVariable< int > > CreateVec2IntFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a vec3 float frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a vec3 float frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Vec3FrameVariable< float > > CreateVec3FloatFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a vec3 int frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a vec3 int frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Vec3FrameVariable< int > > CreateVec3IntFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a vec4 float frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a vec4 float frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Vec4FrameVariable< float > > CreateVec4FloatFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a vec4 int frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a vec4 int frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Vec4FrameVariable< int > > CreateVec4IntFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a mat4 float frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a mat4 float frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Mat4FrameVariable< float > > CreateMat4FloatFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a single float frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a single float frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< FrameVariable< float > > GetFloatFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a single int frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a single int frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< FrameVariable< int > > GetIntFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a vec2 float frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a vec2 float frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Vec2FrameVariable< float > > GetVec2FloatFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a vec2 int frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a vec2 int frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Vec2FrameVariable< int > > GetVec2IntFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a vec3 float frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a vec3 float frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Vec3FrameVariable< float > > GetVec3FloatFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a vec3 int frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a vec3 int frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Vec3FrameVariable< int > > GetVec3IntFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a vec4 float frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a vec4 float frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Vec4FrameVariable< float > > GetVec4FloatFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a vec4 int frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a vec4 int frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Vec4FrameVariable< int > > GetVec4IntFrameVariable( String const & p_name );
-		/**
-		 *\brief		Creates a mat4 float frame variable with given name
-		 *\param[in]	p_name	The variable name
+
+		/** Creates a mat4 float frame variable with given name
+		@param[in] p_name
+			The variable name
 		 */
 		std::shared_ptr< Mat4FrameVariable< float > > GetMat4FloatFrameVariable( String const & p_name );
-		/**
-		 *\brief		Retrieves the Link status for the program
-		 *\return		The value
+
+		/** Retrieves the Link status for the program
+		@return
+			The value
 		 */
 		inline bool IsLinked()const
 		{
 			return m_bLinked;
 		}
-		/**
-		 *\brief		Retrieves The Link messages log
-		 *\return		The value
+
+		/** Retrieves The Link messages log
+		@return
+			The value
 		 */
 		inline String const & GetLinkerLog()const
 		{
 			return m_linkerLog;
 		}
-		/**
-		 *\brief		Retrieves a constant iterator to the beginning of the frame variables list
-		 *\return		The value
+
+		/** Retrieves a constant iterator to the beginning of the frame variables list
+		@return
+			The value
 		 */
 		FrameVariablePtrList::const_iterator Begin()const
 		{
 			return m_listFrameVariables.begin();
 		}
-		/**
-		 *\brief		Retrieves an iterator to the beginning of the frame variables list
-		 *\return		The value
+
+		/** Retrieves an iterator to the beginning of the frame variables list
+		@return
+			The value
 		 */
 		FrameVariablePtrList::iterator Begin()
 		{
 			return m_listFrameVariables.begin();
 		}
-		/**
-		 *\brief		Retrieves a constant iterator to the end of the frame variables list
-		 *\return		The value
+
+		/** Retrieves a constant iterator to the end of the frame variables list
+		@return
+			The value
 		 */
 		FrameVariablePtrList::const_iterator End()const
 		{
 			return m_listFrameVariables.end();
 		}
-		/**
-		 *\brief		Retrieves an iterator to the end of the frame variables list
-		 *\return		The value
+
+		/** Retrieves an iterator to the end of the frame variables list
+		@return
+			The value
 		 */
 		FrameVariablePtrList::iterator End()
 		{
@@ -265,9 +309,9 @@ namespace gl
 		}
 
 	protected:
-		/**
-		 *\brief		Get linker messages
-		 *\return		The messages
+		/** Get linker messages
+		@return
+				The messages
 		 */
 		String RetrieveLinkerLog();
 

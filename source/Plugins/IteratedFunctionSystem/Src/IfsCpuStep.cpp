@@ -46,7 +46,7 @@ namespace IteratedFunctionSystem
 
 			if ( m_itMapCells1 != l_cells.end() )
 			{
-				for ( auto l_itMapCells2 = m_itMapCells1->second.begin() ; ! IsStopped() && l_itMapCells2 != m_itMapCells1->second.end() ; ++l_itMapCells2 )
+				for ( auto l_itMapCells2 = m_itMapCells1->second.begin() ; !IsStopped() && l_itMapCells2 != m_itMapCells1->second.end() ; ++l_itMapCells2 )
 				{
 					m_result |= l_generator.Generate( l_itMapCells2->second, m_mapGeneratedCells );
 				}
@@ -200,12 +200,10 @@ namespace IteratedFunctionSystem
 			DoForEachThread( [this, &l_generator]( Thread & l_thread )
 			{
 				CellMap & l_cells = *l_thread.GetCells();
-				CellMap::iterator l_itCells1;
-				CellIntMap::iterator l_itCells2;
 
 				for ( auto && l_pair1 : l_thread.GetGeneratedCells() )
 				{
-					l_itCells1 = l_cells.find( l_pair1.first );
+					auto l_itCells1 = l_cells.find( l_pair1.first );
 
 					if ( l_itCells1 == l_cells.end() )
 					{
@@ -215,7 +213,7 @@ namespace IteratedFunctionSystem
 					{
 						for ( auto & l_pair2 : l_pair1.second )
 						{
-							l_itCells2 = l_itCells1->second.find( l_pair2.first );
+							auto && l_itCells2 = l_itCells1->second.find( l_pair2.first );
 
 							if ( l_itCells2 == l_itCells1->second.end() )
 							{

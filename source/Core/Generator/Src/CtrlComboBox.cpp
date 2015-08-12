@@ -9,10 +9,11 @@
 
 namespace ProceduralTextures
 {
-	ComboBoxCtrl::ComboBoxCtrl( StringArray const & p_values, int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
-		: Control( eCONTROL_TYPE_COMBO, p_id, p_position, p_size, p_style, p_visible )
+	ComboBoxCtrl::ComboBoxCtrl( std::shared_ptr< Control > p_parent, StringArray const & p_values, int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
+		: Control( eCONTROL_TYPE_COMBO, p_parent, p_id, p_position, p_size, p_style, p_visible )
+		, m_values( p_values )
+		, m_selected( p_selected )
 	{
-		DoCreate( p_values, p_selected, p_id, p_position, p_size );
 	}
 
 	ComboBoxCtrl::~ComboBoxCtrl()
@@ -59,28 +60,25 @@ namespace ProceduralTextures
 		return m_choices->GetSelected();
 	}
 
-	void ComboBoxCtrl::DoCreate( StringArray const & p_values, int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size )
+	void ComboBoxCtrl::DoCreate( std::shared_ptr< OverlayManager > p_manager )
 	{
 		m_borders = Point4i( 1, 1, 1, 1 );
 		m_backgroundColour = Colour( 1.0, 1.0, 1.0, 1.0 );
 		m_foregroundColour = Colour( 0.0, 0.0, 0.0, 1.0 );
 
-		m_expand = std::make_shared< ButtonCtrl >( _T( "+" ), p_id << 12, Position( p_size.x() - p_size.y(), 0 ), Size( p_size.y(), p_size.y() ) );
+		m_expand = std::make_shared< ButtonCtrl >( shared_from_this(), _T( "+" ), GetId() << 12, Position( GetSize().x() - GetSize().y(), 0 ), Size( GetSize().y(), GetSize().y() ) );
 		m_expand->SetForegroundColour( m_foregroundColour );
 		m_expand->SetVisible( IsVisible() );
 		m_expand->Connect( eBUTTON_EVENT_CLICKED, std::bind( &ComboBoxCtrl::DoSwitchExpand, this ) );
 
-		m_choices = std::make_shared< ListBoxCtrl >( p_values, p_selected, ( p_id << 12 ) + 1, Position( 0, p_size.y() ), Size( p_size.x() - p_size.y(), -1 ), 0, false );
+		m_choices = std::make_shared< ListBoxCtrl >( shared_from_this(), m_values, m_selected, ( GetId() << 12 ) + 1, Position( 0, GetSize().y() ), Size( GetSize().x() - GetSize().y(), -1 ), 0, false );
 		m_choices->SetBackgroundColour( m_backgroundColour );
 		m_choices->SetForegroundColour( m_foregroundColour );
 		m_choices->Connect( eLISTBOX_EVENT_SELECTED, std::bind( &ComboBoxCtrl::OnSelected, this, std::placeholders::_1 ) );
 
 		EventHandler::Connect( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &ComboBoxCtrl::OnKeyDown, this, std::placeholders::_1 ) );
 		EventHandler::ConnectNC( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &ComboBoxCtrl::OnNcKeyDown, this, std::placeholders::_1, std::placeholders::_2 ) );
-	}
 
-	void ComboBoxCtrl::DoCreate( std::shared_ptr< OverlayManager > p_manager )
-	{
 		std::shared_ptr< TextOverlay > l_text = p_manager->CreateText( _T( "T_CtrlCombo_" ) + StringUtils::ToString( GetId() ), Position(), GetSize() - Size( GetSize().y(), 0 ), Material( m_foregroundColour ), p_manager->GetFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT ), GetBackground() );
 		l_text->SetVAlign( eVALIGN_CENTER );
 		int l_sel = GetSelected();
@@ -95,8 +93,8 @@ namespace ProceduralTextures
 
 		if ( l_manager )
 		{
-			l_manager->Create( shared_from_this(), m_expand );
-			l_manager->Create( shared_from_this(), m_choices );
+			l_manager->Create( m_expand );
+			l_manager->Create( m_choices );
 		}
 	}
 

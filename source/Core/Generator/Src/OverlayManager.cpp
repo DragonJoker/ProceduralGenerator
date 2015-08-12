@@ -18,7 +18,7 @@ namespace ProceduralTextures
 	const String VertexShader =
 		_T( "attribute vec2 vertex;\n" )
 		_T( "attribute vec2 texture;\n" )
-		_T( "uniform mat4 mvp;" )
+		_T( "uniform mat4 mvp;\n" )
 		_T( "varying vec2 pxl_texture;\n" )
 		_T( "void main()\n" )
 		_T( "{\n" )

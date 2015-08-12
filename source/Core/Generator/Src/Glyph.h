@@ -25,103 +25,122 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\version	2.0.0
-	\date		23/02/2015
-	\brief		Font character (glyph) representation
-	\remark		Holds position, size and data of a character
+	@author
+		Sylvain DOREMUS
+	@version
+		2.0.0
+	@date
+		23/02/2015
+	@brief
+		Font character (glyph) representation
+	@remarks
+		Holds position, size and data of a character
 	*/
 	class GeneratorAPI Glyph
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_char		The glyph character
-		 *\param[in]	p_size		The glyph dimensions
-		 *\param[in]	p_position	The glyph position
-		 *\param[in]	p_advance	Pixels to advance in order to go next character
-		 *\param[in]	p_bitmap	The glyph image
+		/** Constructor
+		@param[in] p_char
+			The glyph character
+		@param[in] p_size
+			The glyph dimensions
+		@param[in] p_position
+			The glyph position
+		@param[in] p_advance
+			Pixels to advance in order to go next character
+		@param[in] p_bitmap
+			The glyph image
 		 */
 		Glyph( char32_t p_char = 0, Size const & p_size = Size(), Position const & p_position = Position(), Size const & p_advance = Size(), std::vector< UbPixel > const & p_bitmap = std::vector< UbPixel >() );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		~Glyph();
-		/**
-		 *\brief		Retrieves the glyph character
-		 *\return		The value
+
+		/** Retrieves the glyph character
+		@return
+			The value
 		 */
 		inline char32_t GetCharacter()const
 		{
 			return m_character;
 		}
-		/**
-		 *\brief		Sets the glyph dimensions
-		 *\param[in]	p_size	The glyph dimensions
+
+		/** Sets the glyph dimensions
+		@param[in] p_size
+			The glyph dimensions
 		 */
 		inline void SetSize( Size const & p_size )
 		{
 			m_size = p_size;
 		}
-		/**
-		 *\brief		Retrieves the glyph dimensions
-		 *\return		The glyph dimensions
+
+		/** Retrieves the glyph dimensions
+		@return
+			The glyph dimensions
 		 */
 		inline Size const & GetSize()const
 		{
 			return m_size;
 		}
-		/**
-		 *\brief		Sets the glyph position
-		 *\param[in]	p_position	The glyph position
+
+		/** Sets the glyph position
+		@param[in] p_position
+			The glyph position
 		 */
 		inline void SetPosition( Position const & p_position )
 		{
 			m_position = p_position;
 		}
-		/**
-		 *\brief		Retrieves the glyph position
-		 *\return		The glyph position
+
+		/** Retrieves the glyph position
+		@return
+			The glyph position
 		 */
 		inline Position const & GetPosition()const
 		{
 			return m_position;
 		}
-		/**
-		 *\brief		Sets the number of pixels to go before drawing next glyph
-		 *\param[in]	p_advance	The value
+
+		/** Sets the number of pixels to go before drawing next glyph
+		@param[in] p_advance
+			The value
 		 */
 		inline void SetAdvance( Size const & p_advance )
 		{
 			m_advance = p_advance;
 		}
-		/**
-		 *\brief		Retrieves the number of pixels to go before drawing next glyph
-		 *\return		The value
+
+		/** Retrieves the number of pixels to go before drawing next glyph
+		@return
+			The value
 		 */
 		inline Size const & GetAdvance()const
 		{
 			return m_advance;
 		}
-		/**
-		 *\brief		Sets the glyph image
-		 *\param[in]	p_bitmap	The image of the glyph
+
+		/** Sets the glyph image
+		@param[in] p_bitmap
+			The image of the glyph
 		 */
 		inline void SetBitmap( std::vector< UbPixel > const & p_bitmap )
 		{
 			m_bitmap = p_bitmap;
 		}
-		/**
-		 *\brief		Retrieves the glyph image
-		 *\return		A constant reference to the image of the glyph
+
+		/** Retrieves the glyph image
+		@return
+			A constant reference to the image of the glyph
 		 */
 		inline std::vector< UbPixel > const & GetBitmap()const
 		{
 			return m_bitmap;
 		}
-		/**
-		 *\brief		Adjusts the glyph position
-		 *\param[in]	x, y	The glyph position decal
+
+		/** Adjusts the glyph position
+		@param[in] x, y
+			The glyph position decal
 		 */
 		inline void AdjustPosition( uint32_t x, uint32_t y )
 		{

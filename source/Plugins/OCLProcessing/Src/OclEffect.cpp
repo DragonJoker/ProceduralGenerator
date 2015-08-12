@@ -111,7 +111,7 @@ namespace OCLProcessing
 				l_stream << _( "Error encountered during OpenCL operation:" ) << std::endl;
 				l_stream << p_text << std::endl;
 				l_stream << _( "Error: " ) << p_iErr << " (" << details::GetErrorText( p_iErr ) << ")" << std::endl;
-				TRACE( l_stream.str() );
+				std::cerr << l_stream.str();
 				l_bReturn = false;
 
 				if ( p_throws )

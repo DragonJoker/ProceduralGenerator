@@ -28,25 +28,37 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\brief		Description of a control, in order to be able to create it completely
+	@author
+		Sylvain DOREMUS
+	@version
+		2.0.0
+	@brief
+		Description of an event handler, class that can receive events
 	*/
 	template< class Derived >
 	class GeneratorAPI EventHandler
 		: public std::enable_shared_from_this< Derived >
 	{
 	public:
+		//! Catcher definition for Control events
 		typedef std::function< void( ControlEvent const & ) > ClientControlFunction;
+		//! Catcher definition for non client Control events
 		typedef std::function< void( std::shared_ptr< Derived >, ControlEvent const & ) > NonClientControlFunction;
+		//! Catcher definition for Mouse events
 		typedef std::function< void( MouseEvent const & ) > ClientMouseFunction;
+		//! Catcher definition for non client Mouse events
 		typedef std::function< void( std::shared_ptr< Derived >, MouseEvent const & ) > NonClientMouseFunction;
+		//! Catcher definition for Keyboard events
 		typedef std::function< void( KeyboardEvent const & ) > ClientKeyboardFunction;
+		//! Catcher definition for non client Keyboard events
 		typedef std::function< void( std::shared_ptr< Derived >, KeyboardEvent const & ) > NonClientKeyboardFunction;
+
 		/**@name General */
 		//@{
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_catchMouseEvents	Defines if the event handler catches mouse events
+
+		/** Constructor
+		@param[in] p_catchMouseEvents
+			Defines if the event handler catches mouse events
 		 */
 		EventHandler( bool p_catchMouseEvents )
 			: m_enabled( true )
@@ -55,8 +67,8 @@ namespace ProceduralTextures
 			, m_catchReturnKey( false )
 		{
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~EventHandler()
 		{
@@ -65,8 +77,8 @@ namespace ProceduralTextures
 			std::swap( l_queue, m_queue );
 			m_mutex.unlock();
 		}
-		/**
-		 *\brief		Handles all queued events
+
+		/** Handles all queued events
 		 */
 		void ProcessEvents()
 		{
@@ -85,9 +97,9 @@ namespace ProceduralTextures
 		/**@name Control events */
 		//@{
 
-		/**
-		 *\brief		Adds a control event to the events queue
-		 *\param[in]	p_event	The event
+		/** Adds a control event to the events queue
+		@param[in] p_event
+			The event
 		 */
 		void PushEvent( ControlEvent const & p_event )
 		{
@@ -95,19 +107,23 @@ namespace ProceduralTextures
 			std::unique_lock< std::mutex > l_lock( m_mutex );
 			m_queue.push_back( std::make_pair( l_event, std::bind( &EventHandler::ProcessControlEvent, this, l_event ) ) );
 		}
-		/**
-		 *\brief		Connects a function to a control event
-		 *\param[in]	p_event		The event type
-		 *\param[in]	p_function	The function
+
+		/** Connects a function to a control event
+		@param[in] p_event
+			The event type
+		@param[in] p_function
+			The function
 		 */
 		void Connect( eCONTROL_EVENT p_event, ClientControlFunction p_function )
 		{
 			m_controlSlots[p_event].Connect( p_function );
 		}
-		/**
-		 *\brief		Connects a function to a non client control event
-		 *\param[in]	p_event		The event type
-		 *\param[in]	p_function	The function
+
+		/** Connects a function to a non client control event
+		@param[in] p_event
+			The event type
+		@param[in] p_function
+			The function
 		 */
 		void ConnectNC( eCONTROL_EVENT p_event, NonClientControlFunction p_function )
 		{
@@ -118,9 +134,9 @@ namespace ProceduralTextures
 		/**@name Mouse events */
 		//@{
 
-		/**
-		 *\brief		Adds a mouse event to the events queue
-		 *\param[in]	p_event	The mouse event
+		/** Adds a mouse event to the events queue
+		@param[in] p_event
+			The mouse event
 		 */
 		void PushEvent( MouseEvent const & p_event )
 		{
@@ -128,36 +144,43 @@ namespace ProceduralTextures
 			std::unique_lock< std::mutex > l_lock( m_mutex );
 			m_queue.push_back( std::make_pair( l_event, std::bind( &EventHandler::ProcessMouseEvent, this, l_event ) ) );
 		}
-		/**
-		 *\brief		Tells if the control catches mouse events
-		 *\remarks		A control catches mouse events when it is enabled, and when it explicitly catches it (enables by default, except for static controls)
-		 *\return		false if the mouse events don't affect the control
+
+		/** Tells if the control catches mouse events
+		@remarks
+			A control catches mouse events when it is enabled, and when it explicitly catches it (enables by default, except for static controls)
+		@return
+			false if the mouse events don't affect the control
 		 */
 		bool CatchesMouseEvents()const
 		{
 			return m_enabled && m_catchMouseEvents && DoCatchesMouseEvents();
 		}
-		/**
-		 *\brief		Sets if the control can catch mouse events
-		 *\param[in]	p_value	The new value
+
+		/** Sets if the control can catch mouse events
+		@param[in] p_value
+			The new value
 		 */
 		void SetCatchesMouseEvents( bool p_value )
 		{
 			m_catchMouseEvents = p_value;
 		}
-		/**
-		 *\brief		Connects a function to a mouse event
-		 *\param[in]	p_event		The event type
-		 *\param[in]	p_function	The function
+
+		/** Connects a function to a mouse event
+		@param[in] p_event
+			The event type
+		@param[in] p_function
+			The function
 		 */
 		void Connect( eMOUSE_EVENT p_event, ClientMouseFunction p_function )
 		{
 			m_mouseSlots[p_event].Connect( p_function );
 		}
-		/**
-		 *\brief		Connects a function to a non client mouse event
-		 *\param[in]	p_event		The event type
-		 *\param[in]	p_function	The function
+
+		/** Connects a function to a non client mouse event
+		@param[in] p_event
+			The event type
+		@param[in] p_function
+			The function
 		 */
 		void ConnectNC( eMOUSE_EVENT p_event, NonClientMouseFunction p_function )
 		{
@@ -168,9 +191,9 @@ namespace ProceduralTextures
 		/**@name Keyboard events */
 		//@{
 
-		/**
-		 *\brief		Adds a keyboard event to the events queue
-		 *\param[in]	p_event	The event
+		/** Adds a keyboard event to the events queue
+		@param[in] p_event
+			The event
 		 */
 		void PushEvent( KeyboardEvent const & p_event )
 		{
@@ -178,37 +201,45 @@ namespace ProceduralTextures
 			std::unique_lock< std::mutex > l_lock( m_mutex );
 			m_queue.push_back( std::make_pair( l_event, std::bind( &EventHandler::ProcessKeyboardEvent, this, l_event ) ) );
 		}
-		/**
-		 *\brief		Tells if the control catches 'tab' key
-		 *\remarks		A control catches 'tab' key when it is enabled, and when it explicitly catches it (disabled by default)
-		 *\return		false if the 'tab' key doesn't affect the control
+
+		/** Tells if the control catches 'tab' key
+		@remarks
+			A control catches 'tab' key when it is enabled, and when it explicitly catches it (disabled by default)
+		@return
+			false if the 'tab' key doesn't affect the control
 		 */
 		bool CatchesTabKey()const
 		{
 			return m_enabled && m_catchTabKey && DoCatchesTabKey();
 		}
-		/**
-		 *\brief		Tells if the control catches 'return' key
-		 *\remarks		A control catches 'return' key when it is enabled, and when it explicitly catches it (disabled by default)
-		 *\return		false if the 'return' key doesn't affect the control
+
+		/** Tells if the control catches 'return' key
+		@remarks
+			A control catches 'return' key when it is enabled, and when it explicitly catches it (disabled by default)
+		@return
+			false if the 'return' key doesn't affect the control
 		 */
 		bool CatchesReturnKey()const
 		{
 			return m_enabled && m_catchReturnKey && DoCatchesReturnKey();
 		}
-		/**
-		 *\brief		Connects a function to a keyboard event
-		 *\param[in]	p_event		The event type
-		 *\param[in]	p_function	The function
+
+		/** Connects a function to a keyboard event
+		@param[in] p_event
+			The event type
+		@param[in] p_function
+			The function
 		 */
 		void Connect( eKEYBOARD_EVENT p_event, ClientKeyboardFunction p_function )
 		{
 			m_keyboardSlots[p_event].Connect( p_function );
 		}
-		/**
-		 *\brief		Connects a function to a non client keyboard event
-		 *\param[in]	p_event		The event type
-		 *\param[in]	p_function	The function
+
+		/** Connects a function to a non client keyboard event
+		@param[in] p_event
+			The event type
+		@param[in] p_function
+			The function
 		 */
 		void ConnectNC( eKEYBOARD_EVENT p_event, NonClientKeyboardFunction p_function )
 		{
@@ -218,47 +249,54 @@ namespace ProceduralTextures
 		//@}
 
 	protected:
-		/**
-		 *\brief		Tells if the control catches mouse events
-		 *\remarks		A control catches mouse events when it is  enabled, and when it explicitly catches it (enables by default, except for static controls)
-		 *\return		false if the mouse events don't affect the control
+		/** Tells if the control catches mouse events
+		@remarks
+			A control catches mouse events when it is  enabled, and when it explicitly catches it (enables by default, except for static controls)
+		@return
+			false if the mouse events don't affect the control
 		 */
 		virtual bool DoCatchesMouseEvents()const = 0;
-		/**
-		 *\brief		Tells if the control catches 'tab' key
-		 *\remarks		A control catches 'tab' key when it is enabled, and when it explicitly catches it (disabled by default)
-		 *\return		false if the 'tab' key doesn't affect the control
+
+		/** Tells if the control catches 'tab' key
+		@remarks
+			A control catches 'tab' key when it is enabled, and when it explicitly catches it (disabled by default)
+		@return
+			false if the 'tab' key doesn't affect the control
 		 */
 		virtual bool DoCatchesTabKey()const = 0;
-		/**
-		 *\brief		Tells if the control catches 'return' key
-		 *\remarks		A control catches 'return' key when it is enabled, and when it explicitly catches it (disabled by default)
-		 *\return		false if the 'return' key doesn't affect the control
+
+		/** Tells if the control catches 'return' key
+		@remarks
+			A control catches 'return' key when it is enabled, and when it explicitly catches it (disabled by default)
+		@return
+			false if the 'return' key doesn't affect the control
 		 */
 		virtual bool DoCatchesReturnKey()const = 0;
 
 	private:
-		/**
-		 *\brief		Control event handler
-		 *\param[in]	p_event		The event
+		/** Control event handler
+		@param[in] p_event
+			The event
 		 */
 		void ProcessControlEvent( std::shared_ptr< ControlEvent > p_event )
 		{
 			m_controlSlots[p_event->GetControlEventType()]( *p_event );
 			m_ncControlSlots[p_event->GetControlEventType()]( this->shared_from_this(), *p_event );
 		}
-		/**
-		 *\brief		Mouse event handler
-		 *\param[in]	p_event		The event
+
+		/** Mouse event handler
+		@param[in] p_event
+			The event
 		 */
 		void ProcessMouseEvent( std::shared_ptr< MouseEvent > p_event )
 		{
 			m_mouseSlots[p_event->GetMouseEventType()]( *p_event );
 			m_ncMouseSlots[p_event->GetMouseEventType()]( this->shared_from_this(), *p_event );
 		}
-		/**
-		 *\brief		Keyboard event handler
-		 *\param[in]	p_event		The event
+
+		/** Keyboard event handler
+		@param[in] p_event
+			The event
 		 */
 		void ProcessKeyboardEvent( std::shared_ptr< KeyboardEvent > p_event )
 		{

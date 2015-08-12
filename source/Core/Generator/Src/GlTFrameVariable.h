@@ -30,9 +30,16 @@ namespace ProceduralTextures
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Represent a single (not vec or mat) uniform variable to pass to shaders
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Represent a templated uniform variable to pass to shaders
+	@args T
+		The variable components data type
+	@args Count
+		The variable components count
 	*/
 	template< typename T, uint32_t Count >
 	class GeneratorAPI TFrameVariable
@@ -40,10 +47,11 @@ namespace gl
 		, public std::enable_shared_from_this< TFrameVariable< T, Count > >
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGL instance
-		 *\param[in]	p_program	The parent shader program
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
+		@param[in] p_program
+			The parent shader program
 		 */
 		TFrameVariable( std::shared_ptr< OpenGl > p_openGl, std::shared_ptr< ShaderProgram > p_program )
 			: FrameVariableBase( p_openGl, p_program )
@@ -53,15 +61,16 @@ namespace gl
 				l_value = T();
 			}
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~TFrameVariable()
 		{
 		}
-		/**
-		 *\brief		Assigns and activate the frame variable
-		 *\return		true if the variable is assigned and bound, or if it is not used in the shader program
+
+		/** Assigns and activate the frame variable
+		@return
+			true if the variable is assigned and bound, or if it is not used in the shader program
 		 */
 		virtual bool Apply()
 		{
@@ -86,17 +95,19 @@ namespace gl
 
 			return l_bReturn;
 		}
-		/**
-		 *\brief		Retrieves the variable's value
-		 *\return		The value
+
+		/** Retrieves the variable's value
+		@return
+			The value
 		 */
 		inline T const * GetValue()const
 		{
 			return &m_value[0];
 		}
-		/**
-		 *\brief		Retrieves the variable's count
-		 *\return		The value
+
+		/** Retrieves the variable's count
+		@return
+			The value
 		 */
 		inline uint32_t GetCount()const
 		{
@@ -107,90 +118,120 @@ namespace gl
 		//! The frame variable value
 		std::array< T, Count > m_value;
 	};
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Applies a single int uniform variable
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Applies a 1 component uniform variable
 	*/
 	template< typename T > struct GeneratorAPI TVariableApplier< T, 1 >
 	{
-		/**
-		 *\brief		Gives the variable value to the shader program
-		 *\param[in]	p_pOpenGl	The OpenGL instance
-		 *\param[in]	p_pVariable	The uniform variable
-		 *\return		true if the OpenGL call was successful
+		/** Gives the variable value to the shader program
+		@param[in] p_pOpenGl
+			The OpenGL instance
+		@param[in] p_pVariable
+			The uniform variable
+		@return
+			true if the OpenGL call was successful
 		 */
 		static bool Apply( std::shared_ptr< OpenGl > p_pOpenGl, std::shared_ptr< TFrameVariable< T, 1 > > p_pVariable )
 		{
 			return p_pOpenGl->Uniform( p_pVariable->GetGlIndex(), *p_pVariable->GetValue() );
 		}
 	};
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Applies a single int uniform variable
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Applies a 2 components uniform variable
 	*/
 	template< typename T > struct GeneratorAPI TVariableApplier< T, 2 >
 	{
-		/**
-		 *\brief		Gives the variable value to the shader program
-		 *\param[in]	p_pOpenGl	The OpenGL instance
-		 *\param[in]	p_pVariable	The uniform variable
-		 *\return		true if the OpenGL call was successful
+		/** Gives the variable value to the shader program
+		@param[in] p_pOpenGl
+			The OpenGL instance
+		@param[in] p_pVariable
+			The uniform variable
+		@return
+			true if the OpenGL call was successful
 		 */
 		static bool Apply( std::shared_ptr< OpenGl > p_pOpenGl, std::shared_ptr< TFrameVariable< T, 2 > > p_pVariable )
 		{
 			return p_pOpenGl->UniformVec2( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
 		}
 	};
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Applies a single int uniform variable
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Applies a 3 components uniform variable
 	*/
 	template< typename T > struct GeneratorAPI TVariableApplier< T, 3 >
 	{
-		/**
-		 *\brief		Gives the variable value to the shader program
-		 *\param[in]	p_pOpenGl	The OpenGL instance
-		 *\param[in]	p_pVariable	The uniform variable
-		 *\return		true if the OpenGL call was successful
+		/** Gives the variable value to the shader program
+		@param[in] p_pOpenGl
+			The OpenGL instance
+		@param[in] p_pVariable
+			The uniform variable
+		@return
+			true if the OpenGL call was successful
 		 */
 		static bool Apply( std::shared_ptr< OpenGl > p_pOpenGl, std::shared_ptr< TFrameVariable< T, 3 > > p_pVariable )
 		{
 			return p_pOpenGl->UniformVec3( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
 		}
 	};
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Applies a single float uniform variable
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Applies a 4 components uniform variable
 	*/
 	template< typename T > struct GeneratorAPI TVariableApplier< T, 4 >
 	{
-		/**
-		 *\brief		Gives the variable value to the shader program
-		 *\param[in]	p_pOpenGl	The OpenGL instance
-		 *\param[in]	p_pVariable	The uniform variable
-		 *\return		true if the OpenGL call was successful
+		/** Gives the variable value to the shader program
+		@param[in] p_pOpenGl
+			The OpenGL instance
+		@param[in] p_pVariable
+			The uniform variable
+		@return
+			true if the OpenGL call was successful
 		 */
 		static bool Apply( std::shared_ptr< OpenGl > p_pOpenGl, std::shared_ptr< TFrameVariable< T, 4 > > p_pVariable )
 		{
 			return p_pOpenGl->UniformVec4( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
 		}
 	};
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Applies a single float uniform variable
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Applies a 4x4 matrix uniform variable
 	*/
 	template< typename T > struct GeneratorAPI TVariableApplier< T, 4 * 4 >
 	{
-		/**
-		 *\brief		Gives the variable value to the shader program
-		 *\param[in]	p_pOpenGl	The OpenGL instance
-		 *\param[in]	p_pVariable	The uniform variable
-		 *\return		true if the OpenGL call was successful
+		/** Gives the variable value to the shader program
+		@param[in] p_pOpenGl
+			The OpenGL instance
+		@param[in] p_pVariable
+			The uniform variable
+		@return
+			true if the OpenGL call was successful
 		 */
 		static bool Apply( std::shared_ptr< OpenGl > p_pOpenGl, std::shared_ptr< TFrameVariable< T, 4 * 4 > > p_pVariable )
 		{

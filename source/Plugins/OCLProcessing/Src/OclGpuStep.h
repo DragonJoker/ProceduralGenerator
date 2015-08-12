@@ -38,9 +38,12 @@ namespace OCLProcessing
 	public:
 		/**
 		 *\brief		Constructor
-		 *\param[in]	p_generator		The parent generator
-		 *\param[in]	p_size			The displayed surface dimensions
-		 *\param[in]	p_bordersSize	The windows' borders size
+		@param[in] p_generator
+			The parent generator
+		@param[in] p_size
+			The displayed surface dimensions
+		@param[in] p_bordersSize
+			The windows' borders size
 		 */
 		GpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
 		/**
@@ -53,12 +56,14 @@ namespace OCLProcessing
 		void ResetTime();
 		/**
 		 *\brief		Sets the separator type
-		 *\param[in]	p_value	The new value
+		@param[in] p_value
+			The new value
 		 */
 		void SetSeparationType( int p_value );
 		/**
 		 *\brief		Sets the separator offset
-		 *\param[in]	p_value	The new value
+		@param[in] p_value
+			The new value
 		 */
 		void SetSeparationOffset( int p_value );
 		/**
@@ -78,7 +83,8 @@ namespace OCLProcessing
 		void AddEffect();
 		/**
 		 *\brief		Removes the current effect
-		 *\param[in]	p_value	The effect index
+		@param[in] p_value
+			The effect index
 		 */
 		void RemoveEffect( uint32_t p_value );
 		/**
@@ -95,38 +101,34 @@ namespace OCLProcessing
 		ProceduralTextures::String GetCompilerLog();
 		/**
 		 *\brief		Sets the OpenCL program file path
-		 *\param[in]	p_path	The new value
+		@param[in] p_path
+			The new value
 		 */
 		bool SetFilePath( ProceduralTextures::String const & p_path );
 		/**
 		 *\brief		Sets the image buffer
-		 *\param[in]	p_path	The new value
+		@param[in] p_path
+			The new value
 		 */
 		void SetImage( ProceduralTextures::PixelBuffer const & p_image );
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::GpuStep::DoInitialise
+		/** @copydoc ProceduralTexture::GpuStep::DoInitialise
 		 */
 		virtual void DoInitialise();
-		/**
-		 *\copydoc		ProceduralTexture::GpuStep::DoCleanup
+		/** @copydoc ProceduralTexture::GpuStep::DoCleanup
 		 */
 		virtual void DoCleanup();
-		/**
-		 *\copydoc		ProceduralTexture::GpuStep::DoResize
+		/** @copydoc ProceduralTexture::GpuStep::DoResize
 		 */
 		virtual void DoResize();
-		/**
-		 *\copydoc		ProceduralTexture::GpuStep::DoPreRender
+		/** @copydoc ProceduralTexture::GpuStep::DoPreRender
 		 */
 		virtual void DoPreRender();
-		/**
-		 *\copydoc		ProceduralTexture::GpuStep::DoRender
+		/** @copydoc ProceduralTexture::GpuStep::DoRender
 		 */
 		virtual void DoRender( bool & p_bChanged );
-		/**
-		 *\copydoc		ProceduralTexture::GpuStep::DoPostRender
+		/** @copydoc ProceduralTexture::GpuStep::DoPostRender
 		 */
 		virtual void DoPostRender();
 

@@ -23,66 +23,86 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		16/02/2015
-	\version	2.0.0
-	\brief		Button control
+	@author
+		Sylvain DOREMUS
+	@date
+		16/02/2015
+	@version
+		2.0.0
+	@brief
+		Button control
 	*/
 	class GeneratorAPI ButtonCtrl
 		: public Control
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_caption	The caption
-		 *\param[in]	p_id		The ID
-		 *\param[in]	p_position	The position
-		 *\param[in]	p_size		The size
-		 *\param[in]	p_style		The style
-		 *\param[in]	p_visible	Initial visibility status
+		/** Constructor
+		@param[in] p_parent
+			The parent control, if any
+		@param[in] p_caption
+			The caption
+		@param[in] p_id
+			The ID
+		@param[in] p_position
+			The position
+		@param[in] p_size
+			The size
+		@param[in] p_style
+			The style
+		@param[in] p_visible
+			Initial visibility status
 		 */
-		ButtonCtrl( String const & p_caption, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
-		/**
-		 *\brief		Destructor
+		ButtonCtrl( std::shared_ptr< Control > p_parent, String const & p_caption, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
+
+		/** Destructor
 		 */
 		virtual ~ButtonCtrl();
-		/**
-		 *\brief		Sets the caption
-		 *\param[in]	p_value	The new value
+
+		/** Sets the caption
+		@param[in] p_value
+			The new value
 		 */
 		void SetCaption( String const & p_value );
-		/**
-		 *\brief		Sets the mouse over background texture
-		 *\param[in]	p_texture	The new value
+
+		/** Sets the mouse over background texture
+		@param[in] p_texture
+			The new value
 		 */
 		void SetMouseOverBackgroundTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\brief		Sets the mouse over foreground texture
-		 *\param[in]	p_texture	The new value
+
+		/** Sets the mouse over foreground texture
+		@param[in] p_texture
+			The new value
 		 */
 		void SetMouseOverForegroundTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\brief		Retrieves the caption
-		 *\return		The value
+
+		/** Retrieves the caption
+		@return
+			The value
 		 */
 		inline String const & GetCaption()const
 		{
 			return m_caption;
 		}
-		/**
-		 *\brief		Connects a function to a button event
-		 *\param[in]	p_event		The event type
-		 *\param[in]	p_function	The function
-		 *\return		The internal function index, to be able to disconnect it
+
+		/** Connects a function to a button event
+		@param[in] p_event
+			The event type
+		@param[in] p_function
+			The function
+		@return
+			The internal function index, to be able to disconnect it
 		 */
 		inline uint32_t Connect( eBUTTON_EVENT p_event, std::function< void() > p_function )
 		{
 			return m_signals[p_event].Connect( p_function );
 		}
-		/**
-		 *\brief		Disconnects a function from a button event
-		 *\param[in]	p_event	The event type
-		 *\param[in]	p_index	The function index
+
+		/** Disconnects a function from a button event
+		@param[in] p_event
+			The event type
+		@param[in] p_index
+			The function index
 		 */
 		inline void Disconnect( eBUTTON_EVENT p_event, uint32_t p_index )
 		{
@@ -90,51 +110,53 @@ namespace ProceduralTextures
 		}
 
 	private:
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoCreate
+		/** @copydoc ProceduralTextures::Control::DoCreate
 		 */
 		virtual void DoCreate( std::shared_ptr< OverlayManager > p_manager );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetPosition
+
+		/** @copydoc ProceduralTextures::Control::DoSetPosition
 		 */
 		virtual void DoSetPosition( Position const & p_value );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetSize
+
+		/** @copydoc ProceduralTextures::Control::DoSetSize
 		 */
 		virtual void DoSetSize( Size const & p_value );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetBackgroundColour
+
+		/** @copydoc ProceduralTextures::Control::DoSetBackgroundColour
 		 */
 		virtual void DoSetBackgroundColour( Colour const & p_colour );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetForegroundColour
+
+		/** @copydoc ProceduralTextures::Control::DoSetForegroundColour
 		 */
 		virtual void DoSetForegroundColour( Colour const & p_colour );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetBackgroundTexture
+
+		/** @copydoc ProceduralTextures::Control::DoSetBackgroundTexture
 		 */
 		virtual void DoSetBackgroundTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetForegroundTexture
+
+		/** @copydoc ProceduralTextures::Control::DoSetForegroundTexture
 		 */
 		virtual void DoSetForegroundTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetVisible
+
+		/** @copydoc ProceduralTextures::Control::DoSetVisible
 		 */
 		virtual void DoSetVisible( bool p_visible );
-		/**
-		 *\brief		Event when mouse enters the control
-		 *\param[in]	p_event	The mouse event
+
+		/** Event when mouse enters the control
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnMouseEnter( MouseEvent const & p_event );
-		/**
-		 *\brief		Event when mouse leaves the control
-		 *\param[in]	p_event	The mouse event
+
+		/** Event when mouse leaves the control
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnMouseLeave( MouseEvent const & p_event );
-		/**
-		 *\brief		Event when mouse left button is released
-		 *\param[in]	p_event	The mouse event
+
+		/** Event when mouse left button is released
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnMouseLButtonUp( MouseEvent const & p_event );
 

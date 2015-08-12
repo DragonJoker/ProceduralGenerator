@@ -23,55 +23,32 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace TextEffects
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		05/03/2015
-	\brief		Text effects CPU step
+	@author
+		Sylvain DOREMUS
+	@date
+		05/03/2015
+	@brief
+		Text effects CPU step
 	*/
 	class CpuStep
-		:	public ProceduralTextures::CpuStepBase
+		:	public ProceduralTextures::DefaultCpuStep
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_generator	The parent generator
-		 *\param[in]	p_size		The dimensions
+		/** Constructor
+		@param[in] p_generator
+			The parent generator
+		@param[in] p_size
+			The dimensions
 		 */
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size );
-		/**
-		 *\brief		Destructor
+		/** Destructor
 		 */
 		virtual ~CpuStep();
-		/**
-		 *\brief		Sets the image buffer
-		 *\param[in]	p_path	The new value
+		/** Sets the image buffer
+		@param[in] p_path
+			The new value
 		 */
 		void SetBackgroundImage( ProceduralTextures::PixelBuffer const & p_image );
-
-	private:
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoInitialiseStep
-		 */
-		virtual void DoInitialiseStep();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoInitialise
-		 */
-		virtual void DoInitialise();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoCleanup
-		 */
-		virtual void DoCleanup();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoSwapBuffers
-		 */
-		virtual void DoSwapBuffers();
-		/**
-		 *\brief		Launches the threads
-		 */
-		virtual void DoThreadsStart();
-		/**
-		 *\brief		Cleans the threads up
-		 */
-		virtual void DoThreadsCleanup();
 	};
 }
 

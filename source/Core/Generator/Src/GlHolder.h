@@ -25,31 +25,36 @@ namespace ProceduralTextures
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		12/02/2015
-	\version	2.0.0
-	\brief		Base class for each class needing an OpenGl weak pointer
+	@author
+		Sylvain DOREMUS
+	@date
+		12/02/2015
+	@version
+		2.0.0
+	@brief
+		Base class for each class needing an OpenGl weak pointer
 	*/
 	class Holder
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGl instance
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGl instance
 		 */
 		Holder( std::shared_ptr< OpenGl > p_openGl )
 			: m_openGl( p_openGl )
 		{
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~Holder()
 		{
 		}
-		/**
-		 *\brief		Retrieves the OpenGl instance
-		 *\return		The instance
+
+		/** Retrieves the OpenGl instance
+		@return
+			The instance
 		 */
 		std::shared_ptr< OpenGl > GetOpenGl()const
 		{

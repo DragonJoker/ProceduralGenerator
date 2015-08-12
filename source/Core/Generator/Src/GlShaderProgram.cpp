@@ -17,10 +17,21 @@ namespace ProceduralTextures
 			template< typename Variable >
 			std::shared_ptr< Variable > CreateFrameVariable( String const & p_name, std::shared_ptr< OpenGl > p_openGl, std::shared_ptr< ShaderProgram > p_program, FrameVariablePtrList & p_list, std::map< String, std::weak_ptr< Variable > > & p_map )
 			{
-				std::shared_ptr< Variable > l_pReturn = std::make_shared< Variable >( p_openGl, p_program );
-				l_pReturn->SetName( p_name );
-				p_list.push_back( l_pReturn );
-				p_map.insert( std::make_pair( p_name, l_pReturn ) );
+				std::shared_ptr< Variable > l_pReturn;
+				auto l_it = p_map.find( p_name );
+
+				if ( l_it == p_map.end() )
+				{
+					l_pReturn = std::make_shared< Variable >( p_openGl, p_program );
+					l_pReturn->SetName( p_name );
+					p_list.push_back( l_pReturn );
+					p_map.insert( std::make_pair( p_name, l_pReturn ) );
+				}
+				else
+				{
+					l_pReturn = l_it->second.lock();
+				}
+
 				return l_pReturn;
 			}
 			template< typename Variable >
@@ -60,7 +71,7 @@ namespace ProceduralTextures
 		{
 			bool l_bReturn = false;
 
-			if ( ! m_bLinked && ! m_bError )
+			if ( !m_bLinked && !m_bError )
 			{
 				Cleanup();
 				Create();
@@ -138,7 +149,7 @@ namespace ProceduralTextures
 		{
 			bool l_bReturn = false;
 
-			if ( ! m_bError && IsValid() )
+			if ( !m_bError && IsValid() )
 			{
 				for ( auto l_shader : m_shaders )
 				{
@@ -207,7 +218,7 @@ namespace ProceduralTextures
 
 		void ShaderProgram::Deactivate()
 		{
-			if ( GetGlName() != 0 && m_bLinked && ! m_bError )
+			if ( GetGlName() != 0 && m_bLinked && !m_bError )
 			{
 				Unbind();
 			}

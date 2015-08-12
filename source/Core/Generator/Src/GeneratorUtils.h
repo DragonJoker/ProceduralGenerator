@@ -25,33 +25,42 @@ namespace ProceduralTextures
 {
 	namespace Utils
 	{
-		/**
-		 *\brief		Returns the size of a static C-Style array
-		 *\param[in]	p_data	The array
-		 *\return		The size
+		/** Returns the size of a static C-Style array
+		@param[in] p_data
+			The array
+		@return
+			The size
 		 */
 		template< typename T, size_t N >
 		inline size_t GetCountOf( T const( & p_data )[N] )
 		{
 			return N;
 		}
-		/**
-		 *\brief		Puts a value between two bounds
-		 *\param[in]	p_min		The min bound
-		 *\param[in]	p_max		The max bound
-		 *\param[in]	p_value		The value to clamp
-		 *\return		The clamped value
+
+		/** Puts a value between two bounds
+		@param[in] p_min
+			The min bound
+		@param[in] p_max
+			The max bound
+		@param[in] p_value
+			The value to clamp
+		@return
+			The clamped value
 		 */
 		template< typename T > inline T Clamp( T const & p_min, T const & p_max, T const & p_value )
 		{
 			return std::max( p_min, std::min( p_max, p_value ) );
 		}
-		/**
-		 *\brief		Substract a value from another one, the result is At least the given minimum value
-		 *\param[in]	p_a		The left operand
-		 *\param[in]	p_b		The right operand
-		 *\param[in]	p_min	The minimum value
-		 *\return		The result
+
+		/** Substract a value from another one, the result is At least the given minimum value
+		@param[in] p_a
+			The left operand
+		@param[in] p_b
+			The right operand
+		@param[in] p_min
+			The minimum value
+		@return
+			The result
 		 */
 		template< typename T, typename U, typename V > inline V Subtract( T const & p_a, U const & p_b, V const & p_min )
 		{
@@ -68,12 +77,16 @@ namespace ProceduralTextures
 
 			return l_vReturn;
 		}
-		/**
-		 *\brief		Substracts 2 pixels given a minimal pixel value for the result
-		 *\param[in]	p_a		The first pixel
-		 *\param[in]	p_b		The second pixel
-		 *\param[in]	p_min	The minimal pixel
-		 *\return		(\p p_a - \p p_b ) with each component of the result >= to the same component from \p p_min
+
+		/** Substracts 2 pixels given a minimal pixel value for the result
+		@param[in] p_a
+			The first pixel
+		@param[in] p_b
+			The second pixel
+		@param[in] p_min
+			The minimal pixel
+		@return
+			(\p p_a - \p p_b ) with each component of the result >= to the same component from \p p_min
 		 */
 		template<> inline UbPixel Subtract< UbPixel, UiPixel, UbPixel >( UbPixel const & p_a, UiPixel const & p_b, UbPixel const & p_min )
 		{
@@ -84,12 +97,16 @@ namespace ProceduralTextures
 			l_result.a = Subtract( p_a.a, p_b.a, p_min.a );
 			return l_result;
 		}
-		/**
-		 *\brief		Substracts 2 pixels given a minimal pixel value for the result
-		 *\param[in]	p_a		The first pixel
-		 *\param[in]	p_b		The second pixel
-		 *\param[in]	p_min	The minimal pixel
-		 *\return		(\p p_a - \p p_b ) with each component of the result >= to the same component from \p p_min
+
+		/** Substracts 2 pixels given a minimal pixel value for the result
+		@param[in] p_a
+			The first pixel
+		@param[in] p_b
+			The second pixel
+		@param[in] p_min
+			The minimal pixel
+		@return
+			(\p p_a - \p p_b ) with each component of the result >= to the same component from \p p_min
 		 */
 		template<> inline UbPixel Subtract< UiPixel, UiPixel, UbPixel >( UiPixel const & p_a, UiPixel const & p_b, UbPixel const & p_min )
 		{
@@ -100,12 +117,16 @@ namespace ProceduralTextures
 			l_result.a = Subtract( p_a.a, p_b.a, p_min.a );
 			return l_result;
 		}
-		/**
-		 *\brief		Adds a value to another one, the result is At most the given maximum value
-		 *\param[in]	p_a		The left operand
-		 *\param[in]	p_b		The right operand
-		 *\param[in]	p_max	The maximum value
-		 *\return		The result
+
+		/** Adds a value to another one, the result is At most the given maximum value
+		@param[in] p_a
+			The left operand
+		@param[in] p_b
+			The right operand
+		@param[in] p_max
+			The maximum value
+		@return
+			The result
 		 */
 		template< typename T, typename U, typename V > inline V Add( T const & p_a, U const & p_b, V const & p_max )
 		{
@@ -122,12 +143,16 @@ namespace ProceduralTextures
 
 			return l_vReturn;
 		}
-		/**
-		 *\brief		Adds 2 pixels given a maximal pixel value for the result
-		 *\param[in]	p_a		The first pixel
-		 *\param[in]	p_b		The second pixel
-		 *\param[in]	p_max	The maximal pixel
-		 *\return		(\p p_a + \p p_b ) with each component of the result <= to the same component from \p p_max
+
+		/** Adds 2 pixels given a maximal pixel value for the result
+		@param[in] p_a
+			The first pixel
+		@param[in] p_b
+			The second pixel
+		@param[in] p_max
+			The maximal pixel
+		@return
+			(\p p_a + \p p_b ) with each component of the result <= to the same component from \p p_max
 		 */
 		template<> inline UbPixel Add< UbPixel, UiPixel, UbPixel >( UbPixel const & p_a, UiPixel const & p_b, UbPixel const & p_max )
 		{
@@ -138,12 +163,16 @@ namespace ProceduralTextures
 			l_result.a = Add( p_a.a, p_b.a, p_max.a );
 			return l_result;
 		}
-		/**
-		 *\brief		Adds 2 pixels given a maximal pixel value for the result
-		 *\param[in]	p_a		The first pixel
-		 *\param[in]	p_b		The second pixel
-		 *\param[in]	p_max	The maximal pixel
-		 *\return		(\p p_a + \p p_b ) with each component of the result <= to the same component from \p p_max
+
+		/** Adds 2 pixels given a maximal pixel value for the result
+		@param[in] p_a
+			The first pixel
+		@param[in] p_b
+			The second pixel
+		@param[in] p_max
+			The maximal pixel
+		@return
+			(\p p_a + \p p_b ) with each component of the result <= to the same component from \p p_max
 		*/
 		template<> inline UbPixel Add< UiPixel, UiPixel, UbPixel >( UiPixel const & p_a, UiPixel const & p_b, UbPixel const & p_max )
 		{
@@ -154,10 +183,12 @@ namespace ProceduralTextures
 			l_result.a = Add( p_a.a, p_b.a, p_max.a );
 			return l_result;
 		}
-		/**
-		 *\brief		Computes the pixel components value from an unsigned long value
-		 *\param[in]	p_colour	The colour
-		 *\return		The pixel
+
+		/** Computes the pixel components value from an unsigned long value
+		@param[in] p_colour
+			The colour
+		@return
+			The pixel
 		*/
 		inline UbPixel FromRGBColour( uint32_t p_colour )
 		{
@@ -168,10 +199,12 @@ namespace ProceduralTextures
 			l_result.a = 255;
 			return l_result;
 		}
-		/**
-		 *\brief		Computes the pixel components value from an unsigned long value
-		 *\param[in]	p_colour	The colour
-		 *\return		The pixel
+
+		/** Computes the pixel components value from an unsigned long value
+		@param[in] p_colour
+			The colour
+		@return
+			The pixel
 		*/
 		inline UbPixel FromBGRColour( uint32_t p_colour )
 		{
@@ -186,26 +219,31 @@ namespace ProceduralTextures
 
 	namespace System
 	{
-		/**
-		 *\brief		Retrieves the given screen size
-		 *\param[in]	p_screen	The screen index
-		 *\param[out]	p_size		Receives the screen size
-		 *\return		\p true if the size was retrieved
+		/** Retrieves the given screen size
+		@param[in] p_screen
+			The screen index
+		@param[out] p_size
+			Receives the screen size
+		@return
+			\p true if the size was retrieved
 		 */
 		bool GeneratorAPI GetScreenSize( uint32_t p_screen, Size & p_size );
-		/**
-		 *\brief		Counts available CPUs
-		 *\return		The CPU count
+
+		/** Counts available CPUs
+		@return
+			The CPU count
 		 */
 		int GeneratorAPI GetCPUCount();
-		/**
-		 *\brief		Retrieves the executable directory
-		 *\return		The directory
+
+		/** Retrieves the executable directory
+		@return
+			The directory
 		 */
 		String GeneratorAPI GetExecutableDirectory();
-		/**
-		 *\brief		Retrieves the data directory
-		 *\return		The directory
+
+		/** Retrieves the data directory
+		@return
+			The directory
 		 */
 		String GeneratorAPI GetDataDirectory();
 	}

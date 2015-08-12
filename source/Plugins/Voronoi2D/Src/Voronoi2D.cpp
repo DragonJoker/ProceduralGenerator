@@ -1,12 +1,11 @@
 #include "Voronoi2D.h"
 
 #include "V2dCpuStep.h"
-#include "V2dGpuStep.h"
 
 namespace Voronoi2D
 {
 	Generator::Generator()
-		: ProceduralTextures::Generator< CpuStep, GpuStep >( true, ProceduralTextures::DEFAULT_FRAME_TIME )
+		: ProceduralTextures::Generator< CpuStep, ProceduralTextures::DefaultGpuStep >( true, ProceduralTextures::DEFAULT_FRAME_TIME )
 	{
 	}
 
@@ -17,7 +16,7 @@ namespace Voronoi2D
 	void Generator::DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize )
 	{
 		m_cpuStep = std::make_shared< CpuStep >( shared_from_this(), p_size );
-		m_gpuStep = std::make_shared< GpuStep >( shared_from_this(), p_size, p_bordersSize );
+		m_gpuStep = std::make_shared< ProceduralTextures::DefaultGpuStep >( shared_from_this(), p_size, p_bordersSize );
 	}
 
 	void Generator::DoDestroy()
@@ -39,23 +38,23 @@ namespace Voronoi2D
 			_( "Chebychev" ),
 		};
 
-		m_buttonReset = std::make_shared< ButtonCtrl >( _( "Reset" ), eID_RESET, Position( 10, 10 + DEFAULT_HEIGHT * 0 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ) );
+		m_buttonReset = std::make_shared< ButtonCtrl >( m_options, _( "Reset" ), eID_RESET, Position( 10, 10 + DEFAULT_HEIGHT * 0 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ) );
 		m_buttonReset->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnReset, this ) );
-		m_statDepthTitle = std::make_shared< StaticCtrl >( _( "Max Depth:" ), Position( 10, 10 + DEFAULT_HEIGHT * 1 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
-		m_statDepth = std::make_shared< StaticCtrl >( _T( "5" ), Position( 90, 10 + DEFAULT_HEIGHT * 1 ), Size( CONFIG_PANEL_WIDTH - 100,  DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
-		m_slideDepth = std::make_shared< SliderCtrl >( Range( 1, 100 ), 5, eID_DEPTH, Position( 10, 10 + DEFAULT_HEIGHT * 2 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSLIDER_STYLE_HORIZONTAL );
+		m_statDepthTitle = std::make_shared< StaticCtrl >( m_options, _( "Max Depth:" ), Position( 10, 10 + DEFAULT_HEIGHT * 1 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
+		m_statDepth = std::make_shared< StaticCtrl >( m_options, _T( "5" ), Position( 90, 10 + DEFAULT_HEIGHT * 1 ), Size( CONFIG_PANEL_WIDTH - 100,  DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
+		m_slideDepth = std::make_shared< SliderCtrl >( m_options, Range( 1, 100 ), 5, eID_DEPTH, Position( 10, 10 + DEFAULT_HEIGHT * 2 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSLIDER_STYLE_HORIZONTAL );
 		m_slideDepth->Connect( eSLIDER_EVENT_THUMBRELEASE, std::bind( &Generator::OnMaxDepths, this, std::placeholders::_1 ) );
 		m_slideDepth->Connect( eSLIDER_EVENT_THUMBTRACK, std::bind( &Generator::OnMaxDepthsTrack, this, std::placeholders::_1 ) );
-		m_statNeighboursTitle = std::make_shared< StaticCtrl >( _( "Neighbours:" ), Position( 10, 10 + DEFAULT_HEIGHT * 3 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
-		m_statNeighbours = std::make_shared< StaticCtrl >( _T( "5" ), Position( 90, 10 + DEFAULT_HEIGHT * 3 ), Size( CONFIG_PANEL_WIDTH - 100,  DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
-		m_slideNeighbours = std::make_shared< SliderCtrl >( Range( 1, 256 ), 32, eID_NEIGHBOURS, Position( 10, 10 + DEFAULT_HEIGHT * 4 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSLIDER_STYLE_HORIZONTAL );
+		m_statNeighboursTitle = std::make_shared< StaticCtrl >( m_options, _( "Neighbours:" ), Position( 10, 10 + DEFAULT_HEIGHT * 3 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
+		m_statNeighbours = std::make_shared< StaticCtrl >( m_options, _T( "5" ), Position( 90, 10 + DEFAULT_HEIGHT * 3 ), Size( CONFIG_PANEL_WIDTH - 100,  DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
+		m_slideNeighbours = std::make_shared< SliderCtrl >( m_options, Range( 1, 256 ), 32, eID_NEIGHBOURS, Position( 10, 10 + DEFAULT_HEIGHT * 4 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSLIDER_STYLE_HORIZONTAL );
 		m_slideNeighbours->Connect( eSLIDER_EVENT_THUMBRELEASE, std::bind( &Generator::OnMaxNeighbours, this, std::placeholders::_1 ) );
 		m_slideNeighbours->Connect( eSLIDER_EVENT_THUMBTRACK, std::bind( &Generator::OnMaxNeighboursTrack, this, std::placeholders::_1 ) );
-		m_statDistance = std::make_shared< StaticCtrl >( _( "Distance Function:" ), Position( 10, 10 + DEFAULT_HEIGHT * 5 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
-		m_comboDistance = std::make_shared< ComboBoxCtrl >( l_arrayChoices, 0, eID_DISTANCE_FUNC, Position( 10, 10 + DEFAULT_HEIGHT * 6 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eCOMBO_STYLE_READONLY );
+		m_statDistance = std::make_shared< StaticCtrl >( m_options, _( "Distance Function:" ), Position( 10, 10 + DEFAULT_HEIGHT * 5 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
+		m_comboDistance = std::make_shared< ComboBoxCtrl >( m_options, l_arrayChoices, 0, eID_DISTANCE_FUNC, Position( 10, 10 + DEFAULT_HEIGHT * 6 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eCOMBO_STYLE_READONLY );
 		m_comboDistance->Connect( eCOMBOBOX_EVENT_SELECTED, std::bind( &Generator::OnDistanceType, this, std::placeholders::_1 ) );
-		m_statMinkowski = std::make_shared< StaticCtrl >( _( "Minkowski Order : " ) + String( _T( "4.0" ) ), Position( 10, 10 + DEFAULT_HEIGHT * 7 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER, false );
-		m_slideMinkowski = std::make_shared< SliderCtrl >( Range( 1, 256 ), 40, eID_MINKOWSKI_ORDER, Position( 10, 10 + DEFAULT_HEIGHT * 8 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSLIDER_STYLE_HORIZONTAL, false );
+		m_statMinkowski = std::make_shared< StaticCtrl >( m_options, _( "Minkowski Order : " ) + String( _T( "4.0" ) ), Position( 10, 10 + DEFAULT_HEIGHT * 7 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER, false );
+		m_slideMinkowski = std::make_shared< SliderCtrl >( m_options, Range( 1, 256 ), 40, eID_MINKOWSKI_ORDER, Position( 10, 10 + DEFAULT_HEIGHT * 8 ), Size( CONFIG_PANEL_WIDTH -  20,  DEFAULT_HEIGHT ), eSLIDER_STYLE_HORIZONTAL, false );
 		m_slideMinkowski->Connect( eSLIDER_EVENT_THUMBRELEASE, std::bind( &Generator::OnMinkowskiOrder, this, std::placeholders::_1 ) );
 		m_slideMinkowski->Connect( eSLIDER_EVENT_THUMBTRACK, std::bind( &Generator::OnMinkowskiOrderTrack, this, std::placeholders::_1 ) );
 

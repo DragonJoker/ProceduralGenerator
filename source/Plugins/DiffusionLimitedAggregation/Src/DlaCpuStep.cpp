@@ -34,7 +34,7 @@ namespace DiffusionLimitedAggregation
 			int l_iSquaredJumpCircle =  m_jumpCircle * m_jumpCircle;
 			CellBuffer & l_cells = *m_cells.lock();
 
-			for ( int i = 1000; i != 0 && ! l_alreadyPassedWhite && !l_cells[l_ptPoint.x()][l_ptPoint.y()].m_white; i-- )
+			for ( int i = 1000; i != 0 && !l_alreadyPassedWhite && !l_cells[l_ptPoint.x()][l_ptPoint.y()].m_white; i-- )
 			{
 				while ( l_iDistance > l_iSquaredJumpCircle )
 				{

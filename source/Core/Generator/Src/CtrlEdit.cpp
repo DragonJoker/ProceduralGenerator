@@ -7,8 +7,8 @@
 
 namespace ProceduralTextures
 {
-	EditCtrl::EditCtrl( String const & p_caption, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
-		: Control( eCONTROL_TYPE_EDIT, p_id, p_position, p_size, p_style, p_visible )
+	EditCtrl::EditCtrl( std::shared_ptr< Control > p_parent, String const & p_caption, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
+		: Control( eCONTROL_TYPE_EDIT, p_parent, p_id, p_position, p_size, p_style, p_visible )
 		, m_caption( p_caption )
 		, m_caretIt( p_caption.end() )
 		, m_active( false )

@@ -76,6 +76,7 @@ namespace ProceduralTextures
 	const String FOLDER_SEPARATOR = _T( "/" );
 #endif
 	const int CONFIG_PANEL_WIDTH = 150;
+	const int CONFIG_PANEL_HEIGHT = 472;
 
 	const int DEFAULT_HEIGHT = 25;
 	const String DEFAULT_FONT_NAME = _T( "Arial" );
@@ -84,11 +85,16 @@ namespace ProceduralTextures
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	GUI
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/05/2012
-	\version 	1.3.0.0
-	\brief		Enumeration of supported controls in a OptionsPanel
+	@author
+		Sylvain DOREMUS
+	@date
+		23/05/2012
+	@version
+		1.3.0.0
+	@brief
+		Enumeration of supported controls in a OptionsPanel
 	*/
 	typedef enum eCONTROL_TYPE
 		: uint8_t
@@ -107,11 +113,16 @@ namespace ProceduralTextures
 		//! ButtonCtrl
 		eCONTROL_TYPE_BUTTON,
 	}	eCONTROL_TYPE;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		06/03/2015
-	\version 	2.0.0
-	\brief		Enumeration of supported combobox events
+	@author
+		Sylvain DOREMUS
+	@date
+		06/03/2015
+	@version
+		2.0.0
+	@brief
+		Enumeration of supported combobox events
 	*/
 	typedef enum eCOMBOBOX_EVENT
 		: uint8_t
@@ -121,11 +132,16 @@ namespace ProceduralTextures
 		//! The combo box events count
 		eCOMBOBOX_EVENT_COUNT,
 	}	eCOMBOBOX_EVENT;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		06/03/2015
-	\version 	2.0.0
-	\brief		Enumeration of supported listbox events
+	@author
+		Sylvain DOREMUS
+	@date
+		06/03/2015
+	@version
+		2.0.0
+	@brief
+		Enumeration of supported listbox events
 	*/
 	typedef enum eLISTBOX_EVENT
 		: uint8_t
@@ -135,11 +151,16 @@ namespace ProceduralTextures
 		//! The combobox events count
 		eLISTBOX_EVENT_COUNT,
 	}	eLISTBOX_EVENT;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		06/03/2015
-	\version 	2.0.0
-	\brief		Enumeration of supported button events
+	@author
+		Sylvain DOREMUS
+	@date
+		06/03/2015
+	@version
+		2.0.0
+	@brief
+		Enumeration of supported button events
 	*/
 	typedef enum eBUTTON_EVENT
 		: uint8_t
@@ -149,11 +170,16 @@ namespace ProceduralTextures
 		//! The button events count
 		eBUTTON_EVENT_COUNT,
 	}	eBUTTON_EVENT;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		06/03/2015
-	\version 	2.0.0
-	\brief		Enumeration of supported slider events
+	@author
+		Sylvain DOREMUS
+	@date
+		06/03/2015
+	@version
+		2.0.0
+	@brief
+		Enumeration of supported slider events
 	*/
 	typedef enum eSLIDER_EVENT
 		: uint8_t
@@ -165,11 +191,16 @@ namespace ProceduralTextures
 		//! The slider events count
 		eSLIDER_EVENT_COUNT,
 	}	eSLIDER_EVENT;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		06/03/2015
-	\version 	2.0.0
-	\brief		Enumeration of supported edit events
+	@author
+		Sylvain DOREMUS
+	@date
+		06/03/2015
+	@version
+		2.0.0
+	@brief
+		Enumeration of supported edit events
 	*/
 	typedef enum eEDIT_EVENT
 		: uint8_t
@@ -181,11 +212,16 @@ namespace ProceduralTextures
 		//! The edit events count
 		eEDIT_EVENT_COUNT,
 	}	eEDIT_EVENT;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		11/02/2015
-	\version	2.0.0
-	\brief		Comb control supported styles
+	@author
+		Sylvain DOREMUS
+	@date
+		11/02/2015
+	@version
+		2.0.0
+	@brief
+		Comb control supported styles
 	*/
 	typedef enum eCOMBO_STYLE
 		: uint32_t
@@ -193,11 +229,16 @@ namespace ProceduralTextures
 		//! Read only combo box
 		eCOMBO_STYLE_READONLY = 0x00000001,
 	}	eCOMBO_STYLE;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		11/02/2015
-	\version	2.0.0
-	\brief		Edit control supported styles
+	@author
+		Sylvain DOREMUS
+	@date
+		11/02/2015
+	@version
+		2.0.0
+	@brief
+		Edit control supported styles
 	*/
 	typedef enum eEDIT_STYLE
 		: uint32_t
@@ -211,11 +252,16 @@ namespace ProceduralTextures
 		//! Words are not cut
 		eEDIT_STYLE_WORDWRAP = 0x00000800,
 	}	eEDIT_STYLE;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		11/02/2015
-	\version	2.0.0
-	\brief		Slider control supported styles
+	@author
+		Sylvain DOREMUS
+	@date
+		11/02/2015
+	@version
+		2.0.0
+	@brief
+		Slider control supported styles
 	*/
 	typedef enum eSLIDER_STYLE
 		: uint32_t
@@ -225,11 +271,16 @@ namespace ProceduralTextures
 		// The slider is displaye vertically
 		eSLIDER_STYLE_VERTICAL = 0x000200000,
 	}	eSLIDER_STYLE;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		11/02/2015
-	\version	2.0.0
-	\brief		Static control supported styles
+	@author
+		Sylvain DOREMUS
+	@date
+		11/02/2015
+	@version
+		2.0.0
+	@brief
+		Static control supported styles
 	*/
 	typedef enum eSTATIC_STYLE
 		: uint32_t
@@ -247,11 +298,16 @@ namespace ProceduralTextures
 		//! The static's text is aligned on bottom
 		eSTATIC_STYLE_VALIGN_BOTTOM	= 0x40000000,
 	}	eSTATIC_STYLE;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/05/2012
-	\version 	1.3.0.0
-	\brief		Enumeration of supported GUI events in ControlInfos
+	@author
+		Sylvain DOREMUS
+	@date
+		23/05/2012
+	@version
+		1.3.0.0
+	@brief
+		Enumeration of supported GUI events in ControlInfos
 	*/
 	typedef enum eGUI_EVENT
 		: uint8_t
@@ -261,11 +317,16 @@ namespace ProceduralTextures
 		//! Event to ask the main window to resize to the given size
 		eGUI_EVENT_RESIZE_PARENT,
 	}	eGUI_EVENT;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/02/2015
-	\version 	2.0.0
-	\brief		Enumeration of supported overlay types
+	@author
+		Sylvain DOREMUS
+	@date
+		23/02/2015
+	@version
+		2.0.0
+	@brief
+		Enumeration of supported overlay types
 	*/
 	typedef enum eOVERLAY_TYPE
 		: uint8_t
@@ -277,11 +338,16 @@ namespace ProceduralTextures
 		//! Text overlay
 		eOVERLAY_TYPE_TEXT,
 	}	eOVERLAY_TYPE;
+
 	/*!
-	\author 	Sylvain DOREMUS
-	\date		23/02/2015
-	\version 	2.0.0
-	\brief		Text wrapping modes, handles the way text is cut when it overflows the overlay width
+	@author
+		Sylvain DOREMUS
+	@date
+		23/02/2015
+	@version
+		2.0.0
+	@brief
+		Text wrapping modes, handles the way text is cut when it overflows the overlay width
 	*/
 	typedef enum eBORDER_POSITION
 	{
@@ -292,11 +358,16 @@ namespace ProceduralTextures
 		//! The border is outside the overlay
 		eBORDER_POSITION_EXTERNAL,
 	}	eBORDER_POSITION;
+
 	/*!
-	\author 	Sylvain DOREMUS
-	\date		23/02/2015
-	\version 	2.0.0
-	\brief		Text wrapping modes, handles the way text is cut when it overflows the overlay width
+	@author
+		Sylvain DOREMUS
+	@date
+		23/02/2015
+	@version
+		2.0.0
+	@brief
+		Text wrapping modes, handles the way text is cut when it overflows the overlay width
 	*/
 	typedef enum eTEXT_WRAPPING_MODE
 	{
@@ -307,11 +378,16 @@ namespace ProceduralTextures
 		//! The text jumps to next line without cutting words
 		eTEXT_WRAPPING_MODE_BREAK_WORDS,
 	}	eTEXT_WRAPPING_MODE;
+
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		02/03/2015
-	\version	2.0.0
-	\brief		Mouse buttons enumeration
+	@author
+		Sylvain DOREMUS
+	@date
+		02/03/2015
+	@version
+		2.0.0
+	@brief
+		Mouse buttons enumeration
 	*/
 	typedef enum eMOUSE_BUTTON
 	{
@@ -324,11 +400,16 @@ namespace ProceduralTextures
 		//! The buttons count
 		eMOUSE_BUTTON_COUNT,
 	}	eMOUSE_BUTTON;
+
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		02/03/2015
-	\version	2.0.0
-	\brief		Keyboard keys enumeration
+	@author
+		Sylvain DOREMUS
+	@date
+		02/03/2015
+	@version
+		2.0.0
+	@brief
+		Keyboard keys enumeration
 	*/
 	typedef enum eKEYBOARD_KEY
 	{
@@ -439,11 +520,16 @@ namespace ProceduralTextures
 		eKEY_NUMPAD_DECIMAL,
 		eKEY_NUMPAD_DIVIDE,
 	}	eKEYBOARD_KEY;
+
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		10/03/2015
-	\version	2.0.0
-	\brief		Mouse cursors enumeration
+	@author
+		Sylvain DOREMUS
+	@date
+		10/03/2015
+	@version
+		2.0.0
+	@brief
+		Mouse cursors enumeration
 	*/
 	typedef enum eMOUSE_CURSOR
 	{
@@ -456,11 +542,16 @@ namespace ProceduralTextures
 		//! The cursors count
 		eMOUSE_CURSOR_COUNT,
 	}	eMOUSE_CURSOR;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		12/03/2015
-	\version 	2.0.0
-	\brief		Enumeration of supported control events
+	@author
+		Sylvain DOREMUS
+	@date
+		12/03/2015
+	@version
+		2.0.0
+	@brief
+		Enumeration of supported control events
 	*/
 	typedef enum eCONTROL_EVENT
 		: uint8_t
@@ -472,11 +563,16 @@ namespace ProceduralTextures
 		//! The control events count
 		eCONTROL_EVENT_COUNT,
 	}	eCONTROL_EVENT;
+
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		02/03/2015
-	\version	2.0.0
-	\brief		Supported mouse events enumeration
+	@author
+		Sylvain DOREMUS
+	@date
+		02/03/2015
+	@version
+		2.0.0
+	@brief
+		Supported mouse events enumeration
 	*/
 	typedef enum eMOUSE_EVENT
 	{
@@ -497,11 +593,16 @@ namespace ProceduralTextures
 		//! The mouse events count
 		eMOUSE_EVENT_COUNT,
 	}	eMOUSE_EVENT;
+
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		02/03/2015
-	\version	2.0.0
-	\brief		Supported keyboard events enumeration
+	@author
+		Sylvain DOREMUS
+	@date
+		02/03/2015
+	@version
+		2.0.0
+	@brief
+		Supported keyboard events enumeration
 	*/
 	typedef enum eKEYBOARD_EVENT
 	{
@@ -537,11 +638,16 @@ namespace ProceduralTextures
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	//	MAIN
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/05/2012
-	\version 	1.3.0.0
-	\brief		Enumeration of event ids
+	@author
+		Sylvain DOREMUS
+	@date
+		23/05/2012
+	@version
+		1.3.0.0
+	@brief
+		Enumeration of event ids
 	*/
 	typedef enum
 	{
@@ -550,11 +656,16 @@ namespace ProceduralTextures
 		//! Event sent to main thread to retrieve mouse position
 		eEVENT_MOUSEMOVE = 100011,
 	}	eEVENT;
+
 	/*!
-	\author 	Sylvain DOREMUS
-	\date		23/02/2015
-	\version 	2.0.0
-	\brief		The supported materials types
+	@author
+		Sylvain DOREMUS
+	@date
+		23/02/2015
+	@version
+		2.0.0
+	@brief
+		The supported materials types
 	*/
 	typedef enum eMATERIAL_TYPE
 		: uint8_t
@@ -618,10 +729,14 @@ namespace ProceduralTextures
 	namespace gl
 	{
 		/*!
-		\author 	Sylvain DOREMUS
-		\date		01/07/2011
-		\version 	1.2.0.0
-		\brief		Shader object supported types enumerator
+		@author
+			Sylvain DOREMUS
+		@date
+			01/07/2011
+		@version
+			1.2.0.0
+		@brief
+			Shader object supported types enumerator
 		*/
 		typedef enum
 		{

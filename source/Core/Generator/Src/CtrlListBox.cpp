@@ -8,10 +8,11 @@
 
 namespace ProceduralTextures
 {
-	ListBoxCtrl::ListBoxCtrl( StringArray const & p_values, int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
-		: Control( eCONTROL_TYPE_LIST, p_id, p_position, p_size, p_style, p_visible )
+	ListBoxCtrl::ListBoxCtrl( std::shared_ptr< Control > p_parent, StringArray const & p_values, int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
+		: Control( eCONTROL_TYPE_LIST, p_parent, p_id, p_position, p_size, p_style, p_visible )
+		, m_values( p_values )
+		, m_selected( p_selected )
 	{
-		DoCreate( p_values, p_selected, p_id, p_position, p_size );
 	}
 
 	ListBoxCtrl::~ListBoxCtrl()
@@ -159,23 +160,9 @@ namespace ProceduralTextures
 		}
 	}
 
-	void ListBoxCtrl::DoCreate( StringArray const & p_values, int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size )
-	{
-		m_values = p_values;
-		m_selected = p_selected;
-
-		m_borders = Point4i( 1, 1, 1, 1 );
-		SetBackgroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
-		SetForegroundColour( Colour( 0.0, 0.0, 0.0, 1.0 ) );
-		m_selectedBackgroundColour = Colour( 0.0, 0.0, 0.5, 1.0 );
-		m_selectedForegroundColour = Colour( 1.0, 1.0, 1.0, 1.0 );
-		SetSize( Size( p_size.x(), p_values.size() * DEFAULT_HEIGHT ) );
-		EventHandler::Connect( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &ListBoxCtrl::OnKeyDown, this, std::placeholders::_1 ) );
-	}
-
 	void ListBoxCtrl::DoCreateItem( String const & p_value )
 	{
-		std::shared_ptr< StaticCtrl > l_static = std::make_shared< StaticCtrl >( p_value, Position(), Size( GetSize().x(), DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
+		std::shared_ptr< StaticCtrl > l_static = std::make_shared< StaticCtrl >( shared_from_this(), p_value, Position(), Size( GetSize().x(), DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
 		l_static->SetBackgroundColour( m_backgroundColourNormal );
 		l_static->SetForegroundColour( m_foregroundColour );
 		l_static->SetVisible( IsVisible() );
@@ -184,12 +171,20 @@ namespace ProceduralTextures
 		l_static->ConnectNC( eMOUSE_EVENT_MOUSE_LEAVE, std::bind( &ListBoxCtrl::OnItemMouseLeave, this, std::placeholders::_1, std::placeholders::_2 ) );
 		l_static->ConnectNC( eMOUSE_EVENT_MOUSE_BUTTON_RELEASED, std::bind( &ListBoxCtrl::OnItemMouseLButtonUp, this, std::placeholders::_1, std::placeholders::_2 ) );
 		l_static->ConnectNC( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &ListBoxCtrl::OnItemKeyDown, this, std::placeholders::_1, std::placeholders::_2 ) );
-		m_ctrlManager.lock()->Create( std::enable_shared_from_this< Control >::shared_from_this(), l_static );
+		m_ctrlManager.lock()->Create( l_static );
 		m_items.push_back( l_static );
 	}
 
 	void ListBoxCtrl::DoCreate( std::shared_ptr< OverlayManager > p_manager )
 	{
+		m_borders = Point4i( 1, 1, 1, 1 );
+		SetBackgroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
+		SetForegroundColour( Colour( 0.0, 0.0, 0.0, 1.0 ) );
+		m_selectedBackgroundColour = Colour( 0.0, 0.0, 0.5, 1.0 );
+		m_selectedForegroundColour = Colour( 1.0, 1.0, 1.0, 1.0 );
+		SetSize( Size( GetSize().x(), m_values.size() * DEFAULT_HEIGHT ) );
+		EventHandler::Connect( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &ListBoxCtrl::OnKeyDown, this, std::placeholders::_1 ) );
+
 		for ( auto && l_value : m_values )
 		{
 			DoCreateItem( l_value );

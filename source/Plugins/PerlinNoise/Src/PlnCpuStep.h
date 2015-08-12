@@ -23,9 +23,12 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace PerlinNoise
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		05/03/2015
-	\brief		The noise types enumeration
+	@author
+		Sylvain DOREMUS
+	@date
+		05/03/2015
+	@brief
+		The noise types enumeration
 	*/
 	typedef enum
 	{
@@ -36,9 +39,12 @@ namespace PerlinNoise
 		eNOISE_TYPE_COUNT,
 	}	eNOISE_TYPE;
 	/*!
-	\author		Sylvain DOREMUS
-	\date		05/03/2015
-	\brief		The parametered noise function enumeration
+	@author
+		Sylvain DOREMUS
+	@date
+		05/03/2015
+	@brief
+		The parametered noise function enumeration
 	*/
 	typedef enum
 	{
@@ -60,9 +66,12 @@ namespace PerlinNoise
 	//! The noise functor
 	typedef std::function< float( float ) > NoiseFunction;
 	/*!
-	\author		Sylvain DOREMUS
-	\date		05/03/2015
-	\brief		Perlin noise worker thread
+	@author
+		Sylvain DOREMUS
+	@date
+		05/03/2015
+	@brief
+		Perlin noise worker thread
 	*/
 	class Thread
 		:	public ProceduralTextures::Thread
@@ -71,89 +80,93 @@ namespace PerlinNoise
 		typedef std::function< void( int, int, int, ProceduralTextures::UbPixel & ) > TypeFunction;
 
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_parent	The parent generator
-		 *\param[in]	p_index		The thread index
-		 *\param[in]	p_width		The surface width
-		 *\param[in]	p_top		The surface portion's top
-		 *\param[in]	p_bottom	The surface portion's bottom
-		 *\param[in]	p_height	The surface height
+		/** Constructor
+		@param[in] p_parent
+			The parent generator
+		@param[in] p_index
+			The thread index
+		@param[in] p_width
+			The surface width
+		@param[in] p_top
+			The surface portion's top
+		@param[in] p_bottom
+			The surface portion's bottom
+		@param[in] p_height
+			The surface height
 		 */
 		Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_parent, size_t p_index, int p_width, int p_top, int p_bottom, int p_totalHeight );
-		/**
-		 *\brief		Destructor
+		/** Destructor
 		 */
 		virtual ~Thread();
-		/**
-		 *\brief		Sets the noise type
-		 *\param[in]	p_value	The new value
+		/** Sets the noise type
+		@param[in] p_value
+			The new value
 		 */
 		void SetType( eNOISE_TYPE p_type );
-		/**
-		 *\brief		Sets the noise function
-		 *\param[in]	p_function	The new function
+		/** Sets the noise function
+		@param[in] p_function
+			The new function
 		 */
 		void SetFunction( NoiseFunction p_function );
-		/**
-		 *\brief		Sets the pixel buffer
-		 *\param[in]	p_pixels	The buffer
+		/** Sets the pixel buffer
+		@param[in] p_pixels
+			The buffer
 		 */
 		inline void SetBuffer( std::shared_ptr< ProceduralTextures::PixelBuffer > p_pixels )
 		{
 			m_pixels = p_pixels;
 		}
-		/**
-		 *\brief		Sets the red value of the pixel
-		 *\param[in]	val	The new value
+		/** Sets the red value of the pixel
+		@param[in] val
+			The new value
 		 */
 		inline void SetRed( uint8_t val )
 		{
 			m_colour.r = val;
 		}
-		/**
-		 *\brief		Sets the green value of the pixel
-		 *\param[in]	val	The new value
+		/** Sets the green value of the pixel
+		@param[in] val
+			The new value
 		 */
 		inline void SetGreen( uint8_t val )
 		{
 			m_colour.g = val;
 		}
-		/**
-		 *\brief		Sets the blue value of the pixel
-		 *\param[in]	val	The new value
+		/** Sets the blue value of the pixel
+		@param[in] val
+			The new value
 		 */
 		inline void SetBlue( uint8_t val )
 		{
 			m_colour.b = val;
 		}
-		/**
-		 *\brief		Sets the octaves count
-		 *\param[in]	val	The new value
+		/** Sets the octaves count
+		@param[in] val
+			The new value
 		 */
 		inline void SetOctavesCount( int val )
 		{
 			m_octavesCount = val;
 		}
-		/**
-		 *\brief		Retrieves the octaves count
-		 *\return		The value
+		/** Retrieves the octaves count
+		@return
+				The value
 		 */
 		inline int GetOctavesCount()const
 		{
 			return m_octavesCount;
 		}
-		/**
-		 *\brief		Sets the persistency
-		 *\param[in]	val	The new value
+		/** Sets the persistency
+		@param[in] val
+			The new value
 		 */
 		inline void SetPersistency( float val )
 		{
 			m_persistency = val;
 		}
-		/**
-		 *\brief		Retrieves the persistency
-		 *\return		The value
+		/** Retrieves the persistency
+		@return
+				The value
 		 */
 		float GetPersistency()const
 		{
@@ -161,28 +174,27 @@ namespace PerlinNoise
 		}
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::Thread::DoStep
+		/** @copydoc ProceduralTexture::CpuStep::Thread::DoStep
 		 */
 		virtual void DoStep();
-		/**
-		 *\brief		Turbulence noise function
-		 *\param[in]	val	The new value
+		/** Turbulence noise function
+		@param[in] val
+			The new value
 		 */
 		void DoTurbulence( int x, int y, int z, ProceduralTextures::UbPixel & p_rPixel );
-		/**
-		 *\brief		Cloudes noise function
-		 *\param[in]	val	The new value
+		/** Cloudes noise function
+		@param[in] val
+			The new value
 		 */
 		void DoClouds( int x, int y, int z, ProceduralTextures::UbPixel & p_rPixel );
-		/**
-		 *\brief		Marble noise function
-		 *\param[in]	val	The new value
+		/** Marble noise function
+		@param[in] val
+			The new value
 		 */
 		void DoMarble( int x, int y, int z, ProceduralTextures::UbPixel & p_rPixel );
-		/**
-		 *\brief		Parameterised noise function
-		 *\param[in]	val	The new value
+		/** Parameterised noise function
+		@param[in] val
+			The new value
 		 */
 		void DoParam( int x, int y, int z, ProceduralTextures::UbPixel & p_rPixel );
 		double DoFade( double t );
@@ -215,85 +227,84 @@ namespace PerlinNoise
 		std::mutex m_mutexNoise;
 	};
 	/*!
-	\author		Sylvain DOREMUS
-	\date		05/03/2015
-	\brief		Perlin noise CPU step
+	@author
+		Sylvain DOREMUS
+	@date
+		05/03/2015
+	@brief
+		Perlin noise CPU step
 	*/
 	class CpuStep
 		: public ProceduralTextures::CpuStep< Thread >
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_generator	The parent generator
-		 *\param[in]	p_size		The displayed surface dimensions
+		/** Constructor
+		@param[in] p_generator
+			The parent generator
+		@param[in] p_size
+			The displayed surface dimensions
 		 */
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size );
-		/**
-		 *\brief		Destructor
+		/** Destructor
 		 */
 		virtual ~CpuStep();
-		/**
-		 *\brief		Sets the red value of the pixel
-		 *\param[in]	val	The new value
+		/** Sets the red value of the pixel
+		@param[in] val
+			The new value
 		 */
 		void SetRed( uint8_t val );
-		/**
-		 *\brief		Sets the green value of the pixel
-		 *\param[in]	val	The new value
+		/** Sets the green value of the pixel
+		@param[in] val
+			The new value
 		 */
 		void SetGreen( uint8_t val );
-		/**
-		 *\brief		Sets the blue value of the pixel
-		 *\param[in]	val	The new value
+		/** Sets the blue value of the pixel
+		@param[in] val
+			The new value
 		 */
 		void SetBlue( uint8_t val );
-		/**
-		 *\brief		Sets the octaves count
-		 *\param[in]	val	The new value
+		/** Sets the octaves count
+		@param[in] val
+			The new value
 		 */
 		void SetOctavesCount( int val );
-		/**
-		 *\brief		Retrieves the octaves count
-		 *\return		The value
+		/** Retrieves the octaves count
+		@return
+				The value
 		 */
 		int GetOctavesCount()const;
-		/**
-		 *\brief		Sets the persistency
-		 *\param[in]	val	The new value
+		/** Sets the persistency
+		@param[in] val
+			The new value
 		 */
 		void SetPersistency( float val );
-		/**
-		 *\brief		Retrieves the persistency
-		 *\return		The value
+		/** Retrieves the persistency
+		@return
+				The value
 		 */
 		float GetPersistency()const;
-		/**
-		 *\brief		Sets the noise type function
-		 *\param[in]	val	The new value
+		/** Sets the noise type function
+		@param[in] val
+			The new value
 		 */
 		void SetType( eNOISE_TYPE val );
-		/**
-		 *\brief		Sets the parameteised noise type function
-		 *\param[in]	val	The new value
+		/** Sets the parameteised noise type function
+		@param[in] val
+			The new value
 		 */
 		void SetFunction( eNOISE_PARAM_FUNCTION val );
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoInitialiseStep
+		/** @copydoc ProceduralTexture::CpuStep::DoInitialiseStep
 		 */
 		virtual void DoInitialiseStep();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoInitialise
+		/** @copydoc ProceduralTexture::CpuStep::DoInitialise
 		 */
 		virtual void DoInitialise();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoCleanup
+		/** @copydoc ProceduralTexture::CpuStep::DoCleanup
 		 */
 		virtual void DoCleanup();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoSwapBuffers
+		/** @copydoc ProceduralTexture::CpuStep::DoSwapBuffers
 		 */
 		virtual void DoSwapBuffers();
 

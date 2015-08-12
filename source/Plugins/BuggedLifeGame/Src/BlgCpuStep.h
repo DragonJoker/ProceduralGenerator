@@ -26,55 +26,67 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace BuggedLifeGame
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		05/03/2015
-	\brief		Bugged life game worker thread
+	@author
+		Sylvain DOREMUS
+	@date
+		05/03/2015
+	@brief
+		Bugged life game worker thread
 	*/
 	class Thread
 		: public ProceduralTextures::Thread
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_parent	The parent generator
-		 *\param[in]	p_index		The thread index
-		 *\param[in]	p_width		The surface width
-		 *\param[in]	p_top		The surface portion's top
-		 *\param[in]	p_bottom	The surface portion's bottom
-		 *\param[in]	p_height	The surface height
+		/** Constructor
+		@param[in] p_parent
+			The parent generator
+		@param[in] p_index
+			The thread index
+		@param[in] p_width
+			The surface width
+		@param[in] p_top
+			The surface portion's top
+		@param[in] p_bottom
+			The surface portion's bottom
+		@param[in] p_height
+			The surface height
 		 */
 		Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_parent, size_t p_index, int p_width, int p_top, int p_bottom, int p_totalHeight );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~Thread();
-		/**
-		 *\brief		Sets the cells buffer
-		 *\param[in]	p_buffer	The new value
+
+		/** Sets the cells buffer
+		@param[in] p_buffer
+			The new value
 		 */
 		inline void SetBuffer( std::shared_ptr< CellBuffer > p_buffer )
 		{
 			m_cells = p_buffer;
 		}
-		/**
-		 *\brief		Sets the red value of the pixel
-		 *\param[in]	val	The new value
+
+		/** Sets the red value of the pixel
+		@param[in] val
+			The new value
 		 */
 		inline void SetRed( uint8_t val )
 		{
 			m_pxColour.r = val;
 		}
-		/**
-		 *\brief		Sets the green value of the pixel
-		 *\param[in]	val	The new value
+
+		/** Sets the green value of the pixel
+		@param[in] val
+			The new value
 		 */
 		inline void SetGreen( uint8_t val )
 		{
 			m_pxColour.g = val;
 		}
-		/**
-		 *\brief		Sets the blue value of the pixel
-		 *\param[in]	val	The new value
+
+		/** Sets the blue value of the pixel
+		@param[in] val
+			The new value
 		 */
 		inline void SetBlue( uint8_t val )
 		{
@@ -82,16 +94,9 @@ namespace BuggedLifeGame
 		}
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::Thread::DoStep
+		/** @copydoc ProceduralTexture::CpuStep::Thread::DoStep
 		 */
 		virtual void DoStep();
-		/**
-		 *\brief		Retrieves the alive neighbours count for given cell
-		 *\param[in]	p_x, p_y	The cell coordinates
-		 *\return		The count
-		 */
-		int DoGetAliveNeightbours( int p_x, int p_y );
 
 	private:
 		//! The cells
@@ -99,61 +104,69 @@ namespace BuggedLifeGame
 		//! The pixel colour (image is in computed in white and m_pxColour )
 		ProceduralTextures::UbPixel m_pxColour;
 	};
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		05/03/2015
-	\brief		Bugged life game CPU step
+	@author
+		Sylvain DOREMUS
+	@date
+		05/03/2015
+	@brief
+		Bugged life game CPU step
 	*/
 	class CpuStep
 		: public ProceduralTextures::CpuStep< Thread >
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_generator	The parent generator
-		 *\param[in]	p_size		The computing image size
+		/** Constructor
+		@param[in] p_generator
+			The parent generator
+		@param[in] p_size
+			The computing image size
 		 */
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~CpuStep();
-		/**
-		 *\brief		Sets the red value of the pixel
-		 *\param[in]	val	The new value
+
+		/** Sets the red value of the pixel
+		@param[in] val
+			The new value
 		 */
 		void SetRed( int val );
-		/**
-		 *\brief		Sets the green value of the pixel
-		 *\param[in]	val	The new value
+
+		/** Sets the green value of the pixel
+		@param[in] val
+			The new value
 		 */
 		void SetGreen( int val );
-		/**
-		 *\brief		Sets the blue value of the pixel
-		 *\param[in]	val	The new value
+
+		/** Sets the blue value of the pixel
+		@param[in] val
+			The new value
 		 */
 		void SetBlue( int val );
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoInitialiseStep
+		/** @copydoc ProceduralTexture::CpuStep::DoInitialiseStep
 		 */
 		virtual void DoInitialiseStep();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoInitialise
+
+		/** @copydoc ProceduralTexture::CpuStep::DoInitialise
 		 */
 		virtual void DoInitialise();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoCleanup
+
+		/** @copydoc ProceduralTexture::CpuStep::DoCleanup
 		 */
 		virtual void DoCleanup();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoSwapBuffers
+
+		/** @copydoc ProceduralTexture::CpuStep::DoSwapBuffers
 		 */
 		virtual void DoSwapBuffers();
-		/**
-		 *\brief		Initialises the neighbours for given cell
-		 *\param[in]	p_x, p_y	The cell coordinates
+
+		/** Initialises the neighbours for given cell
+		@param[in] p_x,
+			p_y	The cell coordinates
 		 */
 		void DoInitialiseNeighbours( uint32_t p_x, uint32_t p_y );
 

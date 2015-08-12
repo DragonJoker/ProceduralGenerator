@@ -47,26 +47,38 @@ namespace ProceduralTextures
 		namespace details
 		{
 			/*!
-			\author 	Sylvain Doremus
-			\version	2.0.0
-			\date		09/03/2015
-			\brief		Structure used to convert from a string type to another string type
+			@author
+				Sylvain Doremus
+			@version
+				2.0.0
+			@date
+				09/03/2015
+			@brief
+				Structure used to convert from a string type to another string type
 			*/
 			template< typename InChar, typename OutChar > struct StringConverter;
+
 			/*!
-			\author 	Sylvain Doremus
-			\version	2.0.0
-			\date		09/03/2015
-			\brief		Structure used to convert from a string type to another string type
-			\remarks	Specialization to convert from char strings to wchar_t strings
+			@author
+				Sylvain Doremus
+			@version
+				2.0.0
+			@date
+				09/03/2015
+			@brief
+				Structure used to convert from a string type to another string type
+			@remarks
+				Specialization to convert from char strings to wchar_t strings
 			*/
 			template<> struct StringConverter< char, wchar_t >
 			{
-				/**
-				 *\brief		Conversion function
-				 *\param[in]	p_strIn		The input string
-				 *\param[out]	p_strOut	The output string
-				 *\param[in]	p_locale	The locale
+				/** Conversion function
+				@param[in] p_strIn
+					The input string
+				@param[out] p_strOut
+					The output string
+				@param[in] p_locale
+					The locale
 				 */
 				static void Convert( std::basic_string< char > const & p_strIn, std::basic_string< wchar_t > & p_strOut, std::locale const & p_locale = std::locale() )
 				{
@@ -87,20 +99,28 @@ namespace ProceduralTextures
 					}
 				}
 			};
+
 			/*!
-			\author 	Sylvain Doremus
-			\version	2.0.0
-			\date		09/03/2015
-			\brief		Structure used to convert from a string type to another string type
-			\remarks	Specialization to convert from wchar_t strings to char strings
+			@author
+				Sylvain Doremus
+			@version
+				2.0.0
+			@date
+				09/03/2015
+			@brief
+				Structure used to convert from a string type to another string type
+			@remarks
+				Specialization to convert from wchar_t strings to char strings
 			*/
 			template<> struct StringConverter< wchar_t, char >
 			{
-				/**
-				 *\brief		Conversion function
-				 *\param[in]	p_strIn		The input string
-				 *\param[out]	p_strOut	The output string
-				 *\param[in]	p_locale	The locale
+				/** Conversion function
+				@param[in] p_strIn
+					The input string
+				@param[out] p_strOut
+					The output string
+				@param[in] p_locale
+					The locale
 				 */
 				static void Convert( std::basic_string< wchar_t > const & p_strIn, std::basic_string< char > & p_strOut, std::locale const & p_locale = std::locale() )
 				{
@@ -121,21 +141,29 @@ namespace ProceduralTextures
 					}
 				}
 			};
+
 			/*!
-			\author 	Sylvain Doremus
-			\version	2.0.0
-			\date		09/03/2015
-			\brief		Structure used to convert from a string type to another string type
-			\remarks	Specialization used when no conversion is needed
+			@author
+				Sylvain Doremus
+			@version
+				2.0.0
+			@date
+				09/03/2015
+			@brief
+				Structure used to convert from a string type to another string type
+			@remarks
+				Specialization used when no conversion is needed
 			*/
 			template< typename InChar >
 			struct StringConverter< InChar, InChar >
 			{
-				/**
-				 *\brief		Conversion function
-				 *\param[in]	p_strIn		The input string
-				 *\param[out]	p_strOut	The output string
-				 *\param[in]	p_locale	The locale
+				/** Conversion function
+				@param[in] p_strIn
+					The input string
+				@param[out] p_strOut
+					The output string
+				@param[in] p_locale
+					The locale
 				 */
 				static void Convert( std::basic_string< InChar > const & p_strIn, std::basic_string< InChar > & p_strOut, std::locale const & p_locale = std::locale() )
 				{
@@ -143,10 +171,12 @@ namespace ProceduralTextures
 				}
 			};
 		}
-		/**
-		 *\brief		Puts a value into a String
-		 *\param[in]	p_in	The value
-		 *\return		The String
+
+		/** Puts a value into a String
+		@param[in] p_in
+			The value
+		@return
+			The String
 		 */
 		template< typename T >
 		String ToString( T const & p_in )
@@ -155,10 +185,12 @@ namespace ProceduralTextures
 			l_stream << p_in;
 			return l_stream.str();
 		}
-		/**
-		 *\brief		Converts a string from one type to another type
-		 *\param[in]	p_in	The input string
-		 *\return		The converted string
+
+		/** Converts a string from one type to another type
+		@param[in] p_in
+			The input string
+		@return
+			The converted string
 		 */
 		template< typename OChar, typename IChar >
 		std::basic_string< OChar > StringCast( std::basic_string< IChar > const & p_in )
@@ -167,10 +199,12 @@ namespace ProceduralTextures
 			details::StringConverter< IChar, OChar >::Convert( std::basic_string< IChar >( p_in ), l_return );
 			return l_return;
 		}
-		/**
-		 *\brief		Converts a string from one type to another type
-		 *\param[in]	p_in	The input string
-		 *\return		The converted string
+
+		/** Converts a string from one type to another type
+		@param[in] p_in
+			The input string
+		@return
+			The converted string
 		 */
 		template< typename OChar, typename IChar >
 		std::basic_string< OChar > StringCast( IChar const * p_in )
@@ -179,66 +213,79 @@ namespace ProceduralTextures
 			details::StringConverter< IChar, OChar >::Convert( std::basic_string< IChar >( p_in ), l_return );
 			return l_return;
 		}
-		/**
-		 *\brief		Retrieves a String from a std::string
-		 *\param[in]	p_str	The std::string
-		 *\return		The String
+
+		/** Retrieves a String from a std::string
+		@param[in] p_str
+			The std::string
+		@return
+			The String
 		 */
 		inline String FromStdString( std::string const & p_str )
 		{
 			return StringCast< char >( p_str );
 		}
-		/**
-		 *\brief		Retrieves a String from a std::wstring
-		 *\param[in]	p_str	The std::wstring
-		 *\return		The String
+
+		/** Retrieves a String from a std::wstring
+		@param[in] p_str
+			The std::wstring
+		@return
+			The String
 		 */
 		inline String FromStdWString( std::wstring const & p_str )
 		{
 			return StringCast< char >( p_str );
 		}
-		/**
-		 *\brief		Retrieves a std::string from a std::wstring
-		 *\param[in]	p_str		The String
-		 *\return		The std::string
+
+		/** Retrieves a std::string from a std::wstring
+		@param[in] p_str
+			The String
+		@return
+			The std::string
 		 */
 		inline std::string ToStdString( std::wstring const & p_str )
 		{
 			return StringCast< char >( p_str );
 		}
-		/**
-		 *\brief		Retrieves a std::string from a std::string
-		 *\param[in]	p_str		The String
-		 *\return		The std::string
+
+		/** Retrieves a std::string from a std::string
+		@param[in] p_str
+			The String
+		@return
+			The std::string
 		 */
 		inline std::string ToStdString( std::string const & p_str )
 		{
 			std::string::iterator l_it;
 			return p_str;
 		}
-		/**
-		 *\~english
-		 *\brief		Retrieves a std::wstring from a std::string
-		 *\param[in]	p_str	The String
-		 *\return		The std::wstring
+
+		/** Retrieves a std::wstring from a std::string
+		@param[in] p_str
+			The String
+		@return
+			The std::wstring
 		 */
 		inline std::wstring ToStdWString( std::string const & p_str )
 		{
 			return StringCast< wchar_t >( p_str );
 		}
-		/**
-		 *\brief		Retrieves a std::wstring from a std::wstring
-		 *\param[in]	p_str	The String
-		 *\return		The std::wstring
+
+		/** Retrieves a std::wstring from a std::wstring
+		@param[in] p_str
+			The String
+		@return
+			The std::wstring
 		 */
 		inline std::wstring ToStdWString( std::wstring const & p_str )
 		{
 			return p_str;
 		}
-		/**
-		 *\brief		Retrieves an UTF-8 char32_t from a char array
-		 *\param[in]	p_value	The integer char
-		 *\return		The UTF-8 char32_t character
+
+		/** Retrieves an UTF-8 char32_t from a char array
+		@param[in] p_value
+			The integer char
+		@return
+			The UTF-8 char32_t character
 		 */
 		template< typename IteratorType >
 		inline char32_t ToUtf8( IteratorType p_value )
@@ -283,19 +330,24 @@ namespace ProceduralTextures
 
 			return l_return;
 		}
+
 		/*!
-		\author 	Sylvain Doremus
-		\version	2.0.0
-		\date		09/03/2015
-		\brief		An iterator, to an UTF-8 string
+		@author
+			Sylvain Doremus
+		@version
+			2.0.0
+		@date
+			09/03/2015
+		@brief
+			An iterator, to an UTF-8 string
 		*/
 		class Utf8Iterator
 			: public std::iterator< std::bidirectional_iterator_tag, char32_t, std::string::difference_type, const char32_t *, const char32_t & >
 		{
 		public:
-			/**
-			 *\brief		Constructor
-			 *\param[in]	p_it	The string iterator
+			/** Constructor
+			@param[in] p_it
+				The string iterator
 			 */
 			Utf8Iterator( String::const_iterator const & p_it )
 				: m_it( p_it )
@@ -303,9 +355,10 @@ namespace ProceduralTextures
 				, m_dirty( true )
 			{
 			}
-			/**
-			 *\brief		Copy constructor
-			 *\param[in]	p_it	The other object
+
+			/** Copy constructor
+			@param[in] p_it
+				The other object
 			 */
 			Utf8Iterator( Utf8Iterator const & p_it )
 				: m_it( p_it.m_it )
@@ -313,16 +366,18 @@ namespace ProceduralTextures
 				, m_dirty( p_it.m_dirty )
 			{
 			}
-			/**
-			 *\brief		Destructor
+
+			/** Destructor
 			 */
 			~Utf8Iterator()
 			{
 			}
-			/**
-			 *\brief		Assignment operator
-			 *\param[in]	p_it	The string iterator
-			 *\return		A reference to this object
+
+			/** Assignment operator
+			@param[in] p_it
+				The string iterator
+			@return
+				A reference to this object
 			 */
 			Utf8Iterator & operator=( String::const_iterator const & p_it )
 			{
@@ -331,10 +386,12 @@ namespace ProceduralTextures
 				m_dirty = true;
 				return *this;
 			}
-			/**
-			 *\brief		Assignment operator
-			 *\param[in]	p_it	The string iterator
-			 *\return		A reference to this object
+
+			/** Assignment operator
+			@param[in] p_it
+				The string iterator
+			@return
+				A reference to this object
 			 */
 			Utf8Iterator & operator=( String::iterator const & p_it )
 			{
@@ -343,10 +400,12 @@ namespace ProceduralTextures
 				m_dirty = true;
 				return *this;
 			}
-			/**
-			 *\brief		Copy assignment operator
-			 *\param[in]	p_it	The other object
-			 *\return		A reference to this object
+
+			/** Copy assignment operator
+			@param[in] p_it
+				The other object
+			@return
+				A reference to this object
 			 */
 			Utf8Iterator & operator=( Utf8Iterator const & p_it )
 			{
@@ -355,10 +414,12 @@ namespace ProceduralTextures
 				m_dirty = p_it.m_dirty;
 				return *this;
 			}
-			/**
-			 *\brief		Assigment addition operator
-			 *\param[in]	p_offset	The offset to add
-			 *\return		A reference to this object
+
+			/** Assigment addition operator
+			@param[in] p_offset
+				The offset to add
+			@return
+				A reference to this object
 			 */
 			Utf8Iterator & operator+=( size_t p_offset )
 			{
@@ -369,10 +430,12 @@ namespace ProceduralTextures
 
 				return *this;
 			}
-			/**
-			 *\brief		Assignment subtraction operator
-			 *\param[in]	p_offset	The offset to subtract
-			 *\return		A reference to this object
+
+			/** Assignment subtraction operator
+			@param[in] p_offset
+				The offset to subtract
+			@return
+				A reference to this object
 			 */
 			Utf8Iterator & operator-=( size_t p_offset )
 			{
@@ -383,9 +446,10 @@ namespace ProceduralTextures
 
 				return *this;
 			}
-			/**
-			 *\brief		Pre-increment operator
-			 *\return		A reference to this object
+
+			/** Pre-increment operator
+			@return
+				A reference to this object
 			 */
 			Utf8Iterator & operator++()
 			{
@@ -410,9 +474,10 @@ namespace ProceduralTextures
 				m_dirty = true;
 				return *this;
 			}
-			/**
-			 *\brief		Post-increment operator
-			 *\return		A copy of this iterator, befor increment
+
+			/** Post-increment operator
+			@return
+				A copy of this iterator, befor increment
 			 */
 			Utf8Iterator operator++( int )
 			{
@@ -420,9 +485,10 @@ namespace ProceduralTextures
 				++( *this );
 				return temp;
 			}
-			/**
-			 *\brief		Pre-decrement operator
-			 *\return		A reference to this object
+
+			/** Pre-decrement operator
+			@return
+				A reference to this object
 			 */
 			Utf8Iterator & operator--()
 			{
@@ -446,9 +512,10 @@ namespace ProceduralTextures
 				m_dirty = true;
 				return *this;
 			}
-			/**
-			 *\brief		Post-decrement operator
-			 *\return		A copy of this iterator, befor dencrement
+
+			/** Post-decrement operator
+			@return
+				A copy of this iterator, befor dencrement
 			 */
 			Utf8Iterator operator--( int )
 			{
@@ -456,59 +523,60 @@ namespace ProceduralTextures
 				--( *this );
 				return temp;
 			}
-			/**
-			 *\brief		Access to the current codepoint value
-			 *\return		The current codepoint value
+
+			/** Access to the current codepoint value
+			@return
+				The current codepoint value
 			 */
 			char32_t operator*()const
 			{
 				DoCalculateCurrentCodePoint();
 				return m_lastCodePoint;
 			}
-			/**
-			 *\brief		Equality operator
+
+			/** Equality operator
 			 */
 			bool operator==( const Utf8Iterator & p_it )const
 			{
 				return m_it == p_it.m_it;
 			}
-			/**
-			 *\brief		Equality operator
+
+			/** Equality operator
 			 */
 			bool operator==( const String::const_iterator & p_it )const
 			{
 				return m_it == p_it;
 			}
-			/**
-			 *\brief		Equality operator
+
+			/** Equality operator
 			 */
 			bool operator==( const String::iterator & p_it )const
 			{
 				return m_it == p_it;
 			}
-			/**
-			 *\brief		Difference operator
+
+			/** Difference operator
 			 */
 			bool operator!=( const Utf8Iterator & p_it )const
 			{
 				return m_it != p_it.m_it;
 			}
-			/**
-			 *\brief		Difference operator
+
+			/** Difference operator
 			 */
 			bool operator!=( const String::const_iterator & p_it )const
 			{
 				return m_it != p_it;
 			}
-			/**
-			 *\brief		Difference operator
+
+			/** Difference operator
 			 */
 			bool operator!=( const String::iterator & p_it )const
 			{
 				return m_it != p_it;
 			}
-			/**
-			 *\brief		Retrieves the internal iterator
+
+			/** Retrieves the internal iterator
 			 */
 			String::const_iterator internal()const
 			{
@@ -516,8 +584,7 @@ namespace ProceduralTextures
 			}
 
 		private:
-			/**
-			 *\brief		Computes the cached codepoint
+			/** Computes the cached codepoint
 			 */
 			void DoCalculateCurrentCodePoint()const
 			{
@@ -535,11 +602,14 @@ namespace ProceduralTextures
 			//! Tells the codepoint needs recomputing
 			mutable bool m_dirty;
 		};
-		/**
-		 *\brief		Addition operator
-		 *\param[in]	p_it		The iterator
-		 *\param[in]	p_offset	The offset to add
-		 *\return		A reference to this object
+
+		/** Addition operator
+		@param[in] p_it
+			The iterator
+		@param[in] p_offset
+			The offset to add
+		@return
+			A reference to this object
 		 */
 		inline Utf8Iterator operator+( Utf8Iterator p_it, size_t p_offset )
 		{
@@ -547,11 +617,14 @@ namespace ProceduralTextures
 			l_it += p_offset;
 			return l_it;
 		}
-		/**
-		 *\brief		Subtraction operator
-		 *\param[in]	p_it		The iterator
-		 *\param[in]	p_offset	The offset to subtract
-		 *\return		A reference to this object
+
+		/** Subtraction operator
+		@param[in] p_it
+			The iterator
+		@param[in] p_offset
+			The offset to subtract
+		@return
+			A reference to this object
 		 */
 		inline Utf8Iterator operator-( Utf8Iterator p_it, size_t p_offset )
 		{

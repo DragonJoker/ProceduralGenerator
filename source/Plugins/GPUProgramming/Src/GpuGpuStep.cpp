@@ -65,46 +65,38 @@ namespace GpuProgramming
 
 	ProceduralTextures::String GpuStep::GetCompilerLog()
 	{
-		ProceduralTextures::String l_strText;
+		ProceduralTextures::StringStream l_stream;
 
 		if ( m_itSelectedEffect != m_arrayEffects.end() )
 		{
 			ProceduralTextures::String l_strVertexLog = ( *m_itSelectedEffect )->GetCompilerLog( ProceduralTextures::gl::eSHADER_OBJECT_TYPE_VERTEX );
+
+			if ( !l_strVertexLog.empty() )
+			{
+				l_stream << _( "Vertex Shader :" ) << std::endl << l_strVertexLog << std::endl << std::endl;
+			}
+
 			ProceduralTextures::String l_strFragmentLog = ( *m_itSelectedEffect )->GetCompilerLog( ProceduralTextures::gl::eSHADER_OBJECT_TYPE_PIXEL );
+
+			if ( !l_strFragmentLog.empty() )
+			{
+				l_stream << _( "Fragment Shader :" ) << std::endl << l_strFragmentLog << std::endl << std::endl;
+			}
+
 			ProceduralTextures::String l_strLinkerLog = ( *m_itSelectedEffect )->GetLinkerLog();
 
-			if ( ! l_strVertexLog.empty() )
+			if ( !l_strLinkerLog.empty() )
 			{
-				l_strText += _( "Vertex Shader :" ) + ProceduralTextures::String( _T( "\n" ) ) + l_strVertexLog;
+				l_stream << _( "Linker :" ) << std::endl << l_strLinkerLog << std::endl << std::endl;
 			}
 
-			if ( ! l_strFragmentLog.empty() )
+			if ( l_stream.width() == 0 )
 			{
-				if ( ! l_strText.empty() )
-				{
-					l_strText += _T( "\n\n" );
-				}
-
-				l_strText += _( "Fragment Shader :" ) + ProceduralTextures::String( _T( "\n" ) ) + l_strFragmentLog + _T( "\n\n" );
-			}
-
-			if ( ! l_strLinkerLog.empty() )
-			{
-				if ( ! l_strText.empty() )
-				{
-					l_strText += _T( "\n\n" );
-				}
-
-				l_strText += _( "Linker :" ) + ProceduralTextures::String( _T( "\n" ) ) + l_strLinkerLog + _T( "\n\n" );
-			}
-
-			if ( l_strText.empty() )
-			{
-				l_strText = _( "No error" );
+				l_stream << _( "No error" ) << std::endl << std::endl;
 			}
 		}
 
-		return l_strText;
+		return l_stream.str();
 	}
 
 	void GpuStep::SetVertexShaderPath( ProceduralTextures::String const & p_path )

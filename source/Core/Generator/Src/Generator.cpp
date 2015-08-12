@@ -22,6 +22,8 @@ namespace ProceduralTextures
 		: m_needsConfigPanel( p_needsConfigPanel )
 		, m_frameTime( p_frameTime )
 	{
+		m_panel = std::make_shared< StaticCtrl >( nullptr, _T( "" ), Position(), Size( CONFIG_PANEL_WIDTH, 512 ) );
+		m_options = std::make_shared< StaticCtrl >( m_panel, _T( "" ), Position( 0, 40 ), Size( CONFIG_PANEL_WIDTH, CONFIG_PANEL_HEIGHT ) );
 	}
 
 	GeneratorBase::~GeneratorBase()
@@ -48,58 +50,56 @@ namespace ProceduralTextures
 		DoGetCpuStep()->Initialise();
 		DoGetGpuStep()->Initialise();
 
-		m_panel = std::make_shared< StaticCtrl >( _T( "" ), Position(), Size( CONFIG_PANEL_WIDTH, 512 ) );
-		m_controlsManager->Create( nullptr, m_panel );
+		m_controlsManager->Create( m_panel );
 
-		std::shared_ptr< StaticCtrl > l_panel = std::make_shared< StaticCtrl >( _T( "" ), Position(), Size( CONFIG_PANEL_WIDTH, 40 ) );
+		std::shared_ptr< StaticCtrl > l_panel = std::make_shared< StaticCtrl >( m_panel, _T( "" ), Position(), Size( CONFIG_PANEL_WIDTH, 40 ) );
 		l_panel->SetBackgroundColour( Colour( 0.0, 0.0, 0.0, 0.5 ) );
 		l_panel->SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
-		m_controlsManager->Create( m_panel, l_panel );
-		std::shared_ptr< StaticCtrl > l_cpu = std::make_shared< StaticCtrl >( _T( "" ), Position( 0, 0 ), Size( CONFIG_PANEL_WIDTH, 20 ) );
+		m_controlsManager->Create( l_panel );
+		std::shared_ptr< StaticCtrl > l_cpu = std::make_shared< StaticCtrl >( l_panel, _T( "" ), Position( 0, 0 ), Size( CONFIG_PANEL_WIDTH, 20 ) );
 		l_cpu->SetForegroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
-		m_controlsManager->Create( l_panel, l_cpu );
-		std::shared_ptr< StaticCtrl > l_gpu = std::make_shared< StaticCtrl >( _T( "" ), Point2d( 0, 20 ), Size( CONFIG_PANEL_WIDTH, 20 ) );
+		m_controlsManager->Create( l_cpu );
+		std::shared_ptr< StaticCtrl > l_gpu = std::make_shared< StaticCtrl >( l_panel, _T( "" ), Point2d( 0, 20 ), Size( CONFIG_PANEL_WIDTH, 20 ) );
 		l_gpu->SetForegroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
-		m_controlsManager->Create( l_panel, l_gpu );
+		m_controlsManager->Create( l_gpu );
 
-		std::shared_ptr< StaticCtrl > l_options = std::make_shared< StaticCtrl >( _T( "" ), Position( 0, 40 ), Size( CONFIG_PANEL_WIDTH, 472 ) );
-		l_options->SetBackgroundColour( Colour( 0.0, 0.0, 0.0, 0.5 ) );
-		l_options->SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
-		m_controlsManager->Create( m_panel, l_options );
+		m_options->SetBackgroundColour( Colour( 0.0, 0.0, 0.0, 0.5 ) );
+		m_options->SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
+		m_controlsManager->Create( m_options );
 
 		for ( auto && l_control : m_arrayControls )
 		{
 			switch ( l_control->GetType() )
 			{
 			case eCONTROL_TYPE_STATIC:
-				m_controlsManager->Create( l_options, std::static_pointer_cast< StaticCtrl >( l_control ) );
+				m_controlsManager->Create( std::static_pointer_cast< StaticCtrl >( l_control ) );
 				break;
 
 			case eCONTROL_TYPE_EDIT:
-				m_controlsManager->Create( l_options, std::static_pointer_cast< EditCtrl >( l_control ) );
+				m_controlsManager->Create( std::static_pointer_cast< EditCtrl >( l_control ) );
 				break;
 
 			case eCONTROL_TYPE_SLIDER:
-				m_controlsManager->Create( l_options, std::static_pointer_cast< SliderCtrl >( l_control ) );
+				m_controlsManager->Create( std::static_pointer_cast< SliderCtrl >( l_control ) );
 				break;
 
 			case eCONTROL_TYPE_COMBO:
-				m_controlsManager->Create( l_options, std::static_pointer_cast< ComboBoxCtrl >( l_control ) );
+				m_controlsManager->Create( std::static_pointer_cast< ComboBoxCtrl >( l_control ) );
 				break;
 
 			case eCONTROL_TYPE_LIST:
-				m_controlsManager->Create( l_options, std::static_pointer_cast< ListBoxCtrl >( l_control ) );
+				m_controlsManager->Create( std::static_pointer_cast< ListBoxCtrl >( l_control ) );
 				break;
 
 			case eCONTROL_TYPE_BUTTON:
-				m_controlsManager->Create( l_options, std::static_pointer_cast< ButtonCtrl >( l_control ) );
+				m_controlsManager->Create( std::static_pointer_cast< ButtonCtrl >( l_control ) );
 				break;
 			}
 		}
 
-		m_visibility = std::make_shared< ButtonCtrl >( _T( "-" ), 0, Position( CONFIG_PANEL_WIDTH, 0 ), Size( 20, 20 ) );
+		m_visibility = std::make_shared< ButtonCtrl >( nullptr, _T( "-" ), 0, Position( CONFIG_PANEL_WIDTH, 0 ), Size( 20, 20 ) );
 		m_visibility->Connect( eBUTTON_EVENT_CLICKED, std::bind( &GeneratorBase::DoSwitchVisibility, this ) );
-		m_controlsManager->Create( nullptr, m_visibility );
+		m_controlsManager->Create( m_visibility );
 
 		m_cpuTime = l_cpu;
 		m_gpuTime = l_gpu;

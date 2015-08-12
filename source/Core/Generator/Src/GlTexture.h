@@ -28,81 +28,93 @@ namespace ProceduralTextures
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Texture implementation
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Texture implementation
 	*/
 	class GeneratorAPI Texture
 		: public Object< std::function< bool( int, uint32_t * ) >, std::function< bool( int, uint32_t const * ) > >
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGL instance
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
 		 */
 		Texture( std::shared_ptr< OpenGl > p_openGl );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		~Texture();
-		/**
-		 *\brief		Initialises the texture from an external buffer
-		 *\return		true if it is successfully initialised
+
+		/** Initialises the texture from an external buffer
+		@return
+			true if it is successfully initialised
 		 */
 		bool Initialise( std::shared_ptr< PixelBuffer > p_buffer );
-		/**
-		 *\brief		Initialises the texture from a size
-		 *\return		true if it is successfully initialised
+
+		/** Initialises the texture from a size
+		@return
+			true if it is successfully initialised
 		 */
 		bool Initialise( Size const & p_size );
-		/**
-		 *\brief		Cleans up the texture
+
+		/** Cleans up the texture
 		 */
 		void Cleanup();
-		/**
-		 *\brief		Tries to activate the texture in given configuration
-		 *\param[in]	p_texTarget	The texture target (GL_TEXTURE0, ...)
-		 *\param[in]	p_bUpload	Tells if the image must be uploaded
+
+		/** Tries to activate the texture in given configuration
+		@param[in] p_texTarget
+			The texture target (GL_TEXTURE0, ...)
+		@param[in] p_bUpload
+			Tells if the image must be uploaded
 		 */
 		bool Activate( unsigned int p_texTarget = GL_TEXTURE0, bool p_bUpload = false );
-		/**
-		 *\brief		Deactivates the texture
-		 *\param[in]	p_texTarget		The texture target (GL_TEXTURE0, ...)
+
+		/** Deactivates the texture
+		@param[in] p_texTarget
+			The texture target (GL_TEXTURE0, ...)
 		 */
 		void Deactivate( unsigned int p_texTarget = GL_TEXTURE0 );
-		/**
-		 *\brief		Uploads the image pixels in asynchonous mode
+
+		/** Uploads the image pixels in asynchonous mode
 		 */
 		void UploadAsync();
-		/**
-		 *\brief		Uploads the image pixels in synchonous mode
+
+		/** Uploads the image pixels in synchonous mode
 		 */
 		void UploadSync();
-		/**
-		 *\brief		Downloads the image pixels in asynchronous mode
+
+		/** Downloads the image pixels in asynchronous mode
 		 */
 		void DownloadAsync();
-		/**
-		 *\brief		Downloads the image pixels in synchronous mode
+
+		/** Downloads the image pixels in synchronous mode
 		 */
 		void DownloadSync();
-		/**
-		 *\brief		Resets the texture dimensions
-		 *\remarks		The texture must be initialised again, after that call
-		 *\param[in]	p_size	The new dimensions
+
+		/** Resets the texture dimensions
+		@remarks
+			The texture must be initialised again, after that call
+		@param[in] p_size
+			The new dimensions
 		 */
 		void Resize( Size const & p_size );
-		/**
-		 *\brief		Retrieves the texture image buffer
-		 *\return		The value
+
+		/** Retrieves the texture image buffer
+		@return
+			The value
 		 */
 		inline PixelBuffer const & GetBuffer()const
 		{
 			return ( *m_pPixels );
 		}
-		/**
-		 *\brief		Retrieves the texture image buffer
-		 *\return		The value
+
+		/** Retrieves the texture image buffer
+		@return
+			The value
 		 */
 		inline PixelBuffer & GetBuffer()
 		{

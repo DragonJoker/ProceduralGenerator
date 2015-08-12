@@ -23,34 +23,46 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\brief		Description of a control, in order to be able to create it completely
+	@author
+		Sylvain DOREMUS
+	@version
+		2.0.0
+	@brief
+		Description of a control, in order to be able to create it completely
 	*/
 	class GeneratorAPI StaticCtrl
 		: public Control
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_caption	The static caption
-		 *\param[in]	p_position	The control position
-		 *\param[in]	p_size		The control size
-		 *\param[in]	p_style		The control style
-		 *\param[in]	p_visible	Initial visibility status
+		/** Constructor
+		@param[in] p_parent
+			The parent control, if any
+		@param[in] p_caption
+			The static caption
+		@param[in] p_position
+			The control position
+		@param[in] p_size
+			The control size
+		@param[in] p_style
+			The control style
+		@param[in] p_visible
+			Initial visibility status
 		 */
-		StaticCtrl( String const & p_caption, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
-		/**
-		 *\brief		Destructor
+		StaticCtrl( std::shared_ptr< Control > p_parent, String const & p_caption, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
+
+		/** Destructor
 		 */
 		virtual ~StaticCtrl();
-		/**
-		 *\brief		Sets the static caption
-		 *\param[in]	p_value	The new value
+
+		/** Sets the static caption
+		@param[in] p_value
+			The new value
 		 */
 		void SetCaption( String const & p_value );
-		/**
-		 *\brief		Retrieve the static caption
-		 *\return		The value
+
+		/** Retrieve the static caption
+		@return
+			The value
 		 */
 		inline String const & GetCaption()const
 		{
@@ -58,36 +70,35 @@ namespace ProceduralTextures
 		}
 
 	private:
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoCreate
+		/** @copydoc ProceduralTextures::Control::DoCreate
 		 */
 		virtual void DoCreate( std::shared_ptr< OverlayManager > p_manager );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetPosition
+
+		/** @copydoc ProceduralTextures::Control::DoSetPosition
 		 */
 		virtual void DoSetPosition( Position const & p_value );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetSize
+
+		/** @copydoc ProceduralTextures::Control::DoSetSize
 		 */
 		virtual void DoSetSize( Size const & p_value );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetBackgroundColour
+
+		/** @copydoc ProceduralTextures::Control::DoSetBackgroundColour
 		 */
 		virtual void DoSetBackgroundColour( Colour const & p_colour );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetForegroundColour
+
+		/** @copydoc ProceduralTextures::Control::DoSetForegroundColour
 		 */
 		virtual void DoSetForegroundColour( Colour const & p_colour );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetBackgroundTexture
+
+		/** @copydoc ProceduralTextures::Control::DoSetBackgroundTexture
 		 */
 		virtual void DoSetBackgroundTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetForegroundTexture
+
+		/** @copydoc ProceduralTextures::Control::DoSetForegroundTexture
 		 */
 		virtual void DoSetForegroundTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetVisible
+
+		/** @copydoc ProceduralTextures::Control::DoSetVisible
 		 */
 		virtual void DoSetVisible( bool p_visible );
 

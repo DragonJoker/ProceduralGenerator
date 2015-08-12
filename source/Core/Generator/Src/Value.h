@@ -33,65 +33,74 @@ namespace ProceduralTextures
 	namespace details
 	{
 		/*!
-		\author		Sylvain DOREMUS
-		\date		19/10/2011
-		\brief		Functor used to delete an object with for_each
+		@author
+			Sylvain DOREMUS
+		@date
+			19/10/2011
+		@brief
+			Functor used to delete an object with for_each
 		*/
 		template < class Object >
 		struct ObjectDeleter
 		{
-			/**
-			 *\brief		Deletes an object
-			 *\param[in]	p_pPointer	The object pointer
+			/** Deletes an object
+			@param[in] p_pPointer
+				The object pointer
 			 */
 			void operator()( Object * p_pPointer )
 			{
 				delete p_pPointer;
 			}
 		};
-		/**
-		 *\brief		Deletes all container's objects
+
+		/** Deletes all container's objects
 		 */
 		template < class Container, class Object >
 		void ClearContent( Container &, Object )
 		{
 		}
-		/**
-		 *\brief		Deletes all container's objects
-		 *\param[in]	p_container	The container
+
+		/** Deletes all container's objects
+		@param[in] p_container
+			The container
 		 */
 		template < class Container, class Object >
 		void ClearContent( Container & p_container, Object * )
 		{
 			std::for_each( p_container.begin(), p_container.end(), ObjectDeleter< Object >() );
 		}
+
 		/*!
-		\author		Sylvain DOREMUS
-		\date		19/10/2011
-		\brief		Functor used to delete a pair with for_each
+		@author
+			Sylvain DOREMUS
+		@date
+			19/10/2011
+		@brief
+			Functor used to delete a pair with for_each
 		*/
 		template< typename KeyType, typename ObjType >
 		struct PairDeleter
 		{
-			/**
-			 *\brief		Deletes a pair's second object
-			 *\param[in]	p_pair	The pair
+			/** Deletes a pair's second object
+			@param[in] p_pair
+				The pair
 			 */
 			void operator()( std::pair< KeyType, ObjType * > p_pair )
 			{
 				delete p_pair.second;
 			}
 		};
-		/**
-		 *\brief		Deletes all container's pairs
+
+		/** Deletes all container's pairs
 		 */
 		template< class CtnrType, typename KeyType, typename ObjType >
 		void ClearPairContent( CtnrType &, std::pair< KeyType, ObjType > )
 		{
 		}
-		/**
-		 *\brief		Deletes all container's pairs
-		 *\param[in]	p_container	The container
+
+		/** Deletes all container's pairs
+		@param[in] p_container
+			The container
 		 */
 		template< class CtnrType, typename KeyType, typename ObjType >
 		void ClearPairContent( CtnrType & p_container, std::pair< KeyType, ObjType * > )
@@ -99,10 +108,12 @@ namespace ProceduralTextures
 			std::for_each( p_container.begin(), p_container.end(), PairDeleter< KeyType, ObjType >() );
 		}
 	}
-	/**
-	 *\brief		Clears a container
-	 *\remarks		Deallocates all the content if needed
-	 *\param[in]	p_container	The container to clear
+
+	/** Clears a container
+	@remarks
+			Deallocates all the content if needed
+	@param[in] p_container
+		The container to clear
 	 */
 	template < class Container >
 	void ClearContainer( Container & p_container )
@@ -111,10 +122,12 @@ namespace ProceduralTextures
 		details::ClearContent( p_container, value_type() );
 		Container().swap( p_container );
 	}
-	/**
-	 *\brief		Clears a pair container (like std::map)
-	 *\remarks		Deallocates all the content if needed
-	 *\param[in]	p_container	The container to clear
+
+	/** Clears a pair container (like std::map)
+	@remarks
+			Deallocates all the content if needed
+	@param[in] p_container
+		The container to clear
 	 */
 	template< class CtnrType >
 	void ClearPairContainer( CtnrType & p_container )
@@ -123,10 +136,14 @@ namespace ProceduralTextures
 		details::ClearPairContent( p_container, value_type() );
 		CtnrType().swap( p_container );
 	}
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		19/10/2011
-	\brief		Struct used to select best way to put type in parameter : 'value' or 'const reference'
+	@author
+		Sylvain DOREMUS
+	@date
+		19/10/2011
+	@brief
+		Struct used to select best way to put type in parameter : 'value' or 'const reference'
 	*/
 	template< typename T >
 	struct CallTraits
@@ -134,9 +151,12 @@ namespace ProceduralTextures
 	private:
 		template < typename U, bool Big > struct CallTraitsImpl;
 		/*!
-		\author		Sylvain DOREMUS
-		\date		19/10/2011
-		\brief		Struct used to select 'reference' parameter type
+		@author
+			Sylvain DOREMUS
+		@date
+			19/10/2011
+		@brief
+			Struct used to select 'reference' parameter type
 		*/
 		template< typename U >
 		struct CallTraitsImpl< U, true >
@@ -145,9 +165,12 @@ namespace ProceduralTextures
 			typedef U & Type;
 		};
 		/*!
-		\author		Sylvain DOREMUS
-		\date		19/10/2011
-		\brief		Struct used to select 'value' parameter type
+		@author
+			Sylvain DOREMUS
+		@date
+			19/10/2011
+		@brief
+			Struct used to select 'value' parameter type
 		*/
 		template< typename U >
 		struct CallTraitsImpl< U, false >
@@ -158,15 +181,21 @@ namespace ProceduralTextures
 
 	public:
 		/*!
-		\author		Sylvain DOREMUS
-		\date		19/10/2011
-		\brief		Typedef over the best way to put type in parameter : 'value' or 'reference'
+		@author
+			Sylvain DOREMUS
+		@date
+			19/10/2011
+		@brief
+			Typedef over the best way to put type in parameter : 'value' or 'reference'
 		*/
 		typedef typename CallTraitsImpl < T, ( sizeof( T ) > sizeof( ptrdiff_t ) ) >::Type ParamType;
 		/*!
-		\author		Sylvain DOREMUS
-		\date		19/10/2011
-		\brief		Typedef over the best way to put type in parameter : 'const value' or 'const reference'
+		@author
+			Sylvain DOREMUS
+		@date
+			19/10/2011
+		@brief
+			Typedef over the best way to put type in parameter : 'const value' or 'const reference'
 		*/
 		typedef typename CallTraitsImpl < T, ( sizeof( T ) > sizeof( ptrdiff_t ) ) >::ConstType ConstParamType;
 	};

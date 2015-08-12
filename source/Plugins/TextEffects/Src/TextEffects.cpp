@@ -33,19 +33,19 @@ namespace TextEffects
 			_T( "Texture" ),
 		};
 
-		m_staticForeground = std::make_shared< StaticCtrl >( _( "Foreground type" ), Position( 10, 10 + DEFAULT_HEIGHT * 0 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ) );
-		m_comboForeground = std::make_shared< ComboBoxCtrl >( l_bgChoices, 0, eID_TEXTBGTYPE, Position( 10, 10 + DEFAULT_HEIGHT * 1 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), eCOMBO_STYLE_READONLY );
+		m_staticForeground = std::make_shared< StaticCtrl >( m_options, _( "Foreground type" ), Position( 10, 10 + DEFAULT_HEIGHT * 0 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ) );
+		m_comboForeground = std::make_shared< ComboBoxCtrl >( m_options, l_bgChoices, 0, eID_TEXTBGTYPE, Position( 10, 10 + DEFAULT_HEIGHT * 1 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), eCOMBO_STYLE_READONLY );
 		m_comboForeground->Connect( eCOMBOBOX_EVENT_SELECTED, std::bind( &Generator::OnForegroundType, this, std::placeholders::_1 ) );
-		m_buttonForegroundColour = std::make_shared< ButtonCtrl >( _( "Foreground colour" ), eID_TEXTBG_COLOUR, Position( 10, 10 + DEFAULT_HEIGHT * 2 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ) );
+		m_buttonForegroundColour = std::make_shared< ButtonCtrl >( m_options, _( "Foreground colour" ), eID_TEXTBG_COLOUR, Position( 10, 10 + DEFAULT_HEIGHT * 2 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ) );
 		m_buttonForegroundColour->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnForegroundColour, this ) );
-		m_buttonForegroundImage = std::make_shared< ButtonCtrl >( _( "Foreground image" ), eID_TEXTBG_IMAGE, Position( 10, 10 + DEFAULT_HEIGHT * 2 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), 0, false );
+		m_buttonForegroundImage = std::make_shared< ButtonCtrl >( m_options, _( "Foreground image" ), eID_TEXTBG_IMAGE, Position( 10, 10 + DEFAULT_HEIGHT * 2 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ), 0, false );
 		m_buttonForegroundImage->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnForegroundImage, this ) );
-		m_buttonBackgroundImage = std::make_shared< ButtonCtrl >( _( "Background image" ), eID_BACKGROUND, Position( 10, 10 + DEFAULT_HEIGHT * 3 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ) );
+		m_buttonBackgroundImage = std::make_shared< ButtonCtrl >( m_options, _( "Background image" ), eID_BACKGROUND, Position( 10, 10 + DEFAULT_HEIGHT * 3 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ) );
 		m_buttonBackgroundImage->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnBackgroundImage, this ) );
-		m_buttonFont = std::make_shared< ButtonCtrl >( _( "Text Font" ), eID_FONT, Position( 10, 10 + DEFAULT_HEIGHT * 4 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ) );
+		m_buttonFont = std::make_shared< ButtonCtrl >( m_options, _( "Text Font" ), eID_FONT, Position( 10, 10 + DEFAULT_HEIGHT * 4 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ) );
 		m_buttonFont->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnFont, this ) );
-		m_staticCaption = std::make_shared< StaticCtrl >( _( "Caption" ), Position( 10, 10 + DEFAULT_HEIGHT * 5 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ) );
-		m_editCaption = std::make_shared< EditCtrl >( _T( "" ), eID_TEXT, Position( 10, 10 + DEFAULT_HEIGHT * 6 ), Size( CONFIG_PANEL_WIDTH -  20, 472 - ( 10 + DEFAULT_HEIGHT * 6 ) - 10 ), eEDIT_STYLE_MULTILINE | eEDIT_STYLE_PROCESS_TAB | eEDIT_STYLE_WORDWRAP );
+		m_staticCaption = std::make_shared< StaticCtrl >( m_options, _( "Caption" ), Position( 10, 10 + DEFAULT_HEIGHT * 5 ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ) );
+		m_editCaption = std::make_shared< EditCtrl >( m_options, _T( "" ), eID_TEXT, Position( 10, 10 + DEFAULT_HEIGHT * 6 ), Size( CONFIG_PANEL_WIDTH -  20, 472 - ( 10 + DEFAULT_HEIGHT * 6 ) - 10 ), eEDIT_STYLE_MULTILINE | eEDIT_STYLE_PROCESS_TAB | eEDIT_STYLE_WORDWRAP );
 		m_editCaption->Connect( eEDIT_EVENT_UPDATED, std::bind( &Generator::OnChar, this, std::placeholders::_1 ) );
 
 		m_editCaption->SetCaption( _T( "The quick brown fox jumps over the lazy dog." ) );

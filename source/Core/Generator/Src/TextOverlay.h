@@ -28,10 +28,14 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		02/03/2015
-	\version	2.0.0
-	\brief		Horizontal alignments
+	@author
+		Sylvain DOREMUS
+	@date
+		02/03/2015
+	@version
+		2.0.0
+	@brief
+		Horizontal alignments
 	*/
 	typedef enum eHALIGN
 	{
@@ -42,11 +46,16 @@ namespace ProceduralTextures
 		//! Aligned on the right
 		eHALIGN_RIGHT,
 	}	eHALIGN;
+
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		02/03/2015
-	\version	2.0.0
-	\brief		Vertical alignments
+	@author
+		Sylvain DOREMUS
+	@date
+		02/03/2015
+	@version
+		2.0.0
+	@brief
+		Vertical alignments
 	*/
 	typedef enum eVALIGN
 	{
@@ -57,20 +66,27 @@ namespace ProceduralTextures
 		//! Aligned on the bottom
 		eVALIGN_BOTTOM,
 	}	eVALIGN;
+
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		23/02/2015
-	\version	2.0.0
-	\brief		A character in a text overlay : position, size and value
+	@author
+		Sylvain DOREMUS
+	@date
+		23/02/2015
+	@version
+		2.0.0
+	@brief
+		A character in a text overlay : position, size and value
 	*/
 	class GeneratorAPI Character
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_value		The character value
-		 *\param[in]	p_position	The character position
-		 *\param[in]	p_size		The character size
+		/** Constructor
+		@param[in] p_value
+			The character value
+		@param[in] p_position
+			The character position
+		@param[in] p_size
+			The character size
 		 */
 		Character( char32_t p_value, Position const & p_position, Size const & p_size )
 			: m_value( p_value )
@@ -78,31 +94,34 @@ namespace ProceduralTextures
 			, m_size( p_size )
 		{
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~Character()
 		{
 		}
-		/**
-		 *\brief		Retrieves the character value
-		 *\return		The value
+
+		/** Retrieves the character value
+		@return
+			The value
 		 */
 		inline char32_t GetValue()const
 		{
 			return m_value;
 		}
-		/**
-		 *\brief		Retrieves the character position
-		 *\return		The value
+
+		/** Retrieves the character position
+		@return
+			The value
 		 */
 		inline Position const & GetPosition()const
 		{
 			return m_position;
 		}
-		/**
-		 *\brief		Retrieves the character size
-		 *\return		The value
+
+		/** Retrieves the character size
+		@return
+			The value
 		 */
 		inline Size const & GetSize()const
 		{
@@ -118,10 +137,14 @@ namespace ProceduralTextures
 		Size m_size;
 	};
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		23/02/2015
-	\version	2.0.0
-	\brief		An overlay with a text
+	@author
+		Sylvain DOREMUS
+	@date
+		23/02/2015
+	@version
+		2.0.0
+	@brief
+		An overlay with a text
 	*/
 	class GeneratorAPI TextOverlay
 		:	public Overlay
@@ -131,113 +154,130 @@ namespace ProceduralTextures
 		typedef std::vector< Character > CharacterArray;
 
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGl instance
-		 *\param[in]	p_material	The material
-		 *\param[in]	p_parent	The parent overlay (if any)
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGl instance
+		@param[in] p_material
+			The material
+		@param[in] p_parent
+			The parent overlay (if any)
 		 */
 		TextOverlay( std::shared_ptr< gl::OpenGl > p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~TextOverlay();
-		/**
-		 *\brief		Sets the text font
-		 *\param[in]	p_font	The new value
+
+		/** Sets the text font
+		@param[in] p_font
+			The new value
 		 */
 		void SetFont( std::shared_ptr< Font > p_font );
-		/**
-		 *\brief		Sets the shader program
-		 *\param[in]	p_type		The new value
-		 *\param[in]	p_program	The new value
+
+		/** Sets the shader program
+		@param[in] p_type
+			The new value
+		@param[in] p_program
+			The new value
 		 */
 		virtual void SetProgram( eMATERIAL_TYPE p_type, std::shared_ptr< gl::ShaderProgram > p_program );
-		/**
-		 *\brief		Retrieves the wanted glyph position
-		 *\param[in]	p_char	The glyph index
-		 *\return		The position
+
+		/** Retrieves the wanted glyph position
+		@param[in] p_char
+			The glyph index
+		@return
+			The position
 		 */
 		Position const & GetGlyphPosition( char32_t p_char )const;
-		/**
-		 *\brief		Retrieves the font
-		 *\return		The value
+
+		/** Retrieves the font
+		@return
+			The value
 		 */
 		std::shared_ptr< Font > GetFont()const
 		{
 			return m_wpFont.lock();
 		}
-		/**
-		 *\brief		Retrieves the overlay text
-		 *\return		The value
+
+		/** Retrieves the overlay text
+		@return
+			The value
 		 */
 		inline String const & GetCaption()const
 		{
 			return m_caption;
 		}
-		/**
-		 *\brief		Retrieves the horizontal alignment
-		 *\return		The value
+
+		/** Retrieves the horizontal alignment
+		@return
+			The value
 		 */
 		inline eHALIGN GetHAlign()const
 		{
 			return m_hAlign;
 		}
-		/**
-		 *\brief		Retrieves the vertical alignment
-		 *\return		The value
+
+		/** Retrieves the vertical alignment
+		@return
+			The value
 		 */
 		inline eVALIGN GetVAlign()const
 		{
 			return m_vAlign;
 		}
-		/**
-		 *\brief		Sets the overlay text
-		 *\param[in]	p_caption	The new value
+
+		/** Sets the overlay text
+		@param[in] p_caption
+			The new value
 		 */
 		inline void SetCaption( String const & p_caption )
 		{
 			m_changed = m_caption != p_caption;
 			m_caption = p_caption;
 		}
-		/**
-		 *\brief		Sets text wrapping mode
-		 *\param[in]	p_mode	The new value
+
+		/** Sets text wrapping mode
+		@param[in] p_mode
+			The new value
 		 */
 		inline void SetTextWrappingMode( eTEXT_WRAPPING_MODE p_mode )
 		{
 			m_changed = m_wrappingMode != p_mode;
 			m_wrappingMode = p_mode;
 		}
-		/**
-		 *\brief		Sets the horizontal alignment
-		 *\param[in]	p_align	The new value
+
+		/** Sets the horizontal alignment
+		@param[in] p_align
+			The new value
 		 */
 		inline void SetHAlign( eHALIGN p_align )
 		{
 			m_changed = m_hAlign != p_align;
 			m_hAlign = p_align;
 		}
-		/**
-		 *\brief		Sets the vertical alignment
-		 *\param[in]	p_align	The new value
+
+		/** Sets the vertical alignment
+		@param[in] p_align
+			The new value
 		 */
 		inline void SetVAlign( eVALIGN p_align )
 		{
 			m_changed = m_vAlign != p_align;
 			m_vAlign = p_align;
 		}
-		/**
-		 *\brief		Retrieves an iterator to the beginning of the characters array
-		 *\return		The iterator
+
+		/** Retrieves an iterator to the beginning of the characters array
+		@return
+			The iterator
 		 */
 		inline CharacterArray::const_iterator Begin()const
 		{
 			return m_characters.begin();
 		}
-		/**
-		 *\brief		Retrieves an iterator to the end of the characters array
-		 *\return		The iterator
+
+		/** Retrieves an iterator to the end of the characters array
+		@return
+			The iterator
 		 */
 		inline CharacterArray::const_iterator End()const
 		{
@@ -245,50 +285,63 @@ namespace ProceduralTextures
 		}
 
 	protected:
-		/**
-		 *\brief		Initialises the overlay and its buffers
+		/** Initialises the overlay and its buffers
 		 */
 		virtual void DoInitialise();
-		/**
-		 *\brief		Cleans the overlay and its buffers up
+
+		/** Cleans the overlay and its buffers up
 		 */
 		virtual void DoCleanup();
-		/**
-		 *\brief		Draws the overlay
+
+		/** Draws the overlay
 		 */
 		virtual void DoRender();
-		/**
-		 *\brief		Updates the vertex buffer
+
+		/** Updates the vertex buffer
 		 */
 		virtual void DoUpdate();
-		/**
-		 *\brief		Updates the overlay position and size, taking care of wanted pixel size and position
+
+		/** Updates the overlay position and size, taking care of wanted pixel size and position
 		 */
 		virtual void DoUpdatePositionAndSize( Size const & p_size );
-		/**
-		 *\brief		Adds a word to the vertex buffer
-		 *\param[in]	p_word		The word to add
-		 *\param[in]	p_wordWidth	The word width
-		 *\param[in]	p_position	The word position
-		 *\param[in]	p_size		The overlay size
-		 *\param[out]	p_lineWidth	The line width
-		 *\param[out]	p_lineVtx	The line
-		 *\param[out]	p_linesVtx	the lines
+
+		/** Adds a word to the vertex buffer
+		@param[in] p_word
+			The word to add
+		@param[in] p_wordWidth
+			The word width
+		@param[in] p_position
+			The word position
+		@param[in] p_size
+			The overlay size
+		@param[out] p_lineWidth
+			The line width
+		@param[out] p_lineVtx
+			The line
+		@param[out] p_linesVtx
+			the lines
 		 */
 		void DoWriteWord( String const & p_word, int32_t p_wordWidth, Size const & p_size, Position & p_position, int32_t & p_lineWidth, std::vector< VertexI > & p_lineVtx, std::vector< std::vector< VertexI > > & p_linesVtx );
-		/**
-		 *\brief		Horizontally align a line
-		 *\param[in]	p_width		The overlay width
-		 *\param[out]	p_lineWidth	The line width
-		 *\param[out]	p_lineVtx	The line
-		 *\param[out]	p_linesVtx	the lines
+
+		/** Horizontally align a line
+		@param[in] p_width
+			The overlay width
+		@param[out] p_lineWidth
+			The line width
+		@param[out] p_lineVtx
+			The line
+		@param[out] p_linesVtx
+			the lines
 		 */
 		void DoAlignHorizontally( int32_t p_width, int32_t & p_lineWidth, std::vector< VertexI > & p_lineVtx, std::vector< std::vector< VertexI > > & p_linesVtx );
-		/**
-		 *\brief		Vertically align a line
-		 *\param[in]	p_height		The overlay width
-		 *\param[out]	p_linesHeight	The lines height
-		 *\param[out]	p_linesVtx		the lines
+
+		/** Vertically align a line
+		@param[in] p_height
+			The overlay width
+		@param[out] p_linesHeight
+			The lines height
+		@param[out] p_linesVtx
+				the lines
 		 */
 		void DoAlignVertically( int32_t p_height, int32_t p_linesHeight, std::vector< std::vector< VertexI > > & p_linesVtx );
 

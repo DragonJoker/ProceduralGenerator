@@ -3,7 +3,7 @@
 namespace LifeGame
 {
 	Generator::Generator()
-		: ProceduralTextures::Generator< CpuStep, GpuStep >( false, ProceduralTextures::DEFAULT_FRAME_TIME )
+		: ProceduralTextures::Generator< CpuStep, ProceduralTextures::DefaultGpuStep >( false, ProceduralTextures::DEFAULT_FRAME_TIME )
 	{
 	}
 
@@ -14,7 +14,7 @@ namespace LifeGame
 	void Generator::DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize )
 	{
 		m_cpuStep = std::make_shared< CpuStep >( shared_from_this(), p_size );
-		m_gpuStep = std::make_shared< GpuStep >( shared_from_this(), p_size, p_bordersSize );
+		m_gpuStep = std::make_shared< ProceduralTextures::DefaultGpuStep >( shared_from_this(), p_size, p_bordersSize );
 	}
 
 	void Generator::DoDestroy()

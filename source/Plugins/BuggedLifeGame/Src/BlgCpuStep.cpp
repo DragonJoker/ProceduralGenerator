@@ -16,65 +16,35 @@ namespace BuggedLifeGame
 
 	void Thread::DoStep()
 	{
-		int l_nbAlive = 0;
-		CellBuffer & l_cells = *m_cells.lock();
+		CellBuffer & l_cellsBuffer = *m_cells.lock();
+		ProceduralTextures::DynPoint< Cell > * l_cells = &l_cellsBuffer[m_iTop];
 
 		for ( int y = m_iTop; y < m_iBottom; y++ )
 		{
+			Cell * l_cell = l_cells->Ptr();
+
 			for ( int x = 0; x < m_iWidth; x++ )
 			{
-				l_nbAlive = DoGetAliveNeightbours( x, y );
+				int l_alive = l_cell->CountAliveNeighbours();
 
-				if ( l_nbAlive == 3 )
+				if ( l_alive == 3 )
 				{
-					l_cells[y][x].Live();
+					l_cell->Live();
 				}
-				else if ( l_nbAlive != 2 )
+				else if ( l_alive != 2 )
 				{
-					l_cells[y][x].Die();
+					l_cell->Die();
 				}
 				else
 				{
-					l_cells[y][x].Stay();
+					l_cell->Stay();
 				}
+
+				++l_cell;
 			}
-		}
-	}
 
-	int Thread::DoGetAliveNeightbours( int p_x, int p_y )
-	{
-		if ( p_x < 0 || p_x >= m_iWidth || p_y < 0 || p_y >= m_iHeight )
-		{
-			return 0;
+			++l_cells;
 		}
-
-		int l_left = p_x - 1;
-		int l_right = p_x + 1;
-		int l_up = p_y - 1;
-		int l_down = p_y + 1;
-
-		if ( p_x == 0 )
-		{
-			l_left = m_iWidth - 1;
-		}
-		else if ( p_x == m_iWidth - 1 )
-		{
-			l_right = 0;
-		}
-
-		if ( p_y == 0 )
-		{
-			l_up = m_iHeight - 1;
-		}
-		else if ( p_y == m_iHeight - 1 )
-		{
-			l_down = 0;
-		}
-
-		CellBuffer & l_cells = *m_cells.lock();
-		return (	l_cells[l_up	][l_left	].m_alive ? 1 : 0 ) + (	l_cells[p_y		][l_left	].m_alive ? 1 : 0 ) + (	l_cells[l_down	][l_left	].m_alive ? 1 : 0 )
-			   + (	l_cells[l_up	][p_x		].m_alive ? 1 : 0 ) + (	l_cells[l_down	][p_x		].m_alive ? 1 : 0 )
-			   + (	l_cells[l_up	][l_right	].m_alive ? 1 : 0 ) + (	l_cells[p_y		][l_right	].m_alive ? 1 : 0 ) + (	l_cells[l_down	][l_right	].m_alive ? 1 : 0 );
 	}
 
 	//*************************************************************************************************
@@ -92,23 +62,15 @@ namespace BuggedLifeGame
 		uint32_t l_width = p_size.x();
 		uint32_t l_height = p_size.y();
 		CellBuffer & l_cells = *m_cells;
-		std::random_device l_randDevice;
-		std::default_random_engine l_randEngine( l_randDevice() );
-		std::uniform_int_distribution< int > l_randDistribution( 0, 1 );
+		std::random_device l_rand;
+		std::uniform_int_distribution< int > l_distribution( 0, 1 );
 
 		for ( uint32_t i = 0; i < l_height; i++ )
 		{
 			for ( uint32_t j = 0; j < l_width; j++ )
 			{
-				l_alive = l_randDistribution( l_randEngine ) == 0;
+				l_alive = l_distribution( l_rand ) == 0;
 				l_cells[i][j].Set( &( *m_finalBuffer )[i][j], &m_alivePx, &m_deadPx, l_alive );
-			}
-		}
-
-		for ( uint32_t i = 0; i < l_width; i++ )
-		{
-			for ( uint32_t j = 0; j < l_height; j++ )
-			{
 				DoInitialiseNeighbours( i, j );
 			}
 		}
@@ -207,11 +169,6 @@ namespace BuggedLifeGame
 
 	void CpuStep::DoInitialiseNeighbours( uint32_t p_x, uint32_t p_y )
 	{
-		if ( p_x < 0 || p_x >= m_sizeImage.x() || p_y < 0 || p_y >= m_sizeImage.y() )
-		{
-			return;
-		}
-
 		int l_left = p_x - 1;
 		int l_right = p_x + 1;
 		int l_up = p_y - 1;
@@ -236,13 +193,14 @@ namespace BuggedLifeGame
 		}
 
 		CellBuffer & l_cells = *m_cells;
-		l_cells[p_y][p_x].m_neighbours[0] = &l_cells[l_up	][l_left	];
-		l_cells[p_y][p_x].m_neighbours[1] = &l_cells[p_y	][l_left	];
-		l_cells[p_y][p_x].m_neighbours[2] = &l_cells[l_down	][l_left	];
-		l_cells[p_y][p_x].m_neighbours[3] = &l_cells[l_up	][p_x		];
-		l_cells[p_y][p_x].m_neighbours[4] = &l_cells[l_down	][p_x		];
-		l_cells[p_y][p_x].m_neighbours[5] = &l_cells[l_up	][l_right	];
-		l_cells[p_y][p_x].m_neighbours[6] = &l_cells[p_y	][l_right	];
-		l_cells[p_y][p_x].m_neighbours[7] = &l_cells[l_down	][l_right	];
+		Cell & l_cell = l_cells[p_y][p_x];
+		l_cell.m_neighbours[0] = &l_cells[l_up		][l_left	];
+		l_cell.m_neighbours[1] = &l_cells[p_y		][l_left	];
+		l_cell.m_neighbours[2] = &l_cells[l_down	][l_left	];
+		l_cell.m_neighbours[3] = &l_cells[l_up		][p_x		];
+		l_cell.m_neighbours[4] = &l_cells[l_down	][p_x		];
+		l_cell.m_neighbours[5] = &l_cells[l_up		][l_right	];
+		l_cell.m_neighbours[6] = &l_cells[p_y		][l_right	];
+		l_cell.m_neighbours[7] = &l_cells[l_down	][l_right	];
 	}
 }

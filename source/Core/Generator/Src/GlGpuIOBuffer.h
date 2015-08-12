@@ -27,45 +27,53 @@ namespace ProceduralTextures
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Base class for pixel transfer buffers
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Base class for pixel transfer buffers
 	*/
 	class GeneratorAPI GpuIOBuffer
 		: public BufferObject
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGL instance
-		 *\param[in]	p_packMode	The pixel transfer direction (pack or unpack)
-		 *\param[in]	p_drawMode	The buffer mode (GL_STATIC_DRAW, ...)
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
+		@param[in] p_packMode
+			The pixel transfer direction (pack or unpack)
+		@param[in] p_drawMode
+			The buffer mode (GL_STATIC_DRAW, ...)
 		 */
 		GpuIOBuffer( std::shared_ptr< OpenGl > p_openGl, unsigned int p_packMode, unsigned int p_drawMode );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~GpuIOBuffer();
-		/**
-		 *\brief		Initialises the buffer
-		 *\param[in]	p_size	The buffer size
-		 *\return		true if it is successfully initialised
+
+		/** Initialises the buffer
+		@param[in] p_size
+			The buffer size
+		@return
+			true if it is successfully initialised
 		 */
 		virtual bool Initialise( size_t p_size );
-		/**
-		 *\brief		Tries to activate the buffer
-		 *\return		true if it is successfully activated
+
+		/** Tries to activate the buffer
+		@return
+			true if it is successfully activated
 		 */
 		virtual bool Activate();
-		/**
-		 *\brief		Deactivates the buffer
+
+		/** Deactivates the buffer
 		 */
 		virtual void Deactivate();
 
 	private:
-		/**
-		 *\brief		Dummy, not to use
-		 *\return		false
+		/** Dummy, not to use
+		@return
+			false
 		 */
 		virtual bool Initialise();
 	};

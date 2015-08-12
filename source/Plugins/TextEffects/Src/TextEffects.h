@@ -26,18 +26,24 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace TextEffects
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/05/2012
-	\brief		Text effects generator
+	@author
+		Sylvain DOREMUS
+	@date
+		23/05/2012
+	@brief
+		Text effects generator
 	*/
 	class Generator
 		: public ProceduralTextures::Generator< CpuStep, GpuStep >
 	{
 	private:
 		/*!
-		\author		Sylvain DOREMUS
-		\date		23/05/2012
-		\brief		The controls IDs
+		@author
+			Sylvain DOREMUS
+		@date
+			23/05/2012
+		@brief
+			The controls IDs
 		*/
 		typedef enum
 		{
@@ -51,56 +57,51 @@ namespace TextEffects
 		}	eIDs;
 
 	public:
-		/**
-		 *\brief		Constructor
+		/** Constructor
 		 */
 		Generator();
-		/**
-		 *\brief		Destructor
+		/** Destructor
 		 */
 		virtual ~Generator();
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		/** @copydoc ProceduralTexture::Generator::DoCreate
 		 */
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+		/** @copydoc ProceduralTexture::Generator::DoDestroy
 		 */
 		virtual void DoDestroy();
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
 		 */
 		virtual void DoGeneratePanel();
-		/**
-		 *\brief		Sets the foreground type
-		 *\param[in]	p_value	The new value
+		/** Sets the foreground type
+		@param[in] p_value
+			The new value
 		 */
 		void OnForegroundType( int p_value );
-		/**
-		 *\brief		Event called when a char key is typed in the edit
-		 *\param[in]	p_value	The new edit content
+		/** Event called when a char key is typed in the edit
+		@param[in] p_value
+			The new edit content
 		 */
 		void OnChar( ProceduralTextures::String const & p_value );
-		/**
-		 *\brief		Sets the background image
-		 *\param[in]	p_value	The new value
+		/** Sets the background image
+		@param[in] p_value
+			The new value
 		 */
 		void OnBackgroundImage();
-		/**
-		 *\brief		Sets the foreground colour
-		 *\param[in]	p_value	The new value
+		/** Sets the foreground colour
+		@param[in] p_value
+			The new value
 		 */
 		void OnForegroundColour();
-		/**
-		 *\brief		Sets the foreground image
-		 *\param[in]	p_value	The new value
+		/** Sets the foreground image
+		@param[in] p_value
+			The new value
 		 */
 		void OnForegroundImage();
-		/**
-		 *\brief		Sets the text font file
-		 *\param[in]	p_value	The new value
+		/** Sets the text font file
+		@param[in] p_value
+			The new value
 		 */
 		void OnFont();
 

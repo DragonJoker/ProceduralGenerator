@@ -41,7 +41,7 @@ namespace DiffusionLimitedAggregation
 	{
 		m_iValue++;
 
-		if ( ! m_white )
+		if ( !m_white )
 		{
 //			m_pixel->r = (255 * m_iValue ) / p_iMinValue;
 //			m_pixel->g = (255 * m_iValue ) / p_iMinValue;

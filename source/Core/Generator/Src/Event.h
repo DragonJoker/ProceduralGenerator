@@ -23,10 +23,14 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		02/03/2015
-	\version	2.0.0
-	\brief		Supported events enumeration
+	@author
+		Sylvain DOREMUS
+	@date
+		02/03/2015
+	@version
+		2.0.0
+	@brief
+		Supported events enumeration
 	*/
 	typedef enum eEVENT_TYPE
 	{
@@ -38,29 +42,35 @@ namespace ProceduralTextures
 		eEVENT_TYPE_KEYBOARD,
 	}	eEVENT_TYPE;
 	/*!
-	\author		Sylvain DOREMUS
-	\brief		Description of a control, in order to be able to create it completely
+	@author
+		Sylvain DOREMUS
+	@version
+		2.0.0
+	@brief
+		Description of an event.
+		You may use this one, but prefer using ControlEvent, MouseEvent or KeyboardEvent.
 	*/
 	class Event
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_type	The event type
+		/** Constructor
+		@param[in] p_type
+			The event type
 		 */
 		Event( eEVENT_TYPE p_type )
 			: m_eventType( p_type )
 		{
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~Event()
 		{
 		}
-		/**
-		 *\brief		Retrieves the event type
-		 *\return		The type
+
+		/** Retrieves the event type
+		@return
+				The type
 		 */
 		inline eEVENT_TYPE GetEventType()const
 		{

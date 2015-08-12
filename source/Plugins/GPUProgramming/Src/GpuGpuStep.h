@@ -25,9 +25,12 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace GpuProgramming
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		05/03/2015
-	\brief		GPU programming GPU step
+	@author
+		Sylvain DOREMUS
+	@date
+		05/03/2015
+	@brief
+		GPU programming GPU step
 	*/
 	class GpuStep
 		: public ProceduralTextures::GpuStep
@@ -36,75 +39,78 @@ namespace GpuProgramming
 		typedef std::vector< std::unique_ptr< Effect > > EffectPtrArray;
 
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_generator		The parent generator
-		 *\param[in]	p_size			The displayed surface dimensions
-		 *\param[in]	p_bordersSize	The windows' borders size
+		/** Constructor
+		@param[in] p_generator
+			The parent generator
+		@param[in] p_size
+			The displayed surface dimensions
+		@param[in] p_bordersSize
+			The windows' borders size
 		 */
 		GpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~GpuStep();
-		/**
-		 *\brief		Resets the time index
+
+		/** Resets the time index
 		 */
 		void ResetTime();
-		/**
-		 *\brief		Selects a shader
+
+		/** Selects a shader
 		 */
 		void SelectEffect( uint32_t p_value );
-		/**
-		 *\brief		Removes the current effect
+
+		/** Removes the current effect
 		 */
 		void AddEffect();
-		/**
-		 *\brief		Removes the current effect
+
+		/** Removes the current effect
 		 */
 		void RemoveEffect( uint32_t p_value );
-		/**
-		 *\brief		Compiles the shader
+
+		/** Compiles the shader
 		 */
 		bool CompileEffect();
-		/**
-		 *\brief		Retrieves the compiler log
+
+		/** Retrieves the compiler log
 		 */
 		ProceduralTextures::String GetCompilerLog();
-		/**
-		 *\brief		Sets the vertex shader file path
-		 *\param[in]	p_path	The new value
+
+		/** Sets the vertex shader file path
+		@param[in] p_path
+			The new value
 		 */
 		void SetVertexShaderPath( ProceduralTextures::String const & p_path );
-		/**
-		 *\brief		Sets the fragment shader file path
-		 *\param[in]	p_path	The new value
+
+		/** Sets the fragment shader file path
+		@param[in] p_path
+			The new value
 		 */
 		void SetFragmentShaderPath( ProceduralTextures::String const & p_path );
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::GpuStep::DoInitialise
+		/** @copydoc ProceduralTexture::GpuStep::DoInitialise
 		 */
 		virtual void DoInitialise();
-		/**
-		 *\copydoc		ProceduralTexture::GpuStep::DoCleanup
+
+		/** @copydoc ProceduralTexture::GpuStep::DoCleanup
 		 */
 		virtual void DoCleanup();
-		/**
-		 *\copydoc		ProceduralTexture::GpuStep::DoResize
+
+		/** @copydoc ProceduralTexture::GpuStep::DoResize
 		 */
 		virtual void DoResize();
-		/**
-		 *\copydoc		ProceduralTexture::GpuStep::DoPreRender
+
+		/** @copydoc ProceduralTexture::GpuStep::DoPreRender
 		 */
 		virtual void DoPreRender();
-		/**
-		 *\copydoc		ProceduralTexture::GpuStep::DoRender
+
+		/** @copydoc ProceduralTexture::GpuStep::DoRender
 		 */
 		virtual void DoRender( bool & p_bChanged );
-		/**
-		 *\copydoc		ProceduralTexture::GpuStep::DoPostRender
+
+		/** @copydoc ProceduralTexture::GpuStep::DoPostRender
 		 */
 		virtual void DoPostRender();
 

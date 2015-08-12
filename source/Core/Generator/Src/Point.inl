@@ -132,7 +132,7 @@ namespace ProceduralTextures
 	template< typename T >
 	inline void DynPoint < T >::Unlink()
 	{
-		if ( ! m_bOwnCoords )
+		if ( !m_bOwnCoords )
 		{
 			m_coords = new T[m_uiCount];
 		}
@@ -1069,7 +1069,7 @@ namespace ProceduralTextures
 	template < typename T, size_t Count >
 	inline void Point< T, Count >::Unlink()
 	{
-		if ( ! m_bOwnCoords )
+		if ( !m_bOwnCoords )
 		{
 			m_coords.dyn = new T[Count];
 		}

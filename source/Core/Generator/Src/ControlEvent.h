@@ -23,17 +23,22 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\brief		Description of a control event
+	@author
+		Sylvain DOREMUS
+	@version
+		2.0.0
+	@brief
+		Description of a control event
 	*/
 	class ControlEvent
 		: public Event
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_type	The control event type
-		 *\param[in]	p_ctrl	A control (depends on the event type)
+		/** Constructor
+		@param[in] p_type
+			The control event type
+		@param[in] p_ctrl
+			A control (depends on the event type)
 		 */
 		ControlEvent( eCONTROL_EVENT p_type, std::shared_ptr< Control > p_ctrl )
 			: Event( eEVENT_TYPE_CONTROL )
@@ -41,23 +46,25 @@ namespace ProceduralTextures
 			, m_ctrl( p_ctrl )
 		{
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~ControlEvent()
 		{
 		}
-		/**
-		 *\brief		Retrieves the event type
-		 *\return		The type
+
+		/** Retrieves the event type
+		@return
+				The type
 		 */
 		inline eCONTROL_EVENT GetControlEventType()const
 		{
 			return m_controlEventType;
 		}
-		/**
-		 *\brief		Retrieves the key code
-		 *\return		The key
+
+		/** Retrieves the key code
+		@return
+				The key
 		 */
 		inline std::shared_ptr< Control > GetControl()const
 		{

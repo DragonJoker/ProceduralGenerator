@@ -25,19 +25,24 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author 	Sylvain Doremus
-	\version	2.0.0
-	\date		10/02/2015
-	\brief		Basic signal class
+	@author
+		Sylvain Doremus
+	@version
+		2.0.0
+	@date
+		10/02/2015
+	@brief
+		Basic signal class
 	*/
 	template< typename Function >
 	class Signal
 	{
 	public:
-		/**
-		 *\brief		Connects a new function that will be called if the signal is raised
-		 *\param[in]	p_function	The function
-		 *\return		The function index
+		/** Connects a new function that will be called if the signal is raised
+		@param[in] p_function
+			The function
+		@return
+			The function index
 		 */
 		uint32_t Connect( Function p_function )
 		{
@@ -45,9 +50,10 @@ namespace ProceduralTextures
 			m_slots.insert( std::make_pair( l_return, p_function ) );
 			return l_return;
 		}
-		/**
-		 *\brief		Disconnects a function
-		 *\param[in]	p_index	The function index
+
+		/** Disconnects a function
+		@param[in] p_index
+			The function index
 		 */
 		void Disconnect( uint32_t p_index )
 		{
@@ -58,8 +64,8 @@ namespace ProceduralTextures
 				m_slots.erase( it );
 			}
 		}
-		/**
-		 *\brief		Raise the signal, calls every connected function
+
+		/** Raise the signal, calls every connected function
 		 */
 		void operator()()
 		{
@@ -68,10 +74,12 @@ namespace ProceduralTextures
 				it->second();
 			}
 		}
+
 #if ( _MSC_VER && _MSC_VER > 1700 ) || ( !_MSC_VER )
-		/**
-		 *\brief		Raise the signal, calls every connected function
-		 *\param[in]	p_params	The function parameters
+
+		/** Raise the signal, calls every connected function
+		@param[in] p_params
+			The function parameters
 		 */
 		template< typename ... Params >
 		void operator()( Params && ... p_params )
@@ -81,10 +89,12 @@ namespace ProceduralTextures
 				it->second( std::move( p_params )... );
 			}
 		}
+
 #else
-		/**
-		 *\brief		Raise the signal, calls every connected function
-		 *\param[in]	param1	The function parameter
+
+		/** Raise the signal, calls every connected function
+		@param[in] param1
+			The function parameter
 		 */
 		template< typename Param1 >
 		void operator()( Param1 && param1 )
@@ -94,10 +104,12 @@ namespace ProceduralTextures
 				it->second( std::move( param1 ) );
 			}
 		}
-		/**
-		 *\brief		Raise the signal, calls every connected function
-		 *\param[in]	param1	The first function parameter
-		 *\param[in]	param2	The second function parameter
+
+		/** Raise the signal, calls every connected function
+		@param[in] param1
+			The first function parameter
+		@param[in] param2
+			The second function parameter
 		 */
 		template< typename Param1, typename Param2 >
 		void operator()( Param1 && param1, Param2 && param2 )
@@ -107,11 +119,14 @@ namespace ProceduralTextures
 				it->second( std::move( param1 ), std::move( param2 ) );
 			}
 		}
-		/**
-		 *\brief		Raise the signal, calls every connected function
-		 *\param[in]	param1	The first function parameter
-		 *\param[in]	param2	The second function parameter
-		 *\param[in]	param3	The third function parameter
+
+		/** Raise the signal, calls every connected function
+		@param[in] param1
+			The first function parameter
+		@param[in] param2
+			The second function parameter
+		@param[in] param3
+			The third function parameter
 		 */
 		template< typename Param1, typename Param2, typename Param3 >
 		void operator()( Param1 && param1, Param2 && param2, Param3 && param3 )
@@ -121,12 +136,16 @@ namespace ProceduralTextures
 				it->second( std::move( param1 ), std::move( param2 ), std::move( param3 ) );
 			}
 		}
-		/**
-		 *\brief		Raise the signal, calls every connected function
-		 *\param[in]	param1	The first function parameter
-		 *\param[in]	param2	The second function parameter
-		 *\param[in]	param3	The third function parameter
-		 *\param[in]	param4	The fourth function parameter
+
+		/** Raise the signal, calls every connected function
+		@param[in] param1
+			The first function parameter
+		@param[in] param2
+			The second function parameter
+		@param[in] param3
+			The third function parameter
+		@param[in] param4
+			The fourth function parameter
 		 */
 		template< typename Param1, typename Param2, typename Param3, typename Param4 >
 		void operator()( Param1 && param1, Param2 && param2, Param3 && param3, Param4 && param4 )
@@ -136,13 +155,18 @@ namespace ProceduralTextures
 				it->second( std::move( param1 ), std::move( param2 ), std::move( param3 ), std::move( param4 ) );
 			}
 		}
-		/**
-		 *\brief		Raise the signal, calls every connected function
-		 *\param[in]	param1	The first function parameter
-		 *\param[in]	param2	The second function parameter
-		 *\param[in]	param3	The third function parameter
-		 *\param[in]	param4	The fourth function parameter
-		 *\param[in]	param5	The fifth function parameter
+
+		/** Raise the signal, calls every connected function
+		@param[in] param1
+			The first function parameter
+		@param[in] param2
+			The second function parameter
+		@param[in] param3
+			The third function parameter
+		@param[in] param4
+			The fourth function parameter
+		@param[in] param5
+			The fifth function parameter
 		 */
 		template< typename Param1, typename Param2, typename Param3, typename Param4, typename Param5 >
 		void operator()( Param1 && param1, Param2 && param2, Param3 && param3, Param4 && param4, Param5 && param5 )
@@ -152,14 +176,20 @@ namespace ProceduralTextures
 				it->second( std::move( param1 ), std::move( param2 ), std::move( param3 ), std::move( param4 ), std::move( param5 ) );
 			}
 		}
-		/**
-		 *\brief		Raise the signal, calls every connected function
-		 *\param[in]	param1	The first function parameter
-		 *\param[in]	param2	The second function parameter
-		 *\param[in]	param3	The third function parameter
-		 *\param[in]	param4	The fourth function parameter
-		 *\param[in]	param5	The fifth function parameter
-		 *\param[in]	param6	The sixth function parameter
+
+		/** Raise the signal, calls every connected function
+		@param[in] param1
+			The first function parameter
+		@param[in] param2
+			The second function parameter
+		@param[in] param3
+			The third function parameter
+		@param[in] param4
+			The fourth function parameter
+		@param[in] param5
+			The fifth function parameter
+		@param[in] param6
+			The sixth function parameter
 		 */
 		template< typename Param1, typename Param2, typename Param3, typename Param4, typename Param5, typename Param6 >
 		void operator()( Param1 && param1, Param2 && param2, Param3 && param3, Param4 && param4, Param5 && param5, Param6 && param6 )
@@ -169,6 +199,7 @@ namespace ProceduralTextures
 				it->second( std::move( param1 ), std::move( param2 ), std::move( param3 ), std::move( param4 ), std::move( param5 ), std::move( param6 ) );
 			}
 		}
+
 #endif
 
 	private:

@@ -25,9 +25,12 @@ namespace ProceduralTextures
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Shader object implementation
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Shader object implementation
 	*/
 	class GeneratorAPI ShaderObject
 		: public Object< std::function< uint32_t() >, std::function< bool( uint32_t ) > >
@@ -36,87 +39,99 @@ namespace gl
 		typedef Object< std::function< uint32_t() >, std::function< bool( uint32_t ) > > ParentClass;
 
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGL instance
-		 *\param[in]	p_type		The object type
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
+		@param[in] p_type
+			The object type
 		 */
 		ShaderObject( std::shared_ptr< OpenGl > p_openGl, eSHADER_OBJECT_TYPE p_type );
+
 		/**
 		 * Destructor
 		 */
 		~ShaderObject();
-		/**
-		 *\brief		Loads a shader file.
-		 *\param[in]	p_filename	The name of the ASCII file containing the shader.
+
+		/** Loads a shader file.
+		@param[in] p_filename
+			The name of the ASCII file containing the shader.
 		 */
 		void SetFile( String const & p_filename );
-		/**
-		 *\brief		Load program from text
-		 *\param[in]	p_source	The object string source
+
+		/** Load program from text
+		@param[in] p_source
+			The object string source
 		 */
 		void SetSource( String const & p_source );
-		/**
-		 *\brief		Destroys the program
+
+		/** Destroys the program
 		 */
 		virtual void Destroy();
-		/**
-		 *\brief		Compiles program
-		 *\return		true if compiled successfully
+
+		/** Compiles program
+		@return
+				true if compiled successfully
 		 */
 		bool Compile();
-		/**
-		 *\brief		Attaches this shader to the given program
-		 *\param[in]	p_parent	The parent program
+
+		/** Attaches this shader to the given program
+		@param[in] p_parent
+			The parent program
 		 */
 		void AttachTo( std::shared_ptr< ShaderProgram > p_parent );
-		/**
-		 *\brief		Detaches this shader from it's program
+
+		/** Detaches this shader from it's program
 		 */
 		void Detach();
-		/**
-		 *\brief		Retrieves the shader type
-		 *\return		The value
+
+		/** Retrieves the shader type
+		@return
+			The value
 		 */
 		inline eSHADER_OBJECT_TYPE GetShaderType()const
 		{
 			return m_eType;
 		}
-		/**
-		 *\brief		Retrieves the compiled status
-		 *\return		The value
+
+		/** Retrieves the compiled status
+		@return
+			The value
 		 */
 		inline bool IsCompiled()const
 		{
 			return m_bCompiled;
 		}
-		/**
-		 *\brief		Retrieves the shader source
-		 *\return		The value
+
+		/** Retrieves the shader source
+		@return
+			The value
 		 */
 		inline String const & GetSource()const
 		{
 			return m_strSource;
 		}
-		/**
-		 *\brief		Retrieves the shader source file
-		 *\return		The value
+
+		/** Retrieves the shader source file
+		@return
+			The value
 		 */
 		inline String const & GetFile()const
 		{
 			return m_pathFile;
 		}
-		/**
-		 *\brief		Retrieves the compiler log
-		 *\return		The value
+
+		/** Retrieves the compiler log
+		@return
+			The value
 		 */
 		inline String const & GetCompilerLog()const
 		{
 			return m_compilerLog;
 		}
-		/**
-		 *\brief		Retrieves the parent program
-		 *\return		The value
+
+		/** Retrieves the parent program
+		@return
+			The value
 		 */
 		inline std::shared_ptr< ShaderProgram > GetParent()
 		{
@@ -124,9 +139,9 @@ namespace gl
 		}
 
 	protected:
-		/**
-		 *\brief		Get compiler messages
-		 *\return		The messages
+		/** Get compiler messages
+		@return
+			The messages
 		 */
 		String RetrieveCompilerLog();
 

@@ -20,7 +20,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include <Generator.h>
 
-#include "OclCpuStep.h"
+#include <CpuStep.h>
 #include "OclGpuStep.h"
 
 namespace OCLProcessing
@@ -31,7 +31,7 @@ namespace OCLProcessing
 	\brief		Life game geenrator
 	*/
 	class Generator
-		: public ProceduralTextures::Generator< CpuStep, GpuStep >
+		: public ProceduralTextures::Generator< ProceduralTextures::DefaultCpuStep, GpuStep >
 	{
 	private:
 		/*!
@@ -64,16 +64,13 @@ namespace OCLProcessing
 		virtual ~Generator();
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		/** @copydoc ProceduralTexture::Generator::DoCreate
 		 */
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+		/** @copydoc ProceduralTexture::Generator::DoDestroy
 		 */
 		virtual void DoDestroy();
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
 		 */
 		virtual void DoGeneratePanel();
 		/**
@@ -82,12 +79,14 @@ namespace OCLProcessing
 		void OnResetTime();
 		/**
 		 *\brief		Sets the separator type
-		 *\param[in]	p_value	The new value
+		@param[in] p_value
+			The new value
 		 */
 		void OnSepType( int p_value );
 		/**
 		 *\brief		Sets the separator offset
-		 *\param[in]	p_value	The new value
+		@param[in] p_value
+			The new value
 		 */
 		void OnSepOffset( int p_value );
 		/**
@@ -104,17 +103,20 @@ namespace OCLProcessing
 		void OnCompilerLog();
 		/**
 		 *\brief		Sets the OpenCL program file path
-		 *\param[in]	p_path	The new value
+		@param[in] p_path
+			The new value
 		 */
 		void OnFilePath();
 		/**
 		 *\brief		Sets the OpenCL kernel
-		 *\param[in]	p_value	The new value
+		@param[in] p_value
+			The new value
 		 */
 		void OnSelectKernel( uint32_t p_value );
 		/**
 		 *\brief		Sets the image buffer
-		 *\param[in]	p_path	The new value
+		@param[in] p_path
+			The new value
 		 */
 
 		void OnImage();

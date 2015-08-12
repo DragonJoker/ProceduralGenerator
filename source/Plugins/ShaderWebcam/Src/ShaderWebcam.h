@@ -26,18 +26,24 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ShaderWebcam
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/05/2012
-	\brief		Shader webcam generator
+	@author
+		Sylvain DOREMUS
+	@date
+		23/05/2012
+	@brief
+		Shader webcam generator
 	*/
 	class Generator
 		: public ProceduralTextures::Generator< CpuStep, GpuStep >
 	{
 	private:
 		/*!
-		\author		Sylvain DOREMUS
-		\date		23/05/2012
-		\brief		The controls IDs
+		@author
+			Sylvain DOREMUS
+		@date
+			23/05/2012
+		@brief
+			The controls IDs
 		*/
 		typedef enum
 		{
@@ -54,66 +60,56 @@ namespace ShaderWebcam
 		}	eID;
 
 	public:
-		/**
-		 *\brief		Constructor
+		/** Constructor
 		 */
 		Generator();
-		/**
-		 *\brief		Destructor
+		/** Destructor
 		 */
 		virtual ~Generator();
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		/** @copydoc ProceduralTexture::Generator::DoCreate
 		 */
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+		/** @copydoc ProceduralTexture::Generator::DoDestroy
 		 */
 		virtual void DoDestroy();
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
 		 */
 		virtual void DoGeneratePanel();
-		/**
-		 *\brief		Resets the time index
+		/** Resets the time index
 		 */
 		void OnResetTime();
-		/**
-		 *\brief		Sets the separator type
-		 *\param[in]	p_value	The new value
+		/** Sets the separator type
+		@param[in] p_value
+			The new value
 		 */
 		void OnSepType( int p_value );
-		/**
-		 *\brief		Sets the separator offset
-		 *\param[in]	p_value	The new value
+		/** Sets the separator offset
+		@param[in] p_value
+			The new value
 		 */
 		void OnSepOffset( int p_value );
-		/**
-		 *\brief		Selects a shader
+		/** Selects a shader
 		 */
 		void OnSelectShader( uint32_t p_value );
-		/**
-		 *\brief		Removes the current chader
+		/** Removes the current chader
 		 */
 		void OnRemove();
-		/**
-		 *\brief		Compiles the shader
+		/** Compiles the shader
 		 */
 		void OnShaderCompile();
-		/**
-		 *\brief		Retrieves the compiler log
+		/** Retrieves the compiler log
 		 */
 		void OnCompilerLog();
-		/**
-		 *\brief		Sets the vertex shader file path
-		 *\param[in]	p_path	The new value
+		/** Sets the vertex shader file path
+		@param[in] p_path
+			The new value
 		 */
 		void OnVertexShaderPath();
-		/**
-		 *\brief		Sets the fragment shader file path
-		 *\param[in]	p_path	The new value
+		/** Sets the fragment shader file path
+		@param[in] p_path
+			The new value
 		 */
 		void OnFragmentShaderPath();
 

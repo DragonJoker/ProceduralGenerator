@@ -27,15 +27,15 @@ namespace OCLProcessing
 
 		if ( l_bContinue )
 		{
-			TRACE( _T( "Platform count is: %d\n" ), uint32_t( l_arrayPlatforms.size() ) );
+			std::clog << "Platform count is: " << uint32_t( l_arrayPlatforms.size() ) << std::endl;
 			std::string l_strInfo;
 			m_clPlatform = l_arrayPlatforms[0];
 			m_clPlatform.getInfo( ( cl_platform_info )CL_PLATFORM_NAME, &l_strInfo );
-			TRACE( "  Name    : %s\n", l_strInfo.c_str() );
+			std::clog << "  Name    : " << l_strInfo << std::endl;
 			m_clPlatform.getInfo( ( cl_platform_info )CL_PLATFORM_VENDOR, &l_strInfo );
-			TRACE( "  Vendor  : %s\n", l_strInfo.c_str() );
+			std::clog << "  Vendor  : " << l_strInfo << std::endl;
 			m_clPlatform.getInfo( ( cl_platform_info )CL_PLATFORM_VERSION, &l_strInfo );
-			TRACE( "  Version : %s\n", l_strInfo.c_str() );
+			std::clog << "  Version : " << l_strInfo << std::endl;
 			cl_context_properties l_props[3] = { CL_CONTEXT_PLATFORM, ( cl_context_properties )( m_clPlatform )(), 0 };
 			m_clContext = cl::Context( CL_DEVICE_TYPE_GPU, l_props, NULL, NULL, &l_iErr );
 			l_bContinue = ocl::CheckErr( l_iErr, _( "Creating the OpenCL context" ) );

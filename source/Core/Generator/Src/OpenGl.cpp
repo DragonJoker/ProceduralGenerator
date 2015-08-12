@@ -386,7 +386,7 @@ namespace ProceduralTextures
 		{
 			GLvoid * l_pReturn = m_pfnMapBuffer( target, access );
 
-			if ( ! glCheckError( "glMapBuffer" ) )
+			if ( !glCheckError( "glMapBuffer" ) )
 			{
 				l_pReturn = NULL;
 			}
@@ -434,7 +434,7 @@ namespace ProceduralTextures
 		{
 			GLenum l_eReturn = m_pfnCheckFramebufferStatus( target );
 
-			if ( ! glCheckError( "glCheckFramebufferStatus" ) )
+			if ( !glCheckError( "glCheckFramebufferStatus" ) )
 			{
 				l_eReturn = GL_INVALID_INDEX;
 			}
@@ -446,7 +446,7 @@ namespace ProceduralTextures
 		{
 			GLint l_iReturn = m_pfnGetUniformLocation( program, name );
 
-			if ( ! glCheckError( "glGetUniformLocation" ) )
+			if ( !glCheckError( "glGetUniformLocation" ) )
 			{
 				l_iReturn = GL_INVALID_INDEX;
 			}
@@ -512,7 +512,7 @@ namespace ProceduralTextures
 		{
 			GLuint l_uiReturn = m_pfnCreateShader( type );
 
-			if ( ! glCheckError( "glCreateShader" ) )
+			if ( !glCheckError( "glCreateShader" ) )
 			{
 				l_uiReturn = GL_INVALID_INDEX;
 			}
@@ -572,7 +572,7 @@ namespace ProceduralTextures
 		{
 			GLuint l_uiReturn = m_pfnCreateProgram();
 
-			if ( ! glCheckError( "glCreateProgram" ) )
+			if ( !glCheckError( "glCreateProgram" ) )
 			{
 				l_uiReturn = GL_INVALID_INDEX;
 			}
@@ -620,7 +620,7 @@ namespace ProceduralTextures
 		{
 			GLint l_iReturn = m_pfnGetAttribLocation( program, name );
 
-			if ( ! glCheckError( "glGetAttribLocation" ) )
+			if ( !glCheckError( "glGetAttribLocation" ) )
 			{
 				l_iReturn = GL_INVALID_INDEX;
 			}

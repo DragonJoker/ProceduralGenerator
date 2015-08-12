@@ -26,102 +26,95 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ShaderEffects
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/05/2012
-	\brief		Shader effects generator
+	@author
+		Sylvain DOREMUS
+	@date
+		23/05/2012
+	@brief
+		Shader effects generator
 	*/
 	class Generator
 		: public ProceduralTextures::Generator< CpuStep, GpuStep >
 	{
-	private:
-		/*!
-		\author		Sylvain DOREMUS
-		\date		23/05/2012
-		\brief		The controls IDs
-		*/
-		typedef enum
-		{
-			eID_ANY				= -1,
-			eID_IMAGEPATH		= 52,
-			eID_SEPTYPE			= 53,
-			eID_SEPOFFSET		= 54,
-			eID_RESETTIME		= 55,
-			eID_SHADERS			= 56,
-			eID_REMOVE			= 57,
-			eID_VERTEXFILE		= 58,
-			eID_FRAGMENTFILE	= 59,
-			eID_COMPILE			= 60,
-			eID_COMPILERLOG		= 61,
-		}	eID;
-
 	public:
-		/**
-		 *\brief		Constructor
+		/** Constructor
 		 */
 		Generator();
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~Generator();
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		/** @copydoc ProceduralTexture::Generator::DoCreate
 		 */
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+
+		/** @copydoc ProceduralTexture::Generator::DoDestroy
 		 */
 		virtual void DoDestroy();
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+
+		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
 		 */
 		virtual void DoGeneratePanel();
-		/**
-		 *\brief		Resets the time index
+
+		/** Resets the time index
 		 */
 		void OnResetTime();
-		/**
-		 *\brief		Sets the separator type
-		 *\param[in]	p_value	The new value
+
+		/** Sets the separator type
+		@param[in] p_value
+			The new value
 		 */
 		void OnSepType( int p_value );
-		/**
-		 *\brief		Sets the separator offset
-		 *\param[in]	p_value	The new value
+
+		/** Sets the separator offset
+		@param[in] p_value
+			The new value
 		 */
 		void OnSepOffset( int p_value );
-		/**
-		 *\brief		Selects a shader
+
+		/** Selects a shader
 		 */
 		void OnSelectShader( uint32_t p_value );
-		/**
-		 *\brief		Removes the current chader
+
+		/** Removes the current chader
 		 */
 		void OnRemove();
-		/**
-		 *\brief		Compiles the shader
+
+		/** Compiles the shader
 		 */
 		void OnShaderCompile();
-		/**
-		 *\brief		Retrieves the compiler log
+
+		/** Retrieves the compiler log
 		 */
 		void OnCompilerLog();
-		/**
-		 *\brief		Sets the vertex shader file path
-		 *\param[in]	p_path	The new value
+
+		/** Sets the vertex shader file path
+		@param[in] p_path
+			The new value
 		 */
 		void OnVertexShaderPath();
-		/**
-		 *\brief		Sets the fragment shader file path
-		 *\param[in]	p_path	The new value
+
+		/** Sets the fragment shader file path
+		@param[in] p_path
+			The new value
 		 */
 		void OnFragmentShaderPath();
-		/**
-		 *\brief		Sets the image buffer
-		 *\param[in]	p_path	The new value
+
+		/** Sets the image buffer
+		@param[in] p_path
+			The new value
 		 */
 		void OnImage();
+
+		/** Displays the help
+		 */
+		void OnHelpOpen();
+
+		/** Hides the help
+		 */
+		void OnHelpClose();
 
 	private:
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonImage;
@@ -136,6 +129,9 @@ namespace ShaderEffects
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonCompile;
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonCompilerLog;
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonRemove;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonHelpOpen;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_panelHelp;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonHelpClose;
 	};
 }
 

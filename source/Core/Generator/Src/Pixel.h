@@ -32,121 +32,151 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\version	0.6.1.0
-	\date		29/08/2011
-	\brief		Pixel definition
-	\remarks	Beware not putting any virtuals here, this is memcopi-ed and memset-ed
+	@author
+		Sylvain DOREMUS
+	@version
+		0.6.1.0
+	@date
+		29/08/2011
+	@brief
+		Pixel definition
+	@remarks
+		Beware not putting any virtuals here, this is memcopi-ed and memset-ed
 	*/
 	template< typename T >
 	class Pixel
 	{
 	public:
-		/**
-		 *\brief		Default constructor
+		/** Default constructor
 		 */
 		Pixel();
-		/**
-		 *\brief		Specified constructor
-		 *\param[in]	p_r, p_g, p_b, p_a	The pixel components
+
+		/** Specified constructor
+		@param[in] p_r,
+			p_g, p_b, p_a	The pixel components
 		 */
 		template< typename U > Pixel( U p_r, U p_g, U p_b, U p_a );
-		/**
-		 *\brief		Constructor from another pixel type
-		 *\param[in]	p_pxl	The object to copy
+
+		/** Constructor from another pixel type
+		@param[in] p_pxl
+			The object to copy
 		 */
 		template< typename U > Pixel( const Pixel< U > & p_pxl );
-		/**
-		 *\~english
-		 *\brief		Assignment operator from another pixel type
-		 *\param[in]	p_px	The object to copy
-		 *\return		A reference to this object
+
+		/** Assignment operator from another pixel type
+		@param[in] p_px
+			The object to copy
+		@return
+			A reference to this object
 		 */
 		template< typename U > Pixel & operator =( const Pixel< U > & p_px );
-		/**
-		 *\brief		Addition assignment operator
-		 *\param[in]	p_px	The object to add
-		 *\return		A reference to this object
+
+		/** Addition assignment operator
+		@param[in] p_px
+			The object to add
+		@return
+			A reference to this object
 		 */
 		template< typename U > Pixel & operator +=( const Pixel< U > & p_px );
-		/**
-		 *\brief		Substraction assignment operator
-		 *\param[in]	p_px	The object to subtract
-		 *\return		A reference to this object
+
+		/** Substraction assignment operator
+		@param[in] p_px
+			The object to subtract
+		@return
+			A reference to this object
 		 */
 		template< typename U > Pixel & operator -=( const Pixel< U > & p_px );
-		/**
-		 *\brief		Multiplication assignment operator
-		 *\param[in]	p_px	The object to multiply
-		 *\return		A reference to this object
+
+		/** Multiplication assignment operator
+		@param[in] p_px
+			The object to multiply
+		@return
+			A reference to this object
 		 */
 		template< typename U > Pixel & operator *=( const Pixel< U > & p_px );
-		/**
-		 *\brief		Division assignment operator
-		 *\param[in]	p_px	The object to divide
-		 *\return		A reference to this object
+
+		/** Division assignment operator
+		@param[in] p_px
+			The object to divide
+		@return
+			A reference to this object
 		 */
 		template< typename U > Pixel & operator /=( const Pixel< U > & p_px );
-		/**
-		 *\brief		Addition assignment operator
-		 *\param[in]	p_t	The value to add
-		 *\return		A reference to this object
+
+		/** Addition assignment operator
+		@param[in] p_t
+			The value to add
+		@return
+			A reference to this object
 		 */
 		template< typename U > Pixel & operator +=( U const & p_t );
-		/**
-		 *\brief		Substraction assignment operator
-		 *\param[in]	p_t	The value to subtract
-		 *\return		A reference to this object
+
+		/** Substraction assignment operator
+		@param[in] p_t
+			The value to subtract
+		@return
+			A reference to this object
 		 */
 		template< typename U > Pixel & operator -=( U const & p_t );
-		/**
-		 *\brief		Multiplication assignment operator
-		 *\param[in]	p_t	The value to multiply
-		 *\return		A reference to this object
+
+		/** Multiplication assignment operator
+		@param[in] p_t
+			The value to multiply
+		@return
+			A reference to this object
 		 */
 		template< typename U > Pixel & operator *=( U const & p_t );
-		/**
-		 *\brief		Division assignment operator
-		 *\param[in]	p_t	The value to divide
-		 *\return		A reference to this object
+
+		/** Division assignment operator
+		@param[in] p_t
+			The value to divide
+		@return
+			A reference to this object
 		 */
 		template< typename U > Pixel & operator /=( U const & p_t );
-		/**
-		 *\brief		Binary right decal assignment operator
-		 *\param[in]	p_t	The decal value
-		 *\return		A reference to this object
+
+		/** Binary right decal assignment operator
+		@param[in] p_t
+			The decal value
+		@return
+			A reference to this object
 		 */
 		Pixel & operator >>= ( size_t p_t );
-		/**
-		 *\brief		Binary left decal assignment operator
-		 *\param[in]	p_t	The decal value
-		 *\return		A reference to this object
+
+		/** Binary left decal assignment operator
+		@param[in] p_t
+			The decal value
+		@return
+			A reference to this object
 		 */
 		Pixel & operator <<= ( size_t p_t );
-		/**
-		 *\brief		Sets the pixel components
-		 *\param[in]	p_r, p_g, p_b, p_a	The pixel components
+
+		/** Sets the pixel components
+		@param[in] p_r, p_g, p_b, p_a
+			The pixel components
 		 */
 		template< typename U > void Set( U p_r, U p_g, U p_b, U p_a );
-		/**
-		 *\~english
-		 *\brief		Sets the pixel from another pixel type
-		 *\param[in]	p_px	The object to copy
+
+		/** Sets the pixel from another pixel type
+		@param[in] p_px
+			The object to copy
 		 */
 		template< typename U > void Set( const Pixel< U > & p_px );
-		/**
-		 *\~english
-		 *\brief		Sets the pixel from two buffers
-		 *\remarks		One of the buffers may contain colour and the other may contain alpha
-		 *\remarks		Count1 and Count2 may be 0, 1, 3 or 4.
-		 *\remarks		If one Count equals 3 (RGB compponents for respective p_pBuffer), the other Count must be 0 or 1 (Alpha component for respective p_pBuffer)
-		 *\remarks		If one Count equals 4 (RGBA compponents for respective p_pBuffer), the other Count must be 0 (Alpha component for respective p_pBuffer)
-		 *\param[in]	p_pBuffer1, p_pBuffer2	The buffers
+
+		/** Sets the pixel from two buffers
+		@remarks
+			One of the buffers may contain colour and the other may contain alpha
+			<br />Count1 and Count2 may be 0, 1, 3 or 4.
+			<br />If one Count equals 3 (RGB compponents for respective p_pBuffer), the other Count must be 0 or 1 (Alpha component for respective p_pBuffer)
+			<br />If one Count equals 4 (RGBA compponents for respective p_pBuffer), the other Count must be 0 (Alpha component for respective p_pBuffer)
+		@param[in] p_pBuffer1,
+			p_pBuffer2	The buffers
 		 */
 		template < size_t Count1, size_t Count2 > void Set( const T * p_pBuffer1, const T * p_pBuffer2 );
-		/**
-		 *\brief		Retrieves the sum of the RGB components
-		 *\return		The sum
+
+		/** Retrieves the sum of the RGB components
+		@return
+			The sum
 		 */
 		template< typename U > U Sum()const;
 
@@ -160,88 +190,115 @@ namespace ProceduralTextures
 		//! Alpha component
 		T a;
 	};
-	/**
-	 *\brief		Equality operator
-	 *\param[in]	p_pixel, p_px	The pixels to compare
-	 *\return		\p true if pixels have same values
+	/** Equality operator
+	@param[in] p_pixel, p_px
+		The pixels to compare
+	@return
+		\p true if pixels have same values
 	 */
 	template< typename T, typename U > bool operator ==( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
-	/**
-	 *\brief		Difference operator
-	 *\param[in]	p_pixel, p_px	The pixels to compare
-	 *\return		\p true if pixels have At least one different value
+
+	/** Difference operator
+	@param[in] p_pixel, p_px
+		The pixels to compare
+	@return
+		\p true if pixels have At least one different value
 	 */
 	template< typename T, typename U > bool operator !=( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
-	/**
-	 *\brief		Addition operator
-	 *\param[in]	p_pixel, p_px	The pixels to add
-	 *\return		The addition result
+
+	/** Addition operator
+	@param[in] p_pixel, p_px
+		The pixels to add
+	@return
+		The addition result
 	 */
 	template< typename T, typename U > Pixel< T > operator +( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
-	/**
-	 *\brief		Subtraction operator
-	 *\param[in]	p_pixel, p_px	The pixels to subtract
-	 *\return		The addition result
+
+	/** Subtraction operator
+	@param[in] p_pixel, p_px
+		The pixels to subtract
+	@return
+		The addition result
 	 */
 	template< typename T, typename U > Pixel< T > operator -( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
-	/**
-	 *\brief		Multiplication operator
-	 *\param[in]	p_pixel, p_px	The pixels to multiply
-	 *\return		The addition result
+
+	/** Multiplication operator
+	@param[in] p_pixel, p_px
+		The pixels to multiply
+	@return
+		The addition result
 	 */
 	template< typename T, typename U > Pixel< T > operator /( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
-	/**
-	 *\brief		Division operator
-	 *\param[in]	p_pixel, p_px	The pixels to divide
-	 *\return		The addition result
+
+	/** Division operator
+	@param[in] p_pixel, p_px
+		The pixels to divide
+	@return
+		The addition result
 	 */
 	template< typename T, typename U > Pixel< T > operator *( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
-	/**
-	 *\brief		Addition operator
-	 *\param[in]	p_pixel, p_t	The pixels to add
-	 *\return		The addition result
+
+	/** Addition operator
+	@param[in] p_pixel, p_t
+		The pixels to add
+	@return
+		The addition result
 	 */
 	template< typename T, typename U > Pixel< T > operator +( const Pixel< T > & p_pixel, U const & p_t );
-	/**
-	 *\brief		Subtraction operator
-	 *\param[in]	p_pixel, p_t	The pixels to subtract
-	 *\return		The addition result
+
+	/** Subtraction operator
+	@param[in] p_pixel, p_t
+		The pixels to subtract
+	@return
+		The addition result
 	 */
 	template< typename T, typename U > Pixel< T > operator -( const Pixel< T > & p_pixel, U const & p_t );
-	/**
-	 *\brief		Multiplication operator
-	 *\param[in]	p_pixel, p_t	The pixels to multiply
-	 *\return		The addition result
+
+	/** Multiplication operator
+	@param[in] p_pixel, p_t
+		The pixels to multiply
+	@return
+		The addition result
 	 */
 	template< typename T, typename U > Pixel< T > operator /( const Pixel< T > & p_pixel, U const & p_t );
-	/**
-	 *\brief		Division operator
-	 *\param[in]	p_pixel, p_t	The pixels to divide
-	 *\return		The addition result
+
+	/** Division operator
+	@param[in] p_pixel, p_t
+		The pixels to divide
+	@return
+		The addition result
 	 */
 	template< typename T, typename U > Pixel< T > operator *( const Pixel< T > & p_pixel, U const & p_t );
-	/**
-	 *\brief		Addition operator
-	 *\param[in]	p_pixel, p_t	The pixels to add
-	 *\return		The addition result
+
+	/** Addition operator
+	@param[in] p_pixel, p_t
+		The pixels to add
+	@return
+		The addition result
 	 */
 	template< typename T, typename U > Pixel< U > operator +( U const & p_t, const Pixel< T > & p_pixel );
-	/**
-	 *\brief		Subtraction operator
-	 *\param[in]	p_pixel, p_t	The pixels to subtract
-	 *\return		The addition result
+
+	/** Subtraction operator
+	@param[in] p_pixel, p_t
+		The pixels to subtract
+	@return
+		The addition result
 	 */
 	template< typename T, typename U > Pixel< U > operator -( U const & p_t, const Pixel< T > & p_pixel );
-	/**
-	 *\brief		Multiplication operator
-	 *\param[in]	p_pixel, p_t	The pixels to multiply
-	 *\return		The addition result
+
+	/** Multiplication operator
+	@param[in] p_pixel, p_t
+		The pixels to multiply
+	@return
+		The addition result
 	 */
 	template< typename T, typename U > Pixel< U > operator /( U const & p_t, const Pixel< T > & p_pixel );
-	/**
-	 *\brief		Division operator
-	 *\param[in]	p_pixel, p_t	The pixels to divide
-	 *\return		The addition result
+
+	/** Division operator
+	@param[in] p_pixel, p_t
+		The pixels to divide
+	@return
+		The addition result
 	 */
 	template< typename T, typename U > Pixel< U > operator *( U const & p_t, const Pixel< T > & p_pixel );
 }

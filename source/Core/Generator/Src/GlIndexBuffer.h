@@ -25,36 +25,42 @@ namespace ProceduralTextures
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Index buffer object implementation
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Index buffer object implementation
 	*/
 	class GeneratorAPI IndexBuffer
 		: public BufferObject
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGL instance
-		 *\param[in]	p_mode		The buffer access mode
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
+		@param[in] p_mode
+				The buffer access mode
 		 */
 		IndexBuffer( std::shared_ptr< OpenGl > p_openGl, uint32_t p_mode );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~IndexBuffer();
-		/**
-		 *\brief		Initialises the buffer
-		 *\return		true if it is successfully initialised
+
+		/** Initialises the buffer
+		@return
+			true if it is successfully initialised
 		 */
 		virtual bool Initialise();
-		/**
-		 *\brief		Tries to activate the buffer
-		 *\return		true if it is successfully activated
+
+		/** Tries to activate the buffer
+		@return
+			true if it is successfully activated
 		 */
 		virtual bool Activate();
-		/**
-		 *\brief		Deactivates the buffer
+
+		/** Deactivates the buffer
 		 */
 		virtual void Deactivate();
 

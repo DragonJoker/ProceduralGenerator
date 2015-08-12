@@ -25,21 +25,24 @@ namespace ProceduralTextures
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Pack (upload to VRAM) buffer implementation
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Pack (upload to VRAM) buffer implementation
 	*/
 	class GeneratorAPI UploadPixelBuffer
 		: public GpuIOBuffer
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGL instance
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
 		 */
 		UploadPixelBuffer( std::shared_ptr< OpenGl > p_openGl );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~UploadPixelBuffer();
 	};

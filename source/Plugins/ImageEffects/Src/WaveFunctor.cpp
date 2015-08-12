@@ -40,13 +40,13 @@ namespace ImageEffects
 
 	void WaveFunctor::operator()( PixelBuffer const & p_bufferIn, PixelBuffer & p_bufferOut )
 	{
-		int x;
-		int y;
-		UbPixel l_pixel;
+		DynPoint< UbPixel > * l_pixelsOut = &p_bufferOut[0];
 
 		for ( uint32_t i = 0; i < m_size.y(); i++ )
 		{
+			UbPixel * l_pixelOut = &( *l_pixelsOut )[1];
 			m_iDecalY = int( m_dCurTranslateY + m_dSin[int( m_dTimeIndexY + m_dScaleY * 360.0 * double( i ) / double( m_size.y() ) ) % 360] * m_dNbPixelsY );
+			int y;
 
 			if ( m_iDecalY >= 0 )
 			{
@@ -74,6 +74,7 @@ namespace ImageEffects
 			for ( uint32_t j = 0; j < m_size.x(); j++ )
 			{
 				m_iDecalX = int( m_dCurTranslateX + m_dCos[int( m_dTimeIndexX + m_dScaleX * 360.0 * double( j ) / double( m_size.x() ) ) % 360] * m_dNbPixelsX );
+				int x;
 
 				if ( m_iDecalX >= 0 )
 				{
@@ -98,8 +99,11 @@ namespace ImageEffects
 					}
 				}
 
-				p_bufferOut[i][j].Set( p_bufferIn[y][x] );
+				l_pixelOut->Set( p_bufferIn[y][x] );
+				++l_pixelOut;
 			}
+
+			++l_pixelsOut;
 		}
 
 		m_dTimeIndexX += m_dTimeScaleX * 10.0;

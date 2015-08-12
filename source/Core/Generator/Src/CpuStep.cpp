@@ -158,4 +158,39 @@ namespace ProceduralTextures
 		DoInitialiseStep();
 		DoThreadsStart();
 	}
+
+	//*************************************************************************************************
+
+	DefaultCpuStep::DefaultCpuStep( std::shared_ptr< GeneratorBase > p_generator, Size const & p_size )
+		: CpuStepBase( p_generator, p_size )
+	{
+	}
+
+	DefaultCpuStep::~DefaultCpuStep()
+	{
+	}
+
+	void DefaultCpuStep::DoInitialiseStep()
+	{
+	}
+
+	void DefaultCpuStep::DoInitialise()
+	{
+	}
+
+	void DefaultCpuStep::DoCleanup()
+	{
+	}
+
+	void DefaultCpuStep::DoSwapBuffers()
+	{
+	}
+
+	void DefaultCpuStep::DoThreadsStart()
+	{
+	}
+
+	void DefaultCpuStep::DoThreadsCleanup()
+	{
+	}
 }

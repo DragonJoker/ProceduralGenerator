@@ -23,86 +23,99 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author 	Sylvain DOREMUS
-	\date		02/03/2015
-	\version 	2.0.0
-	\brief		Simmple structure holding material data
+	@author
+		Sylvain DOREMUS
+	@date
+		02/03/2015
+	@version
+			2.0.0
+	@brief
+		Simmple structure holding material data
 	*/
 	class Material
 	{
 	public:
-		/**
-		 *\brief		Constructor
+		/** Constructor
 		 */
 		Material();
-		/**
-		 *\brief		Constructor, for colour materials
-		 *\param[in]	p_colour	The wanted colour
+
+		/** Constructor, for colour materials
+		@param[in] p_colour
+			The wanted colour
 		 */
 		Material( Colour const & p_colour );
-		/**
-		 *\brief		Constructor, for texture materials
-		 *\param[in]	p_texture	The wanted texture
+
+		/** Constructor, for texture materials
+		@param[in] p_texture
+			The wanted texture
 		 */
 		Material( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\brief		Activates the material
+
+		/** Activates the material
 		 */
 		void Activate();
-		/**
-		 *\brief		Deactivates the material
+
+		/** Deactivates the material
 		 */
 		void Deactivate();
-		/**
-		 *\brief		Retrieves the material colour
-		 *\return		The value
+
+		/** Retrieves the material colour
+		@return
+			The value
 		 */
 		void SetType( eMATERIAL_TYPE p_type, std::shared_ptr< gl::ShaderProgram > p_program );
-		/**
-		 *\brief		Sets the material colour
-		 *\param[in]	p_colour	The new value
+
+		/** Sets the material colour
+		@param[in] p_colour
+			The new value
 		 */
 		void SetColour( Colour const & p_colour );
-		/**
-		 *\brief		Sets the material texture
-		 *\param[in]	p_texture	The new value
+
+		/** Sets the material texture
+		@param[in] p_texture
+			The new value
 		 */
 		void SetTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\brief		Retrieves the material colour
-		 *\return		The value
+
+		/** Retrieves the material colour
+		@return
+			The value
 		 */
 		inline eMATERIAL_TYPE GetType()const
 		{
 			return m_type;
 		}
-		/**
-		 *\brief		Retrieves the material colour
-		 *\return		The value
+
+		/** Retrieves the material colour
+		@return
+			The value
 		 */
 		inline Colour const & GetColour()const
 		{
 			return m_colour;
 		}
-		/**
-		 *\brief		Retrieves the material texture
-		 *\return		The value
+
+		/** Retrieves the material texture
+		@return
+			The value
 		 */
 		inline std::shared_ptr< gl::Texture > GetTexture()const
 		{
 			return m_texture;
 		}
-		/**
-		 *\brief		Retrieves the material vertex attribute
-		 *\return		The value
+
+		/** Retrieves the material vertex attribute
+		@return
+			The value
 		 */
 		inline uint32_t GetVertexAttribute()const
 		{
 			return m_vertexAttribute;
 		}
-		/**
-		 *\brief		Retrieves the material texture attribute
-		 *\return		The value
+
+		/** Retrieves the material texture attribute
+		@return
+			The value
 		 */
 		inline uint32_t GetTextureAttribute()const
 		{

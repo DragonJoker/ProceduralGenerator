@@ -21,23 +21,29 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <Generator.h>
 
 #include "IfxCpuStep.h"
-#include "IfxGpuStep.h"
+#include <GpuStep.h>
 
 namespace ImageEffects
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/05/2012
-	\brief		Image effects generator
+	@author
+		Sylvain DOREMUS
+	@date
+		23/05/2012
+	@brief
+		Image effects generator
 	*/
 	class Generator
-		: public ProceduralTextures::Generator< CpuStep, GpuStep >
+		: public ProceduralTextures::Generator< CpuStep, ProceduralTextures::DefaultGpuStep >
 	{
 	private:
 		/*!
-		\author		Sylvain DOREMUS
-		\date		23/05/2012
-		\brief		The controls IDs
+		@author
+			Sylvain DOREMUS
+		@date
+			23/05/2012
+		@brief
+			The controls IDs
 		*/
 		typedef enum
 		{
@@ -48,48 +54,49 @@ namespace ImageEffects
 		}	eID;
 
 	public:
-		/**
-		 *\brief		Constructor
+		/** Constructor
 		 */
 		Generator();
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~Generator();
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		/** @copydoc ProceduralTexture::Generator::DoCreate
 		 */
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+
+		/** @copydoc ProceduralTexture::Generator::DoDestroy
 		 */
 		virtual void DoDestroy();
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+
+		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
 		 */
 		virtual void DoGeneratePanel();
 
 	private:
-		/**
-		 *\brief		Sets the computing image size
-		 *\param[in]	p_value	The new value
+		/** Sets the computing image size
+		@param[in] p_value
+			The new value
 		 */
 		void OnSize( ProceduralTextures::Size & p_value );
-		/**
-		 *\brief		Sets the first function
-		 *\param[in]	p_value	The new value
+
+		/** Sets the first function
+		@param[in] p_value
+			The new value
 		 */
 		void OnFirstFunction( uint32_t p_value );
-		/**
-		 *\brief		Sets the second function
-		 *\param[in]	p_value	The new value
+
+		/** Sets the second function
+		@param[in] p_value
+			The new value
 		 */
 		void OnSecondFunction( uint32_t p_value );
-		/**
-		 *\brief		Sets the image
-		 *\param[in]	p_value	The new value
+
+		/** Sets the image
+		@param[in] p_value
+			The new value
 		 */
 		void OnImage();
 

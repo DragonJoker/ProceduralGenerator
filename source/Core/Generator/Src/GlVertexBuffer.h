@@ -23,26 +23,30 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Vertex.h"
 #include "OpenGl.h"
 
-#define GL_BUFFER_OFFSET( n)	((char*)NULL + ( n))
+#define GL_BUFFER_OFFSET( n ) ( ( char * )NULL + ( n ) )
 
 namespace ProceduralTextures
 {
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Vertex buffer object implementation
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Vertex buffer object implementation
 	*/
 	template< typename PosType >
 	class GeneratorAPI TVertexBuffer
 		: public BufferObject
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGL instance
-		 *\param[in]	p_mode		The buffer access mode
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
+		@param[in] p_mode
+			The buffer access mode
 		 */
 		TVertexBuffer( std::shared_ptr< OpenGl > p_openGl, uint32_t p_mode )
 			: BufferObject( p_openGl, GL_ARRAY_BUFFER, p_mode )
@@ -68,15 +72,16 @@ namespace gl
 			m_arrayVertex[2].SetTexture( 1.0f, 1.0f );
 			m_arrayVertex[3].SetTexture( 0.0f, 1.0f );
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~TVertexBuffer()
 		{
 		}
-		/**
-		 *\brief		Initialises the buffer
-		 *\return		true if it is successfully initialised
+
+		/** Initialises the buffer
+		@return
+			true if it is successfully initialised
 		 */
 		virtual bool Initialise()
 		{
@@ -96,11 +101,14 @@ namespace gl
 
 			return l_return;
 		}
-		/**
-		 *\brief		Tries to activate the buffer
-		 *\param[in]	p_vertex	The "vertex" attribute location
-		 *\param[in]	p_texture	The "texture" attribute location
-		 *\return		true if the VBO and all its attributes are successfully activated
+
+		/** Tries to activate the buffer
+		@param[in] p_vertex
+			The "vertex" attribute location
+		@param[in] p_texture
+			The "texture" attribute location
+		@return
+			true if the VBO and all its attributes are successfully activated
 		 */
 		virtual bool Activate( uint32_t p_vertex, uint32_t p_texture )
 		{
@@ -127,8 +135,8 @@ namespace gl
 			l_bReturn &= GetOpenGl()->ClientActiveTexture( GL_TEXTURE3 );
 			return l_bReturn;
 		}
-		/**
-		 *\brief		Deactivates the buffer
+
+		/** Deactivates the buffer
 		 */
 		virtual void Deactivate()
 		{
@@ -136,9 +144,10 @@ namespace gl
 			GetOpenGl()->DisableVertexAttribArray( 1 );
 			Unbind();
 		}
-		/**
-		 *\brief		Sets the vertices buffer
-		 *\param[in]	p_buffer	The buffer
+
+		/** Sets the vertices buffer
+		@param[in] p_buffer
+			The buffer
 		 */
 		void SetBuffer( std::vector< TVertex< PosType > > const & p_buffer )
 		{
@@ -157,9 +166,10 @@ namespace gl
 
 			m_changed = true;
 		}
-		/**
-		 *\brief		Retrieves the vertices buffer
-		 *\return		The buffer
+
+		/** Retrieves the vertices buffer
+		@return
+			The buffer
 		 */
 		std::vector< TVertex< PosType > > const & GetBuffer()const
 		{
@@ -167,9 +177,9 @@ namespace gl
 		}
 
 	private:
-		/**
-		 *\brief		Dummy
-		 *\return		false
+		/** Dummy
+		@return
+			false
 		 */
 		virtual bool Activate()
 		{

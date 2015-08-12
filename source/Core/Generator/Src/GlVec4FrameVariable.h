@@ -25,33 +25,38 @@ namespace ProceduralTextures
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Represent a single (not vec or mat) uniform variable to pass to shaders
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Represent a 4 components uniform variable to pass to shaders
 	*/
 	template< typename T >
 	class GeneratorAPI Vec4FrameVariable
 		: public TFrameVariable< T, 4 >
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGL instance
-		 *\param[in]	p_program	The parent shader program
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
+		@param[in] p_program
+			The parent shader program
 		 */
 		Vec4FrameVariable( std::shared_ptr< OpenGl > p_openGl, std::shared_ptr< ShaderProgram > p_program )
 			: TFrameVariable< T, 4 >( p_openGl, p_program )
 		{
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~Vec4FrameVariable()
 		{
 		}
-		/**
-		 *\brief		Defines the variable's value
-		 *\param[in]	p_x, p_y, p_z, p_w	The new value
+
+		/** Defines the variable's value
+		@param[in] p_x,
+			p_y, p_z, p_w	The new value
 		 */
 		inline void SetValue( T p_x, T p_y, T p_z, T p_w )
 		{
@@ -61,9 +66,10 @@ namespace gl
 			this->m_value[3] = p_w;
 			this->SetChanged();
 		}
-		/**
-		 *\brief		Defines the variable's value
-		 *\param[in]	p_point	The new value
+
+		/** Defines the variable's value
+		@param[in] p_point
+			The new value
 		 */
 		inline void SetValue( Point< T, 4 > const & p_point )
 		{

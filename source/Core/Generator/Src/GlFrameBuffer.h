@@ -27,80 +27,102 @@ namespace ProceduralTextures
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		14/02/2010
-	\brief		Framebuffer implementation
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Framebuffer implementation
 	*/
 	class GeneratorAPI FrameBuffer
 		: public Object< std::function< bool( int, uint32_t * ) >, std::function< bool( int, uint32_t const * ) > >
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGL instance
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
 		 */
 		FrameBuffer( std::shared_ptr< OpenGl > p_openGl );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~FrameBuffer();
-		/**
-		 *\brief		Initialises the framebuffer
-		 *\param[in]	p_size	The wanted physical framebuffer size
-		 *\return		true if it is successfully initialised
+
+		/** Initialises the framebuffer
+		@param[in] p_size
+			The wanted physical framebuffer size
+		@return
+			true if it is successfully initialised
 		 */
 		bool Initialise( Size const & p_size );
-		/**
-		 *\brief		Cleans up the framebuffer
+
+		/** Cleans up the framebuffer
 		 */
 		void Cleanup();
-		/**
-		 *\brief		Tries to activate the texture At given attachment
-		 *\param[in]	p_attachment	The attachment
-		 *\param[in]	p_target		The texture target (GL_TEXTURE0, ...)
-		 *\return		false if no texture is attached At wanted attachment or if it is not successfully activated
+
+		/** Tries to activate the texture At given attachment
+		@param[in] p_attachment
+			The attachment
+		@param[in] p_target
+			The texture target (GL_TEXTURE0, ...)
+		@return
+			false if no texture is attached At wanted attachment or if it is not successfully activated
 		 */
 		bool ActivateTexture( unsigned int p_attachment, unsigned int p_target = GL_TEXTURE0 );
-		/**
-		 *\brief		Deactivate the texture At given attachment
-		 *\param[in]	p_attachment	The attachment
-		 *\param[in]	p_target		The texture target (GL_TEXTURE0, ...)
+
+		/** Deactivate the texture At given attachment
+		@param[in] p_attachment
+			The attachment
+		@param[in] p_target
+			The texture target (GL_TEXTURE0, ...)
 		 */
 		void DeactivateTexture( unsigned int p_attachment, unsigned int p_target = GL_TEXTURE0 );
-		/**
-		 *\brief		Attaches a texture to the given attachment
-		 *\param[in]	p_attachment	The attachment
-		 *\param[in]	p_texture		The texture
+
+		/** Attaches a texture to the given attachment
+		@param[in] p_attachment
+			The attachment
+		@param[in] p_texture
+			The texture
 		 */
 		void AttachTexture( unsigned int p_attachment, std::shared_ptr< Texture > p_texture );
-		/**
-		 *\brief		Retrieves the texture to the given attachment
-		 *\param[in]	p_attachment	The attachment
-		 *\return		The texture, NULL if there is no texture At given attachment
+
+		/** Retrieves the texture to the given attachment
+		@param[in] p_attachment
+			The attachment
+		@return
+			The texture, NULL if there is no texture At given attachment
 		 */
 		std::shared_ptr< Texture > GetTexture( unsigned int p_attachment );
-		/**
-		 *\brief		Tries to download the image buffer for given attachment
-		 *\param[in]	p_attachment	The attachment
-		 *\param[out]	p_buffer		Receives the downloaded buffer
-		 *\return		false if no texture is attached At wanted attachment or if it is not successfully downloaded
+
+		/** Tries to download the image buffer for given attachment
+		@param[in] p_attachment
+			The attachment
+		@param[out] p_buffer
+			Receives the downloaded buffer
+		@return
+			false if no texture is attached At wanted attachment or if it is not successfully downloaded
 		 */
 		bool DownloadSync( unsigned int p_attachment, PixelBuffer & p_buffer );
-		/**
-		 *\brief		Tries to download the image buffer for given attachment
-		 *\param[in]	p_attachment	The attachment
-		 *\param[out]	p_buffer		Receives the downloaded buffer
-		 *\return		false if no texture is attached At wanted attachment or if it is not successfully downloaded
+
+		/** Tries to download the image buffer for given attachment
+		@param[in] p_attachment
+			The attachment
+		@param[out] p_buffer
+			Receives the downloaded buffer
+		@return
+			false if no texture is attached At wanted attachment or if it is not successfully downloaded
 		 */
 		bool DownloadAsync( unsigned int p_attachment, PixelBuffer & p_buffer );
-		/**
-		 *\brief		Updates the virtual framebuffer dimensions
-		 *\param[in]	p_size	The new dimensions
+
+		/** Updates the virtual framebuffer dimensions
+		@param[in] p_size
+			The new dimensions
 		 */
 		void Resize( Size const & p_size );
-		/**
-		 *\brief		Retrieves the virtual framebuffer dimensions
-		 *\return		The value
+
+		/** Retrieves the virtual framebuffer dimensions
+		@return
+			The value
 		 */
 		Size const & GetSize()const
 		{

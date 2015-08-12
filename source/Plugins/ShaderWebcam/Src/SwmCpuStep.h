@@ -25,38 +25,45 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ShaderWebcam
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		05/03/2015
-	\brief		Shader webcam worker thread
+	@author
+		Sylvain DOREMUS
+	@date
+		05/03/2015
+	@brief
+		Shader webcam worker thread
 	*/
 	class Thread
 		: public ProceduralTextures::Thread
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_parent	The parent generator
-		 *\param[in]	p_index		The thread index
-		 *\param[in]	p_width		The surface width
-		 *\param[in]	p_top		The surface portion's top
-		 *\param[in]	p_bottom	The surface portion's bottom
-		 *\param[in]	p_height	The surface height
+		/** Constructor
+		@param[in] p_parent
+			The parent generator
+		@param[in] p_index
+			The thread index
+		@param[in] p_width
+			The surface width
+		@param[in] p_top
+			The surface portion's top
+		@param[in] p_bottom
+			The surface portion's bottom
+		@param[in] p_height
+			The surface height
 		 */
 		Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_parent, size_t p_index, int p_width, int p_top, int p_bottom, int p_totalHeight );
-		/**
-		 *\brief		Destructor
+		/** Destructor
 		 */
 		virtual ~Thread();
-		/**
-		 *\brief		Initialises the step thread
-		 *\param[in]	p_pCapture	The OpenCV capture
-		 *\param[in]	p_pBuffer	The pixel buffer
+		/** Initialises the step thread
+		@param[in] p_pCapture
+			The OpenCV capture
+		@param[in] p_pBuffer
+			The pixel buffer
 		 */
 		void Initialise( std::shared_ptr< cv::VideoCapture > p_pCapture, std::shared_ptr< ProceduralTextures::PixelBuffer > p_pBuffer );
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::Thread::DoStep
+		/** @copydoc ProceduralTexture::CpuStep::Thread::DoStep
 		 */
 		virtual void DoStep();
 
@@ -67,49 +74,47 @@ namespace ShaderWebcam
 		std::weak_ptr< ProceduralTextures::PixelBuffer > m_pBuffer;
 	};
 	/*!
-	\author		Sylvain DOREMUS
-	\date		05/03/2015
-	\brief		Shader webcam CPU step
+	@author
+		Sylvain DOREMUS
+	@date
+		05/03/2015
+	@brief
+		Shader webcam CPU step
 	*/
 	class CpuStep
 		: public ProceduralTextures::CpuStep< Thread >
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_generator	The parent generator
-		 *\param[in]	p_capture	The OpenCV capture
-		 *\param[in]	p_size		The dimensions
+		/** Constructor
+		@param[in] p_generator
+			The parent generator
+		@param[in] p_capture
+			The OpenCV capture
+		@param[in] p_size
+				The dimensions
 		 */
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, std::shared_ptr< cv::VideoCapture > p_capture, ProceduralTextures::Size const & p_size );
-		/**
-		 *\brief		Destructor
+		/** Destructor
 		 */
 		virtual ~CpuStep();
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoInitialiseStep
+		/** @copydoc ProceduralTexture::CpuStep::DoInitialiseStep
 		 */
 		virtual void DoInitialiseStep();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoInitialise
+		/** @copydoc ProceduralTexture::CpuStep::DoInitialise
 		 */
 		virtual void DoInitialise();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoCleanup
+		/** @copydoc ProceduralTexture::CpuStep::DoCleanup
 		 */
 		virtual void DoCleanup();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoSwapBuffers
+		/** @copydoc ProceduralTexture::CpuStep::DoSwapBuffers
 		 */
 		virtual void DoSwapBuffers();
-		/**
-		 *\brief		Initialises OpenCV capture
+		/** Initialises OpenCV capture
 		 */
 		void DoInitialiseCapture();
-		/**
-		 *\brief		Cleans up OpenCV capture
+		/** Cleans up OpenCV capture
 		 */
 		void DoCleanupCapture();
 

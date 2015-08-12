@@ -117,7 +117,7 @@ namespace ProceduralTextures
 
 		void ShaderObject::AttachTo( std::shared_ptr< ShaderProgram > p_pProgram )
 		{
-			if ( m_bCompiled && ! m_bError )
+			if ( m_bCompiled && !m_bError )
 			{
 				m_parent = p_pProgram;
 				GetOpenGl()->AttachShader( GetParent()->GetGlName(), GetGlName() );

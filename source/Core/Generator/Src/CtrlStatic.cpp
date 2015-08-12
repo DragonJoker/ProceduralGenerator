@@ -8,8 +8,8 @@ namespace ProceduralTextures
 {
 	int StaticCtrl::m_count = 0xFF000000;
 
-	StaticCtrl::StaticCtrl( String const & p_caption, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
-		: Control( eCONTROL_TYPE_STATIC, m_count++, p_position, p_size, p_style, p_visible )
+	StaticCtrl::StaticCtrl( std::shared_ptr< Control > p_parent, String const & p_caption, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
+		: Control( eCONTROL_TYPE_STATIC, p_parent, m_count++, p_position, p_size, p_style, p_visible )
 		, m_caption( p_caption )
 	{
 		m_borders = Point4i();

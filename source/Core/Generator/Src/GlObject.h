@@ -25,95 +25,137 @@ namespace ProceduralTextures
 namespace gl
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		12/02/2015
-	\version	2.0.0
-	\brief		Helper class to create an object on GPU
+	@author
+		Sylvain DOREMUS
+	@date
+		12/02/2015
+	@version
+		2.0.0
+	@brief
+		Helper class to create an object on GPU
 	*/
-	template< typename CreateFunction > struct CreatorHelper;
+	template< typename CreateFunction > class CreatorHelper;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		12/02/2015
-	\version	2.0.0
-	\brief		Helper class to create an object on GPU
-	\remarks	Specialization for glGenBuffers, glGenTextures, ...
+	@author
+		Sylvain DOREMUS
+	@date
+		12/02/2015
+	@version
+		2.0.0
+	@brief
+		Helper class to create an object on GPU
+	@remarks
+		Specialization for glGenBuffers, glGenTextures, ...
 	*/
-	template<> struct CreatorHelper< std::function< bool( int, uint32_t * ) > >
+	template<> class CreatorHelper< std::function< bool( int, uint32_t * ) > >
 	{
+	public:
 		typedef std::function< bool( int, uint32_t * ) > CreateFunction;
 
 		static uint32_t Apply( CreateFunction p_creator )
-	{
-		uint32_t l_return = -1;
-
-		if ( !p_creator( 1, &l_return ) )
 		{
-			l_return = -1;
-		}
+			uint32_t l_return = -1;
 
-		return l_return;
-	}
+			if ( !p_creator( 1, &l_return ) )
+			{
+				l_return = -1;
+			}
+
+			return l_return;
+		}
 	};
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		12/02/2015
-	\version	2.0.0
-	\brief		Helper class to create an object on GPU
-	\remarks	Specialization for glCreateShader
+	@author
+		Sylvain DOREMUS
+	@date
+		12/02/2015
+	@version
+		2.0.0
+	@brief
+		Helper class to create an object on GPU
+	@remarks
+		Specialization for glCreateShader
 	*/
-	template<> struct CreatorHelper< std::function< uint32_t() > >
+	template<> class CreatorHelper< std::function< uint32_t() > >
 	{
+	public:
 		typedef std::function< uint32_t() > CreateFunction;
 
 		static uint32_t Apply( CreateFunction p_creator )
-	{
-		return p_creator();
-	}
+		{
+			return p_creator();
+		}
 	};
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		12/02/2015
-	\version	2.0.0
-	\brief		Helper class to destroy an object on GPU
+	@author
+		Sylvain DOREMUS
+	@date
+		12/02/2015
+	@version
+		2.0.0
+	@brief
+		Helper class to destroy an object on GPU
 	*/
-	template< typename DestroyFunction > struct DestroyerHelper;
+	template< typename DestroyFunction > class DestroyerHelper;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		12/02/2015
-	\version	2.0.0
-	\brief		Helper class to destroy an object on GPU
-	\remarks	Specialization for glDeleteBuffers, glDeleteTextures, ...
+	@author
+		Sylvain DOREMUS
+	@date
+		12/02/2015
+	@version
+		2.0.0
+	@brief
+		Helper class to destroy an object on GPU
+	@remarks
+		Specialization for glDeleteBuffers, glDeleteTextures, ...
 	*/
-	template<> struct DestroyerHelper< std::function< bool( int, uint32_t const * ) > >
+	template<> class DestroyerHelper< std::function< bool( int, uint32_t const * ) > >
 	{
+	public:
 		typedef std::function< bool( int, uint32_t const * ) > DestroyFunction;
 
 		static void Apply( DestroyFunction p_destroyer, uint32_t p_glName )
-	{
-		p_destroyer( 1, &p_glName );
-	}
+		{
+			p_destroyer( 1, &p_glName );
+		}
 	};
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		12/02/2015
-	\version	2.0.0
-	\brief		Helper class to destroy an object on GPU
-	\remarks	Specialization for glDeleteShader
+	@author
+		Sylvain DOREMUS
+	@date
+		12/02/2015
+	@version
+		2.0.0
+	@brief
+		Helper class to destroy an object on GPU
+	@remarks
+		Specialization for glDeleteShader
 	*/
-	template<> struct DestroyerHelper< std::function< bool( uint32_t ) > >
+	template<> class DestroyerHelper< std::function< bool( uint32_t ) > >
 	{
+	public:
 		typedef std::function< bool( uint32_t ) > DestroyFunction;
 
 		static void Apply( DestroyFunction p_destroyer, uint32_t p_glName )
-	{
-		p_destroyer( p_glName );
-	}
+		{
+			p_destroyer( p_glName );
+		}
 	};
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		12/02/2015
-	\version	2.0.0
-	\brief		Base class for each OpenGL object (with glGen* and glDelete* functions)
+	@author
+		Sylvain DOREMUS
+	@date
+		12/02/2015
+	@version
+		2.0.0
+	@brief
+		Base class for each OpenGL object (with glGen* and glDelete* functions)
 	*/
 	template< typename CreateFunction, typename DestroyFunction >
 	class Object
@@ -123,13 +165,17 @@ namespace gl
 		typedef std::function< bool( uint32_t ) > BindFunction;
 
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_openGl	The OpenGl instance
-		 *\param[in]	p_creator	The creation function
-		 *\param[in]	p_destroyer	The destruction function
-		 *\param[in]	p_validator	The validation function
-		 *\param[in]	p_binder	The binding function
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGl instance
+		@param[in] p_creator
+			The creation function
+		@param[in] p_destroyer
+			The destruction function
+		@param[in] p_validator
+			The validation function
+		@param[in] p_binder
+			The binding function
 		 */
 		Object( std::shared_ptr< OpenGl > p_openGl, CreateFunction p_creator, DestroyFunction p_destroyer, ValidatorFunction p_validator, BindFunction p_binder = BindFunction() )
 			: Holder( p_openGl )
@@ -140,15 +186,16 @@ namespace gl
 			, m_glName( -1 )
 		{
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~Object()
 		{
 		}
-		/**
-		 *\brief		Creates the object on GPU
-		 *\return		false if not created successfully
+
+		/** Creates the object on GPU
+		@return
+			false if not created successfully
 		 */
 		virtual bool Create()
 		{
@@ -175,8 +222,8 @@ namespace gl
 
 			return l_return && IsValid();
 		}
-		/**
-		 *\brief		Destroys the object on GPU
+
+		/** Destroys the object on GPU
 		 */
 		virtual void Destroy()
 		{
@@ -187,32 +234,35 @@ namespace gl
 
 			m_glName = -1;
 		}
-		/**
-		 *\brief		Binds the object on GPU
-		 *\return		false if not bound successfully
+
+		/** Binds the object on GPU
+		@return
+			false if not bound successfully
 		 */
 		virtual bool Bind()
 		{
 			return m_binder( m_glName );
 		}
-		/**
-		 *\brief		Unbinds the object on GPU
+
+		/** Unbinds the object on GPU
 		 */
 		virtual void Unbind()
 		{
 			m_binder( 0 );
 		}
-		/**
-		 *\brief		Tells if the object is created
-		 *\return		The status
+
+		/** Tells if the object is created
+		@return
+			The status
 		 */
 		bool IsValid()const
 		{
 			return m_glName != -1 && m_validator( m_glName );
 		}
-		/**
-		 *\brief		Retrieves the OpenGl instance
-		 *\return		The instance
+
+		/** Retrieves the OpenGl instance
+		@return
+			The instance
 		 */
 		uint32_t GetGlName()const
 		{

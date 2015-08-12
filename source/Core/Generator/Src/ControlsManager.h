@@ -25,10 +25,14 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		02/03/2015
-	\version	2.0.0
-	\brief		Class used to to manage the controls : events and all GUI related stuff.
+	@author
+		Sylvain DOREMUS
+	@date
+		02/03/2015
+	@version
+		2.0.0
+	@brief
+		Class used to to manage the controls: events and all GUI related stuff.
 	*/
 	class GeneratorAPI ControlsManager
 		: public std::enable_shared_from_this< ControlsManager >
@@ -37,23 +41,24 @@ namespace ProceduralTextures
 		/**@name General */
 		//@{
 
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_generator			The generator
-		 *\param[in]	p_overlayManager	The overlay manager
+		/** Constructor
+		@param[in] p_generator
+			The generator
+		@param[in] p_overlayManager
+			The overlay manager
 		 */
 		ControlsManager( std::shared_ptr< GeneratorBase > p_generator, std::shared_ptr< OverlayManager > p_overlayManager );
-		/**
-		 *\brief		Destructor
+		/** Destructor
 		 */
 		virtual ~ControlsManager();
-		/**
-		 *\brief		Handles all queued events
+
+		/** Handles all queued events
 		 */
 		void ProcessEvents();
-		/**
-		 *\brief		Retrieves the current mouse position
-		 *\return		The value
+
+		/** Retrieves the current mouse position
+		@return
+			The value
 		 */
 		Position const & GetMousePosition()
 		{
@@ -64,24 +69,27 @@ namespace ProceduralTextures
 		/**@name Mouse events */
 		//@{
 
-		/**
-		 *\brief		Fires a mouse move event
-		 *\param[in]	p_position	The mouse position
+		/** Fires a mouse move event
+		@param[in] p_position
+			The mouse position
 		 */
 		void FireMouseMove( Position const & p_position );
-		/**
-		 *\brief		Fires a mouse pushed event
-		 *\param[in]	p_button	The mouse button
+
+		/** Fires a mouse pushed event
+		@param[in] p_button
+			The mouse button
 		 */
 		void FireMouseButtonPushed( eMOUSE_BUTTON p_button );
-		/**
-		 *\brief		Fires a mouse released event
-		 *\param[in]	p_button	The mouse button
+
+		/** Fires a mouse released event
+		@param[in] p_button
+			The mouse button
 		 */
 		void FireMouseButtonReleased( eMOUSE_BUTTON p_button );
-		/**
-		 *\brief		Fires a mouse wheel event
-		 *\param[in]	p_offsets	The mouse wheel offsets (x and y)
+
+		/** Fires a mouse wheel event
+		@param[in] p_offsets
+			The mouse wheel offsets (x and y)
 		 */
 		void FireMouseWheel( Position const & p_offsets );
 
@@ -89,26 +97,35 @@ namespace ProceduralTextures
 		/**@name Keyboard events */
 		//@{
 
-		/**
-		 *\brief		Fires a keyboard key down event
-		 *\param[in]	p_key	The key
-		 *\param[in]	p_ctrl	Tells if the Ctrl key is down
-		 *\param[in]	p_alt	Tells if the Alt key is down
-		 *\param[in]	p_shift	Tells if the Shift key is down
+		/** Fires a keyboard key down event
+		@param[in] p_key
+			The key
+		@param[in] p_ctrl
+			Tells if the Ctrl key is down
+		@param[in] p_alt
+			Tells if the Alt key is down
+		@param[in] p_shift
+			Tells if the Shift key is down
 		 */
 		void FireKeyDown( eKEYBOARD_KEY p_key, bool p_ctrl, bool p_alt, bool p_shift );
-		/**
-		 *\brief		Fires a keyboard key up event
-		 *\param[in]	p_key	The key
-		 *\param[in]	p_ctrl	Tells if the Ctrl key is down
-		 *\param[in]	p_alt	Tells if the Alt key is down
-		 *\param[in]	p_shift	Tells if the Shift key is down
+
+		/** Fires a keyboard key up event
+		@param[in] p_key
+			The key
+		@param[in] p_ctrl
+			Tells if the Ctrl key is down
+		@param[in] p_alt
+			Tells if the Alt key is down
+		@param[in] p_shift
+			Tells if the Shift key is down
 		 */
 		void FireKeyUp( eKEYBOARD_KEY p_key, bool p_ctrl, bool p_alt, bool p_shift );
-		/**
-		 *\brief		Fires a printable key event
-		 *\param[in]	p_key	The key
-		 *\param[in]	p_char	The character coorresponding to the key, displayable as is
+
+		/** Fires a printable key event
+		@param[in] p_key
+			The key
+		@param[in] p_char
+			The character coorresponding to the key, displayable as is
 		 */
 		void FireChar( eKEYBOARD_KEY p_key, String const & p_char );
 
@@ -116,69 +133,74 @@ namespace ProceduralTextures
 		/**@name Controls management */
 		//@{
 
-		/**
-		 *\brief		Creates the given control's overlays and binds its callbacks to appropriate events
-		 *\param[in]	p_parent	The control's parent
-		 *\param[in]	p_control	The control
+		/** Creates the given control's overlays and binds its callbacks to appropriate events
+		@param[in] p_control
+			The control
 		 */
-		void Create( std::shared_ptr< Control > p_parent, std::shared_ptr< ButtonCtrl > p_control );
-		/**
-		 *\brief		Creates the given control's overlays and binds its callbacks to appropriate events
-		 *\param[in]	p_parent	The control's parent
-		 *\param[in]	p_control	The control
+		void Create( std::shared_ptr< ButtonCtrl > p_control );
+
+		/** Creates the given control's overlays and binds its callbacks to appropriate events
+		@param[in] p_control
+			The control
 		 */
-		void Create( std::shared_ptr< Control > p_parent, std::shared_ptr< ComboBoxCtrl > p_control );
-		/**
-		 *\brief		Creates the given control's overlays and binds its callbacks to appropriate events
-		 *\param[in]	p_parent	The control's parent
-		 *\param[in]	p_control	The control
+		void Create( std::shared_ptr< ComboBoxCtrl > p_control );
+
+		/** Creates the given control's overlays and binds its callbacks to appropriate events
+		@param[in] p_control
+			The control
 		 */
-		void Create( std::shared_ptr< Control > p_parent, std::shared_ptr< EditCtrl > p_control );
-		/**
-		 *\brief		Creates the given control's overlays and binds its callbacks to appropriate events
-		 *\param[in]	p_parent	The control's parent
-		 *\param[in]	p_control	The control
+		void Create( std::shared_ptr< EditCtrl > p_control );
+
+		/** Creates the given control's overlays and binds its callbacks to appropriate events
+		@param[in] p_control
+			The control
 		 */
-		void Create( std::shared_ptr< Control > p_parent, std::shared_ptr< ListBoxCtrl > p_control );
-		/**
-		 *\brief		Creates the given control's overlays and binds its callbacks to appropriate events
-		 *\param[in]	p_parent	The control's parent
-		 *\param[in]	p_control	The control
+		void Create( std::shared_ptr< ListBoxCtrl > p_control );
+
+		/** Creates the given control's overlays and binds its callbacks to appropriate events
+		@param[in] p_control
+			The control
 		 */
-		void Create( std::shared_ptr< Control > p_parent, std::shared_ptr< SliderCtrl > p_control );
-		/**
-		 *\brief		Creates the given control's overlays and binds its callbacks to appropriate events
-		 *\param[in]	p_parent	The control's parent
-		 *\param[in]	p_control	The control
+		void Create( std::shared_ptr< SliderCtrl > p_control );
+
+		/** Creates the given control's overlays and binds its callbacks to appropriate events
+		@param[in] p_control
+			The control
 		 */
-		void Create( std::shared_ptr< Control > p_parent, std::shared_ptr< StaticCtrl > p_control );
-		/**
-		 *\brief		Adds a control that can an event target
-		 *\param[in]	p_control	The control
+		void Create( std::shared_ptr< StaticCtrl > p_control );
+
+		/** Adds a control that can an event target
+		@param[in] p_control
+			The control
 		 */
 		void AddControl( std::shared_ptr< Control > p_control );
-		/**
-		 *\brief		Removes a control
-		 *\param[in]	p_id	The control ID
+
+		/** Removes a control
+		@param[in] p_id
+			The control ID
 		 */
 		void RemoveControl( uint32_t p_id );
-		/**
-		 *\brief		Retrieves a control
-		 *\param[in]	p_id	The control ID
-		 *\return		The control
+
+		/** Retrieves a control
+		@param[in] p_id
+			The control ID
+		@return
+			The control
 		 */
 		std::shared_ptr< Control > GetControl( uint32_t p_id );
-		/**
-		 *\brief		Retrieves the active control
-		 *\return		The control
+
+		/** Retrieves the active control
+		@return
+			The control
 		 */
 		inline std::shared_ptr< Control > GetActiveControl()
 		{
 			return m_activeControl.lock();
 		}
-		/**
-		 *\brief		Retrieves the focused control
-		 *\return		The control
+
+		/** Retrieves the focused control
+		@return
+			The control
 		 */
 		inline std::shared_ptr< Control > GetFocusedControl()
 		{
@@ -188,18 +210,19 @@ namespace ProceduralTextures
 		//@}
 
 	private:
-		/**
-		 *\brief		Retrieves the first control which can be targeted by mouse, at its position
-		 *\param[in]	p_position	The mouse position
+		/** Retrieves the first control which can be targeted by mouse, at its position
+		@param[in] p_position
+			The mouse position
 		 */
 		std::shared_ptr< Control > DoGetMouseTargetableControl( Position const & p_position )const;
-		/**
-		 *\brief		Updates the z-index ordered controls array
+
+		/** Updates the z-index ordered controls array
 		 */
 		void DoUpdate()const;
-		/**
-		 *\brief		Retrieve the controls in a thread-safe way
-		 *\return		The controls array
+
+		/** Retrieve the controls in a thread-safe way
+		@return
+				The controls array
 		 */
 		std::vector< std::shared_ptr< Control > > DoGetControls()const
 		{

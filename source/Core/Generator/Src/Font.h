@@ -24,37 +24,48 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\version	2.0.0
-	\date		23/02/2015
-	\brief		Font resource
-	\remark		Representation of a font : face, precision, and others
-				<br />The generated font will be put in an image
+	@author
+		Sylvain DOREMUS
+	@version
+		2.0.0
+	@date
+		23/02/2015
+	@brief
+		Font resource
+	@remarks
+		Representation of a font : face, precision, and others
+		<br />The generated font will be put in an image
 	*/
 	class GeneratorAPI Font
 	{
 	public:
 		/*!
-		\author		Sylvain DOREMUS
-		\version	2.0.0
-		\date		23/02/2015
-		\brief		Structure used to load glyphs on demand
-		\remark		PImpl to hide FreeType inclusions
+		@author
+			Sylvain DOREMUS
+		@version
+			2.0.0
+		@date
+			23/02/2015
+		@brief
+			Structure used to load glyphs on demand
+		@remarks
+			PImpl to hide FreeType inclusions from client classes
 		*/
 		struct SFontImpl
 		{
-			/**
-			 *\brief		Initialises the loader
+			/** Initialises the loader
 			 */
 			virtual void Initialise() = 0;
-			/**
-			 *\brief		Cleans the loader up
+
+			/** Cleans the loader up
 			 */
 			virtual void Cleanup() = 0;
-			/**
-			 *\brief		Loads wanted glyph
-			 *\param[in]	p_glyph	The glyph
-			 *\return		The glyph
+
+			/** Loads wanted glyph
+			@param[in] p_glyph
+				The glyph
+			@return
+				The glyph
 			 */
 			virtual int LoadGlyph( Glyph & p_glyph ) = 0;
 		};
@@ -62,34 +73,43 @@ namespace ProceduralTextures
 		typedef std::map< char32_t, Glyph > GlyphMap;
 
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_path		The font file path
-		 *\param[in]	p_height	The font char height
+		/** Constructor
+		@param[in] p_path
+			The font file path
+		@param[in] p_height
+			The font char height
 		 */
 		Font( String const & p_path, uint32_t p_height );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		~Font();
-		/**
-		 *\brief		Sets the glyph for given character
-		 *\param[in]	p_char		The character
-		 *\param[in]	p_size		The glyph dimensions
-		 *\param[in]	p_position	The glyph position
-		 *\param[in]	p_advance	Pixels to advance in order to go next character
-		 *\param[in]	p_bitmap	The glyph image
+
+		/** Sets the glyph for given character
+		@param[in] p_char
+			The character
+		@param[in] p_size
+			The glyph dimensions
+		@param[in] p_position
+			The glyph position
+		@param[in] p_advance
+			Pixels to advance in order to go next character
+		@param[in] p_bitmap
+			The glyph image
 		 */
 		void SetGlyphAt( char32_t p_char, Size const & p_size, Position p_position, Size const & p_advance, std::vector< UbPixel > const & p_bitmap );
-		/**
-		 *\brief		Loads the glyph for given character
-		 *\param[in]	p_char	The character
+
+		/** Loads the glyph for given character
+		@param[in] p_char
+			The character
 		 */
 		void LoadGlyph( char32_t p_char );
-		/**
-		 *\brief		Retrieves the glyph of wanted chaaracter
-		 *\param[in]	p_char The wanted character
-		 *\return		A constant reference on the glyph
+
+		/** Retrieves the glyph of wanted character
+		@param[in] p_char
+			The wanted character
+		@return
+			A constant reference on the glyph
 		 */
 		inline Glyph const & GetGlyphAt( char32_t p_char )const
 		{
@@ -102,10 +122,12 @@ namespace ProceduralTextures
 
 			throw std::out_of_range( "character not found" );
 		}
-		/**
-		 *\brief		Retrieves the glyph of wanted chaaracter
-		 *\param[in]	p_char The wanted character
-		 *\return		A reference on the glyph
+
+		/** Retrieves the glyph of wanted character
+		@param[in] p_char
+			The wanted character
+		@return
+			A reference on the glyph
 		 */
 		inline Glyph & GetGlyphAt( char32_t p_char )
 		{
@@ -118,10 +140,12 @@ namespace ProceduralTextures
 
 			throw std::out_of_range( "character not found" );
 		}
-		/**
-		 *\brief		Retrieves the glyph of wanted chaaracter
-		 *\param[in]	p_char The wanted character
-		 *\return		A constant reference on the glyph
+
+		/** Retrieves the glyph of wanted character
+		@param[in] p_char
+			The wanted character
+		@return
+			A constant reference on the glyph
 		 */
 		inline Glyph const & operator[]( char32_t p_char )const
 		{
@@ -134,10 +158,12 @@ namespace ProceduralTextures
 
 			throw std::out_of_range( "character not found" );
 		}
-		/**
-		 *\brief		Retrieves the glyph of wanted chaaracter
-		 *\param[in]	p_char The wanted character
-		 *\return		A reference on the glyph
+
+		/** Retrieves the glyph of wanted character
+		@param[in] p_char
+			The wanted character
+		@return
+			A reference on the glyph
 		 */
 		inline Glyph & operator[]( char32_t p_char )
 		{
@@ -150,73 +176,82 @@ namespace ProceduralTextures
 
 			throw std::out_of_range( "character not found" );
 		}
-		/**
-		 *\brief		Retrieves the height of the font
-		 *\return		The font height
+
+		/** Retrieves the height of the font
+		@return
+				The font height
 		 */
 		inline uint32_t GetHeight()const
 		{
 			return m_uiHeight;
 		}
-		/**
-		 *\brief		Retrieves the max height of the glyphs
-		 *\return		The glyphs max height
+
+		/** Retrieves the max height of the glyphs
+		@return
+				The glyphs max height
 		 */
 		inline int GetMaxHeight()const
 		{
 			return m_iMaxHeight;
 		}
-		/**
-		 *\brief		Retrieves the max width of the glyphs
-		 *\return		The glyphs max width
+
+		/** Retrieves the max width of the glyphs
+		@return
+				The glyphs max width
 		 */
 		inline int GetMaxWidth()const
 		{
 			return m_iMaxWidth;
 		}
-		/**
-		 *\brief		Sets the max height of the glyphs
-		 *\param[in]	p_iHeight	The new height
+
+		/** Sets the max height of the glyphs
+		@param[in] p_iHeight
+			The new height
 		 */
 		inline void SetMaxHeight( int p_iHeight )
 		{
 			m_iMaxHeight = p_iHeight;
 		}
-		/**
-		 *\brief		Sets the max width of the glyphs
-		 *\param[in]	p_iWidth	The new width
+
+		/** Sets the max width of the glyphs
+		@param[in] p_iWidth
+			The new width
 		 */
 		inline void SetMaxWidth( int p_iWidth )
 		{
 			m_iMaxWidth = p_iWidth;
 		}
-		/**
-		 *\brief		Retrieves an iterator on the first glyph
-		 *\return		The iterator
+
+		/** Retrieves an iterator on the first glyph
+		@return
+				The iterator
 		 */
 		inline GlyphMap::iterator Begin()
 		{
 			return m_loadedGlyphs.begin();
 		}
-		/**
-		 *\brief		Retrieves an iterator on the first glyph
-		 *\return		The iterator
+
+		/** Retrieves an iterator on the first glyph
+		@return
+				The iterator
 		 */
 		inline GlyphMap::const_iterator Begin()const
 		{
 			return m_loadedGlyphs.begin();
 		}
-		/**
-		 *\brief		Retrieves an iterator on the glyph array end
-		 *\return		The iterator
+
+		/** Retrieves an iterator on the glyph array end
+		@return
+				The iterator
 		 */
 		inline GlyphMap::iterator End()
 		{
 			return m_loadedGlyphs.end();
 		}
-		/**
-		 *\brief		Retrieves an iterator on the glyph array end
-		 *\return		The iterator
+
+		/** Retrieves an iterator on the glyph array end
+		@return
+				The iterator
 		 */
 		inline GlyphMap::const_iterator End()const
 		{

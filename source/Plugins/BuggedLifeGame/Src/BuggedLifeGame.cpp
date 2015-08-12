@@ -2,8 +2,20 @@
 
 namespace BuggedLifeGame
 {
+	namespace
+	{
+		typedef enum
+		{
+			eID_ANY			= -1,
+			eRED_VALUE		= 50,
+			eGREEN_VALUE	= 51,
+			eBLUE_VALUE		= 52,
+		}
+		eIDs;
+	}
+
 	Generator::Generator()
-		: ProceduralTextures::Generator< CpuStep, GpuStep >( true, ProceduralTextures::DEFAULT_FRAME_TIME )
+		: ProceduralTextures::Generator< CpuStep, ProceduralTextures::DefaultGpuStep >( true, ProceduralTextures::DEFAULT_FRAME_TIME )
 	{
 	}
 
@@ -14,7 +26,7 @@ namespace BuggedLifeGame
 	void Generator::DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize )
 	{
 		m_cpuStep = std::make_shared< CpuStep >( shared_from_this(), p_size );
-		m_gpuStep = std::make_shared< GpuStep >( shared_from_this(), p_size, p_bordersSize );
+		m_gpuStep = std::make_shared< ProceduralTextures::DefaultGpuStep >( shared_from_this(), p_size, p_bordersSize );
 	}
 
 	void Generator::DoDestroy()
@@ -27,21 +39,21 @@ namespace BuggedLifeGame
 	{
 		using namespace ProceduralTextures;
 
-		std::shared_ptr< SliderCtrl > l_red = std::make_shared< SliderCtrl >( Range( 0, 255 ), 255, eRED_VALUE, Position( 30, 10 + DEFAULT_HEIGHT * 0 ), Size( CONFIG_PANEL_WIDTH -  40, DEFAULT_HEIGHT ) );
+		std::shared_ptr< SliderCtrl > l_red = std::make_shared< SliderCtrl >( m_options, Range( 0, 255 ), 255, eRED_VALUE, Position( 30, 10 + DEFAULT_HEIGHT * 0 ), Size( CONFIG_PANEL_WIDTH -  40, DEFAULT_HEIGHT ) );
 		l_red->Connect( eSLIDER_EVENT_THUMBTRACK, std::bind( &Generator::DoSetRed, this, std::placeholders::_1 ) );
 		l_red->Connect( eSLIDER_EVENT_THUMBRELEASE, std::bind( &Generator::DoSetRed, this, std::placeholders::_1 ) );
-		std::shared_ptr< SliderCtrl > l_green = std::make_shared< SliderCtrl >( Range( 0, 255 ), 255, eGREEN_VALUE, Position( 30, 10 + DEFAULT_HEIGHT * 1 ), Size( CONFIG_PANEL_WIDTH -  40, DEFAULT_HEIGHT ) );
+		std::shared_ptr< SliderCtrl > l_green = std::make_shared< SliderCtrl >( m_options, Range( 0, 255 ), 255, eGREEN_VALUE, Position( 30, 10 + DEFAULT_HEIGHT * 1 ), Size( CONFIG_PANEL_WIDTH -  40, DEFAULT_HEIGHT ) );
 		l_green->Connect( eSLIDER_EVENT_THUMBTRACK, std::bind( &Generator::DoSetGreen, this, std::placeholders::_1 ) );
 		l_green->Connect( eSLIDER_EVENT_THUMBRELEASE, std::bind( &Generator::DoSetGreen, this, std::placeholders::_1 ) );
-		std::shared_ptr< SliderCtrl > l_blue = std::make_shared< SliderCtrl >( Range( 0, 255 ), 255, eBLUE_VALUE, Position( 30, 10 + DEFAULT_HEIGHT * 2 ), Size( CONFIG_PANEL_WIDTH -  40, DEFAULT_HEIGHT ) );
+		std::shared_ptr< SliderCtrl > l_blue = std::make_shared< SliderCtrl >( m_options, Range( 0, 255 ), 255, eBLUE_VALUE, Position( 30, 10 + DEFAULT_HEIGHT * 2 ), Size( CONFIG_PANEL_WIDTH -  40, DEFAULT_HEIGHT ) );
 		l_blue->Connect( eSLIDER_EVENT_THUMBTRACK, std::bind( &Generator::DoSetBlue, this, std::placeholders::_1 ) );
 		l_blue->Connect( eSLIDER_EVENT_THUMBRELEASE, std::bind( &Generator::DoSetBlue, this, std::placeholders::_1 ) );
 
-		m_arrayControls.push_back( std::make_shared< StaticCtrl >( _( "R" ), Position( 10, 10 + DEFAULT_HEIGHT * 0 ), Size( 20, DEFAULT_HEIGHT ), eSTATIC_STYLE_HALIGN_CENTER | eSTATIC_STYLE_VALIGN_CENTER ) );
+		m_arrayControls.push_back( std::make_shared< StaticCtrl >( m_options, _( "R" ), Position( 10, 10 + DEFAULT_HEIGHT * 0 ), Size( 20, DEFAULT_HEIGHT ), eSTATIC_STYLE_HALIGN_CENTER | eSTATIC_STYLE_VALIGN_CENTER ) );
 		m_arrayControls.push_back( l_red );
-		m_arrayControls.push_back( std::make_shared< StaticCtrl >( _( "G" ), Position( 10, 10 + DEFAULT_HEIGHT * 1 ), Size( 20, DEFAULT_HEIGHT ), eSTATIC_STYLE_HALIGN_CENTER | eSTATIC_STYLE_VALIGN_CENTER ) );
+		m_arrayControls.push_back( std::make_shared< StaticCtrl >( m_options, _( "G" ), Position( 10, 10 + DEFAULT_HEIGHT * 1 ), Size( 20, DEFAULT_HEIGHT ), eSTATIC_STYLE_HALIGN_CENTER | eSTATIC_STYLE_VALIGN_CENTER ) );
 		m_arrayControls.push_back( l_green );
-		m_arrayControls.push_back( std::make_shared< StaticCtrl >( _( "B" ), Position( 10, 10 + DEFAULT_HEIGHT * 2 ), Size( 20, DEFAULT_HEIGHT ), eSTATIC_STYLE_HALIGN_CENTER | eSTATIC_STYLE_VALIGN_CENTER ) );
+		m_arrayControls.push_back( std::make_shared< StaticCtrl >( m_options, _( "B" ), Position( 10, 10 + DEFAULT_HEIGHT * 2 ), Size( 20, DEFAULT_HEIGHT ), eSTATIC_STYLE_HALIGN_CENTER | eSTATIC_STYLE_VALIGN_CENTER ) );
 		m_arrayControls.push_back( l_blue );
 	}
 

@@ -24,70 +24,91 @@ namespace ProceduralTextures
 {
 	typedef std::pair< int, int > Range;
 	/*!
-	\author		Sylvain DOREMUS
-	\date		16/02/2015
-	\version	2.0.0
-	\brief		Slider control
+	@author
+		Sylvain DOREMUS
+	@date
+		16/02/2015
+	@version
+		2.0.0
+	@brief
+		Slider control
 	*/
 	class GeneratorAPI SliderCtrl
 		: public Control
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_range		The slider min and max values
-		 *\param[in]	p_value		The slider initial value
-		 *\param[in]	p_id		The ID
-		 *\param[in]	p_position	The position
-		 *\param[in]	p_size		The size
-		 *\param[in]	p_style		The style
-		 *\param[in]	p_visible	Initial visibility status
+		/** Constructor
+		@param[in] p_parent
+			The parent control, if any
+		@param[in] p_range
+			The slider min and max values
+		@param[in] p_value
+			The slider initial value
+		@param[in] p_id
+			The ID
+		@param[in] p_position
+			The position
+		@param[in] p_size
+			The size
+		@param[in] p_style
+			The style
+		@param[in] p_visible
+			Initial visibility status
 		 */
-		SliderCtrl( Range const & p_range, int p_value, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
-		/**
-		 *\brief		Destructor
+		SliderCtrl( std::shared_ptr< Control > p_parent, Range const & p_range, int p_value, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
+
+		/** Destructor
 		 */
 		virtual ~SliderCtrl();
-		/**
-		 *\brief		Sets the range
-		 *\param[in]	p_value	The new value
+
+		/** Sets the range
+		@param[in] p_value
+			The new value
 		 */
 		void SetRange( Range const & p_value );
-		/**
-		 *\brief		Sets the caption
-		 *\param[in]	p_value	The new value
+
+		/** Sets the caption
+		@param[in] p_value
+			The new value
 		 */
 		void SetValue( int32_t p_value );
-		/**
-		 *\brief		Retrieves the range
-		 *\return		The value
+
+		/** Retrieves the range
+		@return
+			The value
 		 */
 		inline Range const & GetRange()const
 		{
 			return m_range;
 		}
-		/**
-		 *\brief		Retrieves the caption
-		 *\return		The value
+
+		/** Retrieves the caption
+		@return
+			The value
 		 */
 		inline int32_t GetValue()const
 		{
 			return m_value;
 		}
-		/**
-		 *\brief		Connects a function to a slider event
-		 *\param[in]	p_event		The event type
-		 *\param[in]	p_function	The function
-		 *\return		The internal function index, to be able to disconnect it
+
+		/** Connects a function to a slider event
+		@param[in] p_event
+			The event type
+		@param[in] p_function
+			The function
+		@return
+			The internal function index, to be able to disconnect it
 		 */
 		inline uint32_t Connect( eSLIDER_EVENT p_event, std::function< void( int ) > p_function )
 		{
 			return m_signals[p_event].Connect( p_function );
 		}
-		/**
-		 *\brief		Disconnects a function from a slider event
-		 *\param[in]	p_event	The event type
-		 *\param[in]	p_index	The function index
+
+		/** Disconnects a function from a slider event
+		@param[in] p_event
+			The event type
+		@param[in] p_index
+			The function index
 		 */
 		inline void Disconnect( eSLIDER_EVENT p_event, uint32_t p_index )
 		{
@@ -95,90 +116,103 @@ namespace ProceduralTextures
 		}
 
 	private:
-		/**
-		 *\brief		Updates the line and tick position and size
+		/** Updates the line and tick position and size
 		 */
 		void DoUpdateLineAndTick();
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoCreate
+
+		/** @copydoc ProceduralTextures::Control::DoCreate
 		 */
 		virtual void DoCreate( std::shared_ptr< OverlayManager > p_manager );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetPosition
+
+		/** @copydoc ProceduralTextures::Control::DoSetPosition
 		 */
 		virtual void DoSetPosition( Position const & p_value );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetSize
+
+		/** @copydoc ProceduralTextures::Control::DoSetSize
 		 */
 		virtual void DoSetSize( Size const & p_value );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetBackgroundColour
+
+		/** @copydoc ProceduralTextures::Control::DoSetBackgroundColour
 		 */
 		virtual void DoSetBackgroundColour( Colour const & p_colour );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetForegroundColour
+
+		/** @copydoc ProceduralTextures::Control::DoSetForegroundColour
 		 */
 		virtual void DoSetForegroundColour( Colour const & p_colour );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetBackgroundTexture
+
+		/** @copydoc ProceduralTextures::Control::DoSetBackgroundTexture
 		 */
 		virtual void DoSetBackgroundTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetForegroundTexture
+
+		/** @copydoc ProceduralTextures::Control::DoSetForegroundTexture
 		 */
 		virtual void DoSetForegroundTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\brief		Sets the visibility
-		 *\remarks		Used for derived control specific behaviour
-		 *\param[in]	p_value	The new value
+
+		/** Sets the visibility
+		@remarks
+			Used for derived control specific behaviour
+		@param[in] p_value
+			The new value
 		 */
 		virtual void DoSetVisible( bool p_visible );
-		/**
-		 *\brief		Event when mouse moves over the control
-		 *\param[in]	p_event		The mouse event
+
+		/** Event when mouse moves over the control
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnMouseMove( MouseEvent const & p_event );
-		/**
-		 *\brief		Event when mouse leaves the control
-		 *\param[in]	p_event		The mouse event
+
+		/** Event when mouse leaves the control
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnMouseLeave( MouseEvent const & p_event );
-		/**
-		 *\brief		Event when mouse left button is released over the control
-		 *\param[in]	p_event		The mouse event
+
+		/** Event when mouse left button is released over the control
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnMouseLButtonUp( MouseEvent const & p_event );
-		/**
-		 *\brief		Event when mouse moves over the tick control
-		 *\param[in]	p_control	The tick control
-		 *\param[in]	p_event		The mouse event
+
+		/** Event when mouse moves over the tick control
+		@param[in] p_control
+			The tick control
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnTickMouseMove( std::shared_ptr< Control > p_control, MouseEvent const & p_event );
-		/**
-		 *\brief		Event when mouse left button is released over the tick control
-		 *\param[in]	p_control	The tick control
-		 *\param[in]	p_event		The mouse event
+
+		/** Event when mouse left button is released over the tick control
+		@param[in] p_control
+			The tick control
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnTickMouseLButtonDown( std::shared_ptr< Control > p_control, MouseEvent const & p_event );
-		/**
-		 *\brief		Event when mouse left button is released over the tick control
-		 *\param[in]	p_control	The tick control
-		 *\param[in]	p_event		The mouse event
+
+		/** Event when mouse left button is released over the tick control
+		@param[in] p_control
+			The tick control
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnTickMouseLButtonUp( std::shared_ptr< Control > p_control, MouseEvent const & p_event );
-		/**
-		 *\brief		Event when a keyboard key is pressed
-		 *\param[in]	p_event	The keyboard event
+
+		/** Event when a keyboard key is pressed
+		@param[in] p_event
+			The keyboard event
 		 */
 		void OnKeyDown( KeyboardEvent const & p_event );
-		/**
-		 *\brief		Event when a keyboard key is pressed on the active tick or line control
-		 *\param[in]	p_event	The keyboard event
+
+		/** Event when a keyboard key is pressed on the active tick or line control
+		@param[in] p_event
+			The keyboard event
 		 */
 		void OnNcKeyDown( std::shared_ptr< Control > p_control, KeyboardEvent const & p_event );
-		/**
-		 *\brief		Updates the tick position
-		 *\param[in]	p_deltat	The position delta
+
+		/** Updates the tick position
+		@param[in] p_deltat
+			The position delta
 		 */
 		void DoUpdateTick( Position const & p_delta );
 

@@ -6,9 +6,9 @@ using namespace ProceduralTextures;
 
 namespace ColoredLifeGame
 {
-	Thread::Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_pParent, size_t p_uiIndex, int iWidth, int iTop, int iBottom, int iTotalHeight )
-		:	ProceduralTextures::Thread( p_pParent, p_uiIndex, iWidth, iTop, iBottom, iTotalHeight )
-		,	m_pxColour( 255, 255, 255, 255 )
+	Thread::Thread( std::shared_ptr< CpuStepBase > p_pParent, size_t p_uiIndex, int iWidth, int iTop, int iBottom, int iTotalHeight )
+		: ProceduralTextures::Thread( p_pParent, p_uiIndex, iWidth, iTop, iBottom, iTotalHeight )
+		, m_pxColour( 255, 255, 255, 255 )
 	{
 	}
 
@@ -18,111 +18,45 @@ namespace ColoredLifeGame
 
 	void Thread::DoStep()
 	{
-		int l_iAlive;
-		CellBuffer & l_cells = *m_cells.lock();
-		CellBuffer & l_oldCells = *m_oldCells.lock();
+		CellBuffer & l_cellsBuffer = *m_cells.lock();
+		CellBuffer & l_oldCellsBuffer = *m_oldCells.lock();
+		DynPoint< Cell > * l_cells = &l_cellsBuffer[m_iTop];
+		DynPoint< Cell > * l_oldCells = &l_oldCellsBuffer[m_iTop];
 
-		for ( int i = 0; i < m_iWidth; i++ )
+		for ( int y = m_iTop; y < m_iBottom; y++ )
 		{
-			for ( int j = m_iTop; j < m_iBottom; j++ )
-			{
-				l_iAlive = DoGetAliveNeightbours( i, j );
+			Cell * l_cell = l_cells->Ptr();
+			Cell * l_oldCell = l_oldCells->Ptr();
 
-				if ( l_iAlive == 3 )
+			for ( int x = 0; x < m_iWidth; x++ )
+			{
+				int l_alive = l_cell->CountAliveNeighbours();
+
+				if ( l_alive == 3 )
 				{
-					l_cells[j][i].Live();
+					l_cell->Live();
 				}
-				else if ( l_iAlive != 2 )
+				else if ( l_alive != 2 )
 				{
-					l_cells[j][i].Die();
+					l_cell->Die();
 				}
 				else
 				{
-					l_cells[j][i].SetAlive( l_oldCells[j][i].m_alive );
+					l_cell->SetAlive( l_oldCell->m_alive );
 				}
+
+				++l_cell;
+				++l_oldCell;
 			}
-		}
-	}
 
-	int Thread::DoGetAliveNeightbours( int p_x, int p_y )
-	{
-		if ( p_x < 0 || p_x >= m_iWidth || p_y < 0 || p_y >= m_iHeight )
-		{
-			return 0;
+			++l_cells;
+			++l_oldCells;
 		}
-
-		int l_left = p_x - 1;
-		int l_right = p_x + 1;
-		int l_up = p_y - 1;
-		int l_down = p_y + 1;
-
-		if ( p_x == 0 )
-		{
-			l_left = m_iWidth - 1;
-		}
-		else if ( p_x == m_iWidth - 1 )
-		{
-			l_right = 0;
-		}
-
-		if ( p_y == 0 )
-		{
-			l_up = m_iHeight - 1;
-		}
-		else if ( p_y == m_iHeight - 1 )
-		{
-			l_down = 0;
-		}
-
-		int l_iResult = 0;
-		CellBuffer & l_oldCells = *m_oldCells.lock();
-
-		if ( l_oldCells[l_up][l_left].m_alive )
-		{
-			l_iResult++;
-		}
-
-		if ( l_oldCells[p_y][l_left].m_alive )
-		{
-			l_iResult++;
-		}
-
-		if ( l_oldCells[l_down][l_left].m_alive )
-		{
-			l_iResult++;
-		}
-
-		if ( l_oldCells[l_up][p_x].m_alive )
-		{
-			l_iResult++;
-		}
-
-		if ( l_oldCells[l_down][p_x].m_alive )
-		{
-			l_iResult++;
-		}
-
-		if ( l_oldCells[l_up][l_right].m_alive )
-		{
-			l_iResult++;
-		}
-
-		if ( l_oldCells[p_y][l_right].m_alive )
-		{
-			l_iResult++;
-		}
-
-		if ( l_oldCells[l_down][l_right].m_alive )
-		{
-			l_iResult++;
-		}
-
-		return l_iResult;
 	}
 
 	//*************************************************************************************************
 
-	CpuStep::CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, Size const & p_size )
+	CpuStep::CpuStep( std::shared_ptr< GeneratorBase > p_generator, Size const & p_size )
 		: ProceduralTextures::CpuStep< Thread >( p_generator, p_size )
 		, m_oldCells( std::make_shared< CellBuffer >( p_size ) )
 		, m_cells( std::make_shared< CellBuffer >( p_size ) )
@@ -150,6 +84,7 @@ namespace ColoredLifeGame
 				l_alive =  l_randDistribution( l_randEngine ) == 0;
 				l_cells[i][j].Set( &( *m_finalBuffer )[i][j], &m_deadPixel, &m_alivePixel, &m_stepPixel, l_alive );
 				l_oldCells[i][j].Set( &( *m_previousBuffer )[i][j], &m_deadPixel, &m_alivePixel, &m_stepPixel, l_alive );
+				DoInitialiseNeighbours( i, j );
 			}
 		}
 	}
@@ -236,6 +171,55 @@ namespace ColoredLifeGame
 	void CpuStep::DoSwapBuffers()
 	{
 		m_oldCells->swap( *m_cells );
+	}
+
+	void CpuStep::DoInitialiseNeighbours( uint32_t p_x, uint32_t p_y )
+	{
+		int l_left = p_x - 1;
+		int l_right = p_x + 1;
+		int l_up = p_y - 1;
+		int l_down = p_y + 1;
+
+		if ( p_x == 0 )
+		{
+			l_left = m_sizeImage.x() - 1;
+		}
+		else if ( p_x == m_sizeImage.x() - 1 )
+		{
+			l_right = 0;
+		}
+
+		if ( p_y == 0 )
+		{
+			l_up = m_sizeImage.y() - 1;
+		}
+		else if ( p_y == m_sizeImage.y() - 1 )
+		{
+			l_down = 0;
+		}
+
+		CellBuffer & l_cells = *m_cells;
+		CellBuffer & l_oldCells = *m_oldCells;
+		Cell & l_cell = l_cells[p_y][p_x];
+		Cell & l_oldCell = l_oldCells[p_y][p_x];
+
+		l_cell.m_neighbours[0] = &l_oldCells[l_up	][l_left	];
+		l_cell.m_neighbours[1] = &l_oldCells[p_y	][l_left	];
+		l_cell.m_neighbours[2] = &l_oldCells[l_down	][l_left	];
+		l_cell.m_neighbours[3] = &l_oldCells[l_up	][p_x		];
+		l_cell.m_neighbours[4] = &l_oldCells[l_down	][p_x		];
+		l_cell.m_neighbours[5] = &l_oldCells[l_up	][l_right	];
+		l_cell.m_neighbours[6] = &l_oldCells[p_y	][l_right	];
+		l_cell.m_neighbours[7] = &l_oldCells[l_down	][l_right	];
+
+		l_oldCell.m_neighbours[0] = &l_cells[l_up	][l_left	];
+		l_oldCell.m_neighbours[1] = &l_cells[p_y	][l_left	];
+		l_oldCell.m_neighbours[2] = &l_cells[l_down	][l_left	];
+		l_oldCell.m_neighbours[3] = &l_cells[l_up	][p_x		];
+		l_oldCell.m_neighbours[4] = &l_cells[l_down	][p_x		];
+		l_oldCell.m_neighbours[5] = &l_cells[l_up	][l_right	];
+		l_oldCell.m_neighbours[6] = &l_cells[p_y	][l_right	];
+		l_oldCell.m_neighbours[7] = &l_cells[l_down	][l_right	];
 	}
 }
 

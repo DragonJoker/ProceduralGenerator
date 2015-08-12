@@ -23,10 +23,14 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author 	Sylvain DOREMUS
-	\date 		02/03/2015
-	\version	2.0.0
-	\brief		Structure holding mouse state
+	@author
+		Sylvain DOREMUS
+	@date
+		02/03/2015
+	@version
+		2.0.0
+	@brief
+		Structure holding mouse state
 	*/
 	struct KeyboardState
 	{
@@ -38,20 +42,28 @@ namespace ProceduralTextures
 		bool m_shift;
 	};
 	/*!
-	\author		Sylvain DOREMUS
-	\brief		Description of a keyboard event
+	@author
+		Sylvain DOREMUS
+	@version
+		2.0.0
+	@brief
+		Description of a keyboard event
 	*/
 	class KeyboardEvent
 		: public Event
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_type	The keyboard event type
-		 *\param[in]	p_key	The key
-		 *\param[in]	p_ctrl	Tells if the Ctrl key is down
-		 *\param[in]	p_alt	Tells if the Alt key is down
-		 *\param[in]	p_shift	Tells if the Shift key is down
+		/** Constructor
+		@param[in] p_type
+			The keyboard event type
+		@param[in] p_key
+			The key
+		@param[in] p_ctrl
+			Tells if the Ctrl key is down
+		@param[in] p_alt
+			Tells if the Alt key is down
+		@param[in] p_shift
+			Tells if the Shift key is down
 		 */
 		KeyboardEvent( eKEYBOARD_EVENT p_type, eKEYBOARD_KEY p_key, bool p_ctrl, bool p_alt, bool p_shift )
 			: Event( eEVENT_TYPE_KEYBOARD )
@@ -62,14 +74,20 @@ namespace ProceduralTextures
 			, m_shift( p_shift )
 		{
 		}
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_type	The keyboard event type
-		 *\param[in]	p_key	The key
-		 *\param[in]	p_char	The character corresponding to the key
-		 *\param[in]	p_ctrl	Tells if the Ctrl key is down
-		 *\param[in]	p_alt	Tells if the Alt key is down
-		 *\param[in]	p_shift	Tells if the Shift key is down
+
+		/** Constructor
+		@param[in] p_type
+			The keyboard event type
+		@param[in] p_key
+			The key
+		@param[in] p_char
+			The character corresponding to the key
+		@param[in] p_ctrl
+			Tells if the Ctrl key is down
+		@param[in] p_alt
+			Tells if the Alt key is down
+		@param[in] p_shift
+			Tells if the Shift key is down
 		 */
 		KeyboardEvent( eKEYBOARD_EVENT p_type, eKEYBOARD_KEY p_key, String const & p_char, bool p_ctrl, bool p_alt, bool p_shift )
 			: Event( eEVENT_TYPE_KEYBOARD )
@@ -81,55 +99,61 @@ namespace ProceduralTextures
 			, m_shift( p_shift )
 		{
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~KeyboardEvent()
 		{
 		}
-		/**
-		 *\brief		Retrieves the event type
-		 *\return		The type
+
+		/** Retrieves the event type
+		@return
+				The type
 		 */
 		inline eKEYBOARD_EVENT GetKeyboardEventType()const
 		{
 			return m_keyboardEventType;
 		}
-		/**
-		 *\brief		Retrieves the key code
-		 *\return		The key
+
+		/** Retrieves the key code
+		@return
+				The key
 		 */
 		inline eKEYBOARD_KEY GetKey()const
 		{
 			return m_key;
 		}
-		/**
-		 *\brief		Retrieves the character
-		 *\return		The key
+
+		/** Retrieves the character
+		@return
+				The key
 		 */
 		inline String const & GetChar()const
 		{
 			return m_char;
 		}
-		/**
-		 *\brief		Tells if the Ctrl key is down
-		 *\return		The status
+
+		/** Tells if the Ctrl key is down
+		@return
+				The status
 		 */
 		inline bool IsCtrlDown()const
 		{
 			return m_ctrl;
 		}
-		/**
-		 *\brief		Tells if the Alt key is down
-		 *\return		The status
+
+		/** Tells if the Alt key is down
+		@return
+				The status
 		 */
 		inline bool IsAltDown()const
 		{
 			return m_alt;
 		}
-		/**
-		 *\brief		Tells if the Shift key is down
-		 *\return		The status
+
+		/** Tells if the Shift key is down
+		@return
+				The status
 		 */
 		inline bool IsShiftDown()const
 		{

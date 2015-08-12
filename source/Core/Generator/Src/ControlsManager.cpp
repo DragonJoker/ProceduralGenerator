@@ -185,7 +185,7 @@ namespace ProceduralTextures
 		}
 	}
 
-	void ControlsManager::Create( std::shared_ptr< Control > p_parent, std::shared_ptr< ButtonCtrl > p_control )
+	void ControlsManager::Create( std::shared_ptr< ButtonCtrl > p_control )
 	{
 		AddControl( p_control );
 		std::shared_ptr< GeneratorBase > l_generator = m_generator.lock();
@@ -208,36 +208,36 @@ namespace ProceduralTextures
 			p_control->SetBackgroundBorders( Point4i( l_border, l_border, l_border, l_border ) );
 		}
 
-		p_control->Create( shared_from_this(), m_overlayManager.lock(), p_parent );
+		p_control->Create( shared_from_this(), m_overlayManager.lock() );
 	}
 
-	void ControlsManager::Create( std::shared_ptr< Control > p_parent, std::shared_ptr< ComboBoxCtrl > p_control )
+	void ControlsManager::Create( std::shared_ptr< ComboBoxCtrl > p_control )
 	{
 		AddControl( p_control );
-		p_control->Create( shared_from_this(), m_overlayManager.lock(), p_parent );
+		p_control->Create( shared_from_this(), m_overlayManager.lock() );
 	}
 
-	void ControlsManager::Create( std::shared_ptr< Control > p_parent, std::shared_ptr< EditCtrl > p_control )
+	void ControlsManager::Create( std::shared_ptr< EditCtrl > p_control )
 	{
 		AddControl( p_control );
-		p_control->Create( shared_from_this(), m_overlayManager.lock(), p_parent );
+		p_control->Create( shared_from_this(), m_overlayManager.lock() );
 	}
 
-	void ControlsManager::Create( std::shared_ptr< Control > p_parent, std::shared_ptr< ListBoxCtrl > p_control )
+	void ControlsManager::Create( std::shared_ptr< ListBoxCtrl > p_control )
 	{
 		AddControl( p_control );
-		p_control->Create( shared_from_this(), m_overlayManager.lock(), p_parent );
+		p_control->Create( shared_from_this(), m_overlayManager.lock() );
 	}
 
-	void ControlsManager::Create( std::shared_ptr< Control > p_parent, std::shared_ptr< SliderCtrl > p_control )
+	void ControlsManager::Create( std::shared_ptr< SliderCtrl > p_control )
 	{
 		AddControl( p_control );
-		p_control->Create( shared_from_this(), m_overlayManager.lock(), p_parent );
+		p_control->Create( shared_from_this(), m_overlayManager.lock() );
 	}
 
-	void ControlsManager::Create( std::shared_ptr< Control > p_parent, std::shared_ptr< StaticCtrl > p_control )
+	void ControlsManager::Create( std::shared_ptr< StaticCtrl > p_control )
 	{
-		p_control->Create( shared_from_this(), m_overlayManager.lock(), p_parent );
+		p_control->Create( shared_from_this(), m_overlayManager.lock() );
 		AddControl( p_control );
 	}
 

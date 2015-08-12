@@ -27,53 +27,64 @@ namespace ProceduralTextures
 	namespace gl
 	{
 		/*!
-		\author		Sylvain DOREMUS
-		\date		14/02/2010
-		\brief		Base class for the GPU buffer classes
+		@author
+			Sylvain DOREMUS
+		@date
+			14/02/2010
+		@brief
+			Base class for the GPU buffer classes
 		*/
 		class GeneratorAPI BufferObject
 			: public Object< std::function< bool( int, uint32_t * ) >, std::function< bool( int, uint32_t const * ) > >
 		{
 		public:
-			/**
-			 *\brief		Constructor
-			 *\param[in]	p_openGl	The OpenGL instance
-			 *\param[in]	p_target	The buffer target (GL_ARRAY_BUFFER, GL_ELEMENT_ARRY_BUFFER, ...)
-			 *\param[in]	p_mode		The buffer mode (GL_STATIC_DRAW, ...)
+			/** Constructor
+			@param[in] p_openGl
+				The OpenGL instance
+			@param[in] p_target
+				The buffer target (GL_ARRAY_BUFFER, GL_ELEMENT_ARRY_BUFFER, ...)
+			@param[in] p_mode
+				The buffer mode (GL_STATIC_DRAW, ...)
 			 */
 			BufferObject( std::shared_ptr< OpenGl > p_openGl, unsigned int p_target, unsigned int p_mode );
-			/**
-			 *\brief		Destructor
+
+			/** Destructor
 			 */
 			virtual ~BufferObject();
-			/**
-			 *\brief		Updates the buffer data on GPU
-			 *\param[in]	p_buffer	The buffer data
-			 *\param[in]	p_size		The buffer size
+
+			/** Updates the buffer data on GPU
+			@param[in] p_buffer
+				The buffer data
+			@param[in] p_size
+				The buffer size
 			 */
 			void Data( void const * p_buffer, size_t p_size );
-			/**
-			 *\brief		Maps the buffer data into RAM memory
-			 *\param[in]	p_access	The memory access
-			 *\return		The mapped memory
+
+			/** Maps the buffer data into RAM memory
+			@param[in] p_access
+				The memory access
+			@return
+				The mapped memory
 			 */
 			void * Lock( unsigned int p_access );
-			/**
-			 *\brief		Unmaps the buffer data from RAM memory
+
+			/** Unmaps the buffer data from RAM memory
 			 */
 			void Unlock();
-			/**
-			 *\brief		Initialises the buffer
-			 *\return		true if it is successfully initialised
+
+			/** Initialises the buffer
+			@return
+				true if it is successfully initialised
 			 */
 			virtual bool Initialise() = 0;
-			/**
-			 *\brief		Tries to activate the buffer
-			 *\return		true if it is successfully activated
+
+			/** Tries to activate the buffer
+			@return
+				true if it is successfully activated
 			 */
 			virtual bool Activate() = 0;
-			/**
-			 *\brief		Deactivates the buffer
+
+			/** Deactivates the buffer
 			 */
 			virtual void Deactivate() = 0;
 

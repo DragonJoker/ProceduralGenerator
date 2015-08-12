@@ -311,4 +311,39 @@ namespace ProceduralTextures
 			m_toSave = false;
 		}
 	}
+
+	//************************************************************************************************
+
+	DefaultGpuStep::DefaultGpuStep( std::shared_ptr< GeneratorBase > p_generator, Size const & p_size, Size const & p_bordersSize )
+		: GpuStep( p_generator, p_size, p_bordersSize )
+	{
+	}
+
+	DefaultGpuStep::~DefaultGpuStep()
+	{
+	}
+
+	void DefaultGpuStep::DoInitialise()
+	{
+	}
+
+	void DefaultGpuStep::DoCleanup()
+	{
+	}
+
+	void DefaultGpuStep::DoResize()
+	{
+	}
+
+	void DefaultGpuStep::DoPreRender()
+	{
+	}
+
+	void DefaultGpuStep::DoRender( bool & )
+	{
+	}
+
+	void DefaultGpuStep::DoPostRender()
+	{
+	}
 }

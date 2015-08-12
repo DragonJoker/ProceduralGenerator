@@ -23,64 +23,83 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		16/02/2015
-	\version	2.0.0
-	\brief		Edit control
+	@author
+		Sylvain DOREMUS
+	@date
+		16/02/2015
+	@version
+		2.0.0
+	@brief
+		Edit control
 	*/
 	class GeneratorAPI EditCtrl
 		: public Control
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_caption	The caption
-		 *\param[in]	p_id		The ID
-		 *\param[in]	p_position	The position
-		 *\param[in]	p_size		The size
-		 *\param[in]	p_style		The style
-		 *\param[in]	p_visible	Initial visibility status
+		/** Constructor
+		@param[in] p_parent
+			The parent control, if any
+		@param[in] p_caption
+			The caption
+		@param[in] p_id
+			The ID
+		@param[in] p_position
+			The position
+		@param[in] p_size
+			The size
+		@param[in] p_style
+			The style
+		@param[in] p_visible
+			Initial visibility status
 		 */
-		EditCtrl( String const & p_caption, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
-		/**
-		 *\brief		Destructor
+		EditCtrl( std::shared_ptr< Control > p_parent, String const & p_caption, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
+
+		/** Destructor
 		 */
 		virtual ~EditCtrl();
-		/**
-		 *\brief		Sets the caption
-		 *\param[in]	p_value	The new value
+
+		/** Sets the caption
+		@param[in] p_value
+			The new value
 		 */
 		void SetCaption( String const & p_value );
-		/**
-		 *\brief		Retrieves the caption
-		 *\return		The value
+
+		/** Retrieves the caption
+		@return
+			The value
 		 */
 		inline String const & GetCaption()const
 		{
 			return m_caption;
 		}
-		/**
-		 *\brief		Updates the caption
-		 *\param[in]	p_value	The new value
+
+		/** Updates the caption
+		@param[in] p_value
+			The new value
 		 */
 		inline void UpdateCaption( String const & p_value )
 		{
 			m_caption = p_value;
 		}
-		/**
-		 *\brief		Connects a function to an edit event
-		 *\param[in]	p_event		The event type
-		 *\param[in]	p_function	The function
-		 *\return		The internal function index, to be able to disconnect it
+
+		/** Connects a function to an edit event
+		@param[in] p_event
+			The event type
+		@param[in] p_function
+			The function
+		@return
+			The internal function index, to be able to disconnect it
 		 */
 		inline uint32_t Connect( eEDIT_EVENT p_event, std::function< void( String const & ) > p_function )
 		{
 			return m_signals[p_event].Connect( p_function );
 		}
-		/**
-		 *\brief		Disconnects a function from an edit event
-		 *\param[in]	p_event	The event type
-		 *\param[in]	p_index	The function index
+
+		/** Disconnects a function from an edit event
+		@param[in] p_event
+			The event type
+		@param[in] p_index
+			The function index
 		 */
 		inline void Disconnect( eEDIT_EVENT p_event, uint32_t p_index )
 		{
@@ -88,92 +107,99 @@ namespace ProceduralTextures
 		}
 
 	private:
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoCreate
+		/** @copydoc ProceduralTextures::Control::DoCreate
 		 */
 		virtual void DoCreate( std::shared_ptr< OverlayManager > p_manager );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetPosition
+
+		/** @copydoc ProceduralTextures::Control::DoSetPosition
 		 */
 		virtual void DoSetPosition( Position const & p_value );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetSize
+
+		/** @copydoc ProceduralTextures::Control::DoSetSize
 		 */
 		virtual void DoSetSize( Size const & p_value );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetBackgroundColour
+
+		/** @copydoc ProceduralTextures::Control::DoSetBackgroundColour
 		 */
 		virtual void DoSetBackgroundColour( Colour const & p_colour );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetForegroundColour
+
+		/** @copydoc ProceduralTextures::Control::DoSetForegroundColour
 		 */
 		virtual void DoSetForegroundColour( Colour const & p_colour );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetBackgroundTexture
+
+		/** @copydoc ProceduralTextures::Control::DoSetBackgroundTexture
 		 */
 		virtual void DoSetBackgroundTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetForegroundTexture
+
+		/** @copydoc ProceduralTextures::Control::DoSetForegroundTexture
 		 */
 		virtual void DoSetForegroundTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetVisible
+
+		/** @copydoc ProceduralTextures::Control::DoSetVisible
 		 */
 		virtual void DoSetVisible( bool p_visible );
-		/**
-		 *\brief		Event when the control is activated
-		 *\param[in]	p_event	The control event
+
+		/** Event when the control is activated
+		@param[in] p_event
+			The control event
 		 */
 		void OnActivate( ControlEvent const & p_event );
-		/**
-		 *\brief		Event when the control is deactivated
-		 *\param[in]	p_event	The control event
+
+		/** Event when the control is deactivated
+		@param[in] p_event
+			The control event
 		 */
 		void OnDeactivate( ControlEvent const & p_event );
-		/**
-		 *\brief		Event when mouse left button is pushed
-		 *\param[in]	p_event	The mouse event
+
+		/** Event when mouse left button is pushed
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnMouseLButtonDown( MouseEvent const & p_event );
-		/**
-		 *\brief		Event when mouse left button is released
-		 *\param[in]	p_event	The mouse event
+
+		/** Event when mouse left button is released
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnMouseLButtonUp( MouseEvent const & p_event );
-		/**
-		 *\brief		Event when a printable key is pressed
-		 *\param[in]	p_event	The mouse event
+
+		/** Event when a printable key is pressed
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnChar( KeyboardEvent const & p_event );
-		/**
-		 *\brief		Event when a keyboard key is pressed
-		 *\param[in]	p_event	The mouse event
+
+		/** Event when a keyboard key is pressed
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnKeyDown( KeyboardEvent const & p_event );
-		/**
-		 *\brief		Event when a keyboard key is pressed
-		 *\param[in]	p_event	The mouse event
+
+		/** Event when a keyboard key is pressed
+		@param[in] p_event
+			The mouse event
 		 */
 		void OnKeyUp( KeyboardEvent const & p_event );
-		/**
-		 *\brief		Adds a character at caret index
+
+		/** Adds a character at caret index
 		 */
 		void DoAddCharAtCaret( String const & p_char );
-		/**
-		 *\brief		Removes a character at caret index
+
+		/** Removes a character at caret index
 		 */
 		void DoDeleteCharAtCaret();
-		/**
-		 *\brief		Removes a character before caret index (backspace)
+
+		/** Removes a character before caret index (backspace)
 		 */
 		void DoDeleteCharBeforeCaret();
-		/**
-		 *\brief		Updates the caption and text overlay
+
+		/** Updates the caption and text overlay
 		 */
 		void DoUpdateCaption();
-		/**
-		 *\brief		Retrieves the caption with caret
-		 *\return		The caption and the caret at good position
+
+		/** Retrieves the caption with caret
+		@return
+			The caption and the caret at good position
 		 */
 		String DoGetCaptionWithCaret()const;
 

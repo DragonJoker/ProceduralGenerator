@@ -23,29 +23,36 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\version	2.0.0
-	\date		23/02/2015
-	\brief		Font resource
-	\remark		Representation of a font : face, precision, and others
-				<br />The generated font will be put in an image
+	@author
+		Sylvain DOREMUS
+	@version
+		2.0.0
+	@date
+		23/02/2015
+	@brief
+		Font resource
+	@remark
+		Representation of a font : face, precision, and others
+		<br />The generated font will be put in an image
 	*/
 	class GeneratorAPI XpmLoader
 	{
 	public:
-		/**
-		 *\brief		Constructor
+		/** Constructor
 		 */
 		XpmLoader();
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		~XpmLoader();
-		/**
-		 *\brief		Loads the image data
-		 *\param[in]	p_data	The file data
-		 *\param[in]	p_size	The data size
-		 *\return		The image buffer
+
+		/** Loads the image data
+		@param[in] p_data
+			The file data
+		@param[in] p_size
+			The data size
+		@return
+			The image buffer
 		 */
 		PixelBuffer LoadImage( char const ** p_data, size_t p_size );
 	};

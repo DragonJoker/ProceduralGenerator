@@ -21,23 +21,29 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <Generator.h>
 
 #include "V2dCpuStep.h"
-#include "V2dGpuStep.h"
+#include <GpuStep.h>
 
 namespace Voronoi2D
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/05/2012
-	\brief		Voronoi 2D generator
+	@author
+		Sylvain DOREMUS
+	@date
+		23/05/2012
+	@brief
+		Voronoi 2D generator
 	*/
 	class Generator
-		: public ProceduralTextures::Generator< CpuStep, GpuStep >
+		: public ProceduralTextures::Generator< CpuStep, ProceduralTextures::DefaultGpuStep >
 	{
 	private:
 		/*!
-		\author		Sylvain DOREMUS
-		\date		23/05/2012
-		\brief		The controls IDs
+		@author
+			Sylvain DOREMUS
+		@date
+			23/05/2012
+		@brief
+			The controls IDs
 		*/
 		typedef enum
 		{
@@ -50,71 +56,71 @@ namespace Voronoi2D
 		}	eID;
 
 	public:
-		/**
-		 *\brief		Constructor
+		/** Constructor
 		 */
 		Generator();
-		/**
-		 *\brief		Destructor
+		/** Destructor
 		 */
 		virtual ~Generator();
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoCreate
+		/** @copydoc ProceduralTexture::Generator::DoCreate
 		 */
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoDestroy
+		/** @copydoc ProceduralTexture::Generator::DoDestroy
 		 */
 		virtual void DoDestroy();
-		/**
-		 *\copydoc		ProceduralTexture::Generator::DoGeneratePanel
+		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
 		 */
 		virtual void DoGeneratePanel();
-		/**
-		 *\brief		Sets the maximum depth
-		 *\remarks		Called when the slider control is released
-		 *\param[in]	p_value	The new value
+		/** Sets the maximum depth
+		@remarks
+				Called when the slider control is released
+		@param[in] p_value
+			The new value
 		 */
 		void OnMaxDepths( int p_value );
-		/**
-		 *\brief		Sets the maximum depth
-		 *\remarks		Called when the slider control is moved
-		 *\param[in]	p_value	The new value
+		/** Sets the maximum depth
+		@remarks
+				Called when the slider control is moved
+		@param[in] p_value
+			The new value
 		 */
 		void OnMaxDepthsTrack( int p_value );
-		/**
-		 *\brief		Sets the maximum neighbours
-		 *\remarks		Called when the slider control is released
-		 *\param[in]	p_value	The new value
+		/** Sets the maximum neighbours
+		@remarks
+				Called when the slider control is released
+		@param[in] p_value
+			The new value
 		 */
 		void OnMaxNeighbours( int p_value );
-		/**
-		 *\brief		Sets the maximum neighbours
-		 *\remarks		Called when the slider control is moved
-		 *\param[in]	p_value	The new value
+		/** Sets the maximum neighbours
+		@remarks
+				Called when the slider control is moved
+		@param[in] p_value
+			The new value
 		 */
 		void OnMaxNeighboursTrack( int p_value );
-		/**
-		 *\brief		Sets the Minkowski function order
-		 *\remarks		Called when the slider control is released
-		 *\param[in]	p_value	The new value
+		/** Sets the Minkowski function order
+		@remarks
+				Called when the slider control is released
+		@param[in] p_value
+			The new value
 		 */
 		void OnMinkowskiOrder( int p_value );
-		/**
-		 *\brief		Sets the Minkowski function order
-		 *\remarks		Called when the slider control is moved
-		 *\param[in]	p_value	The new value
+		/** Sets the Minkowski function order
+		@remarks
+				Called when the slider control is moved
+		@param[in] p_value
+			The new value
 		 */
 		void OnMinkowskiOrderTrack( int p_value );
-		/**
-		 *\brief		Sets the distance function
-		 *\param[in]	p_value	The new value
+		/** Sets the distance function
+		@param[in] p_value
+			The new value
 		 */
 		void OnDistanceType( int p_value );
-		/**
-		 *\brief		Resets the generator
+		/** Resets the generator
 		 */
 		void OnReset();
 

@@ -6,7 +6,7 @@
 
 namespace ProceduralTextures
 {
-	Control::Control( eCONTROL_TYPE p_type, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
+	Control::Control( eCONTROL_TYPE p_type, std::shared_ptr< Control > p_parent, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
 		: EventHandler< Control >( p_type != eCONTROL_TYPE_STATIC )
 		, m_type( p_type )
 		, m_id( p_id )
@@ -18,6 +18,7 @@ namespace ProceduralTextures
 		, m_backgroundColour( 0.0, 0.0, 0.0, 0.0 )
 		, m_foregroundColour( 1.0, 1.0, 1.0, 1.0 )
 		, m_cursor( eMOUSE_CURSOR_HAND )
+		, m_parent( p_parent )
 	{
 	}
 
@@ -25,16 +26,16 @@ namespace ProceduralTextures
 	{
 	}
 
-	void Control::Create( std::shared_ptr< ControlsManager > p_ctrlManager, std::shared_ptr< OverlayManager > p_ovManager, std::shared_ptr< Control > p_parent )
+	void Control::Create( std::shared_ptr< ControlsManager > p_ctrlManager, std::shared_ptr< OverlayManager > p_ovManager )
 	{
-		m_parent = p_parent;
 		m_ovManager = p_ovManager;
 		m_ctrlManager = p_ctrlManager;
 		std::shared_ptr< Overlay > l_parentOv;
+		std::shared_ptr< Control > l_parent = m_parent.lock();
 
-		if ( p_parent )
+		if ( l_parent )
 		{
-			l_parentOv = p_parent->GetBackground();
+			l_parentOv = l_parent->GetBackground();
 		}
 
 		std::shared_ptr< BorderPanelOverlay > l_panel;

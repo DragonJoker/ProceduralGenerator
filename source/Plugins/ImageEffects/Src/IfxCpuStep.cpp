@@ -180,9 +180,9 @@ namespace ImageEffects
 
 	CpuStep::~CpuStep()
 	{
-		for ( int i = eEFFECT_TYPE_NONE; i < eEFFECT_TYPE_COUNT; i++ )
+		for ( auto && l_functor: m_functors )
 		{
-			m_functors[i].reset();
+			l_functor.reset();
 		}
 	}
 
@@ -235,9 +235,9 @@ namespace ImageEffects
 		m_initialised = false;
 		*m_finalBuffer = p_buffer;
 
-		for ( int i = eEFFECT_TYPE_NONE; i < eEFFECT_TYPE_COUNT; i++ )
+		for ( auto && l_functor: m_functors )
 		{
-			m_functors[i]->SetImage( *m_finalBuffer );
+			l_functor->SetImage( *m_finalBuffer );
 		}
 
 		DoForEachThread( [this]( Thread & l_thread )

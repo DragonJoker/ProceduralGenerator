@@ -23,10 +23,14 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\version	0.6.1.0
-	\date		29/08/2011
-	\brief		Vertex definition
+	@author
+		Sylvain DOREMUS
+	@version
+		0.6.1.0
+	@date
+		29/08/2011
+	@brief
+		Vertex definition
 	*/
 	template< typename PosType = float >
 	class GeneratorAPI TVertex
@@ -35,8 +39,7 @@ namespace ProceduralTextures
 		typedef Point< PosType, 2 > TPoint;
 
 	public:
-		/**
-		 *\brief		Default constructor
+		/** Default constructor
 		 */
 		TVertex()
 			: m_bOwnBuffer( false )
@@ -45,10 +48,12 @@ namespace ProceduralTextures
 			Count++;
 			Unlink();
 		}
-		/**
-		 *\brief		Specified constructor
-		 *\param[in]	p_position	The position
-		 *\param[in]	p_texture	The texture coordinates
+
+		/** Specified constructor
+		@param[in] p_position
+			The position
+		@param[in] p_texture
+			The texture coordinates
 		 */
 		TVertex( TPoint const & p_position, Point2f const & p_texture )
 			: m_bOwnBuffer( false )
@@ -59,8 +64,8 @@ namespace ProceduralTextures
 			SetPosition( p_position );
 			SetTexture( p_texture );
 		}
-		/**
-		 *\brief		Copy constructor
+
+		/** Copy constructor
 		 */
 		TVertex( TVertex const & p_vertex )
 			: m_bOwnBuffer( false )
@@ -71,8 +76,8 @@ namespace ProceduralTextures
 			Count++;
 			Unlink();
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~TVertex()
 		{
@@ -84,8 +89,8 @@ namespace ProceduralTextures
 
 			Count--;
 		}
-		/**
-		 *\brief		Copy assignment operator
+
+		/** Copy assignment operator
 		 */
 		virtual TVertex & operator =( TVertex< PosType > const & p_vertex )
 		{
@@ -102,10 +107,12 @@ namespace ProceduralTextures
 			Unlink();
 			return * this;
 		}
-		/**
-		 *\brief		Links the vertex coords to the ones in parameter.
-		 *\remarks		The vertex no longer owns it's coords
-		 *\param[in]	p_pBuffer	The coordinates buffer
+
+		/** Links the vertex coords to the ones in parameter.
+		@remarks
+			The vertex no longer owns it's coords
+		@param[in] p_pBuffer
+			The coordinates buffer
 		 */
 		void Link( uint8_t * p_pBuffer )
 		{
@@ -136,9 +143,10 @@ namespace ProceduralTextures
 			DoLink();
 			memcpy( m_pBuffer, &l_pBufferSave[0], GetStride() );
 		}
-		/**
-		 *\brief		Unlinks the vertex coords.
-		 *\remarks		The vertex now owns it's coords
+
+		/** Unlinks the vertex coords.
+		@remarks
+			The vertex now owns it's coords
 		 */
 		void Unlink()
 		{
@@ -167,129 +175,146 @@ namespace ProceduralTextures
 			DoLink();
 			memcpy( m_pBuffer, &l_pBufferSave[0], GetStride() );
 		}
-		/**
-		 *\brief		Sets the vertex position
-		 *\param[in]	val	The new value
+
+		/** Sets the vertex position
+		@param[in] val
+			The new value
 		 */
 		void SetPosition( TPoint const & val )
 		{
 			m_position[0] = val[0];
 			m_position[1] = val[1];
 		}
-		/**
-		 *\brief		Sets the vertex position
-		 *\param[in]	x, y	The new value
+
+		/** Sets the vertex position
+		@param[in] x, y
+			The new value
 		 */
 		void SetPosition( PosType x, PosType y )
 		{
 			m_position[0] = x;
 			m_position[1] = y;
 		}
-		/**
-		 *\brief		Sets the vertex position
-		 *\param[in]	p_pCoords	The new value
+
+		/** Sets the vertex position
+		@param[in] p_pCoords
+			The new value
 		 */
 		void SetPosition( const PosType * p_pCoords )
 		{
 			m_position[0] = p_pCoords[0];
 			m_position[1] = p_pCoords[1];
 		}
-		/**
-		 *\brief		Sets the vertex texture coordinates
-		 *\param[in]	val	The new value
+
+		/** Sets the vertex texture coordinates
+		@param[in] val
+			The new value
 		 */
 		void SetTexture( Point2f const & val )
 		{
 			m_texture[0] = val[0];
 			m_texture[1] = val[1];
 		}
-		/**
-		 *\brief		Sets the vertex texture coordinates
-		 *\param[in]	x, y	The new value
+
+		/** Sets the vertex texture coordinates
+		@param[in] x, y
+			The new value
 		 */
 		void SetTexture( float x, float y )
 		{
 			m_texture[0] = x;
 			m_texture[1] = y;
 		}
-		/**
-		 *\brief		Sets the vertex texture coordinates
-		 *\param[in]	p_pCoords	The new value
+
+		/** Sets the vertex texture coordinates
+		@param[in] p_pCoords
+			The new value
 		 */
 		void SetTexture( const float * p_pCoords )
 		{
 			m_texture[0] = p_pCoords[0];
 			m_texture[1] = p_pCoords[1];
 		}
-		/**
-		 *\brief		Retrieves the vertex position
-		 *\return		The value
+
+		/** Retrieves the vertex position
+		@return
+			The value
 		 */
 		inline TPoint & GetPosition()
 		{
 			return m_position;
 		}
-		/**
-		 *\brief		Retrieves the vertex position
-		 *\return		The value
+
+		/** Retrieves the vertex position
+		@return
+			The value
 		 */
 		inline TPoint const & GetPosition()const
 		{
 			return m_position;
 		}
-		/**
-		 *\brief		Retrieves the vertex texture coordinates
-		 *\return		The value
+
+		/** Retrieves the vertex texture coordinates
+		@return
+			The value
 		 */
 		inline Point2f & GetTexture()
 		{
 			return m_texture;
 		}
-		/**
-		 *\brief		Retrieves the vertex texture coordinates
-		 *\return		The value
+
+		/** Retrieves the vertex texture coordinates
+		@return
+			The value
 		 */
 		inline Point2f const & GetTexture()const
 		{
 			return m_texture;
 		}
-		/**
-		 *\brief		Retrieves a constant pointer to the vertex buffer
-		 *\return		The value
+
+		/** Retrieves a constant pointer to the vertex buffer
+		@return
+			The value
 		 */
 		inline const uint8_t * ConstPtr()const
 		{
 			return m_pBuffer;
 		}
-		/**
-		 *\brief		Retrieves a pointer to the vertex buffer
-		 *\return		The value
+
+		/** Retrieves a pointer to the vertex buffer
+		@return
+			The value
 		 */
 		inline uint8_t * Ptr()
 		{
 			return m_pBuffer;
 		}
-		/**
-		 *\brief		Retrieves the vertex stride (size of a vertex)
-		 *\return		The value
+
+		/** Retrieves the vertex stride (size of a vertex)
+		@return
+			The value
 		 */
 		inline size_t GetStride()const
 		{
 			return 2 * sizeof( PosType ) + 2 * sizeof( float );
 		}
-		/**
-		 *\brief		Retrieves the vertex position component At wanted index
-		 *\param[in]	p_uiIndex	The index
-		 *\return		The value
+
+		/** Retrieves the vertex position component At wanted index
+		@param[in] p_uiIndex
+			The index
+		@return
+			The value
 		 */
 		inline PosType & operator []( size_t p_uiIndex )
 		{
 			return GetPosition()[p_uiIndex];
 		}
-		/**
-		 *\brief		Retrieves the vertex position constant component At wanted index
-		 *\param[in]	p_uiIndex	The index
-		 *\return		The value
+
+		/** Retrieves the vertex position constant component At wanted index
+		@param[in] p_uiIndex
+			The index
+		@return
+			The value
 		 */
 		inline PosType const & operator []( size_t p_uiIndex )const
 		{

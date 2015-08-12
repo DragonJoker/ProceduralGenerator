@@ -80,14 +80,14 @@ namespace ShaderWebcam
 			ProceduralTextures::String l_strFragmentLog = ( *m_itSelectedEffect )->GetCompilerLog( ProceduralTextures::gl::eSHADER_OBJECT_TYPE_PIXEL );
 			ProceduralTextures::String l_strLinkerLog = ( *m_itSelectedEffect )->GetLinkerLog();
 
-			if ( ! l_strVertexLog.empty() )
+			if ( !l_strVertexLog.empty() )
 			{
 				l_strText += _( "Vertex Shader :" ) + ProceduralTextures::String( _T( "\n" ) ) + l_strVertexLog;
 			}
 
-			if ( ! l_strFragmentLog.empty() )
+			if ( !l_strFragmentLog.empty() )
 			{
-				if ( ! l_strText.empty() )
+				if ( !l_strText.empty() )
 				{
 					l_strText += _T( "\n\n" );
 				}
@@ -95,9 +95,9 @@ namespace ShaderWebcam
 				l_strText += _( "Fragment Shader :" ) + ProceduralTextures::String( _T( "\n" ) ) + l_strFragmentLog + _T( "\n\n" );
 			}
 
-			if ( ! l_strLinkerLog.empty() )
+			if ( !l_strLinkerLog.empty() )
 			{
-				if ( ! l_strText.empty() )
+				if ( !l_strText.empty() )
 				{
 					l_strText += _T( "\n\n" );
 				}

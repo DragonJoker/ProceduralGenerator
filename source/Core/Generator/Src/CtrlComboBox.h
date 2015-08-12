@@ -23,99 +23,133 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ProceduralTextures
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\brief		ComboBox control
+	@author
+		Sylvain DOREMUS
+	@version
+		2.0.0
+	@brief
+		ComboBox control
 	*/
 	class GeneratorAPI ComboBoxCtrl
 		: public Control
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_values	The list values
-		 *\param[in]	p_selected	The selected value
-		 *\param[in]	p_id		The ID
-		 *\param[in]	p_position	The position
-		 *\param[in]	p_size		The size
-		 *\param[in]	p_style		The style
-		 *\param[in]	p_visible	Initial visibility status
+		/** Constructor
+		@param[in] p_parent
+			The parent control, if any
+		@param[in] p_values
+			The list values
+		@param[in] p_selected
+			The selected value
+		@param[in] p_id
+			The ID
+		@param[in] p_position
+			The position
+		@param[in] p_size
+			The size
+		@param[in] p_style
+			The style
+		@param[in] p_visible
+			Initial visibility status
 		 */
-		ComboBoxCtrl( StringArray const & p_values, int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_values	The list values
-		 *\param[in]	p_selected	The selected value
-		 *\param[in]	p_id		The ID
-		 *\param[in]	p_position	The position
-		 *\param[in]	p_size		The size
-		 *\param[in]	p_style		The style
-		 *\param[in]	p_visible	Initial visibility status
+		ComboBoxCtrl( std::shared_ptr< Control > p_parent, StringArray const & p_values, int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
+
+		/** Constructor
+		@param[in] p_parent
+			The parent control, if any
+		@param[in] p_values
+			The list values
+		@param[in] p_selected
+			The selected value
+		@param[in] p_id
+			The ID
+		@param[in] p_position
+			The position
+		@param[in] p_size
+			The size
+		@param[in] p_style
+			The style
+		@param[in] p_visible
+			Initial visibility status
 		 */
 		template< size_t N >
-		ComboBoxCtrl( String const( & p_values )[N], int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true )
-			: Control( eCONTROL_TYPE_COMBO, p_id, p_position, p_size, p_style, p_visible )
+		ComboBoxCtrl( std::shared_ptr< Control > p_parent, String const( & p_values )[N], int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true )
+			: Control( eCONTROL_TYPE_COMBO, p_parent, p_id, p_position, p_size, p_style, p_visible )
+			, m_values( std::vector< String >( &p_values[0], &p_values[N] ) )
+			, m_selected( p_selected )
 		{
-			std::vector< String > l_values( &p_values[0], &p_values[N] );
-			DoCreate( l_values, p_selected, p_id, p_position, p_size );
 		}
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~ComboBoxCtrl();
-		/**
-		 *\brief		Appends a new item
-		 *\param[in]	p_value	The item
+
+		/** Appends a new item
+		@param[in] p_value
+			The item
 		 */
 		void AppendItem( String  const & p_value );
-		/**
-		 *\brief		Removes an item
-		 *\param[in]	p_value	The item index
+
+		/** Removes an item
+		@param[in] p_value
+			The item index
 		 */
 		void RemoveItem( int p_value );
-		/**
-		 *\brief		Sets an item text
-		 *\param[in]	p_index	The item index
-		 *\param[in]	p_text	The item text
+
+		/** Sets an item text
+		@param[in] p_index
+			The item index
+		@param[in] p_text
+			The item text
 		 */
 		void SetItemText( int p_index, String const & p_text );
-		/**
-		 *\brief		Clears the items
+
+		/** Clears the items
 		 */
 		void Clear();
-		/**
-		 *\brief		Sets the selected item
-		 *\param[in]	p_value	The new value
+
+		/** Sets the selected item
+		@param[in] p_value
+			The new value
 		 */
 		void SetSelected( int p_value );
-		/**
-		 *\brief		Retrieves the items
-		 *\return		The value
+
+		/** Retrieves the items
+		@return
+			The value
 		 */
 		StringArray const & GetItems()const;
-		/**
-		 *\brief		Retrieves the items count
-		 *\return		The value
+
+		/** Retrieves the items count
+		@return
+			The value
 		 */
 		uint32_t GetItemCount()const;
-		/**
-		 *\brief		Retrieves the selected item index
-		 *\return		The value
+
+		/** Retrieves the selected item index
+		@return
+			The value
 		 */
 		int GetSelected()const;
-		/**
-		 *\brief		Connects a function to a combobox event
-		 *\param[in]	p_event		The event type
-		 *\param[in]	p_function	The function
-		 *\return		The internal function index, to be able to disconnect it
+
+		/** Connects a function to a combobox event
+		@param[in] p_event
+			The event type
+		@param[in] p_function
+			The function
+		@return
+			The internal function index, to be able to disconnect it
 		 */
 		inline uint32_t Connect( eCOMBOBOX_EVENT p_event, std::function< void( int ) > p_function )
 		{
 			return m_signals[p_event].Connect( p_function );
 		}
-		/**
-		 *\brief		Disconnects a function from a combobox event
-		 *\param[in]	p_event	The event type
-		 *\param[in]	p_index	The function index
+
+		/** Disconnects a function from a combobox event
+		@param[in] p_event
+			The event type
+		@param[in] p_index
+			The function index
 		 */
 		inline void Disconnect( eCOMBOBOX_EVENT p_event, uint32_t p_index )
 		{
@@ -123,68 +157,61 @@ namespace ProceduralTextures
 		}
 
 	private:
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoCreate
+		/** @copydoc ProceduralTextures::Control::DoCreate
 		 */
 		virtual void DoCreate( std::shared_ptr< OverlayManager > p_manager );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetPosition
+
+		/** @copydoc ProceduralTextures::Control::DoSetPosition
 		 */
 		virtual void DoSetPosition( Position const & p_value );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetSize
+
+		/** @copydoc ProceduralTextures::Control::DoSetSize
 		 */
 		virtual void DoSetSize( Size const & p_value );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetBackgroundColour
+
+		/** @copydoc ProceduralTextures::Control::DoSetBackgroundColour
 		 */
 		virtual void DoSetBackgroundColour( Colour const & p_colour );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetForegroundColour
+
+		/** @copydoc ProceduralTextures::Control::DoSetForegroundColour
 		 */
 		virtual void DoSetForegroundColour( Colour const & p_colour );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetBackgroundTexture
+
+		/** @copydoc ProceduralTextures::Control::DoSetBackgroundTexture
 		 */
 		virtual void DoSetBackgroundTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetForegroundTexture
+
+		/** @copydoc ProceduralTextures::Control::DoSetForegroundTexture
 		 */
 		virtual void DoSetForegroundTexture( std::shared_ptr< gl::Texture > p_texture );
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoCatchesMouseEvents
+
+		/** @copydoc ProceduralTextures::Control::DoCatchesMouseEvents
 		 */
 		virtual bool DoCatchesMouseEvents()const;
-		/**
-		 *\copydoc		ProceduralTextures::Control::DoSetVisible
+
+		/** @copydoc ProceduralTextures::Control::DoSetVisible
 		 */
 		virtual void DoSetVisible( bool p_visible );
-		/**
-		 *\brief		Event raised when an item is selected in the choices listbox
-		 *\param[in]	p_selected	The item index
+
+		/** Event raised when an item is selected in the choices listbox
+		@param[in] p_selected
+			The item index
 		 */
 		void OnSelected( int p_selected );
-		/**
-		 *\brief		Event when a keyboard key is pressed
-		 *\param[in]	p_event	The keyboard event
+
+		/** Event when a keyboard key is pressed
+		@param[in] p_event
+			The keyboard event
 		 */
 		void OnKeyDown( KeyboardEvent const & p_event );
-		/**
-		 *\brief		Event when a keyboard key is pressed on the active tick or line control
-		 *\param[in]	p_event	The keyboard event
+
+		/** Event when a keyboard key is pressed on the active tick or line control
+		@param[in] p_event
+			The keyboard event
 		 */
 		void OnNcKeyDown( std::shared_ptr< Control > p_control, KeyboardEvent const & p_event );
-		/**
-		 *\brief		Creates sub-controls
-		 *\param[in]	p_values	The list values
-		 *\param[in]	p_selected	The selected value
-		 *\param[in]	p_id		The ID
-		 *\param[in]	p_position	The position
-		 *\param[in]	p_size		The size
-		 */
-		void DoCreate( StringArray const & p_values, int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size );
-		/**
-		 *\brief		Switch the combobox list
+
+		/** Switch the combobox list
 		 */
 		void DoSwitchExpand();
 
@@ -195,6 +222,10 @@ namespace ProceduralTextures
 		std::shared_ptr< ButtonCtrl > m_expand;
 		//! The list used to hold the combo box choices
 		std::shared_ptr< ListBoxCtrl > m_choices;
+		//! The combo box string choices
+		std::vector< String > m_values;
+		//! Teh selected value index
+		int m_selected;
 		//! The combobox events signals
 		Signal< std::function< void( int ) > > m_signals[eCOMBOBOX_EVENT_COUNT];
 	};

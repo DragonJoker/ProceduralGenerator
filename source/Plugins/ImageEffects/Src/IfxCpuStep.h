@@ -25,48 +25,59 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace ImageEffects
 {
 	class CpuStep;
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		05/03/2015
-	\brief		Image effects worker thread
+	@author
+		Sylvain DOREMUS
+	@date
+		05/03/2015
+	@brief
+		Image effects worker thread
 	*/
 	class Thread
 		: public ProceduralTextures::Thread
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_parent	The parent generator
-		 *\param[in]	p_index		The thread index
-		 *\param[in]	p_width		The surface width
-		 *\param[in]	p_top		The surface portion's top
-		 *\param[in]	p_bottom	The surface portion's bottom
-		 *\param[in]	p_height	The surface height
+		/** Constructor
+		@param[in] p_parent
+			The parent generator
+		@param[in] p_index
+			The thread index
+		@param[in] p_width
+			The surface width
+		@param[in] p_top
+			The surface portion's top
+		@param[in] p_bottom
+			The surface portion's bottom
+		@param[in] p_height
+			The surface height
 		 */
 		Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_parent, size_t p_index, int p_width, int p_top, int p_bottom, int p_totalHeight );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~Thread();
-		/**
-		 *\brief		Sets the image buffer
-		 *\param[in]	p_image	The buffer
+
+		/** Sets the image buffer
+		@param[in] p_image
+			The buffer
 		 */
 		void SetImage( ProceduralTextures::PixelBuffer const & p_image );
-		/**
-		 *\brief		Sets the first effect function
-		 *\param[in]	p_type	The type
+
+		/** Sets the first effect function
+		@param[in] p_type
+			The type
 		 */
 		void SetFirstFunction( eEFFECT_TYPE p_type );
-		/**
-		 *\brief		Sets the second effect function
-		 *\param[in]	p_type	The type
+
+		/** Sets the second effect function
+		@param[in] p_type
+			The type
 		 */
 		void SetSecondFunction( eEFFECT_TYPE p_type );
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::Thread::DoStep
+		/** @copydoc ProceduralTexture::CpuStep::Thread::DoStep
 		 */
 		virtual void DoStep();
 
@@ -96,75 +107,85 @@ namespace ImageEffects
 		//! The parent generator
 		std::weak_ptr< CpuStep > m_pParent;
 	};
+
 	/*!
-	\author		Sylvain DOREMUS
-	\date		05/03/2015
-	\brief		Image effects CPU step
+	@author
+		Sylvain DOREMUS
+	@date
+		05/03/2015
+	@brief
+		Image effects CPU step
 	*/
 	class CpuStep
 		: public ProceduralTextures::CpuStep< Thread >
 	{
 	public:
-		/**
-		 *\brief		Constructor
-		 *\param[in]	p_generator	The parent generator
-		 *\param[in]	p_size		The dimensions
+		/** Constructor
+		@param[in] p_generator
+			The parent generator
+		@param[in] p_size
+			The dimensions
 		 */
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size );
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~CpuStep();
-		/**
-		 *\brief		Retrieves the effect functor
-		 *\param[in]	p_type	The type
-		 *\return		The functor
+
+		/** Retrieves the effect functor
+		@param[in] p_type
+			The type
+		@return
+			The functor
 		 */
 		std::shared_ptr< EffectFunctor > GetFunctor( eEFFECT_TYPE p_type );
-		/**
-		 *\brief		Sets the computing image size
-		 *\param[in]	p_value	The new value
+
+		/** Sets the computing image size
+		@param[in] p_value
+			The new value
 		 */
 		void SetSize( ProceduralTextures::Size & p_value );
-		/**
-		 *\brief		Sets the first function
-		 *\param[in]	p_value	The new value
+
+		/** Sets the first function
+		@param[in] p_value
+			The new value
 		 */
 		void SetFirstFunction( uint32_t p_value );
-		/**
-		 *\brief		Sets the second function
-		 *\param[in]	p_value	The new value
+
+		/** Sets the second function
+		@param[in] p_value
+			The new value
 		 */
 		void SetSecondFunction( uint32_t p_value );
-		/**
-		 *\brief		Sets the image
-		 *\param[in]	p_value	The new value
+
+		/** Sets the image
+		@param[in] p_value
+			The new value
 		 */
 		void SetImage( ProceduralTextures::PixelBuffer const & p_value );
 
 	private:
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoInitialiseStep
+		/** @copydoc ProceduralTexture::CpuStep::DoInitialiseStep
 		 */
 		virtual void DoInitialiseStep();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoInitialise
+
+		/** @copydoc ProceduralTexture::CpuStep::DoInitialise
 		 */
 		virtual void DoInitialise();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoCleanup
+
+		/** @copydoc ProceduralTexture::CpuStep::DoCleanup
 		 */
 		virtual void DoCleanup();
-		/**
-		 *\copydoc		ProceduralTexture::CpuStep::DoSwapBuffers
+
+		/** @copydoc ProceduralTexture::CpuStep::DoSwapBuffers
 		 */
 		virtual void DoSwapBuffers();
-		/**
-		 *\brief		Initialises the functors array
+
+		/** Initialises the functors array
 		 */
 		void DoInitialiseFunctors();
-		/**
-		 *\brief		Cleans the functors array up
+
+		/** Cleans the functors array up
 		 */
 		void DoCleanupFunctors();
 

@@ -27,6 +27,7 @@ namespace ImageEffects
 	{
 	private:
 		int m_iNbSteps;
+		int m_tempo;
 
 	public:
 		WatershedFunctor();

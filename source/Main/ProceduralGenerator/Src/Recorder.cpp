@@ -75,7 +75,7 @@ namespace ProceduralGenerator
 
 			virtual bool StartRecord( Size const & p_size )
 			{
-				bool l_bReturn = false;
+				bool l_result = false;
 
 				m_uiRecordedCount = 0;
 				m_ui64RecordedTime = 0;
@@ -91,7 +91,7 @@ namespace ProceduralGenerator
 					try
 					{
 						DoStartRecord( p_size, l_strFileName );
-						l_bReturn = IsRecording();
+						l_result = IsRecording();
 					}
 					catch ( std::bad_alloc & )
 					{
@@ -107,6 +107,8 @@ namespace ProceduralGenerator
 						throw std::runtime_error( ( char const * )l_strMsg.mb_str( wxConvUTF8 ) );
 					}
 				}
+
+				return l_result;
 			}
 
 			virtual bool RecordFrame( PixelBuffer const & p_buffer, Size const & p_size )
@@ -519,6 +521,8 @@ namespace ProceduralGenerator
 					throw std::runtime_error( ( char const * )wxString( _( "Could not open file with OpenCV, encoding: H264" ) ).mb_str( wxConvUTF8 ) );
 #		endif
 				}
+
+				return true;
 			}
 
 			virtual void DoRecordFrame( PixelBuffer const & p_buffer, Size const & p_size )
@@ -532,17 +536,17 @@ namespace ProceduralGenerator
 				{
 					m_writer << l_img;
 				}
-				catch ( std::exception & exc )
+				catch ( std::exception & )
 				{
-					throw
+					throw;
 				}
-				catch ( char * szExc )
+				catch ( char * p_exc )
 				{
-					throw std::runtime_error( szExc );
+					throw std::runtime_error( p_exc );
 				}
-				catch ( wchar_t * wszExc )
+				catch ( wchar_t * p_exc )
 				{
-					throw std::runtime_error( ( char const * )wxString( wszExc, wxMBConvLibc() ).mb_str( wxConvUTF8 ) );
+					throw std::runtime_error( ( char const * )wxString( p_exc, wxMBConvLibc() ).mb_str( wxConvUTF8 ) );
 				}
 				catch ( ... )
 				{

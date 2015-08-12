@@ -7,8 +7,8 @@
 
 namespace ProceduralTextures
 {
-	SliderCtrl::SliderCtrl( Range const & p_range, int p_value, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
-		: Control( eCONTROL_TYPE_SLIDER, p_id, p_position, p_size, p_style, p_visible )
+	SliderCtrl::SliderCtrl( std::shared_ptr< Control > p_parent, Range const & p_range, int p_value, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style, bool p_visible )
+		: Control( eCONTROL_TYPE_SLIDER, p_parent, p_id, p_position, p_size, p_style, p_visible )
 		, m_range( p_range )
 		, m_value( p_value )
 		, m_scrolling( false )
@@ -89,16 +89,16 @@ namespace ProceduralTextures
 
 	void SliderCtrl::DoCreate( std::shared_ptr< OverlayManager > p_manager )
 	{
-		std::shared_ptr< StaticCtrl > l_line = std::make_shared< StaticCtrl >( _T( "" ), Position(), Size() );
+		std::shared_ptr< StaticCtrl > l_line = std::make_shared< StaticCtrl >( shared_from_this(), _T( "" ), Position(), Size() );
 		l_line->SetBackgroundColour( Colour( 0.5, 0.5, 0.5, 1.0 ) );
 		l_line->SetForegroundColour( m_foregroundColour );
 		l_line->SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
 		l_line->SetVisible( IsVisible() );
 		l_line->ConnectNC( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &SliderCtrl::OnNcKeyDown, this, std::placeholders::_1, std::placeholders::_2 ) );
-		m_ctrlManager.lock()->Create( shared_from_this(), l_line );
+		m_ctrlManager.lock()->Create( l_line );
 		m_line = l_line;
 
-		std::shared_ptr< StaticCtrl > l_tick = std::make_shared< StaticCtrl >( _T( "" ), Position(), Size() );
+		std::shared_ptr< StaticCtrl > l_tick = std::make_shared< StaticCtrl >( shared_from_this(), _T( "" ), Position(), Size() );
 		l_tick->SetBackgroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
 		l_tick->SetForegroundColour( m_foregroundColour );
 		l_tick->SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
@@ -108,7 +108,7 @@ namespace ProceduralTextures
 		l_tick->ConnectNC( eMOUSE_EVENT_MOUSE_BUTTON_PUSHED, std::bind( &SliderCtrl::OnTickMouseLButtonDown, this, std::placeholders::_1, std::placeholders::_2 ) );
 		l_tick->ConnectNC( eMOUSE_EVENT_MOUSE_BUTTON_RELEASED, std::bind( &SliderCtrl::OnTickMouseLButtonUp, this, std::placeholders::_1, std::placeholders::_2 ) );
 		l_tick->ConnectNC( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &SliderCtrl::OnNcKeyDown, this, std::placeholders::_1, std::placeholders::_2 ) );
-		m_ctrlManager.lock()->Create( shared_from_this(), l_tick );
+		m_ctrlManager.lock()->Create( l_tick );
 		m_tick = l_tick;
 
 		DoUpdateLineAndTick();

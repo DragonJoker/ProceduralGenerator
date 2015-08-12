@@ -1,5 +1,6 @@
 project( ProceduralGenerator )
 
+set( OpenCV_STATIC FALSE )
 find_package( OpenCV )
 find_package( FFMPEG )
 find_package( wxWidgets )
