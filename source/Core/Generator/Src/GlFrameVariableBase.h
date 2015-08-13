@@ -42,7 +42,7 @@ namespace gl
 		@param[in] p_program
 			The parent shader program
 		 */
-		FrameVariableBase( std::shared_ptr< OpenGl > p_openGl, std::shared_ptr< ShaderProgram > p_program );
+		FrameVariableBase( OpenGl & p_openGl, ShaderProgram & p_program );
 
 		/** Destructor
 		 */
@@ -70,15 +70,6 @@ namespace gl
 		inline int GetGlIndex()const
 		{
 			return m_glIndex;
-		}
-
-		/** Retrieves the variable's location in the program
-		@return
-			The value
-		 */
-		inline std::shared_ptr< ShaderProgram > GetProgram()const
-		{
-			return m_program.lock();
 		}
 
 		/** Defines the variable's name
@@ -114,7 +105,7 @@ namespace gl
 		//! Tells if the variable is used in the program
 		bool m_used;
 		//! The parent shader program
-		std::weak_ptr< ShaderProgram > m_program;
+		ShaderProgram & m_program;
 		//! The variable name
 		String m_strName;
 		//! Tells that the variable value has changed

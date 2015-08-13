@@ -66,7 +66,7 @@ namespace ShaderWebcam
 		: public ProceduralTextures::gl::Holder
 	{
 	public:
-		Effect( std::shared_ptr< ProceduralTextures::gl::OpenGl > p_pOpenGl, ProceduralTextures::Size const & p_size );
+		Effect( ProceduralTextures::gl::OpenGl & p_openGl, ProceduralTextures::Size const & p_size );
 		virtual ~Effect();
 
 		void SetVertexFile( ProceduralTextures::String const & p_strPath );

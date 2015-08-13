@@ -8,12 +8,12 @@ namespace ProceduralTextures
 {
 	namespace gl
 	{
-		Texture::Texture( std::shared_ptr< OpenGl > p_pOpenGl )
-			: Object( p_pOpenGl,
-					  std::bind( &OpenGl::GenTextures, p_pOpenGl, std::placeholders::_1, std::placeholders::_2 ),
-					  std::bind( &OpenGl::DeleteTextures, p_pOpenGl, std::placeholders::_1, std::placeholders::_2 ),
-					  std::bind( &OpenGl::IsTexture, p_pOpenGl, std::placeholders::_1 ),
-					  std::bind( &OpenGl::BindTexture, p_pOpenGl, GL_TEXTURE_2D, std::placeholders::_1 )
+		Texture::Texture( OpenGl & p_openGl )
+			: Object( p_openGl,
+					  std::bind( &OpenGl::GenTextures, std::ref( p_openGl ), std::placeholders::_1, std::placeholders::_2 ),
+					  std::bind( &OpenGl::DeleteTextures, std::ref( p_openGl ), std::placeholders::_1, std::placeholders::_2 ),
+					  std::bind( &OpenGl::IsTexture, std::ref( p_openGl ), std::placeholders::_1 ),
+					  std::bind( &OpenGl::BindTexture, std::ref( p_openGl ), GL_TEXTURE_2D, std::placeholders::_1 )
 					)
 			, m_bInitialised( false )
 			, m_iCurrentUlPbo( 0 )
@@ -68,12 +68,12 @@ namespace ProceduralTextures
 
 		bool Texture::Activate( GLenum p_texTarget, bool p_bUpload )
 		{
-			bool l_bReturn = GetOpenGl()->ActiveTexture( p_texTarget );
+			bool l_bReturn = GetOpenGl().ActiveTexture( p_texTarget );
 			l_bReturn &= Bind();
 
 			if ( m_resized )
 			{
-				GetOpenGl()->TexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, m_size.x(), m_size.y(), 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL );
+				GetOpenGl().TexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, m_size.x(), m_size.y(), 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL );
 				m_resized = false;
 			}
 
@@ -87,7 +87,7 @@ namespace ProceduralTextures
 
 		void Texture::Deactivate( GLenum p_texTarget )
 		{
-			GetOpenGl()->ActiveTexture( p_texTarget );
+			GetOpenGl().ActiveTexture( p_texTarget );
 			Unbind();
 		}
 
@@ -102,7 +102,7 @@ namespace ProceduralTextures
 			{
 				if ( pBufferOut->Activate() )
 				{
-					GetOpenGl()->TexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, m_size.x(), m_size.y(), GL_RGBA, GL_UNSIGNED_BYTE, NULL );
+					GetOpenGl().TexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, m_size.x(), m_size.y(), GL_RGBA, GL_UNSIGNED_BYTE, NULL );
 
 					if ( pBufferIn->Activate() )
 					{
@@ -125,7 +125,7 @@ namespace ProceduralTextures
 
 		void Texture::UploadSync()
 		{
-			GetOpenGl()->TexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, m_size.x(), m_size.y(), GL_RGBA, GL_UNSIGNED_BYTE, m_pPixels->ConstPtr() );
+			GetOpenGl().TexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, m_size.x(), m_size.y(), GL_RGBA, GL_UNSIGNED_BYTE, m_pPixels->ConstPtr() );
 		}
 
 		void Texture::DownloadAsync()
@@ -139,7 +139,7 @@ namespace ProceduralTextures
 			{
 				if ( pBufferOut->Activate() )
 				{
-					GetOpenGl()->GetTexImage( GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0 );
+					GetOpenGl().GetTexImage( GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0 );
 
 					if ( pBufferIn->Activate() )
 					{
@@ -162,7 +162,7 @@ namespace ProceduralTextures
 
 		void Texture::DownloadSync()
 		{
-			GetOpenGl()->GetTexImage( GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_pPixels->Ptr() );
+			GetOpenGl().GetTexImage( GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_pPixels->Ptr() );
 		}
 
 		void Texture::Resize( Size const & p_size )
@@ -177,12 +177,12 @@ namespace ProceduralTextures
 
 			if ( l_bResult )
 			{
-				l_bResult &= GetOpenGl()->TexParameter( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-				l_bResult &= GetOpenGl()->TexParameter( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-				l_bResult &= GetOpenGl()->TexParameter( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-				l_bResult &= GetOpenGl()->TexParameter( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-				l_bResult &= GetOpenGl()->TexParameter( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE );
-				l_bResult &= GetOpenGl()->TexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, m_size.x(), m_size.y(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_pPixels->ConstPtr() );
+				l_bResult &= GetOpenGl().TexParameter( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+				l_bResult &= GetOpenGl().TexParameter( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+				l_bResult &= GetOpenGl().TexParameter( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+				l_bResult &= GetOpenGl().TexParameter( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+				l_bResult &= GetOpenGl().TexParameter( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE );
+				l_bResult &= GetOpenGl().TexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, m_size.x(), m_size.y(), 0, GL_RGBA, GL_UNSIGNED_BYTE, m_pPixels->ConstPtr() );
 				Unbind();
 			}
 		}

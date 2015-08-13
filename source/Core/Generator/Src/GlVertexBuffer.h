@@ -48,7 +48,7 @@ namespace gl
 		@param[in] p_mode
 			The buffer access mode
 		 */
-		TVertexBuffer( std::shared_ptr< OpenGl > p_openGl, uint32_t p_mode )
+		TVertexBuffer( OpenGl & p_openGl, uint32_t p_mode )
 			: BufferObject( p_openGl, GL_ARRAY_BUFFER, p_mode )
 			, m_buffer( 4 * ( 2 * sizeof( PosType ) + 2 * sizeof( float ) ) )
 			, m_changed( true )
@@ -120,19 +120,19 @@ namespace gl
 				Data( m_buffer.data(), m_buffer.size() );
 			}
 
-			l_bReturn &= GetOpenGl()->EnableVertexAttribArray( p_vertex );
-			l_bReturn &= GetOpenGl()->VertexAttribPointer( p_vertex, 2, m_dataType, false, l_iStride, GL_BUFFER_OFFSET( 0 ) );
+			l_bReturn &= GetOpenGl().EnableVertexAttribArray( p_vertex );
+			l_bReturn &= GetOpenGl().VertexAttribPointer( p_vertex, 2, m_dataType, false, l_iStride, GL_BUFFER_OFFSET( 0 ) );
 
 			if ( p_texture != GL_INVALID_INDEX )
 			{
-				l_bReturn &= GetOpenGl()->EnableVertexAttribArray( p_texture );
-				l_bReturn &= GetOpenGl()->VertexAttribPointer( p_texture, 2, GL_FLOAT, false, l_iStride, GL_BUFFER_OFFSET( 2 * sizeof( PosType ) ) );
+				l_bReturn &= GetOpenGl().EnableVertexAttribArray( p_texture );
+				l_bReturn &= GetOpenGl().VertexAttribPointer( p_texture, 2, GL_FLOAT, false, l_iStride, GL_BUFFER_OFFSET( 2 * sizeof( PosType ) ) );
+				l_bReturn &= GetOpenGl().ClientActiveTexture( GL_TEXTURE0 );
+				l_bReturn &= GetOpenGl().ClientActiveTexture( GL_TEXTURE1 );
+				l_bReturn &= GetOpenGl().ClientActiveTexture( GL_TEXTURE2 );
+				l_bReturn &= GetOpenGl().ClientActiveTexture( GL_TEXTURE3 );
 			}
 
-			l_bReturn &= GetOpenGl()->ClientActiveTexture( GL_TEXTURE0 );
-			l_bReturn &= GetOpenGl()->ClientActiveTexture( GL_TEXTURE1 );
-			l_bReturn &= GetOpenGl()->ClientActiveTexture( GL_TEXTURE2 );
-			l_bReturn &= GetOpenGl()->ClientActiveTexture( GL_TEXTURE3 );
 			return l_bReturn;
 		}
 
@@ -140,8 +140,8 @@ namespace gl
 		 */
 		virtual void Deactivate()
 		{
-			GetOpenGl()->DisableVertexAttribArray( 0 );
-			GetOpenGl()->DisableVertexAttribArray( 1 );
+			GetOpenGl().DisableVertexAttribArray( 0 );
+			GetOpenGl().DisableVertexAttribArray( 1 );
 			Unbind();
 		}
 

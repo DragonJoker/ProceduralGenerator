@@ -37,7 +37,7 @@ namespace TextEffects
 		@param[in] p_gl
 			The OpenGl instance
 		 */
-		Program( std::shared_ptr< ProceduralTextures::gl::OpenGl > p_gl );
+		Program( ProceduralTextures::gl::OpenGl & p_gl );
 		/** Loads the two GLSL programs in parameter, initialises the uniforms an vertex attributes
 		@param[in] p_vertex
 			The vertex program

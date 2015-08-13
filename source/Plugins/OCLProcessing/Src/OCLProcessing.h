@@ -26,40 +26,22 @@ http://www.gnu.org/copyleft/lesser.txt.
 namespace OCLProcessing
 {
 	/*!
-	\author		Sylvain DOREMUS
-	\date		23/05/2012
-	\brief		Life game geenrator
+	@author
+		Sylvain DOREMUS
+	@date
+		23/05/2012
+	@brief
+		OpenCL effects generator
 	*/
 	class Generator
 		: public ProceduralTextures::Generator< ProceduralTextures::DefaultCpuStep, GpuStep >
 	{
-	private:
-		/*!
-		\author		Sylvain DOREMUS
-		\date		23/05/2012
-		\brief		The controls IDs
-		*/
-		typedef enum
-		{
-			eID_ANY				= -1,
-			eID_IMAGEPATH		= 52,
-			eID_SEPTYPE			= 53,
-			eID_SEPOFFSET		= 54,
-			eID_RESETTIME		= 55,
-			eID_PROGRAMS		= 56,
-			eID_REMOVE			= 57,
-			eID_FILE			= 58,
-			eID_KERNEL			= 59,
-			eID_COMPILERLOG		= 60,
-		}	eID;
-
 	public:
-		/**
-		 *\brief		Constructor
+		/** Constructor
 		 */
 		Generator();
-		/**
-		 *\brief		Destructor
+
+		/** Destructor
 		 */
 		virtual ~Generator();
 
@@ -67,59 +49,72 @@ namespace OCLProcessing
 		/** @copydoc ProceduralTexture::Generator::DoCreate
 		 */
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
+
 		/** @copydoc ProceduralTexture::Generator::DoDestroy
 		 */
 		virtual void DoDestroy();
+
 		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
 		 */
 		virtual void DoGeneratePanel();
-		/**
-		 *\brief		Resets the time index
+
+		/** Resets the time index
 		 */
 		void OnResetTime();
-		/**
-		 *\brief		Sets the separator type
+
+		/** Sets the separator type
 		@param[in] p_value
 			The new value
 		 */
 		void OnSepType( int p_value );
-		/**
-		 *\brief		Sets the separator offset
+
+		/** Sets the separator offset
 		@param[in] p_value
 			The new value
 		 */
 		void OnSepOffset( int p_value );
-		/**
-		 *\brief		Selects a shader
+
+		/** Selects a shader
 		 */
 		void OnSelectProgram( uint32_t p_value );
-		/**
-		 *\brief		Removes the current chader
+
+		/** Removes the current chader
 		 */
 		void OnRemove();
-		/**
-		 *\brief		Retrieves the compiler log
+
+		/** Retrieves the compiler log
 		 */
 		void OnCompilerLog();
-		/**
-		 *\brief		Sets the OpenCL program file path
+
+		/** Sets the OpenCL program file path
 		@param[in] p_path
 			The new value
 		 */
 		void OnFilePath();
-		/**
-		 *\brief		Sets the OpenCL kernel
+
+		/** Sets the OpenCL kernel
 		@param[in] p_value
 			The new value
 		 */
 		void OnSelectKernel( uint32_t p_value );
-		/**
-		 *\brief		Sets the image buffer
+
+		/** Sets the image buffer
 		@param[in] p_path
 			The new value
 		 */
-
 		void OnImage();
+
+		/** Displays the help
+		 */
+		void OnHelpOpen();
+
+		/** Hides the help
+		 */
+		void OnHelpClose();
+
+		/** Hides the help
+		 */
+		void OnHelpPanelClick( std::shared_ptr< ProceduralTextures::Control > p_static, ProceduralTextures::MouseEvent const & p_event );
 
 	private:
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonImage;
@@ -134,6 +129,9 @@ namespace OCLProcessing
 		std::shared_ptr< ProceduralTextures::ComboBoxCtrl > m_comboKernels;
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonCompilerLog;
 		std::shared_ptr< ProceduralTextures::ButtonCtrl  > m_buttonRemove;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonHelpOpen;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_panelHelp;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_panelHelpText;
 	};
 }
 

@@ -26,7 +26,7 @@ namespace GpuProgramming
 		: public ProceduralTextures::gl::Holder
 	{
 	public:
-		Effect( std::shared_ptr< ProceduralTextures::gl::OpenGl > p_pOpenGl, int p_iWidth, int p_iHeight );
+		Effect( ProceduralTextures::gl::OpenGl & p_openGl, int p_iWidth, int p_iHeight );
 		virtual ~Effect();
 
 		void SetVertexFile( ProceduralTextures::String const & p_strPath );

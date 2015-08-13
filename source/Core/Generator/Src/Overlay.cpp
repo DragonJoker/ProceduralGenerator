@@ -6,7 +6,7 @@
 
 namespace ProceduralTextures
 {
-	Overlay::Overlay( std::shared_ptr< gl::OpenGl > p_openGl, Material const & p_material, eOVERLAY_TYPE p_type, std::shared_ptr< Overlay > p_parent )
+	Overlay::Overlay( gl::OpenGl & p_openGl, Material const & p_material, eOVERLAY_TYPE p_type, std::shared_ptr< Overlay > p_parent )
 		: gl::Holder( p_openGl )
 		, m_parent( p_parent )
 		, m_overlayType( p_type )
@@ -17,6 +17,7 @@ namespace ProceduralTextures
 		, m_uv( 0, 1, 1, 0 )
 		, m_pixelPositioned( false )
 		, m_level( 0 )
+		, m_geometryBuffers( p_openGl, GL_DYNAMIC_DRAW, false )
 	{
 		if ( p_parent )
 		{
@@ -79,16 +80,14 @@ namespace ProceduralTextures
 
 	void Overlay::Initialise()
 	{
-		m_geometryBuffers = std::make_shared< GeometryBuffersI >( GetOpenGl(), GL_DYNAMIC_DRAW, false );
-		m_geometryBuffers->Initialise();
+		m_geometryBuffers.Initialise();
 		DoInitialise();
 	}
 
 	void Overlay::Cleanup()
 	{
 		DoCleanup();
-		m_geometryBuffers->Cleanup();
-		m_geometryBuffers.reset();
+		m_geometryBuffers.Cleanup();
 	}
 
 	void Overlay::UpdatePositionAndSize( Size const & p_size )

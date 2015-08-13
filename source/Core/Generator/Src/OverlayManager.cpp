@@ -15,54 +15,73 @@
 
 namespace ProceduralTextures
 {
-	const String VertexShader =
-		_T( "attribute vec2 vertex;\n" )
-		_T( "attribute vec2 texture;\n" )
-		_T( "uniform mat4 mvp;\n" )
-		_T( "varying vec2 pxl_texture;\n" )
-		_T( "void main()\n" )
-		_T( "{\n" )
-		_T( "    pxl_texture = texture;\n" )
-		_T( "    gl_Position = mvp * vec4( vertex.xy, 0.0, 1.0 );\n" )
-		_T( "}\n" );
+	namespace
+	{
+		void ApplyMvp( std::shared_ptr< gl::Mat4FrameVariable< float > > p_mvp, float * p_mtx )
+		{
+			if ( p_mvp )
+			{
+				p_mvp->SetValue( p_mtx );
+			}
+		}
 
-	const String PixelShaderColour =
-		_T( "uniform vec4 pxl_colour;\n" )
-		_T( "void main()\n" )
-		_T( "{\n" )
-		_T( "    gl_FragColor = pxl_colour;\n" )
-		_T( "}\n" );
+		const String VertexShaderColour =
+			_T( "attribute vec2 vertex;\n" )
+			_T( "uniform mat4 mvp;\n" )
+			_T( "void main()\n" )
+			_T( "{\n" )
+			_T( "	gl_Position = mvp * vec4( vertex.xy, 0.0, 1.0 );\n" )
+			_T( "}\n" );
 
-	const String PixelShaderTexture =
-		_T( "varying vec2 pxl_texture;\n" )
-		_T( "uniform sampler2D pxl_mapTexture;\n" )
-		_T( "void main()\n" )
-		_T( "{\n" )
-		_T( "    gl_FragColor = texture2D( pxl_mapTexture, pxl_texture );\n" )
-		_T( "}\n" );
+		const String VertexShaderTexture =
+			_T( "attribute vec2 vertex;\n" )
+			_T( "attribute vec2 texture;\n" )
+			_T( "uniform mat4 mvp;\n" )
+			_T( "varying vec2 pxl_texture;\n" )
+			_T( "void main()\n" )
+			_T( "{\n" )
+			_T( "	pxl_texture = texture;\n" )
+			_T( "	gl_Position = mvp * vec4( vertex.xy, 0.0, 1.0 );\n" )
+			_T( "}\n" );
 
-	const String PixelShaderTextColour =
-		_T( "varying vec2 pxl_texture;\n" )
-		_T( "uniform vec4 pxl_colour;\n" )
-		_T( "uniform sampler2D pxl_mapText;\n" )
-		_T( "void main()\n" )
-		_T( "{\n" )
-		_T( "    float l_alpha = texture2D( pxl_mapText, pxl_texture ).r;\n" )
-		_T( "    gl_FragColor = vec4( pxl_colour.rgb, l_alpha );\n" )
-		_T( "}\n" );
+		const String PixelShaderColour =
+			_T( "uniform vec4 pxl_colour;\n" )
+			_T( "void main()\n" )
+			_T( "{\n" )
+			_T( "	gl_FragColor = pxl_colour;\n" )
+			_T( "}\n" );
 
-	const String PixelShaderTextTexture =
-		_T( "varying vec2 pxl_texture;\n" )
-		_T( "uniform sampler2D pxl_mapTexture;\n" )
-		_T( "uniform sampler2D pxl_mapText;\n" )
-		_T( "void main()\n" )
-		_T( "{\n" )
-		_T( "    vec4 l_colour = texture2D( pxl_mapTexture, pxl_texture );\n" )
-		_T( "    float l_alpha = l_colour.a * texture2D( pxl_mapText, pxl_texture ).r;\n" )
-		_T( "    gl_FragColor = vec4( l_colour.rgb, l_alpha );\n" )
-		_T( "}\n" );
+		const String PixelShaderTexture =
+			_T( "varying vec2 pxl_texture;\n" )
+			_T( "uniform sampler2D pxl_mapTexture;\n" )
+			_T( "void main()\n" )
+			_T( "{\n" )
+			_T( "	gl_FragColor = texture2D( pxl_mapTexture, pxl_texture );\n" )
+			_T( "}\n" );
 
-	OverlayManager::OverlayManager( std::shared_ptr< gl::OpenGl > p_openGl )
+		const String PixelShaderTextColour =
+			_T( "varying vec2 pxl_texture;\n" )
+			_T( "uniform vec4 pxl_colour;\n" )
+			_T( "uniform sampler2D pxl_mapText;\n" )
+			_T( "void main()\n" )
+			_T( "{\n" )
+			_T( "	float l_alpha = texture2D( pxl_mapText, pxl_texture ).r;\n" )
+			_T( "	gl_FragColor = vec4( pxl_colour.rgb, l_alpha );\n" )
+			_T( "}\n" );
+
+		const String PixelShaderTextTexture =
+			_T( "varying vec2 pxl_texture;\n" )
+			_T( "uniform sampler2D pxl_mapTexture;\n" )
+			_T( "uniform sampler2D pxl_mapText;\n" )
+			_T( "void main()\n" )
+			_T( "{\n" )
+			_T( "	vec4 l_colour = texture2D( pxl_mapTexture, pxl_texture );\n" )
+			_T( "	float l_alpha = l_colour.a * texture2D( pxl_mapText, pxl_texture ).r;\n" )
+			_T( "	gl_FragColor = vec4( l_colour.rgb, l_alpha );\n" )
+			_T( "}\n" );
+	}
+
+	OverlayManager::OverlayManager( gl::OpenGl & p_openGl )
 		: gl::Holder( p_openGl )
 		, m_currentZIndex( 0 )
 		, m_programColour( std::make_shared< gl::ShaderProgram >( GetOpenGl() ) )
@@ -73,33 +92,33 @@ namespace ProceduralTextures
 	{
 		m_programColour->CreateObject( gl::eSHADER_OBJECT_TYPE_VERTEX );
 		m_programColour->CreateObject( gl::eSHADER_OBJECT_TYPE_PIXEL );
-		m_programColour->SetProgramText( VertexShader, gl::eSHADER_OBJECT_TYPE_VERTEX );
+		m_programColour->SetProgramText( VertexShaderColour, gl::eSHADER_OBJECT_TYPE_VERTEX );
 		m_programColour->SetProgramText( PixelShaderColour, gl::eSHADER_OBJECT_TYPE_PIXEL );
 		m_programColour->CreateVec4FloatFrameVariable( _T( "pxl_colour" ) );
-		m_programColour->CreateMat4FloatFrameVariable( _T( "mvp" ) );
+		m_mvpColour = m_programColour->CreateMat4FloatFrameVariable( _T( "mvp" ) );
 
 		m_programTexture->CreateObject( gl::eSHADER_OBJECT_TYPE_VERTEX );
 		m_programTexture->CreateObject( gl::eSHADER_OBJECT_TYPE_PIXEL );
-		m_programTexture->SetProgramText( VertexShader, gl::eSHADER_OBJECT_TYPE_VERTEX );
+		m_programTexture->SetProgramText( VertexShaderTexture, gl::eSHADER_OBJECT_TYPE_VERTEX );
 		m_programTexture->SetProgramText( PixelShaderTexture, gl::eSHADER_OBJECT_TYPE_PIXEL );
 		m_programTexture->CreateIntFrameVariable( _T( "pxl_mapTexture" ) );
-		m_programTexture->CreateMat4FloatFrameVariable( _T( "mvp" ) );
+		m_mvpTexture = m_programTexture->CreateMat4FloatFrameVariable( _T( "mvp" ) );
 
 		m_programTextColour->CreateObject( gl::eSHADER_OBJECT_TYPE_VERTEX );
 		m_programTextColour->CreateObject( gl::eSHADER_OBJECT_TYPE_PIXEL );
-		m_programTextColour->SetProgramText( VertexShader, gl::eSHADER_OBJECT_TYPE_VERTEX );
+		m_programTextColour->SetProgramText( VertexShaderTexture, gl::eSHADER_OBJECT_TYPE_VERTEX );
 		m_programTextColour->SetProgramText( PixelShaderTextColour, gl::eSHADER_OBJECT_TYPE_PIXEL );
 		m_programTextColour->CreateVec4FloatFrameVariable( _T( "pxl_colour" ) );
 		m_programTextColour->CreateIntFrameVariable( _T( "pxl_mapText" ) );
-		m_programTextColour->CreateMat4FloatFrameVariable( _T( "mvp" ) );
+		m_mvpTextColour = m_programTextColour->CreateMat4FloatFrameVariable( _T( "mvp" ) );
 
 		m_programTextTexture->CreateObject( gl::eSHADER_OBJECT_TYPE_VERTEX );
 		m_programTextTexture->CreateObject( gl::eSHADER_OBJECT_TYPE_PIXEL );
-		m_programTextTexture->SetProgramText( VertexShader, gl::eSHADER_OBJECT_TYPE_VERTEX );
+		m_programTextTexture->SetProgramText( VertexShaderTexture, gl::eSHADER_OBJECT_TYPE_VERTEX );
 		m_programTextTexture->SetProgramText( PixelShaderTextTexture, gl::eSHADER_OBJECT_TYPE_PIXEL );
 		m_programTextTexture->CreateIntFrameVariable( _T( "pxl_mapTexture" ) );
 		m_programTextTexture->CreateIntFrameVariable( _T( "pxl_mapText" ) );
-		m_programTextTexture->CreateMat4FloatFrameVariable( _T( "mvp" ) );
+		m_mvpTextTexture = m_programTextTexture->CreateMat4FloatFrameVariable( _T( "mvp" ) );
 
 		LoadFont( DEFAULT_FONT_NAME, 20, System::GetDataDirectory() + FOLDER_SEPARATOR + _T( "arial.ttf" ) );
 		LoadFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT, System::GetDataDirectory() + FOLDER_SEPARATOR + _T( "arial.ttf" ) );
@@ -179,17 +198,17 @@ namespace ProceduralTextures
 			}
 
 			DoUpdateSize( p_size );
-			std::shared_ptr< gl::OpenGl > l_gl = GetOpenGl();
-			l_gl->Enable( GL_BLEND );
-			l_gl->BlendFuncSeparate( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
+			gl::OpenGl & l_gl = GetOpenGl();
+			l_gl.Enable( GL_BLEND );
+			l_gl.BlendFuncSeparate( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
 
 			for ( auto && l_overlay : l_overlays )
 			{
 				l_overlay->Render( p_size );
 			}
 
-			l_gl->BlendFunc( GL_ONE, GL_ZERO );
-			l_gl->Disable( GL_BLEND );
+			l_gl.BlendFunc( GL_ONE, GL_ZERO );
+			l_gl.Disable( GL_BLEND );
 		}
 		catch ( std::exception & p_exc )
 		{
@@ -479,10 +498,10 @@ namespace ProceduralTextures
 				l_tx, l_ty, l_tz, 1,
 			};
 
-			m_programColour->CreateMat4FloatFrameVariable( _T( "mvp" ) )->SetValue( l_mvp );
-			m_programTexture->CreateMat4FloatFrameVariable( _T( "mvp" ) )->SetValue( l_mvp );
-			m_programTextColour->CreateMat4FloatFrameVariable( _T( "mvp" ) )->SetValue( l_mvp );
-			m_programTextTexture->CreateMat4FloatFrameVariable( _T( "mvp" ) )->SetValue( l_mvp );
+			ApplyMvp( m_mvpColour.lock(), l_mvp );
+			ApplyMvp( m_mvpTexture.lock(), l_mvp );
+			ApplyMvp( m_mvpTextColour.lock(), l_mvp );
+			ApplyMvp( m_mvpTextTexture.lock(), l_mvp );
 		}
 	}
 

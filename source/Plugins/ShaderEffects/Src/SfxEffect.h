@@ -34,7 +34,7 @@ namespace ShaderEffects
 		: public ProceduralTextures::gl::Holder
 	{
 	public:
-		Effect( std::shared_ptr< ProceduralTextures::gl::OpenGl > p_pOpenGl, std::shared_ptr< ProceduralTextures::PixelBuffer > p_buffer );
+		Effect( ProceduralTextures::gl::OpenGl & p_openGl, std::shared_ptr< ProceduralTextures::PixelBuffer > p_buffer );
 		virtual ~Effect();
 
 		void SetVertexFile( ProceduralTextures::String const & p_strPath );

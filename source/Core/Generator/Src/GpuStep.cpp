@@ -33,7 +33,7 @@ namespace ProceduralTextures
 
 	GpuStep::GpuStep( std::shared_ptr< GeneratorBase > p_generator, Size const & p_size, Size const & p_bordersSize )
 		: m_generator( p_generator )
-		, m_openGl( std::make_shared< gl::OpenGl >() )
+		, m_openGl( std::make_unique< gl::OpenGl >() )
 		, m_sizeImage( p_size )
 		, m_sizeDisplay( p_size )
 		, m_bordersSize( p_bordersSize )
@@ -44,17 +44,17 @@ namespace ProceduralTextures
 		, m_vertexAttribLocation( GL_INVALID_INDEX )
 		, m_textureAttribLocation( GL_INVALID_INDEX )
 	{
-		m_overlayManager = std::make_shared< OverlayManager >( m_openGl );
-		m_texture = std::make_shared< gl::Texture >( m_openGl );
-		m_textureButton = std::make_shared< gl::Texture >( m_openGl );
-		m_textureButtonMouseOver = std::make_shared< gl::Texture >( m_openGl );
-		m_frameBuffer = std::make_shared< gl::FrameBuffer >( m_openGl );
-		m_textureSave = std::make_shared< gl::Texture >( m_openGl );
-		m_textureOverlay = std::make_shared< gl::Texture >( m_openGl );
-		m_frameBufferSave = std::make_shared< gl::FrameBuffer >( m_openGl );
-		m_frameBufferOverlay = std::make_shared< gl::FrameBuffer >( m_openGl );
-		m_geometryBuffers = std::make_shared< GeometryBuffers >( m_openGl, GL_STATIC_DRAW );
-		m_program = std::make_shared< gl::ShaderProgram >( m_openGl );
+		m_overlayManager = std::make_shared< OverlayManager >( *m_openGl );
+		m_texture = std::make_shared< gl::Texture >( *m_openGl );
+		m_textureButton = std::make_shared< gl::Texture >( *m_openGl );
+		m_textureButtonMouseOver = std::make_shared< gl::Texture >( *m_openGl );
+		m_frameBuffer = std::make_shared< gl::FrameBuffer >( *m_openGl );
+		m_textureSave = std::make_shared< gl::Texture >( *m_openGl );
+		m_textureOverlay = std::make_shared< gl::Texture >( *m_openGl );
+		m_frameBufferSave = std::make_shared< gl::FrameBuffer >( *m_openGl );
+		m_frameBufferOverlay = std::make_shared< gl::FrameBuffer >( *m_openGl );
+		m_geometryBuffers = std::make_shared< GeometryBuffers >( *m_openGl, GL_STATIC_DRAW );
+		m_program = std::make_shared< gl::ShaderProgram >( *m_openGl );
 		m_texture->Resize( p_size );
 		m_frameBuffer->Resize( p_size );
 		m_frameBuffer->AttachTexture( GL_COLOR_ATTACHMENT0, m_texture );

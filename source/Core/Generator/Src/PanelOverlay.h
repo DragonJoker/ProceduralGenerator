@@ -52,7 +52,7 @@ namespace ProceduralTextures
 		@param[in] p_parent
 			The parent overlay (if any)
 		 */
-		PanelOverlay( std::shared_ptr< gl::OpenGl > p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent );
+		PanelOverlay( gl::OpenGl & p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent );
 
 		/** Destructor
 		 */

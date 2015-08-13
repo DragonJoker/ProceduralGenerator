@@ -43,7 +43,7 @@ namespace gl
 		@param[in] p_program
 			The parent shader program
 		 */
-		FrameVariable( std::shared_ptr< OpenGl > p_openGl, std::shared_ptr< ShaderProgram > p_program )
+		FrameVariable( OpenGl & p_openGl, ShaderProgram & p_program )
 			: TFrameVariable< T, 1 >( p_openGl, p_program )
 		{
 		}

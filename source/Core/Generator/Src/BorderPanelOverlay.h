@@ -54,7 +54,7 @@ namespace ProceduralTextures
 		@param[in] p_parent
 			The parent overlay (if any)
 		 */
-		BorderPanelOverlay( std::shared_ptr< gl::OpenGl > p_openGl, Material const & p_material, Material const & p_bordersMaterial, std::shared_ptr< Overlay > p_parent );
+		BorderPanelOverlay( gl::OpenGl & p_openGl, Material const & p_material, Material const & p_bordersMaterial, std::shared_ptr< Overlay > p_parent );
 
 		/** Destructor
 		 */
@@ -385,7 +385,7 @@ namespace ProceduralTextures
 
 	protected:
 		//! The borders geometry buffers
-		std::shared_ptr< GeometryBuffersI > m_bordersGeometryBuffers;
+		GeometryBuffersI m_bordersGeometryBuffers;
 		//! The borders material
 		Material m_bordersMaterial;
 		//! The border size

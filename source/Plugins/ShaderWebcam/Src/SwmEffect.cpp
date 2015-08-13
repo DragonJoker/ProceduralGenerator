@@ -8,8 +8,8 @@ using namespace ProceduralTextures;
 
 namespace ShaderWebcam
 {
-	Effect::Effect( std::shared_ptr< gl::OpenGl > p_pOpenGl, Size const & p_size )
-		:	gl::Holder( p_pOpenGl )
+	Effect::Effect( gl::OpenGl & p_openGl, Size const & p_size )
+		:	gl::Holder( p_openGl )
 		,	m_strVertexFile()
 		,	m_strFragmentFile()
 		,	m_bNewShader( false )

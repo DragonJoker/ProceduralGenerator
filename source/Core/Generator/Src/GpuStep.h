@@ -267,7 +267,7 @@ namespace ProceduralTextures
 		//! Tells the generator is initialised
 		bool m_initialised;
 		//! The OpenGL instance
-		std::shared_ptr< gl::OpenGl > m_openGl;
+		std::unique_ptr< gl::OpenGl > m_openGl;
 		//! The geometry buffer
 		std::shared_ptr< GeometryBuffers > m_geometryBuffers;
 		//! The computations result

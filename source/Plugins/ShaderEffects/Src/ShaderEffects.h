@@ -58,6 +58,10 @@ namespace ShaderEffects
 		 */
 		virtual void DoGeneratePanel();
 
+		/** @copydoc ProceduralTexture::Generator::DoSwitchVisibility
+		 */
+		virtual void DoSwitchVisibility();
+
 		/** Resets the time index
 		 */
 		void OnResetTime();
@@ -116,6 +120,10 @@ namespace ShaderEffects
 		 */
 		void OnHelpClose();
 
+		/** Hides the help
+		 */
+		void OnHelpPanelClick( std::shared_ptr< ProceduralTextures::Control > p_static, ProceduralTextures::MouseEvent const & p_event );
+
 	private:
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonImage;
 		std::shared_ptr< ProceduralTextures::StaticCtrl > m_staticSeparator;
@@ -131,7 +139,7 @@ namespace ShaderEffects
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonRemove;
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonHelpOpen;
 		std::shared_ptr< ProceduralTextures::StaticCtrl > m_panelHelp;
-		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonHelpClose;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_panelHelpText;
 	};
 }
 

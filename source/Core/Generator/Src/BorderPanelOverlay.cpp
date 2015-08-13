@@ -8,12 +8,13 @@
 
 namespace ProceduralTextures
 {
-	BorderPanelOverlay::BorderPanelOverlay( std::shared_ptr< gl::OpenGl > p_openGl, Material const & p_material, Material const & p_bordersMaterial, std::shared_ptr< Overlay > p_parent )
+	BorderPanelOverlay::BorderPanelOverlay( gl::OpenGl & p_openGl, Material const & p_material, Material const & p_bordersMaterial, std::shared_ptr< Overlay > p_parent )
 		: Overlay( p_openGl, p_material, eOVERLAY_TYPE_BORDER_PANEL, p_parent )
 		, m_borderOuterUv( 0, 0, 1, 1 )
 		, m_borderInnerUv( 0.33, 0.33, 0.66, 0.66 )
 		, m_borderPosition( eBORDER_POSITION_MIDDLE )
 		, m_bordersMaterial( p_bordersMaterial )
+		, m_bordersGeometryBuffers( p_openGl, GL_DYNAMIC_DRAW, false )
 	{
 		m_uv = Point4d( 0.33, 0.66, 0.66, 0.33 );
 	}
@@ -39,24 +40,22 @@ namespace ProceduralTextures
 
 	void BorderPanelOverlay::DoInitialise()
 	{
-		m_bordersGeometryBuffers = std::make_shared< GeometryBuffersI >( GetOpenGl(), GL_DYNAMIC_DRAW, false );
-		m_bordersGeometryBuffers->Initialise();
+		m_bordersGeometryBuffers.Initialise();
 	}
 
 	void BorderPanelOverlay::DoCleanup()
 	{
-		m_bordersGeometryBuffers->Cleanup();
-		m_bordersGeometryBuffers.reset();
+		m_bordersGeometryBuffers.Cleanup();
 	}
 
 	void BorderPanelOverlay::DoRender()
 	{
 		m_material.Activate();
-		m_geometryBuffers->Draw( m_material.GetVertexAttribute(), m_material.GetTextureAttribute() );
+		m_geometryBuffers.Draw( m_material.GetVertexAttribute(), m_material.GetTextureAttribute() );
 		m_material.Deactivate();
 
 		m_bordersMaterial.Activate();
-		m_bordersGeometryBuffers->Draw( m_bordersMaterial.GetVertexAttribute(), m_bordersMaterial.GetTextureAttribute() );
+		m_bordersGeometryBuffers.Draw( m_bordersMaterial.GetVertexAttribute(), m_bordersMaterial.GetTextureAttribute() );
 		m_bordersMaterial.Deactivate();
 	}
 
@@ -120,9 +119,9 @@ namespace ProceduralTextures
 		l_vtx.push_back( VertexI( CONSTRUCT_ANONYMOUS( VertexI::TPoint, l_centerR, l_centerB ), CONSTRUCT_ANONYMOUS( Point2d, m_uv[2], m_uv[1] ) ) );
 		l_vtx.push_back( VertexI( CONSTRUCT_ANONYMOUS( VertexI::TPoint, l_centerR, l_centerT ), CONSTRUCT_ANONYMOUS( Point2d, m_uv[2], m_uv[3] ) ) );
 
-		std::shared_ptr< gl::VertexBufferI > l_vertexBuffer = m_geometryBuffers->GetVertexBuffer();
-		l_vertexBuffer->SetBuffer( l_vtx );
-		l_vertexBuffer->Initialise();
+		gl::VertexBufferI & l_vertexBuffer = m_geometryBuffers.GetVertexBuffer();
+		l_vertexBuffer.SetBuffer( l_vtx );
+		l_vertexBuffer.Initialise();
 
 		std::vector< VertexI > l_brdvtx;
 		l_brdvtx.reserve( 48 );
@@ -190,9 +189,9 @@ namespace ProceduralTextures
 		l_brdvtx.push_back( VertexI( CONSTRUCT_ANONYMOUS( VertexI::TPoint, l_borderR, l_borderB ), CONSTRUCT_ANONYMOUS( Point2f, l_borderUvRR, l_borderUvBB ) ) );
 		l_brdvtx.push_back( VertexI( CONSTRUCT_ANONYMOUS( VertexI::TPoint, l_borderR, l_centerB ), CONSTRUCT_ANONYMOUS( Point2f, l_borderUvRR, l_borderUvMB ) ) );
 
-		std::shared_ptr< gl::VertexBufferI > l_bordersVertexBuffer = m_bordersGeometryBuffers->GetVertexBuffer();
-		l_bordersVertexBuffer->SetBuffer( l_brdvtx );
-		l_bordersVertexBuffer->Initialise();
+		gl::VertexBufferI & l_bordersVertexBuffer = m_bordersGeometryBuffers.GetVertexBuffer();
+		l_bordersVertexBuffer.SetBuffer( l_brdvtx );
+		l_bordersVertexBuffer.Initialise();
 	}
 
 	void BorderPanelOverlay::DoUpdatePositionAndSize( Size const & p_size )

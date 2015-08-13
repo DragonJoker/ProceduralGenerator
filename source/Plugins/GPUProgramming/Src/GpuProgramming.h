@@ -36,28 +36,6 @@ namespace GpuProgramming
 	class Generator
 		: public ProceduralTextures::Generator< CpuStep, GpuStep >
 	{
-	private:
-		/*!
-		@author
-			Sylvain DOREMUS
-		@date
-			23/05/2012
-		@brief
-			The controls IDs
-		*/
-		typedef enum
-		{
-			eID_ANY				= -1,
-			eID_SEPTYPE			= 52,
-			eID_RESETTIME		= 53,
-			eID_SHADERS			= 54,
-			eID_REMOVE			= 55,
-			eID_VERTEXFILE		= 56,
-			eID_FRAGMENTFILE	= 57,
-			eID_COMPILE			= 58,
-			eID_COMPILERLOG		= 59,
-		}	eID;
-
 	public:
 		/** Constructor
 		 */
@@ -108,6 +86,18 @@ namespace GpuProgramming
 		 */
 		void OnFragmentShaderPath();
 
+		/** Displays the help
+		 */
+		void OnHelpOpen();
+
+		/** Hides the help
+		 */
+		void OnHelpClose();
+
+		/** Hides the help
+		 */
+		void OnHelpPanelClick( std::shared_ptr< ProceduralTextures::Control > p_static, ProceduralTextures::MouseEvent const & p_event );
+
 	private:
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonReset;
 		std::shared_ptr< ProceduralTextures::StaticCtrl > m_staticShaders;
@@ -117,6 +107,9 @@ namespace GpuProgramming
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonCompile;
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonCompilerLog;
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonRemove;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonHelpOpen;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_panelHelp;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_panelHelpText;
 	};
 }
 

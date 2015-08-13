@@ -42,7 +42,7 @@ namespace gl
 		@param[in] p_mode
 				The buffer access mode
 		 */
-		IndexBuffer( std::shared_ptr< OpenGl > p_openGl, uint32_t p_mode );
+		IndexBuffer( OpenGl & p_openGl, uint32_t p_mode );
 
 		/** Destructor
 		 */

@@ -177,7 +177,7 @@ namespace gl
 		@param[in] p_binder
 			The binding function
 		 */
-		Object( std::shared_ptr< OpenGl > p_openGl, CreateFunction p_creator, DestroyFunction p_destroyer, ValidatorFunction p_validator, BindFunction p_binder = BindFunction() )
+		Object( OpenGl & p_openGl, CreateFunction p_creator, DestroyFunction p_destroyer, ValidatorFunction p_validator, BindFunction p_binder = BindFunction() )
 			: Holder( p_openGl )
 			, m_creator( p_creator )
 			, m_destroyer( p_destroyer )

@@ -60,6 +60,7 @@ namespace ProceduralGenerator
 
 		void Initialise();
 		void StopRecord();
+		void UpdateTimes( std::chrono::milliseconds const & p_gpu, std::chrono::milliseconds const & p_cpu );
 
 	private:
 		DECLARE_CLASS( MainFrame );

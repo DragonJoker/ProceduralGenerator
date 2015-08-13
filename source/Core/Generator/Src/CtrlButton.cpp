@@ -53,7 +53,7 @@ namespace ProceduralTextures
 		l_text->SetHAlign( eHALIGN_CENTER );
 		l_text->SetVAlign( eVALIGN_CENTER );
 		l_text->SetCaption( m_caption );
-		l_text->SetVisible( IsVisible() );
+		l_text->SetVisible( m_visible );
 		m_text = l_text;
 	}
 

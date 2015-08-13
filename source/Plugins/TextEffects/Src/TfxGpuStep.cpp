@@ -24,8 +24,8 @@ namespace TextEffects
 		_T( "varying vec2 pxl_texture;\n" )
 		_T( "void main()\n" )
 		_T( "{\n" )
-		_T( "    pxl_texture = texture;\n" )
-		_T( "    gl_Position = vec4( vertex.xy, 0.0, 1.0 );\n" )
+		_T( "	pxl_texture = texture;\n" )
+		_T( "	gl_Position = vec4( vertex.xy, 0.0, 1.0 );\n" )
 		_T( "}\n" );
 
 	const ProceduralTextures::String PixelShaderColour =
@@ -35,8 +35,8 @@ namespace TextEffects
 		_T( "uniform vec4 pxl_colourForeground;\n" )
 		_T( "void main()\n" )
 		_T( "{\n" )
-		_T( "    float alpha = texture2D( pxl_mapTextMask, pxl_texture ).a;\n" )
-		_T( "    gl_FragColor = ( 1.0 - alpha ) * texture2D( pxl_mapBackground, pxl_texture ) + alpha * pxl_colourForeground;\n" )
+		_T( "	float alpha = texture2D( pxl_mapTextMask, pxl_texture ).a;\n" )
+		_T( "	gl_FragColor = ( 1.0 - alpha ) * texture2D( pxl_mapBackground, pxl_texture ) + alpha * pxl_colourForeground;\n" )
 		_T( "}\n" );
 
 	const ProceduralTextures::String PixelShaderTexture =
@@ -46,11 +46,11 @@ namespace TextEffects
 		_T( "uniform sampler2D pxl_mapForeground;\n" )
 		_T( "void main()\n" )
 		_T( "{\n" )
-		_T( "    float alpha = texture2D( pxl_mapTextMask, pxl_texture ).a;\n" )
-		_T( "    gl_FragColor = ( 1.0 - alpha ) * texture2D( pxl_mapBackground, pxl_texture ) + alpha * texture2D( pxl_mapForeground, pxl_texture );\n" )
+		_T( "	float alpha = texture2D( pxl_mapTextMask, pxl_texture ).a;\n" )
+		_T( "	gl_FragColor = ( 1.0 - alpha ) * texture2D( pxl_mapBackground, pxl_texture ) + alpha * texture2D( pxl_mapForeground, pxl_texture );\n" )
 		_T( "}\n" );
 
-	Program::Program( std::shared_ptr< ProceduralTextures::gl::OpenGl > p_gl )
+	Program::Program( ProceduralTextures::gl::OpenGl & p_gl )
 		:	m_program( std::make_shared< ProceduralTextures::gl::ShaderProgram >( p_gl ) )
 	{
 	}
@@ -83,11 +83,11 @@ namespace TextEffects
 		, m_newBackgroundTexture( false )
 		, m_newForegroundTexture( false )
 		, m_foregroundType( ProceduralTextures::eMATERIAL_TYPE_COLOUR )
-		, m_textureBackground( std::make_shared< ProceduralTextures::gl::Texture >( m_openGl ) )
-		, m_textureTextMask( std::make_shared< ProceduralTextures::gl::Texture >( m_openGl ) )
-		, m_textureForeground( std::make_shared< ProceduralTextures::gl::Texture >( m_openGl ) )
-		, m_programColour( std::make_shared< Program >( m_openGl ) )
-		, m_programTexture( std::make_shared< Program >( m_openGl ) )
+		, m_textureBackground( std::make_shared< ProceduralTextures::gl::Texture >( *m_openGl ) )
+		, m_textureTextMask( std::make_shared< ProceduralTextures::gl::Texture >( *m_openGl ) )
+		, m_textureForeground( std::make_shared< ProceduralTextures::gl::Texture >( *m_openGl ) )
+		, m_programColour( std::make_shared< Program >( *m_openGl ) )
+		, m_programTexture( std::make_shared< Program >( *m_openGl ) )
 	{
 		m_textureBackground->Resize( p_size );
 		m_textureTextMask->Resize( p_size );

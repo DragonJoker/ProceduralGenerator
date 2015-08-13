@@ -40,7 +40,7 @@ namespace ProceduralTextures
 			@param[in] p_openGl
 				The OpenGL instance
 			 */
-			DownloadPixelBuffer( std::shared_ptr< OpenGl > p_openGl );
+			DownloadPixelBuffer( OpenGl & p_openGl );
 
 			/** Destructor
 			 */

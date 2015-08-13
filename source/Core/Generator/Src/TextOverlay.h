@@ -20,6 +20,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "Overlay.h"
 #include "Vertex.h"
+#include "GlTexture.h"
 
 #pragma warning( push )
 #pragma warning( disable:4251 )
@@ -35,7 +36,7 @@ namespace ProceduralTextures
 	@version
 		2.0.0
 	@brief
-		Horizontal alignments
+		Horizontal alignments for text overlays
 	*/
 	typedef enum eHALIGN
 	{
@@ -162,7 +163,7 @@ namespace ProceduralTextures
 		@param[in] p_parent
 			The parent overlay (if any)
 		 */
-		TextOverlay( std::shared_ptr< gl::OpenGl > p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent );
+		TextOverlay( gl::OpenGl & p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent );
 
 		/** Destructor
 		 */
@@ -353,7 +354,7 @@ namespace ProceduralTextures
 		//! The font
 		std::weak_ptr< Font > m_wpFont;
 		//! The texture that will receive the glyphs
-		std::shared_ptr< gl::Texture > m_glyphsTexture;
+		gl::Texture m_glyphsTexture;
 		//! The uniform containing the text sampler
 		std::weak_ptr< gl::FrameVariable< int > > m_uniformTextTexture;
 		//! Glyphs positions in the texture

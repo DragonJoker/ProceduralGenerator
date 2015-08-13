@@ -9,7 +9,7 @@
 
 namespace ProceduralTextures
 {
-	PanelOverlay::PanelOverlay( std::shared_ptr< gl::OpenGl > p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent )
+	PanelOverlay::PanelOverlay( gl::OpenGl & p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent )
 		: Overlay( p_openGl, p_material, eOVERLAY_TYPE_PANEL, p_parent )
 	{
 	}
@@ -29,7 +29,7 @@ namespace ProceduralTextures
 	void PanelOverlay::DoRender()
 	{
 		m_material.Activate();
-		m_geometryBuffers->Draw( m_material.GetVertexAttribute(), m_material.GetTextureAttribute() );
+		m_geometryBuffers.Draw( m_material.GetVertexAttribute(), m_material.GetTextureAttribute() );
 		m_material.Deactivate();
 	}
 
@@ -62,8 +62,8 @@ namespace ProceduralTextures
 		l_vtx.push_back( VertexI( CONSTRUCT_ANONYMOUS( VertexI::TPoint, l_centerR, l_centerB ), CONSTRUCT_ANONYMOUS( Point2f, float( m_uv[2] ), float( m_uv[1] ) ) ) );
 		l_vtx.push_back( VertexI( CONSTRUCT_ANONYMOUS( VertexI::TPoint, l_centerR, l_centerT ), CONSTRUCT_ANONYMOUS( Point2f, float( m_uv[2] ), float( m_uv[3] ) ) ) );
 
-		std::shared_ptr< gl::VertexBufferI > l_vertexBuffer = m_geometryBuffers->GetVertexBuffer();
-		l_vertexBuffer->SetBuffer( l_vtx );
-		l_vertexBuffer->Initialise();
+		gl::VertexBufferI & l_vertexBuffer = m_geometryBuffers.GetVertexBuffer();
+		l_vertexBuffer.SetBuffer( l_vtx );
+		l_vertexBuffer.Initialise();
 	}
 }

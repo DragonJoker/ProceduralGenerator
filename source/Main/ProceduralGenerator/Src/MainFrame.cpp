@@ -36,6 +36,8 @@
 
 #include "RenderPanel.h"
 
+#define PGEN_CHECK_TIMES 0
+
 using namespace ProceduralTextures;
 
 namespace ProceduralGenerator
@@ -178,6 +180,11 @@ namespace ProceduralGenerator
 		SetForegroundColour( *wxWHITE );
 		Connect( eGUI_EVENT_SHOW_MESSAGE_BOX, wxEVT_NULL, wxCommandEventHandler( MainFrame::OnShowMessageBox ), NULL, this );
 		Connect( eGUI_EVENT_RESIZE_PARENT, wxEVT_NULL, wxCommandEventHandler( MainFrame::OnResize ), NULL, this );
+#if PGEN_CHECK_TIMES
+		wxStatusBar * l_status = new wxStatusBar( this );
+		l_status->SetFieldsCount();
+		SetStatusBar( l_status );
+#endif
 	}
 
 	MainFrame::~MainFrame()
@@ -211,6 +218,13 @@ namespace ProceduralGenerator
 		GetToolBar()->EnableTool( eID_RECORD, true );
 #endif
 		m_pRenderPanel->StopRecord();
+	}
+
+	void MainFrame::UpdateTimes( std::chrono::milliseconds const & p_gpu, std::chrono::milliseconds const & p_cpu )
+	{
+#if PGEN_CHECK_TIMES
+		GetStatusBar()->SetStatusText( wxString() << wxT( "GPU: " ) << p_gpu.count() << wxT( ", CPU: " ) << p_cpu.count() );
+#endif
 	}
 
 	void MainFrame::DoBuildMenuBar()

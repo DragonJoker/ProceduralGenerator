@@ -15,11 +15,11 @@ namespace ProceduralTextures
 			GL_FRAGMENT_SHADER,
 		};
 
-		ShaderObject::ShaderObject( std::shared_ptr< OpenGl > p_pOpenGl, eSHADER_OBJECT_TYPE p_eType )
-			: Object( p_pOpenGl,
-					  std::bind( &OpenGl::CreateShader, p_pOpenGl, ShaderTypes[p_eType] ),
-					  std::bind( &OpenGl::DeleteShader, p_pOpenGl, std::placeholders::_1 ),
-					  std::bind( &OpenGl::IsShader, p_pOpenGl, std::placeholders::_1 )
+		ShaderObject::ShaderObject( OpenGl & p_openGl, eSHADER_OBJECT_TYPE p_eType )
+			: Object( p_openGl,
+					  std::bind( &OpenGl::CreateShader, std::ref( p_openGl ), ShaderTypes[p_eType] ),
+					  std::bind( &OpenGl::DeleteShader, std::ref( p_openGl ), std::placeholders::_1 ),
+					  std::bind( &OpenGl::IsShader, std::ref( p_openGl ), std::placeholders::_1 )
 					)
 			, m_bCompiled( false )
 			, m_eType( p_eType )
@@ -85,9 +85,9 @@ namespace ProceduralTextures
 				GLint l_iLength = GLint( m_strSource.size() );
 				std::string l_tmp = StringUtils::ToStdString( m_strSource ).c_str();
 				char const * l_pTmp = l_tmp.c_str();
-				GetOpenGl()->ShaderSource( GetGlName(), 1, &l_pTmp, &l_iLength );
-				GetOpenGl()->CompileShader( GetGlName() );
-				GetOpenGl()->GetShaderParameter( GetGlName(), GL_COMPILE_STATUS, &l_iCompiled );
+				GetOpenGl().ShaderSource( GetGlName(), 1, &l_pTmp, &l_iLength );
+				GetOpenGl().CompileShader( GetGlName() );
+				GetOpenGl().GetShaderParameter( GetGlName(), GL_COMPILE_STATUS, &l_iCompiled );
 
 				if ( l_iCompiled )
 				{
@@ -120,7 +120,7 @@ namespace ProceduralTextures
 			if ( m_bCompiled && !m_bError )
 			{
 				m_parent = p_pProgram;
-				GetOpenGl()->AttachShader( GetParent()->GetGlName(), GetGlName() );
+				GetOpenGl().AttachShader( GetParent()->GetGlName(), GetGlName() );
 				m_bAttached = true;
 			}
 		}
@@ -133,7 +133,7 @@ namespace ProceduralTextures
 			{
 				try
 				{
-					GetOpenGl()->DetachShader( l_parent->GetGlName(), GetGlName() );
+					GetOpenGl().DetachShader( l_parent->GetGlName(), GetGlName() );
 					m_bAttached = false;
 				}
 				catch ( ... )
@@ -152,12 +152,12 @@ namespace ProceduralTextures
 			String l_log;
 			int l_iInfologLength = 0;
 			int charsWritten  = 0;
-			GetOpenGl()->GetShaderParameter( GetGlName(), GL_INFO_LOG_LENGTH, &l_iInfologLength );
+			GetOpenGl().GetShaderParameter( GetGlName(), GL_INFO_LOG_LENGTH, &l_iInfologLength );
 
 			if ( l_iInfologLength > 0 )
 			{
 				std::vector< char > l_szInfoLog( l_iInfologLength + 1 );
-				GetOpenGl()->GetShaderInfoLog( GetGlName(), l_iInfologLength, &charsWritten, l_szInfoLog.data() );
+				GetOpenGl().GetShaderInfoLog( GetGlName(), l_iInfologLength, &charsWritten, l_szInfoLog.data() );
 				l_log = StringUtils::FromStdString( std::string( l_szInfoLog.data() ) );
 			}
 

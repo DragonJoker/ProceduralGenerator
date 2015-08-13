@@ -46,7 +46,7 @@ namespace ProceduralTextures
 			@param[in] p_mode
 				The buffer mode (GL_STATIC_DRAW, ...)
 			 */
-			BufferObject( std::shared_ptr< OpenGl > p_openGl, unsigned int p_target, unsigned int p_mode );
+			BufferObject( OpenGl & p_openGl, unsigned int p_target, unsigned int p_mode );
 
 			/** Destructor
 			 */

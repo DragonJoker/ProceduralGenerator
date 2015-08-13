@@ -45,7 +45,7 @@ namespace gl
 		@param[in] p_type
 			The object type
 		 */
-		ShaderObject( std::shared_ptr< OpenGl > p_openGl, eSHADER_OBJECT_TYPE p_type );
+		ShaderObject( OpenGl & p_openGl, eSHADER_OBJECT_TYPE p_type );
 
 		/**
 		 * Destructor

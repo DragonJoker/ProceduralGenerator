@@ -41,7 +41,7 @@ namespace gl
 		@param[in] p_openGl
 			The OpenGl instance
 		 */
-		Holder( std::shared_ptr< OpenGl > p_openGl )
+		Holder( OpenGl & p_openGl )
 			: m_openGl( p_openGl )
 		{
 		}
@@ -56,14 +56,23 @@ namespace gl
 		@return
 			The instance
 		 */
-		std::shared_ptr< OpenGl > GetOpenGl()const
+		OpenGl const & GetOpenGl()const
 		{
-			return m_openGl.lock();
+			return m_openGl;
+		}
+
+		/** Retrieves the OpenGl instance
+		@return
+			The instance
+		 */
+		OpenGl & GetOpenGl()
+		{
+			return m_openGl;
 		}
 
 	private:
 		//! The OpenGl instance
-		std::weak_ptr< OpenGl > m_openGl;
+		OpenGl & m_openGl;
 	};
 }
 }

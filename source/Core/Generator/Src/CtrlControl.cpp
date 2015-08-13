@@ -35,6 +35,7 @@ namespace ProceduralTextures
 
 		if ( l_parent )
 		{
+			l_parent->m_childs.push_back( std::static_pointer_cast< Control >( shared_from_this() ) );
 			l_parentOv = l_parent->GetBackground();
 		}
 
@@ -61,7 +62,7 @@ namespace ProceduralTextures
 		}
 
 		l_panel = p_ovManager->CreateBorderPanel( _T( "BP_CtrlControl_" ) + StringUtils::ToString( GetId() ), GetPosition(), GetSize(), l_background, m_borders, l_foreground, l_parentOv );
-		l_panel->SetVisible( IsVisible() );
+		l_panel->SetVisible( m_visible );
 		l_panel->SetBordersPosition( eBORDER_POSITION_INTERNAL );
 		m_background = l_panel;
 		DoCreate( p_ovManager );
@@ -185,11 +186,6 @@ namespace ProceduralTextures
 		{
 			l_panel->SetVisible( p_value );
 			l_panel.reset();
-		}
-
-		for ( auto && l_child : m_childs )
-		{
-			l_child.lock()->SetVisible( p_value );
 		}
 
 		DoSetVisible( p_value );

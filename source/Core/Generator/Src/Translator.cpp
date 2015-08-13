@@ -211,16 +211,15 @@ namespace ProceduralTextures
 
 	void Translator::Initialise( String const & p_path, String const & p_parent, String const & p_name )
 	{
-		setlocale( LC_ALL, "" );
-		String l_locale = StringUtils::ToString( setlocale( LC_ALL, NULL ) );
+		std::string l_language = std::locale( "" ).c_str();
 
-		if ( l_locale.find( _T( "French" ) ) != String::npos )
+		if ( l_language.find( _T( "French" ) ) != String::npos )
 		{
-			l_locale = _T( "fr" );
+			l_language = _T( "fr" );
 		}
-		else if ( l_locale.find( _T( "fr_FR" ) ) != String::npos )
+		else if ( l_language.find( _T( "fr_FR" ) ) != String::npos )
 		{
-			l_locale = _T( "fr" );
+			l_language = _T( "fr" );
 		}
 
 		String l_path = p_path;
@@ -232,7 +231,7 @@ namespace ProceduralTextures
 		}
 
 		LocalisedText l_translation;
-		l_translation.Initialise( l_path + FOLDER_SEPARATOR + _T( "share" ) + FOLDER_SEPARATOR + p_parent + FOLDER_SEPARATOR + l_locale + FOLDER_SEPARATOR + p_name + _T( ".mo" ) );
+		l_translation.Initialise( l_path + FOLDER_SEPARATOR + _T( "share" ) + FOLDER_SEPARATOR + p_parent + FOLDER_SEPARATOR + l_language + FOLDER_SEPARATOR + p_name + _T( ".mo" ) );
 		m_translations.push_back( l_translation );
 	}
 

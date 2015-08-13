@@ -46,7 +46,7 @@ namespace gl
 		@param[in] p_drawMode
 			The buffer mode (GL_STATIC_DRAW, ...)
 		 */
-		GpuIOBuffer( std::shared_ptr< OpenGl > p_openGl, unsigned int p_packMode, unsigned int p_drawMode );
+		GpuIOBuffer( OpenGl & p_openGl, unsigned int p_packMode, unsigned int p_drawMode );
 
 		/** Destructor
 		 */

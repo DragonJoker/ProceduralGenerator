@@ -40,7 +40,7 @@ namespace gl
 		@param[in] p_openGl
 			The OpenGL instance
 		 */
-		UploadPixelBuffer( std::shared_ptr< OpenGl > p_openGl );
+		UploadPixelBuffer( OpenGl & p_openGl );
 
 		/** Destructor
 		 */

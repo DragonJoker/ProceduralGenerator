@@ -5,8 +5,8 @@ namespace ProceduralTextures
 {
 	namespace gl
 	{
-		GpuIOBuffer::GpuIOBuffer( std::shared_ptr< OpenGl > p_pOpenGl, GLenum p_packMode, GLenum p_drawMode )
-			: BufferObject( p_pOpenGl, p_packMode, p_drawMode )
+		GpuIOBuffer::GpuIOBuffer( OpenGl & p_openGl, GLenum p_packMode, GLenum p_drawMode )
+			: BufferObject( p_openGl, p_packMode, p_drawMode )
 		{
 		}
 

@@ -25,6 +25,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "Size.h"
 #include "GlHolder.h"
 #include "Material.h"
+#include "GeometryBuffers.h"
 
 #pragma warning( push )
 #pragma warning( disable:4251 )
@@ -65,7 +66,7 @@ namespace ProceduralTextures
 		@param[in] p_parent
 			The parent overlay (if any)
 		 */
-		Overlay( std::shared_ptr< gl::OpenGl > p_openGl, Material const & p_material, eOVERLAY_TYPE p_type, std::shared_ptr< Overlay > p_parent );
+		Overlay( gl::OpenGl & p_openGl, Material const & p_material, eOVERLAY_TYPE p_type, std::shared_ptr< Overlay > p_parent );
 
 	public:
 		/** Destructor
@@ -403,7 +404,7 @@ namespace ProceduralTextures
 
 	protected:
 		//! The geometry buffers
-		std::shared_ptr< GeometryBuffersI > m_geometryBuffers;
+		GeometryBuffersI m_geometryBuffers;
 		//! The material
 		Material m_material;
 		//! The overlay name

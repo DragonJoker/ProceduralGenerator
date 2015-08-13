@@ -42,7 +42,7 @@ namespace gl
 		@param[in] p_openGl
 			The OpenGL instance
 		 */
-		ShaderProgram( std::shared_ptr< OpenGl > p_openGl );
+		ShaderProgram( OpenGl & p_openGl );
 
 		/** Destructor
 		 */

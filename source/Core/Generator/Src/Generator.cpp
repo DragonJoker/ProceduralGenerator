@@ -324,26 +324,12 @@ namespace ProceduralTextures
 
 	std::chrono::milliseconds const & GeneratorBase::GetCpuTime()const
 	{
-		return DoGetGpuStep()->GetTime();
+		return DoGetCpuStep()->GetTime();
 	}
 
 	std::chrono::milliseconds const & GeneratorBase::GetGpuTime()const
 	{
 		return DoGetGpuStep()->GetTime();
-	}
-
-	void GeneratorBase::DoWriteTime( String const & p_name, std::chrono::milliseconds const & p_time, std::shared_ptr< StaticCtrl > p_text )
-	{
-		if ( p_text )
-		{
-			StringStream l_stream;
-			l_stream << p_name << _T( ": " );
-			l_stream.width( 3 );
-			l_stream.fill( _T( ' ' ) );
-			l_stream << std::right << p_time.count();
-			l_stream << _T( "ms" );
-			p_text->SetCaption( l_stream.str() );
-		}
 	}
 
 	void GeneratorBase::DoSwitchVisibility()
@@ -357,6 +343,20 @@ namespace ProceduralTextures
 		{
 			m_panel->Show();
 			m_visibility->SetPosition( Position( CONFIG_PANEL_WIDTH, 0 ) );
+		}
+	}
+
+	void GeneratorBase::DoWriteTime( String const & p_name, std::chrono::milliseconds const & p_time, std::shared_ptr< StaticCtrl > p_text )
+	{
+		if ( p_text )
+		{
+			StringStream l_stream;
+			l_stream << p_name << _T( ": " );
+			l_stream.width( 3 );
+			l_stream.fill( _T( ' ' ) );
+			l_stream << std::right << p_time.count();
+			l_stream << _T( "ms" );
+			p_text->SetCaption( l_stream.str() );
 		}
 	}
 }

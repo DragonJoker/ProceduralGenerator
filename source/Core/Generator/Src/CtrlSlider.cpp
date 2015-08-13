@@ -74,7 +74,7 @@ namespace ProceduralTextures
 		{
 			l_line->SetPosition( l_linePosition );
 			l_line->SetSize( l_lineSize );
-			l_line->SetVisible( IsVisible() );
+			l_line->SetVisible( m_visible );
 		}
 
 		std::shared_ptr< StaticCtrl > l_tick = m_tick.lock();
@@ -83,7 +83,7 @@ namespace ProceduralTextures
 		{
 			l_tick->SetPosition( l_tickPosition );
 			l_tick->SetSize( l_tickSize );
-			l_tick->SetVisible( IsVisible() );
+			l_tick->SetVisible( m_visible );
 		}
 	}
 
@@ -93,7 +93,7 @@ namespace ProceduralTextures
 		l_line->SetBackgroundColour( Colour( 0.5, 0.5, 0.5, 1.0 ) );
 		l_line->SetForegroundColour( m_foregroundColour );
 		l_line->SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
-		l_line->SetVisible( IsVisible() );
+		l_line->SetVisible( m_visible );
 		l_line->ConnectNC( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &SliderCtrl::OnNcKeyDown, this, std::placeholders::_1, std::placeholders::_2 ) );
 		m_ctrlManager.lock()->Create( l_line );
 		m_line = l_line;
@@ -102,7 +102,7 @@ namespace ProceduralTextures
 		l_tick->SetBackgroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
 		l_tick->SetForegroundColour( m_foregroundColour );
 		l_tick->SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
-		l_tick->SetVisible( IsVisible() );
+		l_tick->SetVisible( m_visible );
 		l_tick->SetCatchesMouseEvents( true );
 		l_tick->ConnectNC( eMOUSE_EVENT_MOUSE_MOVE, std::bind( &SliderCtrl::OnTickMouseMove, this, std::placeholders::_1, std::placeholders::_2 ) );
 		l_tick->ConnectNC( eMOUSE_EVENT_MOUSE_BUTTON_PUSHED, std::bind( &SliderCtrl::OnTickMouseLButtonDown, this, std::placeholders::_1, std::placeholders::_2 ) );

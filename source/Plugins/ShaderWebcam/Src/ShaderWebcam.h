@@ -36,33 +36,11 @@ namespace ShaderWebcam
 	class Generator
 		: public ProceduralTextures::Generator< CpuStep, GpuStep >
 	{
-	private:
-		/*!
-		@author
-			Sylvain DOREMUS
-		@date
-			23/05/2012
-		@brief
-			The controls IDs
-		*/
-		typedef enum
-		{
-			eID_ANY				= -1,
-			eID_SEPTYPE			= 53,
-			eID_SEPOFFSET		= 54,
-			eID_RESETTIME		= 55,
-			eID_SHADERS			= 56,
-			eID_REMOVE			= 57,
-			eID_VERTEXFILE		= 58,
-			eID_FRAGMENTFILE	= 59,
-			eID_COMPILE			= 60,
-			eID_COMPILERLOG		= 61,
-		}	eID;
-
 	public:
 		/** Constructor
 		 */
 		Generator();
+
 		/** Destructor
 		 */
 		virtual ~Generator();
@@ -71,47 +49,70 @@ namespace ShaderWebcam
 		/** @copydoc ProceduralTexture::Generator::DoCreate
 		 */
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
+
 		/** @copydoc ProceduralTexture::Generator::DoDestroy
 		 */
 		virtual void DoDestroy();
+
 		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
 		 */
 		virtual void DoGeneratePanel();
+
 		/** Resets the time index
 		 */
 		void OnResetTime();
+
 		/** Sets the separator type
 		@param[in] p_value
 			The new value
 		 */
 		void OnSepType( int p_value );
+
 		/** Sets the separator offset
 		@param[in] p_value
 			The new value
 		 */
 		void OnSepOffset( int p_value );
+
 		/** Selects a shader
 		 */
 		void OnSelectShader( uint32_t p_value );
+
 		/** Removes the current chader
 		 */
 		void OnRemove();
+
 		/** Compiles the shader
 		 */
 		void OnShaderCompile();
+
 		/** Retrieves the compiler log
 		 */
 		void OnCompilerLog();
+
 		/** Sets the vertex shader file path
 		@param[in] p_path
 			The new value
 		 */
 		void OnVertexShaderPath();
+
 		/** Sets the fragment shader file path
 		@param[in] p_path
 			The new value
 		 */
 		void OnFragmentShaderPath();
+
+		/** Displays the help
+		 */
+		void OnHelpOpen();
+
+		/** Hides the help
+		 */
+		void OnHelpClose();
+
+		/** Hides the help
+		 */
+		void OnHelpPanelClick( std::shared_ptr< ProceduralTextures::Control > p_static, ProceduralTextures::MouseEvent const & p_event );
 
 	private:
 		//! The OpenCV capture
@@ -128,6 +129,9 @@ namespace ShaderWebcam
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonCompile;
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonCompilerLog;
 		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonRemove;
+		std::shared_ptr< ProceduralTextures::ButtonCtrl > m_buttonHelpOpen;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_panelHelp;
+		std::shared_ptr< ProceduralTextures::StaticCtrl > m_panelHelpText;
 	};
 }
 

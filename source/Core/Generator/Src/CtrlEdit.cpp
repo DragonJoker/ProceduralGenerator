@@ -42,7 +42,7 @@ namespace ProceduralTextures
 	{
 		std::shared_ptr< TextOverlay > l_text = p_manager->CreateText( _T( "T_CtrlEdit_" ) + StringUtils::ToString( GetId() ), Position(), GetSize(), Material( m_foregroundColour ), p_manager->GetFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT ), GetBackground() );
 		l_text->SetVAlign( eVALIGN_TOP );
-		l_text->SetVisible( IsVisible() );
+		l_text->SetVisible( m_visible );
 
 		if ( ( m_style & eEDIT_STYLE_MULTILINE ) == eEDIT_STYLE_MULTILINE )
 		{

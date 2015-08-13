@@ -128,6 +128,8 @@ namespace ProceduralTextures
 	{
 	public:
 		/** Initialises the translation manager
+		@param[in] p_localeName
+			The current locale name
 		@param[in] p_path
 			The translations folder
 		@param[in] p_parent

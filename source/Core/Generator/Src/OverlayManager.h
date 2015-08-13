@@ -49,7 +49,7 @@ namespace ProceduralTextures
 		@param[in] p_openGl
 			The OpenGl instance
 		 */
-		OverlayManager( std::shared_ptr< gl::OpenGl > p_openGl );
+		OverlayManager( gl::OpenGl & p_openGl );
 
 		/** Destructor
 		 */

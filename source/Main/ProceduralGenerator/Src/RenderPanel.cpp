@@ -63,7 +63,7 @@ namespace ProceduralGenerator
 		, m_bInitialised( false )
 		, m_pGenerator( NULL )
 		, m_bFullScreen( false )
-		, m_pFrame( p_parent )
+		, m_mainFrame( p_parent )
 		, m_mouseMoveIndex( 0 )
 		, m_timer( NULL )
 		, m_count( 0 )
@@ -170,7 +170,7 @@ namespace ProceduralGenerator
 					}
 					catch( std::exception & p_exc )
 					{
-						m_pFrame->StopRecord();
+						m_mainFrame->StopRecord();
 						wxMessageBox( wxString( p_exc.what(), wxMBConvLibc() ) );
 					}
 				}
@@ -300,6 +300,7 @@ namespace ProceduralGenerator
 		{
 			Render();
 			std::chrono::milliseconds l_time = m_pGenerator->GetCpuTime() + m_pGenerator->GetGpuTime();
+			m_mainFrame->UpdateTimes( m_pGenerator->GetGpuTime(), m_pGenerator->GetCpuTime() );
 
 			if ( l_time.count() >= m_timer->GetInterval() )
 			{
@@ -452,7 +453,7 @@ namespace ProceduralGenerator
 		if ( m_pGenerator && m_pGenerator->IsInitialised() )
 		{
 			m_bFullScreen = !m_bFullScreen;
-			m_pFrame->ShowFullScreen( m_bFullScreen, wxFULLSCREEN_ALL );
+			m_mainFrame->ShowFullScreen( m_bFullScreen, wxFULLSCREEN_ALL );
 		}
 
 		p_event.Skip();

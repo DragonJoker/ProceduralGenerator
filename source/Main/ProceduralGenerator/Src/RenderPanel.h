@@ -81,7 +81,7 @@ namespace ProceduralGenerator
 		wxGLContext * m_pContext;
 		bool m_bInitialised;
 		bool m_bFullScreen;
-		MainFrame * m_pFrame;
+		MainFrame * m_mainFrame;
 		ProceduralTextures::Signal< std::function< void( ProceduralTextures::Position const & ) > > m_signalMouseMove;
 		uint32_t m_mouseMoveIndex;
 		wxTimer * m_timer;

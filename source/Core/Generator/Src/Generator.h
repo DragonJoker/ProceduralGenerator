@@ -434,6 +434,10 @@ namespace ProceduralTextures
 		 */
 		virtual std::shared_ptr< GeneratorBase > DoGetThis() = 0;
 
+		/** Switches the panel visibility
+		 */
+		virtual void DoSwitchVisibility();
+
 	private:
 		/** Writes a step time into the appropriate overlay
 		@param[in] p_name
@@ -444,10 +448,6 @@ namespace ProceduralTextures
 			The step overlay
 		 */
 		void DoWriteTime( String const & p_name, std::chrono::milliseconds const & p_time, std::shared_ptr< StaticCtrl > p_text );
-
-		/** Switches the panel visibility
-		 */
-		void DoSwitchVisibility();
 
 	protected:
 		//! The panel holding times and options

@@ -68,7 +68,7 @@ namespace ProceduralTextures
 
 		m_expand = std::make_shared< ButtonCtrl >( shared_from_this(), _T( "+" ), GetId() << 12, Position( GetSize().x() - GetSize().y(), 0 ), Size( GetSize().y(), GetSize().y() ) );
 		m_expand->SetForegroundColour( m_foregroundColour );
-		m_expand->SetVisible( IsVisible() );
+		m_expand->SetVisible( m_visible );
 		m_expand->Connect( eBUTTON_EVENT_CLICKED, std::bind( &ComboBoxCtrl::DoSwitchExpand, this ) );
 
 		m_choices = std::make_shared< ListBoxCtrl >( shared_from_this(), m_values, m_selected, ( GetId() << 12 ) + 1, Position( 0, GetSize().y() ), Size( GetSize().x() - GetSize().y(), -1 ), 0, false );

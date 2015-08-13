@@ -44,13 +44,25 @@ namespace ProceduralTextures
 
 			if ( m_type == eMATERIAL_TYPE_TEXTURE )
 			{
-				m_uniformTexture.lock()->SetValue( 0 );
+				auto l_uniform = m_uniformTexture.lock();
+
+				if ( l_uniform )
+				{
+					l_uniform->SetValue( 0 );
+				}
+
 				l_program->Activate();
 				m_texture->Activate( GL_TEXTURE0 );
 			}
 			else
 			{
-				m_uniformColour.lock()->SetValue( m_colour.r, m_colour.g, m_colour.b, m_colour.a );
+				auto l_uniform = m_uniformColour.lock();
+
+				if ( l_uniform )
+				{
+					l_uniform->SetValue( m_colour.r, m_colour.g, m_colour.b, m_colour.a );
+				}
+
 				l_program->Activate();
 			}
 		}

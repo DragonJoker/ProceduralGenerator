@@ -5,8 +5,8 @@ namespace ProceduralTextures
 {
 	namespace gl
 	{
-		IndexBuffer::IndexBuffer( std::shared_ptr< OpenGl > p_pOpenGl, uint32_t p_mode )
-			: BufferObject( p_pOpenGl, GL_ELEMENT_ARRAY_BUFFER, p_mode )
+		IndexBuffer::IndexBuffer( OpenGl & p_openGl, uint32_t p_mode )
+			: BufferObject( p_openGl, GL_ELEMENT_ARRAY_BUFFER, p_mode )
 		{
 			m_pBuffer[0] = 0;
 			m_pBuffer[1] = 1;

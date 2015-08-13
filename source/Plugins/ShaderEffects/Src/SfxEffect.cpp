@@ -9,8 +9,8 @@ using namespace ProceduralTextures;
 
 namespace ShaderEffects
 {
-	Effect::Effect( std::shared_ptr< gl::OpenGl > p_pOpenGl, std::shared_ptr< PixelBuffer > p_buffer )
-		: gl::Holder( p_pOpenGl )
+	Effect::Effect( gl::OpenGl & p_openGl, std::shared_ptr< PixelBuffer > p_buffer )
+		: gl::Holder( p_openGl )
 		, m_strVertexFile()
 		, m_strFragmentFile()
 		, m_bNewShader( false )

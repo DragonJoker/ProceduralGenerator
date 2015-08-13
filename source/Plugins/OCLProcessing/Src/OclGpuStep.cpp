@@ -12,7 +12,7 @@ namespace OCLProcessing
 		: ProceduralTextures::GpuStep( p_generator, p_size, p_bordersSize )
 		, m_iSeparationOffset( 50 )
 		, m_eSeparationType( eSEPARATION_NONE )
-		, m_outputTexture( std::make_shared< ProceduralTextures::gl::Texture >( m_openGl ) )
+		, m_outputTexture( std::make_shared< ProceduralTextures::gl::Texture >( *m_openGl ) )
 		, m_inputBuffer( std::make_shared< ProceduralTextures::PixelBuffer >( p_size ) )
 		, m_outputBuffer( std::make_shared< ProceduralTextures::PixelBuffer >( p_size ) )
 	{

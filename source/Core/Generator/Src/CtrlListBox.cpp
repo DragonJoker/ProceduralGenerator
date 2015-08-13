@@ -165,7 +165,7 @@ namespace ProceduralTextures
 		std::shared_ptr< StaticCtrl > l_static = std::make_shared< StaticCtrl >( shared_from_this(), p_value, Position(), Size( GetSize().x(), DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
 		l_static->SetBackgroundColour( m_backgroundColourNormal );
 		l_static->SetForegroundColour( m_foregroundColour );
-		l_static->SetVisible( IsVisible() );
+		l_static->SetVisible( m_visible );
 		l_static->SetCatchesMouseEvents( true );
 		l_static->ConnectNC( eMOUSE_EVENT_MOUSE_ENTER, std::bind( &ListBoxCtrl::OnItemMouseEnter, this, std::placeholders::_1, std::placeholders::_2 ) );
 		l_static->ConnectNC( eMOUSE_EVENT_MOUSE_LEAVE, std::bind( &ListBoxCtrl::OnItemMouseLeave, this, std::placeholders::_1, std::placeholders::_2 ) );

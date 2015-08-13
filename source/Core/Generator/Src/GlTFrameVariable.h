@@ -53,7 +53,7 @@ namespace gl
 		@param[in] p_program
 			The parent shader program
 		 */
-		TFrameVariable( std::shared_ptr< OpenGl > p_openGl, std::shared_ptr< ShaderProgram > p_program )
+		TFrameVariable( OpenGl & p_openGl, ShaderProgram & p_program )
 			: FrameVariableBase( p_openGl, p_program )
 		{
 			for ( T & l_value : m_value )
@@ -80,7 +80,7 @@ namespace gl
 			{
 				if ( m_glIndex == -1 )
 				{
-					m_glIndex = GetProgram()->GetUniformLocation( m_strName );
+					m_glIndex = m_program.GetUniformLocation( m_strName );
 				}
 
 				if ( m_glIndex != -1 )
@@ -130,16 +130,16 @@ namespace gl
 	template< typename T > struct GeneratorAPI TVariableApplier< T, 1 >
 	{
 		/** Gives the variable value to the shader program
-		@param[in] p_pOpenGl
+		@param[in] p_openGl
 			The OpenGL instance
 		@param[in] p_pVariable
 			The uniform variable
 		@return
 			true if the OpenGL call was successful
 		 */
-		static bool Apply( std::shared_ptr< OpenGl > p_pOpenGl, std::shared_ptr< TFrameVariable< T, 1 > > p_pVariable )
+		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 1 > > p_pVariable )
 		{
-			return p_pOpenGl->Uniform( p_pVariable->GetGlIndex(), *p_pVariable->GetValue() );
+			return p_openGl.Uniform( p_pVariable->GetGlIndex(), *p_pVariable->GetValue() );
 		}
 	};
 
@@ -154,16 +154,16 @@ namespace gl
 	template< typename T > struct GeneratorAPI TVariableApplier< T, 2 >
 	{
 		/** Gives the variable value to the shader program
-		@param[in] p_pOpenGl
+		@param[in] p_openGl
 			The OpenGL instance
 		@param[in] p_pVariable
 			The uniform variable
 		@return
 			true if the OpenGL call was successful
 		 */
-		static bool Apply( std::shared_ptr< OpenGl > p_pOpenGl, std::shared_ptr< TFrameVariable< T, 2 > > p_pVariable )
+		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 2 > > p_pVariable )
 		{
-			return p_pOpenGl->UniformVec2( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
+			return p_openGl.UniformVec2( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
 		}
 	};
 
@@ -178,16 +178,16 @@ namespace gl
 	template< typename T > struct GeneratorAPI TVariableApplier< T, 3 >
 	{
 		/** Gives the variable value to the shader program
-		@param[in] p_pOpenGl
+		@param[in] p_openGl
 			The OpenGL instance
 		@param[in] p_pVariable
 			The uniform variable
 		@return
 			true if the OpenGL call was successful
 		 */
-		static bool Apply( std::shared_ptr< OpenGl > p_pOpenGl, std::shared_ptr< TFrameVariable< T, 3 > > p_pVariable )
+		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 3 > > p_pVariable )
 		{
-			return p_pOpenGl->UniformVec3( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
+			return p_openGl.UniformVec3( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
 		}
 	};
 
@@ -202,16 +202,16 @@ namespace gl
 	template< typename T > struct GeneratorAPI TVariableApplier< T, 4 >
 	{
 		/** Gives the variable value to the shader program
-		@param[in] p_pOpenGl
+		@param[in] p_openGl
 			The OpenGL instance
 		@param[in] p_pVariable
 			The uniform variable
 		@return
 			true if the OpenGL call was successful
 		 */
-		static bool Apply( std::shared_ptr< OpenGl > p_pOpenGl, std::shared_ptr< TFrameVariable< T, 4 > > p_pVariable )
+		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 4 > > p_pVariable )
 		{
-			return p_pOpenGl->UniformVec4( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
+			return p_openGl.UniformVec4( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
 		}
 	};
 
@@ -226,16 +226,16 @@ namespace gl
 	template< typename T > struct GeneratorAPI TVariableApplier< T, 4 * 4 >
 	{
 		/** Gives the variable value to the shader program
-		@param[in] p_pOpenGl
+		@param[in] p_openGl
 			The OpenGL instance
 		@param[in] p_pVariable
 			The uniform variable
 		@return
 			true if the OpenGL call was successful
 		 */
-		static bool Apply( std::shared_ptr< OpenGl > p_pOpenGl, std::shared_ptr< TFrameVariable< T, 4 * 4 > > p_pVariable )
+		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 4 * 4 > > p_pVariable )
 		{
-			return p_pOpenGl->UniformMat4( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
+			return p_openGl.UniformMat4( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
 		}
 	};
 }

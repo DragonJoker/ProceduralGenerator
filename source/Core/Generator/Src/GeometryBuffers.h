@@ -49,10 +49,10 @@ namespace ProceduralTextures
 		@param[in] p_hasIndexBuffer
 			Tells the geometry buffers holds an index buffer
 		 */
-		TGeometryBuffers( std::shared_ptr< gl::OpenGl > p_openGl, uint32_t p_mode, bool p_hasIndexBuffer = true )
+		TGeometryBuffers( gl::OpenGl & p_openGl, uint32_t p_mode, bool p_hasIndexBuffer = true )
 			: gl::Holder( p_openGl )
-			, m_vertexBuffer( std::make_shared< gl::TVertexBuffer< PosType > >( p_openGl, p_mode ) )
-			, m_indexBuffer( p_hasIndexBuffer ? std::make_shared< gl::IndexBuffer >( p_openGl, p_mode ) : nullptr )
+			, m_vertexBuffer( p_openGl, p_mode )
+			, m_indexBuffer( p_hasIndexBuffer ? std::make_unique< gl::IndexBuffer >( p_openGl, p_mode ) : nullptr )
 		{
 		}
 
@@ -68,7 +68,7 @@ namespace ProceduralTextures
 		 */
 		bool Initialise()
 		{
-			bool l_return = m_vertexBuffer->Initialise();
+			bool l_return = m_vertexBuffer.Initialise();
 
 			if ( l_return && m_indexBuffer )
 			{
@@ -87,7 +87,7 @@ namespace ProceduralTextures
 				m_indexBuffer->Destroy();
 			}
 
-			m_vertexBuffer->Destroy();
+			m_vertexBuffer.Destroy();
 		}
 
 		/** Tries to activate the buffers and to draw it
@@ -98,22 +98,22 @@ namespace ProceduralTextures
 		 */
 		void Draw( uint32_t p_vertex, uint32_t p_texture )
 		{
-			if ( m_vertexBuffer->Activate( p_vertex, p_texture ) )
+			if ( m_vertexBuffer.Activate( p_vertex, p_texture ) )
 			{
 				if ( m_indexBuffer )
 				{
 					if ( m_indexBuffer->Activate() )
 					{
-						GetOpenGl()->DrawElements( GL_TRIANGLES, gl::IndexBuffer::Size, GL_UNSIGNED_INT, 0 );
+						GetOpenGl().DrawElements( GL_TRIANGLES, gl::IndexBuffer::Size, GL_UNSIGNED_INT, 0 );
 						m_indexBuffer->Deactivate();
 					}
 				}
 				else
 				{
-					GetOpenGl()->DrawArrays( GL_TRIANGLES, 0, int( m_vertexBuffer->GetBuffer().size() ) );
+					GetOpenGl().DrawArrays( GL_TRIANGLES, 0, int( m_vertexBuffer.GetBuffer().size() ) );
 				}
 
-				m_vertexBuffer->Deactivate();
+				m_vertexBuffer.Deactivate();
 			}
 		}
 
@@ -121,7 +121,16 @@ namespace ProceduralTextures
 		@return
 			The buffer
 		 */
-		std::shared_ptr< gl::TVertexBuffer< PosType > > GetVertexBuffer()const
+		gl::TVertexBuffer< PosType > const & GetVertexBuffer()const
+		{
+			return m_vertexBuffer;
+		}
+
+		/** Retrieves the vertex buffer
+		@return
+			The buffer
+		 */
+		gl::TVertexBuffer< PosType > & GetVertexBuffer()
 		{
 			return m_vertexBuffer;
 		}
@@ -130,16 +139,25 @@ namespace ProceduralTextures
 		@return
 			The buffer
 		 */
-		std::shared_ptr< gl::IndexBuffer > GetIndexBuffer()const
+		gl::IndexBuffer const & GetIndexBuffer()const
+		{
+			return m_indexBuffer;
+		}
+
+		/** Retrieves the index buffer
+		@return
+			The buffer
+		 */
+		gl::IndexBuffer & GetIndexBuffer()
 		{
 			return m_indexBuffer;
 		}
 
 	private:
 		//! The vertex buffer
-		std::shared_ptr< gl::TVertexBuffer< PosType > > m_vertexBuffer;
+		gl::TVertexBuffer< PosType > m_vertexBuffer;
 		//! The index buffer
-		std::shared_ptr< gl::IndexBuffer > m_indexBuffer;
+		std::unique_ptr< gl::IndexBuffer > m_indexBuffer;
 	};
 }
 

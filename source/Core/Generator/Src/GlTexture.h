@@ -43,7 +43,7 @@ namespace gl
 		@param[in] p_openGl
 			The OpenGL instance
 		 */
-		Texture( std::shared_ptr< OpenGl > p_openGl );
+		Texture( OpenGl & p_openGl );
 
 		/** Destructor
 		 */

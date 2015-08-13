@@ -11,7 +11,7 @@ namespace ProceduralTextures
 {
 	namespace gl
 	{
-		bool CheckGlError( OpenGl & p_gl, String const & p_strMsg )
+		bool CheckGlError( OpenGl const & p_gl, String const & p_strMsg )
 		{
 			static const std::string l_strErrors[] =
 			{
@@ -203,7 +203,7 @@ namespace ProceduralTextures
 			m_pfnBlendFuncSeparate = NULL;
 		}
 
-		GLenum OpenGl::GetError()
+		GLenum OpenGl::GetError()const
 		{
 			return m_pfnGetError();
 		}
@@ -274,7 +274,7 @@ namespace ProceduralTextures
 			return glCheckError( "glDeleteTextures" );
 		}
 
-		bool OpenGl::IsTexture( GLuint texture )
+		bool OpenGl::IsTexture( GLuint texture )const
 		{
 			bool l_return = m_pfnIsTexture( texture ) == GL_TRUE;
 			return glCheckError( "glIsTexture" ) && l_return;
@@ -322,7 +322,7 @@ namespace ProceduralTextures
 			return glCheckError( "glTexParameteri" );
 		}
 
-		bool OpenGl::GetTexImage( GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img )
+		bool OpenGl::GetTexImage( GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img )const
 		{
 			m_pfnGetTexImage( target, level, format, type, img );
 			return glCheckError( "glGetTexImage" );
@@ -334,7 +334,7 @@ namespace ProceduralTextures
 			return glCheckError( "glReadBuffer" );
 		}
 
-		bool OpenGl::ReadPixels( GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels )
+		bool OpenGl::ReadPixels( GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels )const
 		{
 			m_pfnReadPixels( x, y, width, height, format, type, pixels );
 			return glCheckError( "glReadPixels" );
@@ -358,7 +358,7 @@ namespace ProceduralTextures
 			return glCheckError( "glDeleteBuffers" );
 		}
 
-		bool OpenGl::IsBuffer( GLuint buffer )
+		bool OpenGl::IsBuffer( GLuint buffer )const
 		{
 			bool l_return = m_pfnIsBuffer( buffer ) == GL_TRUE;
 			return glCheckError( "glIsBuffer" ) && l_return;
@@ -412,7 +412,7 @@ namespace ProceduralTextures
 			return glCheckError( "glDeleteFramebuffers" );
 		}
 
-		bool OpenGl::IsFramebuffer( GLuint framebuffer )
+		bool OpenGl::IsFramebuffer( GLuint framebuffer )const
 		{
 			bool l_return = m_pfnIsFramebuffer( framebuffer ) == GL_TRUE;
 			return glCheckError( "glIsFramebuffer" ) && l_return;
@@ -430,7 +430,7 @@ namespace ProceduralTextures
 			return glCheckError( "glFramebufferTexture2D" );
 		}
 
-		GLenum OpenGl::CheckFramebufferStatus( GLenum target )
+		GLenum OpenGl::CheckFramebufferStatus( GLenum target )const
 		{
 			GLenum l_eReturn = m_pfnCheckFramebufferStatus( target );
 
@@ -442,7 +442,7 @@ namespace ProceduralTextures
 			return l_eReturn;
 		}
 
-		GLint OpenGl::GetUniformLocation( GLuint program, const GLchar * name )
+		GLint OpenGl::GetUniformLocation( GLuint program, const GLchar * name )const
 		{
 			GLint l_iReturn = m_pfnGetUniformLocation( program, name );
 
@@ -526,7 +526,7 @@ namespace ProceduralTextures
 			return glCheckError( "glDeleteShader" );
 		}
 
-		bool OpenGl::IsShader( GLuint shader )
+		bool OpenGl::IsShader( GLuint shader )const
 		{
 			bool l_return = m_pfnIsShader( shader ) == GL_TRUE;
 			return glCheckError( "glIsShader" ) && l_return;
@@ -550,13 +550,13 @@ namespace ProceduralTextures
 			return glCheckError( "glCompileShader" );
 		}
 
-		bool OpenGl::GetShaderParameter( GLuint shader, GLenum pname, GLint * param )
+		bool OpenGl::GetShaderParameter( GLuint shader, GLenum pname, GLint * param )const
 		{
 			m_pfnGetShaderiv( shader, pname, param );
 			return glCheckError( "glGetShaderiv" );
 		}
 
-		bool OpenGl::GetShaderInfoLog( GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * infoLog )
+		bool OpenGl::GetShaderInfoLog( GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * infoLog )const
 		{
 			m_pfnGetShaderInfoLog( shader, bufSize, length, infoLog );
 			return glCheckError( "glGetShaderInfoLog" );
@@ -586,7 +586,7 @@ namespace ProceduralTextures
 			return glCheckError( "glDeleteProgram" );
 		}
 
-		bool OpenGl::IsProgram( GLuint program )
+		bool OpenGl::IsProgram( GLuint program )const
 		{
 			bool l_return = m_pfnIsProgram( program ) == GL_TRUE;
 			return glCheckError( "glIsProgram" ) && l_return;
@@ -604,19 +604,19 @@ namespace ProceduralTextures
 			return glCheckError( "glUseProgram" );
 		}
 
-		bool OpenGl::GetProgramParameter( GLuint program, GLenum pname, GLint * param )
+		bool OpenGl::GetProgramParameter( GLuint program, GLenum pname, GLint * param )const
 		{
 			m_pfnGetProgramiv( program, pname, param );
 			return glCheckError( "glGetProgramiv" );
 		}
 
-		bool OpenGl::GetProgramInfoLog( GLuint program, GLsizei bufSize, GLsizei * length, GLchar * infoLog )
+		bool OpenGl::GetProgramInfoLog( GLuint program, GLsizei bufSize, GLsizei * length, GLchar * infoLog )const
 		{
 			m_pfnGetProgramInfoLog( program, bufSize, length, infoLog );
 			return glCheckError( "glGetProgramInfoLog" );
 		}
 
-		GLint OpenGl::GetAttribLocation( GLuint program, const GLchar * name )
+		GLint OpenGl::GetAttribLocation( GLuint program, const GLchar * name )const
 		{
 			GLint l_iReturn = m_pfnGetAttribLocation( program, name );
 

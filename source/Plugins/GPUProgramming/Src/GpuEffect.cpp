@@ -22,8 +22,8 @@ namespace GpuProgramming
 		_T( "	gl_Position = vec4( vertex, 0.0, 1.0 );\n" )
 		_T( "}\n" );
 
-	Effect::Effect( std::shared_ptr< gl::OpenGl > p_pOpenGl, int p_iWidth, int p_iHeight )
-		: gl::Holder( p_pOpenGl )
+	Effect::Effect( gl::OpenGl & p_openGl, int p_iWidth, int p_iHeight )
+		: gl::Holder( p_openGl )
 		, m_strVertexFile()
 		, m_strFragmentFile()
 		, m_bNewShader( false )

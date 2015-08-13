@@ -7,10 +7,10 @@ namespace GpuProgramming
 {
 	GpuStep::GpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize )
 		: ProceduralTextures::GpuStep( p_generator, p_size, p_bordersSize )
-		, m_frameBuffer1( std::make_shared< ProceduralTextures::gl::FrameBuffer >( m_openGl ) )
-		, m_frameBuffer2( std::make_shared< ProceduralTextures::gl::FrameBuffer >( m_openGl ) )
-		, m_texture1( std::make_shared< ProceduralTextures::gl::Texture >( m_openGl ) )
-		, m_texture2( std::make_shared< ProceduralTextures::gl::Texture >( m_openGl ) )
+		, m_frameBuffer1( std::make_shared< ProceduralTextures::gl::FrameBuffer >( *m_openGl ) )
+		, m_frameBuffer2( std::make_shared< ProceduralTextures::gl::FrameBuffer >( *m_openGl ) )
+		, m_texture1( std::make_shared< ProceduralTextures::gl::Texture >( *m_openGl ) )
+		, m_texture2( std::make_shared< ProceduralTextures::gl::Texture >( *m_openGl ) )
 	{
 		m_itSelectedEffect = m_arrayEffects.end();
 		m_texture2->Resize( p_size );
@@ -40,7 +40,7 @@ namespace GpuProgramming
 
 	void GpuStep::AddEffect()
 	{
-		m_arrayEffects.push_back( std::make_unique< Effect >( m_openGl, m_sizeImage.x(), m_sizeImage.y() ) );
+		m_arrayEffects.push_back( std::make_unique< Effect >( *m_openGl, m_sizeImage.x(), m_sizeImage.y() ) );
 		m_itSelectedEffect = m_arrayEffects.end();
 	}
 

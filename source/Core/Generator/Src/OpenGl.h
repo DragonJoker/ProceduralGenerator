@@ -47,7 +47,7 @@ namespace ProceduralTextures
 {
 	namespace gl
 	{
-		bool CheckGlError( OpenGl & p_gl, String const & p_strMsg );
+		bool CheckGlError( OpenGl const & p_gl, String const & p_strMsg );
 
 		/*!
 		@author
@@ -98,7 +98,7 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetError.xml
 			 */
-			unsigned int GetError();
+			unsigned int GetError()const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glClearColor.xml
 			 */
@@ -150,7 +150,7 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glIsTexture.xml
 			 */
-			bool IsTexture( unsigned int texture );
+			bool IsTexture( unsigned int texture )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGenerateMipmap.xml
 			 */
@@ -182,7 +182,7 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetTexImage.xml
 			 */
-			bool GetTexImage( unsigned int target, int level, unsigned int format, unsigned int type, void * img );
+			bool GetTexImage( unsigned int target, int level, unsigned int format, unsigned int type, void * img )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glReadBuffer.xml
 			 */
@@ -190,7 +190,7 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glReadPixels.xml
 			 */
-			bool ReadPixels( int x, int y, int width, int height, unsigned int format, unsigned int type, void * pixels );
+			bool ReadPixels( int x, int y, int width, int height, unsigned int format, unsigned int type, void * pixels )const;
 
 			//@}
 			/**@name Buffer objects functions */
@@ -210,7 +210,7 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glIsBuffer.xml
 			 */
-			bool IsBuffer( unsigned int buffer );
+			bool IsBuffer( unsigned int buffer )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glBufferData.xml
 			 */
@@ -246,7 +246,7 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glIsFramebuffer.xml
 			 */
-			bool IsFramebuffer( unsigned int framebuffer );
+			bool IsFramebuffer( unsigned int framebuffer )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glBindFramebuffer.xml
 			 */
@@ -258,7 +258,7 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glCheckFramebufferStatus.xml
 			 */
-			unsigned int CheckFramebufferStatus( unsigned int target );
+			unsigned int CheckFramebufferStatus( unsigned int target )const;
 
 			//@}
 			/**@name Uniform variable Functions */
@@ -266,7 +266,7 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetUniformLocation.xml
 			 */
-			int GetUniformLocation( unsigned int program, const char * name );
+			int GetUniformLocation( unsigned int program, const char * name )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glUniform.xml
 			 */
@@ -318,7 +318,7 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glIsShader.xml
 			 */
-			bool IsShader( unsigned int shader );
+			bool IsShader( unsigned int shader )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glAttachShader.xml
 			 */
@@ -334,11 +334,11 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/html/glGetShader.xhtml
 			 */
-			bool GetShaderParameter( unsigned int shader, unsigned int pname, int * param );
+			bool GetShaderParameter( unsigned int shader, unsigned int pname, int * param )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetShaderInfoLog.xml
 			 */
-			bool GetShaderInfoLog( unsigned int shader, int bufSize, int * length, char * infoLog );
+			bool GetShaderInfoLog( unsigned int shader, int bufSize, int * length, char * infoLog )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glShaderSource.xml
 			 */
@@ -358,7 +358,7 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glIsProgram.xml
 			 */
-			bool IsProgram( unsigned int program );
+			bool IsProgram( unsigned int program )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glLinkProgram.xml
 			 */
@@ -370,15 +370,15 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/html/glGetProgram.xhtml
 			 */
-			bool GetProgramParameter( unsigned int program, unsigned int pname, int * param );
+			bool GetProgramParameter( unsigned int program, unsigned int pname, int * param )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetProgramInfoLog.xml
 			 */
-			bool GetProgramInfoLog( unsigned int program, int bufSize, int * length, char * infoLog );
+			bool GetProgramInfoLog( unsigned int program, int bufSize, int * length, char * infoLog )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetAttribLocation.xml
 			 */
-			int GetAttribLocation( unsigned int program, const char * name );
+			int GetAttribLocation( unsigned int program, const char * name )const;
 
 			//@}
 			/**@name Vertex Attribute Pointer functions */

@@ -10,12 +10,12 @@ namespace ProceduralTextures
 {
 	namespace gl
 	{
-		FrameBuffer::FrameBuffer( std::shared_ptr< OpenGl > p_pOpenGl )
-			: Object( p_pOpenGl,
-					  std::bind( &OpenGl::GenFramebuffers, p_pOpenGl, std::placeholders::_1, std::placeholders::_2 ),
-					  std::bind( &OpenGl::DeleteFramebuffers, p_pOpenGl, std::placeholders::_1, std::placeholders::_2 ),
-					  std::bind( &OpenGl::IsFramebuffer, p_pOpenGl, std::placeholders::_1 ),
-					  std::bind( &OpenGl::BindFramebuffer, p_pOpenGl, GL_FRAMEBUFFER, std::placeholders::_1 )
+		FrameBuffer::FrameBuffer( OpenGl & p_openGl )
+			: Object( p_openGl,
+					  std::bind( &OpenGl::GenFramebuffers, std::ref( p_openGl ), std::placeholders::_1, std::placeholders::_2 ),
+					  std::bind( &OpenGl::DeleteFramebuffers, std::ref( p_openGl ), std::placeholders::_1, std::placeholders::_2 ),
+					  std::bind( &OpenGl::IsFramebuffer, std::ref( p_openGl ), std::placeholders::_1 ),
+					  std::bind( &OpenGl::BindFramebuffer, std::ref( p_openGl ), GL_FRAMEBUFFER, std::placeholders::_1 )
 					)
 			, m_bInitialised( false )
 		{
@@ -34,10 +34,10 @@ namespace ProceduralTextures
 
 				for ( auto l_pair : m_mapAttachments )
 				{
-					GetOpenGl()->FramebufferTexture2D( GL_FRAMEBUFFER, l_pair.first, GL_TEXTURE_2D, l_pair.second.lock()->GetGlName(), 0 );
+					GetOpenGl().FramebufferTexture2D( GL_FRAMEBUFFER, l_pair.first, GL_TEXTURE_2D, l_pair.second.lock()->GetGlName(), 0 );
 				}
 
-				GLenum l_eStatus = GetOpenGl()->CheckFramebufferStatus( GL_FRAMEBUFFER );
+				GLenum l_eStatus = GetOpenGl().CheckFramebufferStatus( GL_FRAMEBUFFER );
 				Unbind();
 				DoInitialisePbos();
 				m_bInitialised = ( l_eStatus == GL_FRAMEBUFFER_COMPLETE );
@@ -97,9 +97,9 @@ namespace ProceduralTextures
 		{
 			bool l_bReturn = false;
 
-			if ( GetOpenGl()->ReadBuffer( p_attachment ) )
+			if ( GetOpenGl().ReadBuffer( p_attachment ) )
 			{
-				l_bReturn = GetOpenGl()->ReadPixels( 0, 0, m_sizeImage.x(), m_sizeImage.y(), GL_RGBA, GL_UNSIGNED_BYTE, p_buffer.Ptr() );
+				l_bReturn = GetOpenGl().ReadPixels( 0, 0, m_sizeImage.x(), m_sizeImage.y(), GL_RGBA, GL_UNSIGNED_BYTE, p_buffer.Ptr() );
 			}
 
 			return l_bReturn;
@@ -109,7 +109,7 @@ namespace ProceduralTextures
 		{
 			bool l_bReturn = false;
 
-			if ( GetOpenGl()->ReadBuffer( p_attachment ) )
+			if ( GetOpenGl().ReadBuffer( p_attachment ) )
 			{
 				m_iCurrentDlPbo = ( m_iCurrentDlPbo + 1 ) % 2;
 				int l_nextDlPbo = ( m_iCurrentDlPbo + 1 ) % 2;
@@ -120,7 +120,7 @@ namespace ProceduralTextures
 				{
 					if ( pBufferOut->Activate() )
 					{
-						GetOpenGl()->ReadPixels( 0, 0, m_sizeImage.x(), m_sizeImage.y(), GL_RGBA, GL_UNSIGNED_BYTE, 0 );
+						GetOpenGl().ReadPixels( 0, 0, m_sizeImage.x(), m_sizeImage.y(), GL_RGBA, GL_UNSIGNED_BYTE, 0 );
 
 						if ( pBufferIn->Activate() )
 						{

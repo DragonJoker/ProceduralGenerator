@@ -45,6 +45,10 @@ namespace ProceduralTextures
 		{
 			l_text->SetHAlign( eHALIGN_RIGHT );
 		}
+		else
+		{
+			l_text->SetHAlign( eHALIGN_LEFT );
+		}
 
 		if ( m_style & eSTATIC_STYLE_VALIGN_CENTER )
 		{
@@ -54,9 +58,13 @@ namespace ProceduralTextures
 		{
 			l_text->SetVAlign( eVALIGN_BOTTOM );
 		}
+		else
+		{
+			l_text->SetVAlign( eVALIGN_TOP );
+		}
 
 		l_text->SetCaption( m_caption );
-		l_text->SetVisible( IsVisible() );
+		l_text->SetVisible( m_visible );
 		m_text = l_text;
 	}
 

@@ -15,10 +15,10 @@
 
 namespace ProceduralTextures
 {
-	TextOverlay::TextOverlay( std::shared_ptr< gl::OpenGl > p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent )
+	TextOverlay::TextOverlay( gl::OpenGl & p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent )
 		: Overlay( p_openGl, p_material, eOVERLAY_TYPE_TEXT, p_parent )
 		, m_wrappingMode( eTEXT_WRAPPING_MODE_NONE )
-		, m_glyphsTexture( std::make_shared< gl::Texture >( p_openGl ) )
+		, m_glyphsTexture( p_openGl )
 		, m_hAlign( eHALIGN_LEFT )
 		, m_vAlign( eVALIGN_CENTER )
 	{
@@ -26,7 +26,6 @@ namespace ProceduralTextures
 
 	TextOverlay::~TextOverlay()
 	{
-		m_glyphsTexture.reset();
 		m_wpFont.reset();
 	}
 
@@ -85,15 +84,15 @@ namespace ProceduralTextures
 			uint32_t l_glyphsYCount = uint32_t( std::ceil( std::distance( l_font->Begin(), l_font->End() ) / double( l_glyphsXCount ) ) );
 			Size l_sizeImg( l_uiMaxWidth * l_glyphsXCount, l_uiMaxHeight * l_glyphsYCount );
 
-			m_glyphsTexture->Create();
-			m_glyphsTexture->Initialise( l_sizeImg );
+			m_glyphsTexture.Create();
+			m_glyphsTexture.Initialise( l_sizeImg );
 
 			Font::GlyphMap::const_iterator l_it = l_font->Begin();
 			uint32_t l_uiTotalWidth = l_sizeImg.x();
 			uint32_t l_uiTotalHeight = l_sizeImg.y();
 			uint32_t l_uiOffY = l_uiTotalHeight - l_uiMaxHeight;
-			UbPixel * l_pBuffer = m_glyphsTexture->GetBuffer().Ptr();
-			size_t l_bufsize = m_glyphsTexture->GetBuffer().GetSize();
+			UbPixel * l_pBuffer = m_glyphsTexture.GetBuffer().Ptr();
+			size_t l_bufsize = m_glyphsTexture.GetBuffer().GetSize();
 
 			for ( uint32_t y = 0; y < l_glyphsYCount && l_it != l_font->End(); ++y )
 			{
@@ -121,19 +120,16 @@ namespace ProceduralTextures
 				l_uiOffY -= l_uiMaxHeight;
 			}
 
-			m_glyphsTexture->Bind();
-			m_glyphsTexture->UploadSync();
-			m_glyphsTexture->Unbind();
+			m_glyphsTexture.Bind();
+			m_glyphsTexture.UploadSync();
+			m_glyphsTexture.Unbind();
 		}
 	}
 
 	void TextOverlay::DoCleanup()
 	{
-		if ( m_glyphsTexture )
-		{
-			m_glyphsTexture->Cleanup();
-			m_glyphsTexture->Destroy();
-		}
+		m_glyphsTexture.Cleanup();
+		m_glyphsTexture.Destroy();
 	}
 
 	void TextOverlay::DoRender()
@@ -149,9 +145,9 @@ namespace ProceduralTextures
 
 			m_uniformTextTexture.lock()->SetValue( l_index );
 			m_material.Activate();
-			m_glyphsTexture->Activate( GL_TEXTURE0 + l_index );
-			m_geometryBuffers->Draw( m_material.GetVertexAttribute(), m_material.GetTextureAttribute() );
-			m_glyphsTexture->Deactivate( GL_TEXTURE0 + l_index );
+			m_glyphsTexture.Activate( GL_TEXTURE0 + l_index );
+			m_geometryBuffers.Draw( m_material.GetVertexAttribute(), m_material.GetTextureAttribute() );
+			m_glyphsTexture.Deactivate( GL_TEXTURE0 + l_index );
 			m_material.Deactivate();
 		}
 	}
@@ -250,7 +246,7 @@ namespace ProceduralTextures
 
 				if ( !l_arrayVtx.empty() )
 				{
-					m_geometryBuffers->GetVertexBuffer()->SetBuffer( l_arrayVtx );
+					m_geometryBuffers.GetVertexBuffer().SetBuffer( l_arrayVtx );
 				}
 			}
 		}
@@ -327,7 +323,7 @@ namespace ProceduralTextures
 				uint32_t l_width = l_charSize.x();
 				uint32_t l_height = l_charSize.y() - l_charCrop;
 				Position l_uvPosition = GetGlyphPosition( l_character );
-				Size l_texDim = m_glyphsTexture->GetBuffer().GetDimensions();
+				Size l_texDim = m_glyphsTexture.GetBuffer().GetDimensions();
 				double l_uvX = double( l_uvPosition.x() ) / l_texDim.x();
 				double l_uvY = double( l_uvPosition.y() ) / l_texDim.y();
 				double l_uvStepX = double( l_charSize.x() ) / l_texDim.y();
@@ -359,15 +355,11 @@ namespace ProceduralTextures
 	{
 		if ( m_hAlign != eHALIGN_LEFT )
 		{
-			int32_t l_offset = 0;
+			int32_t l_offset = p_width - p_lineWidth;
 
 			if ( m_hAlign == eHALIGN_CENTER )
 			{
-				l_offset = ( p_width - p_lineWidth ) / 2;
-			}
-			else
-			{
-				l_offset = p_width - p_lineWidth;
+				l_offset /= 2;
 			}
 
 			for ( auto && l_vertex : p_lineVtx )

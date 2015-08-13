@@ -42,7 +42,7 @@ namespace gl
 		@param[in] p_openGl
 			The OpenGL instance
 		 */
-		FrameBuffer( std::shared_ptr< OpenGl > p_openGl );
+		FrameBuffer( OpenGl & p_openGl );
 
 		/** Destructor
 		 */

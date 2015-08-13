@@ -26,7 +26,6 @@ namespace ShaderEffects
 			eID_COMPILE = 60,
 			eID_COMPILERLOG = 61,
 			eID_HELP_OPEN = 62,
-			eID_HELP_CLOSE = 63,
 		}	eID;
 	}
 
@@ -66,27 +65,45 @@ namespace ShaderEffects
 			_( "Shader 1" ),
 			_( "New..." ),
 		};
-		String l_helpText = _( "Vertex attributes filled by ProceduralGenerator:" ) + _T( "\n" )
-			+ _T( " - vertex: vec2 - \n    " ) + _( "Vertex position" ) + _T( "\n" )
-			+ _T( " - texture: vec2 - \n    " ) + _( "Vertex texture coordinates" ) + _T( "\n" )
-			+ _T( "\n" )
-			+ _( "Addiditonal uniform variables added by ProceduralGenerator:" ) + _T( "\n" )
-			+ _T( " - pg_width: int - \n    " ) + _( "Window width" ) + _T( "\n" )
-			+ _T( " - pg_height: int - \n    " ) + _( "Window height" ) + _T( "\n" )
-			+ _T( " - pg_time: int - \n    " ) + _( "Elapsed time, in ms" ) + _T( "\n" )
-			+ _T( " - pg_sep_type: int - \n    " ) + _( "Separation type" ) + _T( "\n" )
-			+ _T( "       0 =>" ) + _( "Not separated" ) + _T( "\n" )
-			+ _T( "       1 =>" ) + _( "Horizontally" ) + _T( "\n" )
-			+ _T( "       2 =>" ) + _( "Vertically" ) + _T( "\n" )
-			+ _T( " - pg_texture: sampler2D - \n    " ) + _( "Selected texture" ) + _T( "\n" );
+		StringStream l_helpText;
+		l_helpText << _( "Vertex attributes filled" ) << std::endl;
+		l_helpText << _T( " - vertex: vec2\n    " ) << _( "Vertex position" ) << std::endl;
+		l_helpText << std::endl;
+		l_helpText << _T( " - texture: vec2\n    " ) << _( "Vertex texture coordinates" ) << std::endl;
+		l_helpText << std::endl;
+		l_helpText << std::endl;
+		l_helpText << _( "Additional uniform variables" ) << std::endl;
+		l_helpText << _T( " - pg_width: int\n    " ) << _( "Window width" ) << std::endl;
+		l_helpText << std::endl;
+		l_helpText << _T( " - pg_height: int\n    " ) << _( "Window height" ) << std::endl;
+		l_helpText << std::endl;
+		l_helpText << _T( " - pg_time: int\n    " ) << _( "Elapsed time, in ms" ) << std::endl;
+		l_helpText << std::endl;
+		l_helpText << _T( " - pg_sep_type: int\n    " ) << _( "Separation type" ) << std::endl;
+		l_helpText << _T( "       0 =>" ) + _( "Not separated" ) << std::endl;
+		l_helpText << _T( "       1 =>" ) + _( "Horizontally" ) << std::endl;
+		l_helpText << _T( "       2 =>" ) + _( "Vertically" ) << std::endl;
+		l_helpText << std::endl;
+		l_helpText << _T( " - pg_sep_offset: int\n    " ) << _( "Separator position." ) << std::endl;
+		l_helpText << _T( "       0 <= position <= width" ) << std::endl;
+		l_helpText << std::endl;
+		l_helpText << _T( " - pg_texture: sampler2D\n    " ) << _( "Selected texture." ) << std::endl;
 
 		uint32_t l_index = 0;
+		int l_helpPanelWidth = 200;
+		int l_helpPanelHeight = 370;
 
 		m_buttonHelpOpen = std::make_shared< ButtonCtrl >( m_options, _( "PGEN GLSL Help" ), eID_HELP_OPEN, Position( 10, 10 + DEFAULT_HEIGHT * l_index++ ), Size( CONFIG_PANEL_WIDTH - 20, DEFAULT_HEIGHT ), 0, true );
 		m_buttonHelpOpen->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnHelpOpen, this ) );
-		m_panelHelp = std::make_shared< StaticCtrl >( nullptr, l_helpText, Position( CONFIG_PANEL_WIDTH, 0 ), Size( 200, CONFIG_PANEL_HEIGHT ), eSTATIC_STYLE_VALIGN_TOP | eSTATIC_STYLE_HALIGN_LEFT, false );
-		m_buttonHelpClose = std::make_shared< ButtonCtrl >( m_panelHelp, _( "X" ), eID_HELP_CLOSE, Position( CONFIG_PANEL_WIDTH - 30, 10 ), Size( 20, 20 ), 0, false );
-		m_buttonHelpClose->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnHelpClose, this ) );
+		m_panelHelp = std::make_shared< StaticCtrl >( nullptr, String(), Position( CONFIG_PANEL_WIDTH, 40 ), Size( l_helpPanelWidth, l_helpPanelHeight ), 0, false );
+		m_panelHelp->ConnectNC( eMOUSE_EVENT_MOUSE_BUTTON_RELEASED, std::bind( &Generator::OnHelpPanelClick, this, std::placeholders::_1, std::placeholders::_2 ) );
+		m_panelHelp->SetCatchesMouseEvents( true );
+		m_panelHelp->SetBackgroundColour( Colour( 0.0, 0.0, 0.0, 0.5 ) );
+		m_panelHelp->SetForegroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
+		m_panelHelp->SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
+		m_panelHelpText = std::make_shared< StaticCtrl >( m_panelHelp, l_helpText.str(), Position( 5, 5 ), Size( l_helpPanelWidth - 10, l_helpPanelHeight - 10 ), eSTATIC_STYLE_VALIGN_TOP | eSTATIC_STYLE_HALIGN_LEFT );
+		m_panelHelpText->ConnectNC( eMOUSE_EVENT_MOUSE_BUTTON_RELEASED, std::bind( &Generator::OnHelpPanelClick, this, std::placeholders::_1, std::placeholders::_2 ) );
+		m_panelHelpText->SetCatchesMouseEvents( true );
 
 		m_buttonImage = std::make_shared< ButtonCtrl >( m_options, _( "Image" ), eID_IMAGEPATH, Position( 10, 10 + DEFAULT_HEIGHT * l_index++ ), Size( CONFIG_PANEL_WIDTH -  20, DEFAULT_HEIGHT ) );
 		m_buttonImage->Connect( eBUTTON_EVENT_CLICKED, std::bind( &Generator::OnImage, this ) );
@@ -114,7 +131,7 @@ namespace ShaderEffects
 
 		m_arrayControls.push_back( m_buttonHelpOpen );
 		m_arrayControls.push_back( m_panelHelp );
-		m_arrayControls.push_back( m_buttonHelpClose );
+		m_arrayControls.push_back( m_panelHelpText );
 		m_arrayControls.push_back( m_buttonImage );
 		m_arrayControls.push_back( m_staticSeparator );
 		m_arrayControls.push_back( m_comboSeparator );
@@ -274,15 +291,27 @@ namespace ShaderEffects
 		}
 	}
 
+	void Generator::DoSwitchVisibility()
+	{
+		ProceduralTextures::GeneratorBase::DoSwitchVisibility();
+		m_panelHelp->Hide();
+	}
+
 	void Generator::OnHelpOpen()
 	{
-		m_panelHelp->Show();
-		m_buttonHelpClose->Show();
+		m_panelHelp->SetVisible( !m_panelHelp->IsVisible() );
 	}
 
 	void Generator::OnHelpClose()
 	{
-		m_buttonHelpClose->Hide();
 		m_panelHelp->Hide();
+	}
+
+	void Generator::OnHelpPanelClick( std::shared_ptr< ProceduralTextures::Control > p_static, ProceduralTextures::MouseEvent const & p_event )
+	{
+		if ( p_event.GetMouseEventType() == ProceduralTextures::eMOUSE_EVENT_MOUSE_BUTTON_RELEASED && ( p_static == m_panelHelpText || p_static == m_panelHelp ) )
+		{
+			m_panelHelp->Hide();
+		}
 	}
 }
