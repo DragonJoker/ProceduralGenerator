@@ -2,11 +2,9 @@
 
 #include <random>
 
-using namespace ProceduralTextures;
-
 namespace ColoredLifeGame
 {
-	Thread::Thread( std::shared_ptr< CpuStepBase > p_pParent, size_t p_uiIndex, int iWidth, int iTop, int iBottom, int iTotalHeight )
+	Thread::Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_pParent, size_t p_uiIndex, int iWidth, int iTop, int iBottom, int iTotalHeight )
 		: ProceduralTextures::Thread( p_pParent, p_uiIndex, iWidth, iTop, iBottom, iTotalHeight )
 		, m_pxColour( 255, 255, 255, 255 )
 	{
@@ -20,8 +18,8 @@ namespace ColoredLifeGame
 	{
 		CellBuffer & l_cellsBuffer = *m_cells.lock();
 		CellBuffer & l_oldCellsBuffer = *m_oldCells.lock();
-		DynPoint< Cell > * l_cells = &l_cellsBuffer[m_iTop];
-		DynPoint< Cell > * l_oldCells = &l_oldCellsBuffer[m_iTop];
+		ProceduralTextures::DynPoint< Cell > * l_cells = &l_cellsBuffer[m_iTop];
+		ProceduralTextures::DynPoint< Cell > * l_oldCells = &l_oldCellsBuffer[m_iTop];
 
 		for ( int y = m_iTop; y < m_iBottom; y++ )
 		{
@@ -56,13 +54,13 @@ namespace ColoredLifeGame
 
 	//*************************************************************************************************
 
-	CpuStep::CpuStep( std::shared_ptr< GeneratorBase > p_generator, Size const & p_size )
+	CpuStep::CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size )
 		: ProceduralTextures::CpuStep< Thread >( p_generator, p_size )
 		, m_oldCells( std::make_shared< CellBuffer >( p_size ) )
 		, m_cells( std::make_shared< CellBuffer >( p_size ) )
 		, m_alivePixel( 0, 0, 0, 255 )
 		, m_deadPixel( 255, 255, 255, 255 )
-		, m_previousBuffer( std::make_shared< PixelBuffer >( p_size ) )
+		, m_previousBuffer( std::make_shared< ProceduralTextures::PixelBuffer >( p_size ) )
 	{
 		m_stepPixel.r = abs( int( static_cast< unsigned int >( m_deadPixel.r ) + 1 - static_cast< unsigned int >( m_alivePixel.r ) ) >> 4 );
 		m_stepPixel.g = abs( int( static_cast< unsigned int >( m_deadPixel.g ) + 1 - static_cast< unsigned int >( m_alivePixel.g ) ) >> 4 );

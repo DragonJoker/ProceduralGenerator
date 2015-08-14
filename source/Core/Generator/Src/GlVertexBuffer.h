@@ -47,7 +47,7 @@ namespace gl
 			The OpenGL instance
 		@param[in] p_mode
 			The buffer access mode
-		 */
+		*/
 		TVertexBuffer( OpenGl & p_openGl, uint32_t p_mode )
 			: BufferObject( p_openGl, GL_ARRAY_BUFFER, p_mode )
 			, m_buffer( 4 * ( 2 * sizeof( PosType ) + 2 * sizeof( float ) ) )
@@ -74,7 +74,7 @@ namespace gl
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~TVertexBuffer()
 		{
 		}
@@ -82,7 +82,7 @@ namespace gl
 		/** Initialises the buffer
 		@return
 			true if it is successfully initialised
-		 */
+		*/
 		virtual bool Initialise()
 		{
 			bool l_return = Create();
@@ -109,7 +109,7 @@ namespace gl
 			The "texture" attribute location
 		@return
 			true if the VBO and all its attributes are successfully activated
-		 */
+		*/
 		virtual bool Activate( uint32_t p_vertex, uint32_t p_texture )
 		{
 			GLsizei l_iStride = GLsizei( m_arrayVertex[0].GetStride() );
@@ -137,7 +137,7 @@ namespace gl
 		}
 
 		/** Deactivates the buffer
-		 */
+		*/
 		virtual void Deactivate()
 		{
 			GetOpenGl().DisableVertexAttribArray( 0 );
@@ -148,7 +148,7 @@ namespace gl
 		/** Sets the vertices buffer
 		@param[in] p_buffer
 			The buffer
-		 */
+		*/
 		void SetBuffer( std::vector< TVertex< PosType > > const & p_buffer )
 		{
 			m_arrayVertex.clear();
@@ -170,7 +170,7 @@ namespace gl
 		/** Retrieves the vertices buffer
 		@return
 			The buffer
-		 */
+		*/
 		std::vector< TVertex< PosType > > const & GetBuffer()const
 		{
 			return m_arrayVertex;
@@ -180,7 +180,7 @@ namespace gl
 		/** Dummy
 		@return
 			false
-		 */
+		*/
 		virtual bool Activate()
 		{
 			return false;

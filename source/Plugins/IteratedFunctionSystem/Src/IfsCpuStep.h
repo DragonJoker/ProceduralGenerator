@@ -54,11 +54,13 @@ namespace IteratedFunctionSystem
 			The surface portion's bottom
 		@param[in] p_height
 			The surface height
-		 */
+		*/
 		Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_parent, size_t p_index, int p_width, int p_top, int p_bottom, int p_totalHeight );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~Thread();
+
 		/** Initialises the step thread, setting its cells, buffer, and generator
 		@param[in] p_mapCells
 			The cells map
@@ -66,31 +68,35 @@ namespace IteratedFunctionSystem
 			The buffer
 		@param[in] p_generator
 			The IFS generator
-		 */
+		*/
 		void Initialise( std::shared_ptr< CellMap > p_mapCells, std::weak_ptr< IfsGenerator > * p_generator );
+
 		/** Push the thread into the next generation (yeah!)
-		 */
+		*/
 		void NextGeneration();
+
 		/** Tells if the thread waits for a new generation
 		@return
 				The status
-		 */
+		*/
 		inline bool AwaitsNextGeneration()const
 		{
 			return m_nextGeneration;
 		}
+
 		/** Retrieves the cells on whiche the thread is working
 		@return
 				The status
-		 */
+		*/
 		inline std::shared_ptr< CellMap > GetCells()const
 		{
 			return m_mapCells.lock();
 		}
+
 		/** Retrieve the thread's generated cells, empties it
 		@return
 				The cellss
-		 */
+		*/
 		inline CellMap GetGeneratedCells()
 		{
 			CellMap l_return( m_mapGeneratedCells );
@@ -100,7 +106,7 @@ namespace IteratedFunctionSystem
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::Thread::DoStep
-		 */
+		*/
 		virtual void DoStep();
 
 	private:
@@ -117,6 +123,7 @@ namespace IteratedFunctionSystem
 		//! Tells that the step has ended this generation and waits for a new one
 		bool m_nextGeneration;
 	};
+
 	/*!
 	@author
 		Sylvain DOREMUS
@@ -134,55 +141,62 @@ namespace IteratedFunctionSystem
 			The parent generator
 		@param[in] p_size
 			The dimensions
-		 */
+		*/
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~CpuStep();
+
 		/** Retrieves the generator size
 		@return
 				The value
-		 */
+		*/
 		int GetGeneratorShift()const
 		{
 			return m_generator.lock()->GetShift();
 		}
+
 		/** Retrieves the generator angle
 		@return
 				The value
-		 */
+		*/
 		int GetGeneratorAngle()const
 		{
 			return m_generator.lock()->GetAngle();
 		}
+
 		/** Retrieves the generator shift
 		@return
 				The value
-		 */
+		*/
 		int GetGeneratorSize()const
 		{
 			return m_generator.lock()->GetSize();
 		}
+
 		/** Sets the generator size
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetGeneratorSize( int val )
 		{
 			m_generator.lock()->SetSize( val );
 		}
+
 		/** Sets the generator angle
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetGeneratorAngle( int val )
 		{
 			m_generator.lock()->SetAngle( val );
 		}
+
 		/** Sets the generator shift
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetGeneratorShift( int val )
 		{
 			m_generator.lock()->SetShift( val );
@@ -192,16 +206,19 @@ namespace IteratedFunctionSystem
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialiseStep
-		 */
+		*/
 		virtual void DoInitialiseStep();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialise
-		 */
+		*/
 		virtual void DoInitialise();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoCleanup
-		 */
+		*/
 		virtual void DoCleanup();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoSwapBuffers
-		 */
+		*/
 		virtual void DoSwapBuffers();
 
 	public:

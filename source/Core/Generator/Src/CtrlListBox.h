@@ -51,7 +51,7 @@ namespace ProceduralTextures
 			The style
 		@param[in] p_visible
 			Initial visibility status
-		 */
+		*/
 		ListBoxCtrl( std::shared_ptr< Control > p_parent, StringArray const & p_values, int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
 
 		/** Constructor
@@ -71,7 +71,7 @@ namespace ProceduralTextures
 			The style
 		@param[in] p_visible
 			Initial visibility status
-		 */
+		*/
 		template< size_t N >
 		ListBoxCtrl( std::shared_ptr< Control > p_parent, String const( & p_values )[N], int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true )
 			: Control( eCONTROL_TYPE_LIST, p_parent, p_id, p_position, p_size, p_style, p_visible )
@@ -81,31 +81,31 @@ namespace ProceduralTextures
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~ListBoxCtrl();
 
 		/** Sets the background colour for selected item
 		@param[in] p_colour
 			The new value
-		 */
+		*/
 		void SetSelectedBackgroundColour( Colour const & p_colour );
 
 		/** Sets the foreground colour for selected item
 		@param[in] p_colour
 			The new value
-		 */
+		*/
 		void SetSelectedForegroundColour( Colour const & p_colour );
 
 		/** Appends a new item
 		@param[in] p_value
 			The item
-		 */
+		*/
 		void AppendItem( String  const & p_value );
 
 		/** Removes an item
 		@param[in] p_index
 			The item index
-		 */
+		*/
 		void RemoveItem( int p_index );
 
 		/** Sets an item text
@@ -113,7 +113,7 @@ namespace ProceduralTextures
 			The item index
 		@param[in] p_text
 			The item text
-		 */
+		*/
 		void SetItemText( int p_index, String const & p_text );
 
 		/** Retrieves an item text
@@ -121,23 +121,23 @@ namespace ProceduralTextures
 			The item index
 		@return
 			The item text
-		 */
+		*/
 		String GetItemText( int p_index );
 
 		/** Clears the items
-		 */
+		*/
 		void Clear();
 
 		/** Sets the selected item
 		@param[in] p_index
 			The new value
-		 */
+		*/
 		void SetSelected( int p_index );
 
 		/** Retrieves the items
 		@return
 			The value
-		 */
+		*/
 		inline StringArray const & GetItems()const
 		{
 			return m_values;
@@ -146,7 +146,7 @@ namespace ProceduralTextures
 		/** Retrieves the items count
 		@return
 			The value
-		 */
+		*/
 		inline uint32_t GetItemCount()const
 		{
 			return uint32_t( m_values.size() );
@@ -155,7 +155,7 @@ namespace ProceduralTextures
 		/** Retrieves the selected item index
 		@return
 			The value
-		 */
+		*/
 		inline int GetSelected()const
 		{
 			return m_selected;
@@ -164,7 +164,7 @@ namespace ProceduralTextures
 		/** Retrieves the background colour for selected item
 		@return
 			The value
-		 */
+		*/
 		inline Colour const & GetSelectedBackgroundColour()const
 		{
 			return m_selectedBackgroundColour;
@@ -173,7 +173,7 @@ namespace ProceduralTextures
 		/** Retrieves the foreground colour for selected item
 		@return
 			The value
-		 */
+		*/
 		inline Colour const & GetSelectedForegroundColour()const
 		{
 			return m_selectedForegroundColour;
@@ -186,7 +186,7 @@ namespace ProceduralTextures
 			The function
 		@return
 			The internal function index, to be able to disconnect it
-		 */
+		*/
 		inline uint32_t Connect( eLISTBOX_EVENT p_event, std::function< void( int ) > p_function )
 		{
 			return m_signals[p_event].Connect( p_function );
@@ -197,7 +197,7 @@ namespace ProceduralTextures
 			The event type
 		@param[in] p_index
 			The function index
-		 */
+		*/
 		inline void Disconnect( eLISTBOX_EVENT p_event, uint32_t p_index )
 		{
 			m_signals[p_event].Disconnect( p_index );
@@ -211,39 +211,39 @@ namespace ProceduralTextures
 		void DoCreateItem( String const & p_value );
 
 		/** Recomputes the items positions, according to their position in the items array
-		 */
+		*/
 		void DoUpdateItems();
 
 		/** @copydoc ProceduralTextures::Control::DoCreate
-		 */
+		*/
 		virtual void DoCreate( std::shared_ptr< OverlayManager > p_manager );
 
 		/** @copydoc ProceduralTextures::Control::DoSetPosition
-		 */
+		*/
 		virtual void DoSetPosition( Position const & p_value );
 
 		/** @copydoc ProceduralTextures::Control::DoSetSize
-		 */
+		*/
 		virtual void DoSetSize( Size const & p_value );
 
 		/** @copydoc ProceduralTextures::Control::DoSetBackgroundColour
-		 */
+		*/
 		virtual void DoSetBackgroundColour( Colour const & p_colour );
 
 		/** @copydoc ProceduralTextures::Control::DoSetForegroundColour
-		 */
+		*/
 		virtual void DoSetForegroundColour( Colour const & p_colour );
 
 		/** @copydoc ProceduralTextures::Control::DoSetBackgroundTexture
-		 */
+		*/
 		virtual void DoSetBackgroundTexture( std::shared_ptr< gl::Texture > p_texture );
 
 		/** @copydoc ProceduralTextures::Control::DoSetForegroundTexture
-		 */
+		*/
 		virtual void DoSetForegroundTexture( std::shared_ptr< gl::Texture > p_texture );
 
 		/** @copydoc ProceduralTextures::Control::DoSetVisible
-		 */
+		*/
 		virtual void DoSetVisible( bool p_visible );
 
 		/** Event when mouse enters an item
@@ -251,7 +251,7 @@ namespace ProceduralTextures
 			The item
 		@param[in] p_event
 			The mouse event
-		 */
+		*/
 		void OnItemMouseEnter( std::shared_ptr< Control > p_control, MouseEvent const & p_event );
 
 		/** Event when mouse leaves an item
@@ -259,7 +259,7 @@ namespace ProceduralTextures
 			The item
 		@param[in] p_event
 			The mouse event
-		 */
+		*/
 		void OnItemMouseLeave( std::shared_ptr< Control > p_control, MouseEvent const & p_event );
 
 		/** Event when mouse left button is released on an item
@@ -267,19 +267,19 @@ namespace ProceduralTextures
 			The item
 		@param[in] p_event
 			The mouse event
-		 */
+		*/
 		void OnItemMouseLButtonUp( std::shared_ptr< Control > p_control, MouseEvent const & p_event );
 
 		/** Event when a keyboard key is pressed on the active tick or line control
 		@param[in] p_event
 			The keyboard event
-		 */
+		*/
 		void OnItemKeyDown( std::shared_ptr< Control > p_control, KeyboardEvent const & p_event );
 
 		/** Event when a keyboard key is pressed
 		@param[in] p_event
 			The keyboard event
-		 */
+		*/
 		void OnKeyDown( KeyboardEvent const & p_event );
 
 	private:

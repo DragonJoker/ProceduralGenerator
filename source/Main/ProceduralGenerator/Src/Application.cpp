@@ -41,7 +41,7 @@ namespace ProceduralGenerator
 
 	int Application::OnExit()
 	{
-		Translator::Cleanup();
+		Translator::Cleanup( _T( "ProceduralGenerator" ) );
 		return wxApp::OnExit();
 	}
 }

@@ -59,25 +59,25 @@ namespace ProceduralTextures
 			The surface portion's bottom
 		@param[in] p_iHeight
 			The surface height
-		 */
+		*/
 		Thread( std::shared_ptr< CpuStepBase > p_pParent, size_t p_uiIndex, int p_iWidth, int p_iTop, int p_iBottom, int p_iHeight );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Thread();
 
 		/** Launches the thread
-		 */
+		*/
 		void Run();
 
 		/** Stops the thread
-		 */
+		*/
 		void Stop();
 
 		/** Connects a function to the thread end signal
 		@param[in] p_function
 			The function to connect
-		 */
+		*/
 		template< typename Function >
 		void Connect( Function p_function )
 		{
@@ -85,7 +85,7 @@ namespace ProceduralTextures
 		}
 
 		/** Disconnects from the thread end signal
-		 */
+		*/
 		void Disconnect()
 		{
 			m_signalThreadEnd.Disconnect( m_threadEndIndex );
@@ -94,7 +94,7 @@ namespace ProceduralTextures
 		/** Tells the thread is stopped or not
 		@return
 			The stop status
-		 */
+		*/
 		inline bool IsStopped()const
 		{
 			return m_stopped;
@@ -103,14 +103,14 @@ namespace ProceduralTextures
 		/** Tells thread is launched or not
 		@return
 			The launch status
-		 */
+		*/
 		inline bool IsLaunched()const
 		{
 			return m_launched;
 		}
 
 		/** Launches the thread
-		 */
+		*/
 		inline void Launch()
 		{
 			m_launched = true;
@@ -118,7 +118,7 @@ namespace ProceduralTextures
 
 	protected:
 		/** The computing function
-		 */
+		*/
 		virtual void DoStep() = 0;
 
 	public:
@@ -172,63 +172,63 @@ namespace ProceduralTextures
 			The parent generator
 		@param[in] p_size
 			The computing surface dimensions
-		 */
+		*/
 		CpuStepBase( std::shared_ptr< GeneratorBase > p_generator, Size const & p_size );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~CpuStepBase();
 
 		/** Initialises the generator
-		 */
+		*/
 		void Initialise();
 
 		/** Cleans up the generator
-		 */
+		*/
 		void Cleanup();
 
 		/** Launches the thread
-		 */
+		*/
 		void Run();
 
 		/** Stops the thread
-		 */
+		*/
 		void Stop();
 
 		/** Swaps background and foreground buffers
-		 */
+		*/
 		void SwapBuffers();
 
 		/** Executes the computations
-		 */
+		*/
 		void Render();
 
 		/** Resize the generator computation dimensions
 		@param[in] p_iWidth, p_iHeight
 			The new dimensions
-		 */
+		*/
 		void Resize( int p_iWidth, int p_iHeight );
 
 		/** Resize the generator computation dimensions
 		@param[in] p_size
 			The new dimensions
-		 */
+		*/
 		void Resize( Size const & p_size );
 
 		/** Wakes the step thread
-		 */
+		*/
 		void Wake();
 
 		/** Waits for the step thread end
 		@param[in] p_timeout
 			The maximum time to wait for
-		 */
+		*/
 		void Wait( std::chrono::milliseconds p_timeout );
 
 		/** Tells if the generator is initialised
 		@return
 			The value
-		 */
+		*/
 		inline bool IsInitialised()const
 		{
 			return m_initialised;
@@ -237,7 +237,7 @@ namespace ProceduralTextures
 		/** Tells if the thread is stopped
 		@return
 			The value
-		 */
+		*/
 		inline bool IsStopped()const
 		{
 			return m_stopped;
@@ -246,7 +246,7 @@ namespace ProceduralTextures
 		/** Retrieves the computing image dimensions
 		@return
 			The value
-		 */
+		*/
 		inline Size const & GetImageSize()const
 		{
 			return m_sizeImage;
@@ -255,7 +255,7 @@ namespace ProceduralTextures
 		/** Retrieves the computing buffer
 		@return
 			The value
-		 */
+		*/
 		inline std::shared_ptr< PixelBuffer > GetBuffer()const
 		{
 			return m_finalBuffer;
@@ -264,42 +264,48 @@ namespace ProceduralTextures
 		/** Retrieves the CPU step duration
 		@return
 			The value
-		 */
+		*/
 		inline std::chrono::milliseconds const & GetTime()const
 		{
 			return m_time;
 		}
 
+		/** The thread end event callback function
+		@param[in] p_index
+			The thread index
+		*/
+		void OnThreadEnd( size_t p_index );
+
 	protected:
 		/** Thread specific step initialisation
-		 */
+		*/
 		virtual void DoInitialiseStep() = 0;
 
 		/** Clears the slave threads and the buffers
-		 */
+		*/
 		virtual void DoInitialise() = 0;
 
 		/** Clears the slave threads and the buffers
-		 */
+		*/
 		virtual void DoCleanup() = 0;
 
 		/** Swaps back and front buffers
-		 */
+		*/
 		virtual void DoSwapBuffers() = 0;
 
 		/** Launches the threads
-		 */
+		*/
 		virtual void DoThreadsStart() = 0;
 
 		/** Cleans the threads up
-		 */
+		*/
 		virtual void DoThreadsCleanup() = 0;
 
 	private:
 		/** Renders the frame : parallel execution of CPU and GPU steps
 		@param[in] p_swapFunction
 			The function used to swap OpenGL buffers
-		 */
+		*/
 		void DoStartRender();
 
 	protected:
@@ -362,14 +368,14 @@ namespace ProceduralTextures
 			The parent generator
 		@param[in] p_size
 			The computing surface dimensions
-		 */
+		*/
 		CpuStep( std::shared_ptr< GeneratorBase > p_generator, Size const & p_size )
 			: CpuStepBase( p_generator, p_size )
 		{
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~CpuStep()
 		{
 		}
@@ -382,16 +388,16 @@ namespace ProceduralTextures
 			The top of the image area processed by the thread
 		@param[in] iTotalHeight
 			The image total height
-		 */
+		*/
 		void DoCreateThread( int iTop, int iBottom, int iTotalHeight )
 		{
 			std::unique_ptr< TThread > l_pThread = std::make_unique< TThread >( this->shared_from_this(), m_workerThreads.size(), m_sizeImage.x(), iTop, iBottom, iTotalHeight );
-			l_pThread->Connect( std::bind( &CpuStep< TThread >::DoThreadEnd, this, std::placeholders::_1 ) );
+			l_pThread->Connect( std::bind( &CpuStepBase::OnThreadEnd, this, std::placeholders::_1 ) );
 			m_workerThreads.push_back( std::move( l_pThread ) );
 		}
 
 		/** @copydoc ProceduralTextures::CpuStepBase::DoThreadsStart
-		 */
+		*/
 		virtual void DoThreadsStart()
 		{
 			DoForEachThread( []( TThread & l_thread )
@@ -400,24 +406,8 @@ namespace ProceduralTextures
 			} );
 		}
 
-		/** The thread end event callback function
-		@param[in] p_index
-			The thread index
-		 */
-		void DoThreadEnd( size_t p_index )
-		{
-			m_endedThreadsCount++;
-
-			if ( m_endedThreadsCount >= m_endedThreadsCount )
-			{
-				std::unique_lock< std::mutex > l_lock( m_mutexEnd );
-				m_conditionEnd.notify_all();
-				m_time = std::chrono::duration_cast< std::chrono::milliseconds >( Clock::now() - m_startTime );
-			}
-		}
-
 		/** @copydoc ProceduralTextures::CpuStepBase::DoThreadsCleanup
-		 */
+		*/
 		virtual void DoThreadsCleanup()
 		{
 			std::unique_lock< std::mutex > l_lock( m_mutexThreads );
@@ -436,33 +426,35 @@ namespace ProceduralTextures
 		/** Applies a function to each thread
 		@param[in] p_function
 			The function to apply
-		 */
+		*/
 		void DoForEachThread( std::function< void( TThread & ) > p_function )
 		{
 			std::unique_lock< std::mutex > l_lock( m_mutexThreads );
-			std::for_each( m_workerThreads.begin(), m_workerThreads.end(), [&p_function]( std::unique_ptr< TThread > & l_thread )
+
+			for ( auto && l_thread: m_workerThreads )
 			{
 				p_function( *l_thread );
-			} );
+			}
 		}
 
 		/** Applies a function to each thread
 		@param[in] p_function
 			The function to apply
-		 */
+		*/
 		void DoForEachThread( std::function< void( TThread const & ) > p_function )const
 		{
 			std::unique_lock< std::mutex > l_lock( m_mutexThreads );
-			std::for_each( m_workerThreads.begin(), m_workerThreads.end(), [&p_function]( std::unique_ptr< TThread > const & l_thread )
+
+			for ( auto && l_thread: m_workerThreads )
 			{
 				p_function( *l_thread );
-			} );
+			}
 		}
 
 		/** Applies a function to one thread
 		@param[in] p_function
 			The function to apply
-		 */
+		*/
 		template< typename R >
 		R DoForOneThread( size_t p_index, std::function< R( TThread & ) > p_function )
 		{
@@ -473,7 +465,7 @@ namespace ProceduralTextures
 		/** Applies a function to one thread
 		@param[in] p_function
 			The function to apply
-		 */
+		*/
 		template< typename R >
 		R DoForOneThread( size_t p_index, std::function< R( TThread const & ) > p_function )const
 		{
@@ -507,30 +499,30 @@ namespace ProceduralTextures
 			The parent generator
 		@param[in] p_size
 			The dimensions
-		 */
+		*/
 		DefaultCpuStep( std::shared_ptr< GeneratorBase > p_generator, Size const & p_size );
 		/** Destructor
-		 */
+		*/
 		virtual ~DefaultCpuStep();
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialiseStep
-		 */
+		*/
 		virtual void DoInitialiseStep();
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialise
-		 */
+		*/
 		virtual void DoInitialise();
 		/** @copydoc ProceduralTexture::CpuStep::DoCleanup
-		 */
+		*/
 		virtual void DoCleanup();
 		/** @copydoc ProceduralTexture::CpuStep::DoSwapBuffers
-		 */
+		*/
 		virtual void DoSwapBuffers();
 		/** Launches the threads
-		 */
+		*/
 		virtual void DoThreadsStart();
 		/** Cleans the threads up
-		 */
+		*/
 		virtual void DoThreadsCleanup();
 	};
 }

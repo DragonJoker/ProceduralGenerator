@@ -54,36 +54,36 @@ namespace DiffusionLimitedAggregation
 
 	public:
 		/** Constructor
-		 */
+		*/
 		Generator();
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Generator();
 
 	private:
 		/** @copydoc ProceduralTexture::Generator::DoCreate
-		 */
+		*/
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
 
 		/** @copydoc ProceduralTexture::Generator::DoDestroy
-		 */
+		*/
 		virtual void DoDestroy();
 
 		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
-		 */
+		*/
 		virtual void DoGeneratePanel();
 
 		/** Sets the minimal value a cell must have to be considered 'white'
 		@param[in] val
 			The new value
-		 */
+		*/
 		void DoSetMinValue( int p_value );
 
 		/** Sets the 'white' cells count at which the generation stops
 		@param[in] val
 			The new value
-		 */
+		*/
 		void DoSetMass( int p_value );
 
 	private:

@@ -64,7 +64,7 @@ namespace ProceduralTextures
 			Tells if the Alt key is down
 		@param[in] p_shift
 			Tells if the Shift key is down
-		 */
+		*/
 		KeyboardEvent( eKEYBOARD_EVENT p_type, eKEYBOARD_KEY p_key, bool p_ctrl, bool p_alt, bool p_shift )
 			: Event( eEVENT_TYPE_KEYBOARD )
 			, m_keyboardEventType( p_type )
@@ -88,7 +88,7 @@ namespace ProceduralTextures
 			Tells if the Alt key is down
 		@param[in] p_shift
 			Tells if the Shift key is down
-		 */
+		*/
 		KeyboardEvent( eKEYBOARD_EVENT p_type, eKEYBOARD_KEY p_key, String const & p_char, bool p_ctrl, bool p_alt, bool p_shift )
 			: Event( eEVENT_TYPE_KEYBOARD )
 			, m_keyboardEventType( p_type )
@@ -101,7 +101,7 @@ namespace ProceduralTextures
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~KeyboardEvent()
 		{
 		}
@@ -109,7 +109,7 @@ namespace ProceduralTextures
 		/** Retrieves the event type
 		@return
 				The type
-		 */
+		*/
 		inline eKEYBOARD_EVENT GetKeyboardEventType()const
 		{
 			return m_keyboardEventType;
@@ -118,7 +118,7 @@ namespace ProceduralTextures
 		/** Retrieves the key code
 		@return
 				The key
-		 */
+		*/
 		inline eKEYBOARD_KEY GetKey()const
 		{
 			return m_key;
@@ -127,7 +127,7 @@ namespace ProceduralTextures
 		/** Retrieves the character
 		@return
 				The key
-		 */
+		*/
 		inline String const & GetChar()const
 		{
 			return m_char;
@@ -136,7 +136,7 @@ namespace ProceduralTextures
 		/** Tells if the Ctrl key is down
 		@return
 				The status
-		 */
+		*/
 		inline bool IsCtrlDown()const
 		{
 			return m_ctrl;
@@ -145,7 +145,7 @@ namespace ProceduralTextures
 		/** Tells if the Alt key is down
 		@return
 				The status
-		 */
+		*/
 		inline bool IsAltDown()const
 		{
 			return m_alt;
@@ -154,7 +154,7 @@ namespace ProceduralTextures
 		/** Tells if the Shift key is down
 		@return
 				The status
-		 */
+		*/
 		inline bool IsShiftDown()const
 		{
 			return m_shift;

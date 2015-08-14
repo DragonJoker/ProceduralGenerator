@@ -56,14 +56,14 @@ namespace ProceduralTextures
 		/** Constructor
 		@param[in] p_type
 			The event type
-		 */
+		*/
 		Event( eEVENT_TYPE p_type )
 			: m_eventType( p_type )
 		{
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Event()
 		{
 		}
@@ -71,7 +71,7 @@ namespace ProceduralTextures
 		/** Retrieves the event type
 		@return
 				The type
-		 */
+		*/
 		inline eEVENT_TYPE GetEventType()const
 		{
 			return m_eventType;

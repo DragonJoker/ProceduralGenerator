@@ -29,6 +29,7 @@ namespace Voronoi2D
 	typedef std::map< int, int > IntIntMap;
 	typedef std::map< int, IntSet > IntSetIntMap;
 	typedef std::map< int, IntIntMap > IntIntMapIntMap;
+
 	/*!
 	@author
 		Sylvain DOREMUS
@@ -46,6 +47,7 @@ namespace Voronoi2D
 		eDISTANCE_FUNC_CHEBYCHEV,
 		eDISTANCE_FUNC_COUNT,
 	}	eDISTANCE_FUNC;
+
 	/*!
 	@author
 		Sylvain DOREMUS
@@ -74,11 +76,13 @@ namespace Voronoi2D
 			The surface portion's bottom
 		@param[in] p_height
 			The surface height
-		 */
+		*/
 		Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_parent, size_t p_index, int p_width, int p_top, int p_bottom, int p_totalHeight );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~Thread();
+
 		/** Sets the buffers, seeds, heights and colours
 		@param[in] p_pBackBuffer
 			The buffer
@@ -96,55 +100,62 @@ namespace Voronoi2D
 			The maximum neighbours
 		@param[in] p_dMkOrder
 			The minkowski distance function order
-		 */
+		*/
 		void Initialise( std::shared_ptr< ProceduralTextures::PixelBuffer > p_pBackBuffer, std::shared_ptr< IntSetIntMap > p_pSeeds, std::shared_ptr< IntIntMapIntMap > p_pHeights, std::shared_ptr< ColourArray > p_pArrayColours, std::shared_ptr< ColourArray > p_pArrayStepColours, eDISTANCE_FUNC p_eTypeDistance, int p_iMaxDepth, int p_iMaxNeighbours, double p_dMkOrder );
+
 		/** Computes a colour for given position
 		@param[in] x,
 			y	The position
 		@param[out] p_px
 			Receives the position
-		 */
+		*/
 		void ComputeColour( int x, int y, ProceduralTextures::UbPixel & p_px );
+
 		/** Retrieves the Euclidian length between two points
 		@param[in] p_ptA,
 			p_ptB	The points
 		@return
 				The length
-		 */
+		*/
 		int EuclidianLength( ProceduralTextures::Position const & p_ptA, ProceduralTextures::Position const & p_ptB );
+
 		/** Retrieves the squared Euclidian length between two points
 		@param[in] p_ptA,
 			p_ptB	The points
 		@return
 				The length
-		 */
+		*/
 		int SquaredEuclidianLength( ProceduralTextures::Position const & p_ptA, ProceduralTextures::Position const & p_ptB );
+
 		/** Retrieves the Manhattan length between two points
 		@param[in] p_ptA,
 			p_ptB	The points
 		@return
 				The length
-		 */
+		*/
 		int ManhattanLength( ProceduralTextures::Position const & p_ptA, ProceduralTextures::Position const & p_ptB );
+
 		/** Retrieves the Minkowski length between two points
 		@param[in] p_ptA,
 			p_ptB	The points
 		@return
 				The length
-		 */
+		*/
 		int MinkowskiLength( ProceduralTextures::Position const & p_ptA, ProceduralTextures::Position const & p_ptB );
+
 		/** Retrieves the Chebychev length between two points
 		@param[in] p_ptA,
 			p_ptB	The points
 		@return
 				The length
-		 */
+		*/
 		int ChebychevLength( ProceduralTextures::Position const & p_ptA, ProceduralTextures::Position const & p_ptB );
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::Thread::DoStep
-		 */
+		*/
 		virtual void DoStep();
+
 		/** Retrieves the distance between each seed and the given position
 		@param[in] p_position
 			The position
@@ -154,7 +165,7 @@ namespace Voronoi2D
 			The heights
 		@return
 				The lengths
-		 */
+		*/
 		IntIntMap DoComputeDistance( ProceduralTextures::Position const p_position, std::shared_ptr< IntSetIntMap > p_seeds, IntIntMapIntMap & p_heights );
 
 	private:
@@ -187,6 +198,7 @@ namespace Voronoi2D
 		//! Tells the workers job is ended
 		bool m_computed;
 	};
+
 	/*!
 	@author
 		Sylvain DOREMUS
@@ -204,62 +216,72 @@ namespace Voronoi2D
 			The parent generator
 		@param[in] p_size
 			The dimensions
-		 */
+		*/
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~CpuStep();
+
 		/** Sets the maximum depth
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetMaxDepth( int p_value );
+
 		/** Sets the maximum neighbours
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetMaxNeighbours( int p_value );
+
 		/** Sets the distance function
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetTypeDistance( eDISTANCE_FUNC p_value );
+
 		/** Sets the Minkowski function order
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetMinkowskiOrder( double p_value );
+
 		/** Generates the threads
-		 */
+		*/
 		void Generate();
+
 		/** Retrieves the maximum depth
 		@return
 				The value
-		 */
+		*/
 		inline int GetMaxDepth()const
 		{
 			return m_maxDepth;
 		}
+
 		/** Retrieves the maximum depth
 		@return
 				The value
-		 */
+		*/
 		inline int GetMaxNeighbours()const
 		{
 			return m_maxNeighbours;
 		}
+
 		/** Retrieves the distance function
 		@return
 				The value
-		 */
+		*/
 		inline eDISTANCE_FUNC GetTypeDistance()const
 		{
 			return m_distanceType;
 		}
+
 		/** Retrieves the Minkowski function order
 		@return
 				The value
-		 */
+		*/
 		inline double GetMinkowskiOrder()const
 		{
 			return m_minkowskiOrder;
@@ -267,16 +289,19 @@ namespace Voronoi2D
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialiseStep
-		 */
+		*/
 		virtual void DoInitialiseStep();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialise
-		 */
+		*/
 		virtual void DoInitialise();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoCleanup
-		 */
+		*/
 		virtual void DoCleanup();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoSwapBuffers
-		 */
+		*/
 		virtual void DoSwapBuffers();
 
 	private:

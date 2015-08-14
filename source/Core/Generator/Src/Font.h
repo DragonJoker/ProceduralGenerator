@@ -54,11 +54,11 @@ namespace ProceduralTextures
 		struct SFontImpl
 		{
 			/** Initialises the loader
-			 */
+			*/
 			virtual void Initialise() = 0;
 
 			/** Cleans the loader up
-			 */
+			*/
 			virtual void Cleanup() = 0;
 
 			/** Loads wanted glyph
@@ -66,7 +66,7 @@ namespace ProceduralTextures
 				The glyph
 			@return
 				The glyph
-			 */
+			*/
 			virtual int LoadGlyph( Glyph & p_glyph ) = 0;
 		};
 
@@ -78,11 +78,11 @@ namespace ProceduralTextures
 			The font file path
 		@param[in] p_height
 			The font char height
-		 */
+		*/
 		Font( String const & p_path, uint32_t p_height );
 
 		/** Destructor
-		 */
+		*/
 		~Font();
 
 		/** Sets the glyph for given character
@@ -96,13 +96,13 @@ namespace ProceduralTextures
 			Pixels to advance in order to go next character
 		@param[in] p_bitmap
 			The glyph image
-		 */
+		*/
 		void SetGlyphAt( char32_t p_char, Size const & p_size, Position p_position, Size const & p_advance, std::vector< UbPixel > const & p_bitmap );
 
 		/** Loads the glyph for given character
 		@param[in] p_char
 			The character
-		 */
+		*/
 		void LoadGlyph( char32_t p_char );
 
 		/** Retrieves the glyph of wanted character
@@ -110,7 +110,7 @@ namespace ProceduralTextures
 			The wanted character
 		@return
 			A constant reference on the glyph
-		 */
+		*/
 		inline Glyph const & GetGlyphAt( char32_t p_char )const
 		{
 			auto && l_it = m_loadedGlyphs.find( p_char );
@@ -128,7 +128,7 @@ namespace ProceduralTextures
 			The wanted character
 		@return
 			A reference on the glyph
-		 */
+		*/
 		inline Glyph & GetGlyphAt( char32_t p_char )
 		{
 			auto && l_it = m_loadedGlyphs.find( p_char );
@@ -146,7 +146,7 @@ namespace ProceduralTextures
 			The wanted character
 		@return
 			A constant reference on the glyph
-		 */
+		*/
 		inline Glyph const & operator[]( char32_t p_char )const
 		{
 			auto && l_it = m_loadedGlyphs.find( p_char );
@@ -164,7 +164,7 @@ namespace ProceduralTextures
 			The wanted character
 		@return
 			A reference on the glyph
-		 */
+		*/
 		inline Glyph & operator[]( char32_t p_char )
 		{
 			auto && l_it = m_loadedGlyphs.find( p_char );
@@ -180,7 +180,7 @@ namespace ProceduralTextures
 		/** Retrieves the height of the font
 		@return
 				The font height
-		 */
+		*/
 		inline uint32_t GetHeight()const
 		{
 			return m_uiHeight;
@@ -189,7 +189,7 @@ namespace ProceduralTextures
 		/** Retrieves the max height of the glyphs
 		@return
 				The glyphs max height
-		 */
+		*/
 		inline int GetMaxHeight()const
 		{
 			return m_iMaxHeight;
@@ -198,7 +198,7 @@ namespace ProceduralTextures
 		/** Retrieves the max width of the glyphs
 		@return
 				The glyphs max width
-		 */
+		*/
 		inline int GetMaxWidth()const
 		{
 			return m_iMaxWidth;
@@ -207,7 +207,7 @@ namespace ProceduralTextures
 		/** Sets the max height of the glyphs
 		@param[in] p_iHeight
 			The new height
-		 */
+		*/
 		inline void SetMaxHeight( int p_iHeight )
 		{
 			m_iMaxHeight = p_iHeight;
@@ -216,7 +216,7 @@ namespace ProceduralTextures
 		/** Sets the max width of the glyphs
 		@param[in] p_iWidth
 			The new width
-		 */
+		*/
 		inline void SetMaxWidth( int p_iWidth )
 		{
 			m_iMaxWidth = p_iWidth;
@@ -225,7 +225,7 @@ namespace ProceduralTextures
 		/** Retrieves an iterator on the first glyph
 		@return
 				The iterator
-		 */
+		*/
 		inline GlyphMap::iterator Begin()
 		{
 			return m_loadedGlyphs.begin();
@@ -234,7 +234,7 @@ namespace ProceduralTextures
 		/** Retrieves an iterator on the first glyph
 		@return
 				The iterator
-		 */
+		*/
 		inline GlyphMap::const_iterator Begin()const
 		{
 			return m_loadedGlyphs.begin();
@@ -243,7 +243,7 @@ namespace ProceduralTextures
 		/** Retrieves an iterator on the glyph array end
 		@return
 				The iterator
-		 */
+		*/
 		inline GlyphMap::iterator End()
 		{
 			return m_loadedGlyphs.end();
@@ -252,7 +252,7 @@ namespace ProceduralTextures
 		/** Retrieves an iterator on the glyph array end
 		@return
 				The iterator
-		 */
+		*/
 		inline GlyphMap::const_iterator End()const
 		{
 			return m_loadedGlyphs.end();

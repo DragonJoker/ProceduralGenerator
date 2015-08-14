@@ -51,7 +51,7 @@ namespace ProceduralTextures
 			The style
 		@param[in] p_visible
 			Initial visibility status
-		 */
+		*/
 		ComboBoxCtrl( std::shared_ptr< Control > p_parent, StringArray const & p_values, int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
 
 		/** Constructor
@@ -71,7 +71,7 @@ namespace ProceduralTextures
 			The style
 		@param[in] p_visible
 			Initial visibility status
-		 */
+		*/
 		template< size_t N >
 		ComboBoxCtrl( std::shared_ptr< Control > p_parent, String const( & p_values )[N], int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true )
 			: Control( eCONTROL_TYPE_COMBO, p_parent, p_id, p_position, p_size, p_style, p_visible )
@@ -81,19 +81,19 @@ namespace ProceduralTextures
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~ComboBoxCtrl();
 
 		/** Appends a new item
 		@param[in] p_value
 			The item
-		 */
+		*/
 		void AppendItem( String  const & p_value );
 
 		/** Removes an item
 		@param[in] p_value
 			The item index
-		 */
+		*/
 		void RemoveItem( int p_value );
 
 		/** Sets an item text
@@ -101,35 +101,35 @@ namespace ProceduralTextures
 			The item index
 		@param[in] p_text
 			The item text
-		 */
+		*/
 		void SetItemText( int p_index, String const & p_text );
 
 		/** Clears the items
-		 */
+		*/
 		void Clear();
 
 		/** Sets the selected item
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetSelected( int p_value );
 
 		/** Retrieves the items
 		@return
 			The value
-		 */
+		*/
 		StringArray const & GetItems()const;
 
 		/** Retrieves the items count
 		@return
 			The value
-		 */
+		*/
 		uint32_t GetItemCount()const;
 
 		/** Retrieves the selected item index
 		@return
 			The value
-		 */
+		*/
 		int GetSelected()const;
 
 		/** Connects a function to a combobox event
@@ -139,7 +139,7 @@ namespace ProceduralTextures
 			The function
 		@return
 			The internal function index, to be able to disconnect it
-		 */
+		*/
 		inline uint32_t Connect( eCOMBOBOX_EVENT p_event, std::function< void( int ) > p_function )
 		{
 			return m_signals[p_event].Connect( p_function );
@@ -150,7 +150,7 @@ namespace ProceduralTextures
 			The event type
 		@param[in] p_index
 			The function index
-		 */
+		*/
 		inline void Disconnect( eCOMBOBOX_EVENT p_event, uint32_t p_index )
 		{
 			m_signals[p_event].Disconnect( p_index );
@@ -158,61 +158,61 @@ namespace ProceduralTextures
 
 	private:
 		/** @copydoc ProceduralTextures::Control::DoCreate
-		 */
+		*/
 		virtual void DoCreate( std::shared_ptr< OverlayManager > p_manager );
 
 		/** @copydoc ProceduralTextures::Control::DoSetPosition
-		 */
+		*/
 		virtual void DoSetPosition( Position const & p_value );
 
 		/** @copydoc ProceduralTextures::Control::DoSetSize
-		 */
+		*/
 		virtual void DoSetSize( Size const & p_value );
 
 		/** @copydoc ProceduralTextures::Control::DoSetBackgroundColour
-		 */
+		*/
 		virtual void DoSetBackgroundColour( Colour const & p_colour );
 
 		/** @copydoc ProceduralTextures::Control::DoSetForegroundColour
-		 */
+		*/
 		virtual void DoSetForegroundColour( Colour const & p_colour );
 
 		/** @copydoc ProceduralTextures::Control::DoSetBackgroundTexture
-		 */
+		*/
 		virtual void DoSetBackgroundTexture( std::shared_ptr< gl::Texture > p_texture );
 
 		/** @copydoc ProceduralTextures::Control::DoSetForegroundTexture
-		 */
+		*/
 		virtual void DoSetForegroundTexture( std::shared_ptr< gl::Texture > p_texture );
 
 		/** @copydoc ProceduralTextures::Control::DoCatchesMouseEvents
-		 */
+		*/
 		virtual bool DoCatchesMouseEvents()const;
 
 		/** @copydoc ProceduralTextures::Control::DoSetVisible
-		 */
+		*/
 		virtual void DoSetVisible( bool p_visible );
 
 		/** Event raised when an item is selected in the choices listbox
 		@param[in] p_selected
 			The item index
-		 */
+		*/
 		void OnSelected( int p_selected );
 
 		/** Event when a keyboard key is pressed
 		@param[in] p_event
 			The keyboard event
-		 */
+		*/
 		void OnKeyDown( KeyboardEvent const & p_event );
 
 		/** Event when a keyboard key is pressed on the active tick or line control
 		@param[in] p_event
 			The keyboard event
-		 */
+		*/
 		void OnNcKeyDown( std::shared_ptr< Control > p_control, KeyboardEvent const & p_event );
 
 		/** Switch the combobox list
-		 */
+		*/
 		void DoSwitchExpand();
 
 	private:

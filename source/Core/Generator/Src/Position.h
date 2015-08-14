@@ -46,7 +46,7 @@ namespace ProceduralTextures
 			The first value
 		@param[in] p_y
 			The second value
-		 */
+		*/
 		template< typename U, typename V >
 		Position( U const & p_x, V const & p_y )
 			: m_x( int32_t( p_x ) )
@@ -57,7 +57,7 @@ namespace ProceduralTextures
 		/** Specified constructor
 		@param[in] p_pt
 			The value
-		 */
+		*/
 		template< typename T >
 		Position( Point< T, 2 > const & p_pt )
 			: DELEGATING_POSITION( p_pt[0], p_pt[1] )
@@ -65,14 +65,14 @@ namespace ProceduralTextures
 		}
 
 		/** Default constructor
-		 */
+		*/
 		Position()
 			: DELEGATING_POSITION( 0, 0 )
 		{
 		}
 
 		/** Destructor
-		 */
+		*/
 		~Position()
 		{
 		}
@@ -80,7 +80,7 @@ namespace ProceduralTextures
 		/** Retrieves the x position
 		@return
 			A constant reference on the position
-		 */
+		*/
 		inline int32_t const & x()const
 		{
 			return m_x;
@@ -89,7 +89,7 @@ namespace ProceduralTextures
 		/** Retrieves the x position
 		@return
 			A reference on the position
-		 */
+		*/
 		inline int32_t & x()
 		{
 			return m_x;
@@ -98,7 +98,7 @@ namespace ProceduralTextures
 		/** Retrieves the y position
 		@return
 			A constant reference on the position
-		 */
+		*/
 		inline int32_t const & y()const
 		{
 			return m_y;
@@ -107,7 +107,7 @@ namespace ProceduralTextures
 		/** Retrieves the y position
 		@return
 			A reference on the position
-		 */
+		*/
 		inline int32_t & y()
 		{
 			return m_y;
@@ -118,7 +118,7 @@ namespace ProceduralTextures
 			The object to add
 		@return
 			A reference to this object
-		 */
+		*/
 		inline Position & operator += ( const Position & p_position )
 		{
 			m_x += p_position.m_x;
@@ -131,7 +131,7 @@ namespace ProceduralTextures
 			The object to subtract
 		@return
 			A reference to this object
-		 */
+		*/
 		inline Position & operator -= ( const Position & p_position )
 		{
 			m_x -= p_position.m_x;
@@ -144,7 +144,7 @@ namespace ProceduralTextures
 			The value to add
 		@return
 			A reference to this object
-		 */
+		*/
 		template < typename U > Position & operator += ( U const & p_coord )
 		{
 			m_x += int32_t( p_coord );
@@ -157,7 +157,7 @@ namespace ProceduralTextures
 			The value to subtract
 		@return
 			A reference to this object
-		 */
+		*/
 		template < typename U > Position & operator -= ( U const & p_coord )
 		{
 			m_x -= int32_t( p_coord );
@@ -170,7 +170,7 @@ namespace ProceduralTextures
 			The value to multiply
 		@return
 			A reference to this object
-		 */
+		*/
 		template < typename U > Position & operator *= ( U const & p_coord )
 		{
 			m_x = int32_t( m_x * p_coord );
@@ -183,7 +183,7 @@ namespace ProceduralTextures
 			The value to divide
 		@return
 			A reference to this object
-		 */
+		*/
 		template < typename U > Position & operator /= ( U const & p_coord )
 		{
 			if ( p_coord != 0 )
@@ -207,7 +207,7 @@ namespace ProceduralTextures
 		The values to compare
 	@return
 		\p true if values have same dimensions and same values
-	 */
+	*/
 	inline bool operator == ( const Position & p_a, const Position & p_b )
 	{
 		return p_a.x() == p_b.x() && p_a.y() == p_b.y();
@@ -218,7 +218,7 @@ namespace ProceduralTextures
 		The values to compare
 	@return
 		\p true if values have different dimensions or At least one different value
-	 */
+	*/
 	inline bool operator != ( const Position & p_a, const Position & p_b )
 	{
 		return p_a.x() != p_b.x() || p_a.y() != p_b.y();
@@ -229,7 +229,7 @@ namespace ProceduralTextures
 		The values to add
 	@return
 		The result
-	 */
+	*/
 	inline Position operator + ( const Position & p_a, const Position & p_b )
 	{
 		Position l_tmp( p_a );
@@ -242,7 +242,7 @@ namespace ProceduralTextures
 		The values to subtract
 	@return
 		The result
-	 */
+	*/
 	inline Position operator - ( const Position & p_a, const Position & p_b )
 	{
 		Position l_tmp( p_a );
@@ -255,7 +255,7 @@ namespace ProceduralTextures
 		The values to add
 	@return
 		The result
-	 */
+	*/
 	template< typename U > Position operator + ( const Position & p_position, U const & p_coord )
 	{
 		Position l_tmp( p_position );
@@ -268,7 +268,7 @@ namespace ProceduralTextures
 		The values to subtract
 	@return
 		The result
-	 */
+	*/
 	template< typename U > Position operator - ( const Position & p_position, U const & p_coord )
 	{
 		Position l_tmp( p_position );
@@ -281,7 +281,7 @@ namespace ProceduralTextures
 		The values to multiply
 	@return
 		The result
-	 */
+	*/
 	template< typename U > Position operator * ( const Position & p_position, U const & p_coord )
 	{
 		Position l_tmp( p_position );
@@ -294,7 +294,7 @@ namespace ProceduralTextures
 		The values to divide
 	@return
 		The result
-	 */
+	*/
 	template< typename U > Position operator / ( const Position & p_position, U const & p_coord )
 	{
 		Position l_tmp( p_position );
@@ -307,7 +307,7 @@ namespace ProceduralTextures
 		The values to add
 	@return
 		The result
-	 */
+	*/
 	inline Position operator + ( int p_value, const Position & p_position )
 	{
 		Position l_tmp( p_position );
@@ -320,7 +320,7 @@ namespace ProceduralTextures
 		The values to subtract
 	@return
 		The result
-	 */
+	*/
 	inline Position operator - ( int p_value, const Position & p_position )
 	{
 		Position l_tmp( p_position );
@@ -333,7 +333,7 @@ namespace ProceduralTextures
 		The values to multiply
 	@return
 		The result
-	 */
+	*/
 	inline Position operator * ( int p_value, const Position & p_position )
 	{
 		Position l_tmp( p_position );
@@ -346,7 +346,7 @@ namespace ProceduralTextures
 		The values to add
 	@return
 		The result
-	 */
+	*/
 	inline Position operator + ( double p_value, const Position & p_position )
 	{
 		Position l_tmp( p_position );
@@ -359,7 +359,7 @@ namespace ProceduralTextures
 		The values to subtract
 	@return
 		The result
-	 */
+	*/
 	inline Position operator - ( double p_value, const Position & p_position )
 	{
 		Position l_tmp( p_position );
@@ -372,7 +372,7 @@ namespace ProceduralTextures
 		The values to multiply
 	@return
 		The result
-	 */
+	*/
 	inline Position operator * ( double p_value, const Position & p_position )
 	{
 		Position l_tmp( p_position );
@@ -385,7 +385,7 @@ namespace ProceduralTextures
 		The two positions
 	@return
 		The squared Euclidian distance
-	 */
+	*/
 	inline double GetSquaredDistance( Position const & p_a, Position const & p_b )
 	{
 		Position l_diff( p_a - p_b );
@@ -397,7 +397,7 @@ namespace ProceduralTextures
 		The two positions
 	@return
 		The Euclidian distance
-	 */
+	*/
 	inline double GetDistance( Position const & p_a, Position const & p_b = Position() )
 	{
 		return sqrt( GetSquaredDistance( p_a, p_b ) );
@@ -408,7 +408,7 @@ namespace ProceduralTextures
 		The two positions
 	@return
 		The Manhattan distance
-	 */
+	*/
 	inline double GetManhattanDistance( Position const & p_a, Position const & p_b = Position() )
 	{
 		Position l_diff( p_a - p_b );
@@ -422,7 +422,7 @@ namespace ProceduralTextures
 		The two positions
 	@return
 		The Minkowski distance
-	 */
+	*/
 	inline double GetMinkowskiDistance( double p_order, Position const & p_a, Position const & p_b = Position() )
 	{
 		Position l_diff( p_a - p_b );
@@ -434,7 +434,7 @@ namespace ProceduralTextures
 		The two positions
 	@return
 		The Chebychev distance
-	 */
+	*/
 	inline double GetChebychevDistance( Position const & p_a, Position const & p_b = Position() )
 	{
 		Position l_diff( p_a - p_b );

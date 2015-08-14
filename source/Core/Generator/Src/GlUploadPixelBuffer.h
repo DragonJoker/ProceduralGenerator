@@ -39,11 +39,11 @@ namespace gl
 		/** Constructor
 		@param[in] p_openGl
 			The OpenGL instance
-		 */
+		*/
 		UploadPixelBuffer( OpenGl & p_openGl );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~UploadPixelBuffer();
 	};
 }

@@ -30,20 +30,17 @@ namespace ProceduralTextures
 	@date
 		23/02/2015
 	@brief
-		Font resource
-	@remark
-		Representation of a font : face, precision, and others
-		<br />The generated font will be put in an image
+		XPM image loader
 	*/
 	class GeneratorAPI XpmLoader
 	{
 	public:
 		/** Constructor
-		 */
+		*/
 		XpmLoader();
 
 		/** Destructor
-		 */
+		*/
 		~XpmLoader();
 
 		/** Loads the image data
@@ -53,7 +50,7 @@ namespace ProceduralTextures
 			The data size
 		@return
 			The image buffer
-		 */
+		*/
 		PixelBuffer LoadImage( char const ** p_data, size_t p_size );
 	};
 }

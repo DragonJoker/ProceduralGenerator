@@ -46,68 +46,84 @@ namespace ShaderWebcam
 			The displayed surface dimensions
 		@param[in] p_bordersSize
 			The windows' borders size
-		 */
+		*/
 		GpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~GpuStep();
+
 		/** Resets the time index
-		 */
+		*/
 		void ResetTime();
+
 		/** Sets the separator type
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetSepType( int p_value );
+
 		/** Sets the separator offset
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetSepOffset( int p_value );
+
 		/** Selects a shader
-		 */
+		*/
 		void SelectEffect( uint32_t p_value );
+
 		/** Removes the current effect
-		 */
+		*/
 		void AddEffect();
+
 		/** Removes the current effect
-		 */
+		*/
 		void RemoveEffect();
+
 		/** Compiles the shader
-		 */
+		*/
 		void CompileEffect();
+
 		/** Retrieves the compiler log
-		 */
+		*/
 		ProceduralTextures::String GetCompilerLog();
+
 		/** Sets the vertex shader file path
 		@param[in] p_path
 			The new value
-		 */
+		*/
 		void SetVertexShaderPath( ProceduralTextures::String const & p_path );
+
 		/** Sets the fragment shader file path
 		@param[in] p_path
 			The new value
-		 */
+		*/
 		void SetFragmentShaderPath( ProceduralTextures::String const & p_path );
 
 	private:
 		/** @copydoc ProceduralTexture::GpuStep::DoInitialise
-		 */
+		*/
 		virtual void DoInitialise();
+
 		/** @copydoc ProceduralTexture::GpuStep::DoCleanup
-		 */
+		*/
 		virtual void DoCleanup();
+
 		/** @copydoc ProceduralTexture::GpuStep::DoResize
-		 */
+		*/
 		virtual void DoResize();
+
 		/** @copydoc ProceduralTexture::GpuStep::DoPreRender
-		 */
+		*/
 		virtual void DoPreRender();
+
 		/** @copydoc ProceduralTexture::GpuStep::DoRender
-		 */
+		*/
 		virtual void DoRender( bool & p_bChanged );
+
 		/** @copydoc ProceduralTexture::GpuStep::DoPostRender
-		 */
+		*/
 		virtual void DoPostRender();
 
 	private:

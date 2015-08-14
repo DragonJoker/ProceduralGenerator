@@ -40,22 +40,6 @@ namespace IteratedFunctionSystem
 
 	class IfsGenerator
 	{
-	protected:
-		int m_iWidth;
-		int m_iHeight;
-		std::weak_ptr< ProceduralTextures::PixelBuffer > m_pBackBuffer;
-		size_t m_uiVariationCount;
-		int m_iAngle;
-		int m_iShift;
-		int m_iSize;
-		std::vector< ProceduralTextures::Point3d > m_arrayVariations;
-		std::vector< ProceduralTextures::Point2i > m_arrayProbabilities;
-		ProceduralTextures::Point2d m_ptPositionInSection;
-		ProceduralTextures::Point2i m_ptMin;
-		ProceduralTextures::Point2i m_ptMax;
-		std::vector< std::shared_ptr< CellMap > > m_arrayInitCellsMap;
-		ProceduralTextures::UbPixel m_pxColour;
-
 	public:
 		IfsGenerator( std::shared_ptr< ProceduralTextures::PixelBuffer > p_pBackBuffer, int p_iWidth, int p_iHeight, int p_iAngle, int p_iShift, int p_iSize, ProceduralTextures::Point2d const & p_ptPosition, size_t p_uiVariationCount );
 		virtual ~IfsGenerator();
@@ -115,6 +99,22 @@ namespace IteratedFunctionSystem
 
 	private:
 		bool DoInsertCell( ProceduralTextures::Point2d const & p_ptPosition, CellMap & p_arrayGeneratedCells, Cell * p_pResult = NULL );
+
+	protected:
+		int m_iWidth;
+		int m_iHeight;
+		std::weak_ptr< ProceduralTextures::PixelBuffer > m_pBackBuffer;
+		size_t m_uiVariationCount;
+		int m_iAngle;
+		int m_iShift;
+		int m_iSize;
+		std::vector< ProceduralTextures::Point3d > m_arrayVariations;
+		std::vector< ProceduralTextures::Point2i > m_arrayProbabilities;
+		ProceduralTextures::Point2d m_ptPositionInSection;
+		ProceduralTextures::Point2i m_ptMin;
+		ProceduralTextures::Point2i m_ptMax;
+		std::vector< std::shared_ptr< CellMap > > m_arrayInitCellsMap;
+		ProceduralTextures::UbPixel m_pxColour;
 	};
 }
 

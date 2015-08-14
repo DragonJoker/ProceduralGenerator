@@ -36,100 +36,104 @@ namespace OCLProcessing
 		typedef std::vector< std::unique_ptr< Effect > > EffectPtrArray;
 
 	public:
-		/**
-		 *\brief		Constructor
+		/** Constructor
 		@param[in] p_generator
 			The parent generator
 		@param[in] p_size
 			The displayed surface dimensions
 		@param[in] p_bordersSize
 			The windows' borders size
-		 */
+		*/
 		GpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
-		/**
-		 *\brief		Destructor
-		 */
+
+		/** Destructor
+		*/
 		virtual ~GpuStep();
-		/**
-		 *\brief		Resets the time index
-		 */
+
+		/** Resets the time index
+		*/
 		void ResetTime();
-		/**
-		 *\brief		Sets the separator type
+
+		/** Sets the separator type
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetSeparationType( int p_value );
-		/**
-		 *\brief		Sets the separator offset
+
+		/** Sets the separator offset
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetSeparationOffset( int p_value );
-		/**
-		 *\brief		Selects a effect
-		 */
+
+		/** Selects a effect
+		*/
 		void SelectEffect( uint32_t p_value );
-		/**
-		 *\brief		Retrieves the selected effect
-		 */
+
+		/** Retrieves the selected effect
+		*/
 		Effect * GetSelectedEffect()
 		{
 			return m_itSelectedEffect == m_arrayEffects.end() ? NULL : ( *m_itSelectedEffect ).get();
 		}
-		/**
-		 *\brief		Removes the current effect
-		 */
+
+		/** Removes the current effect
+		*/
 		void AddEffect();
-		/**
-		 *\brief		Removes the current effect
+
+		/** Removes the current effect
 		@param[in] p_value
 			The effect index
-		 */
+		*/
 		void RemoveEffect( uint32_t p_value );
-		/**
-		 *\brief		Compiles the shader
-		 */
+
+		/** Compiles the shader
+		*/
 		void CompileEffect();
-		/**
-		 *\brief		Selects a kernel from the current effect
-		 */
+
+		/** Selects a kernel from the current effect
+		*/
 		void SelectKernel( uint32_t p_value );
-		/**
-		 *\brief		Retrieves the compiler log
-		 */
+
+		/** Retrieves the compiler log
+		*/
 		ProceduralTextures::String GetCompilerLog();
-		/**
-		 *\brief		Sets the OpenCL program file path
+
+		/** Sets the OpenCL program file path
 		@param[in] p_path
 			The new value
-		 */
+		*/
 		bool SetFilePath( ProceduralTextures::String const & p_path );
-		/**
-		 *\brief		Sets the image buffer
+
+		/** Sets the image buffer
 		@param[in] p_path
 			The new value
-		 */
+		*/
 		void SetImage( ProceduralTextures::PixelBuffer const & p_image );
 
 	private:
 		/** @copydoc ProceduralTexture::GpuStep::DoInitialise
-		 */
+		*/
 		virtual void DoInitialise();
+
 		/** @copydoc ProceduralTexture::GpuStep::DoCleanup
-		 */
+		*/
 		virtual void DoCleanup();
+
 		/** @copydoc ProceduralTexture::GpuStep::DoResize
-		 */
+		*/
 		virtual void DoResize();
+
 		/** @copydoc ProceduralTexture::GpuStep::DoPreRender
-		 */
+		*/
 		virtual void DoPreRender();
+
 		/** @copydoc ProceduralTexture::GpuStep::DoRender
-		 */
+		*/
 		virtual void DoRender( bool & p_bChanged );
+
 		/** @copydoc ProceduralTexture::GpuStep::DoPostRender
-		 */
+		*/
 		virtual void DoPostRender();
 
 	private:

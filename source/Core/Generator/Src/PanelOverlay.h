@@ -51,28 +51,28 @@ namespace ProceduralTextures
 			The material
 		@param[in] p_parent
 			The parent overlay (if any)
-		 */
+		*/
 		PanelOverlay( gl::OpenGl & p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~PanelOverlay();
 
 	protected:
 		/** Initialises the overlay and its buffers
-		 */
+		*/
 		virtual void DoInitialise();
 
 		/** Cleans the overlay and its buffers up
-		 */
+		*/
 		virtual void DoCleanup();
 
 		/** Draws the overlay
-		 */
+		*/
 		virtual void DoRender();
 
 		/** Updates the vertex buffer
-		 */
+		*/
 		virtual void DoUpdate();
 	};
 }

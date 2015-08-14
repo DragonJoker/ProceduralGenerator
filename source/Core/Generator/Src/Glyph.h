@@ -50,17 +50,17 @@ namespace ProceduralTextures
 			Pixels to advance in order to go next character
 		@param[in] p_bitmap
 			The glyph image
-		 */
+		*/
 		Glyph( char32_t p_char = 0, Size const & p_size = Size(), Position const & p_position = Position(), Size const & p_advance = Size(), std::vector< UbPixel > const & p_bitmap = std::vector< UbPixel >() );
 
 		/** Destructor
-		 */
+		*/
 		~Glyph();
 
 		/** Retrieves the glyph character
 		@return
 			The value
-		 */
+		*/
 		inline char32_t GetCharacter()const
 		{
 			return m_character;
@@ -69,7 +69,7 @@ namespace ProceduralTextures
 		/** Sets the glyph dimensions
 		@param[in] p_size
 			The glyph dimensions
-		 */
+		*/
 		inline void SetSize( Size const & p_size )
 		{
 			m_size = p_size;
@@ -78,7 +78,7 @@ namespace ProceduralTextures
 		/** Retrieves the glyph dimensions
 		@return
 			The glyph dimensions
-		 */
+		*/
 		inline Size const & GetSize()const
 		{
 			return m_size;
@@ -87,7 +87,7 @@ namespace ProceduralTextures
 		/** Sets the glyph position
 		@param[in] p_position
 			The glyph position
-		 */
+		*/
 		inline void SetPosition( Position const & p_position )
 		{
 			m_position = p_position;
@@ -96,7 +96,7 @@ namespace ProceduralTextures
 		/** Retrieves the glyph position
 		@return
 			The glyph position
-		 */
+		*/
 		inline Position const & GetPosition()const
 		{
 			return m_position;
@@ -105,7 +105,7 @@ namespace ProceduralTextures
 		/** Sets the number of pixels to go before drawing next glyph
 		@param[in] p_advance
 			The value
-		 */
+		*/
 		inline void SetAdvance( Size const & p_advance )
 		{
 			m_advance = p_advance;
@@ -114,7 +114,7 @@ namespace ProceduralTextures
 		/** Retrieves the number of pixels to go before drawing next glyph
 		@return
 			The value
-		 */
+		*/
 		inline Size const & GetAdvance()const
 		{
 			return m_advance;
@@ -123,7 +123,7 @@ namespace ProceduralTextures
 		/** Sets the glyph image
 		@param[in] p_bitmap
 			The image of the glyph
-		 */
+		*/
 		inline void SetBitmap( std::vector< UbPixel > const & p_bitmap )
 		{
 			m_bitmap = p_bitmap;
@@ -132,7 +132,7 @@ namespace ProceduralTextures
 		/** Retrieves the glyph image
 		@return
 			A constant reference to the image of the glyph
-		 */
+		*/
 		inline std::vector< UbPixel > const & GetBitmap()const
 		{
 			return m_bitmap;
@@ -141,7 +141,7 @@ namespace ProceduralTextures
 		/** Adjusts the glyph position
 		@param[in] x, y
 			The glyph position decal
-		 */
+		*/
 		inline void AdjustPosition( uint32_t x, uint32_t y )
 		{
 			m_position += Position( x, y );

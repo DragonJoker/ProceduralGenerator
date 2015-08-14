@@ -24,13 +24,6 @@ namespace ColoredLifeGame
 {
 	struct Cell
 	{
-		std::array< Cell *, 8 > m_neighbours;
-		ProceduralTextures::UbPixel * m_nextPixel;
-		ProceduralTextures::UbPixel * m_deadPixel;
-		ProceduralTextures::UbPixel * m_alivePixel;
-		ProceduralTextures::UiPixel * m_stepPixel;
-		int m_alive;
-
 		Cell();
 		~Cell();
 
@@ -39,6 +32,13 @@ namespace ColoredLifeGame
 		void Live();
 		void SetAlive( int p_alive );
 		int CountAliveNeighbours();
+
+		std::array< Cell *, 8 > m_neighbours;
+		ProceduralTextures::UbPixel * m_nextPixel;
+		ProceduralTextures::UbPixel * m_deadPixel;
+		ProceduralTextures::UbPixel * m_alivePixel;
+		ProceduralTextures::UiPixel * m_stepPixel;
+		int m_alive;
 	};
 }
 

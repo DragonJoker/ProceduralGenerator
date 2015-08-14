@@ -285,7 +285,7 @@ namespace ProceduralTextures
 		{
 			bool l_bReturn = true;
 
-			for ( auto l_variable: m_listFrameVariables )
+			for ( auto l_variable : m_listFrameVariables )
 			{
 				l_bReturn &= l_variable->Apply();
 			}

@@ -41,23 +41,23 @@ namespace gl
 			The OpenGL instance
 		@param[in] p_program
 			The parent shader program
-		 */
+		*/
 		FrameVariableBase( OpenGl & p_openGl, ShaderProgram & p_program );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~FrameVariableBase();
 
 		/** Assigns and activate the frame variable
 		@return
 			true if the variable is assigned and bound, or if it is not used in the shader program
-		 */
+		*/
 		virtual bool Apply() = 0;
 
 		/** Retrieves the variable's name
 		@return
 			The value
-		 */
+		*/
 		inline String GetName()const
 		{
 			return m_strName;
@@ -66,7 +66,7 @@ namespace gl
 		/** Retrieves the variable's location in the program
 		@return
 			The value
-		 */
+		*/
 		inline int GetGlIndex()const
 		{
 			return m_glIndex;
@@ -75,7 +75,7 @@ namespace gl
 		/** Defines the variable's name
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		inline void SetName( String const & p_value )
 		{
 			m_strName = p_value;
@@ -84,7 +84,7 @@ namespace gl
 		/** Defines the variable's changed status
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		inline void SetChanged( bool p_value = true )
 		{
 			m_changed = p_value;
@@ -93,7 +93,7 @@ namespace gl
 		/** Retrieves the variable's changed status
 		@return
 			The value
-		 */
+		*/
 		inline bool IsChanged()const
 		{
 			return m_changed;

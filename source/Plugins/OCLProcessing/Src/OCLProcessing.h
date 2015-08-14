@@ -38,82 +38,82 @@ namespace OCLProcessing
 	{
 	public:
 		/** Constructor
-		 */
+		*/
 		Generator();
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Generator();
 
 	private:
 		/** @copydoc ProceduralTexture::Generator::DoCreate
-		 */
+		*/
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
 
 		/** @copydoc ProceduralTexture::Generator::DoDestroy
-		 */
+		*/
 		virtual void DoDestroy();
 
 		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
-		 */
+		*/
 		virtual void DoGeneratePanel();
 
 		/** Resets the time index
-		 */
+		*/
 		void OnResetTime();
 
 		/** Sets the separator type
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnSepType( int p_value );
 
 		/** Sets the separator offset
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnSepOffset( int p_value );
 
 		/** Selects a shader
-		 */
+		*/
 		void OnSelectProgram( uint32_t p_value );
 
 		/** Removes the current chader
-		 */
+		*/
 		void OnRemove();
 
 		/** Retrieves the compiler log
-		 */
+		*/
 		void OnCompilerLog();
 
 		/** Sets the OpenCL program file path
 		@param[in] p_path
 			The new value
-		 */
+		*/
 		void OnFilePath();
 
 		/** Sets the OpenCL kernel
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnSelectKernel( uint32_t p_value );
 
 		/** Sets the image buffer
 		@param[in] p_path
 			The new value
-		 */
+		*/
 		void OnImage();
 
 		/** Displays the help
-		 */
+		*/
 		void OnHelpOpen();
 
 		/** Hides the help
-		 */
+		*/
 		void OnHelpClose();
 
 		/** Hides the help
-		 */
+		*/
 		void OnHelpPanelClick( std::shared_ptr< ProceduralTextures::Control > p_static, ProceduralTextures::MouseEvent const & p_event );
 
 	private:

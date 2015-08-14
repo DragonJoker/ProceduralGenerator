@@ -233,7 +233,7 @@ namespace cl
 
 	/**
 	 * Deprecated APIs for 1.2
-	 */
+	*/
 #if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2))
 #define __INIT_CL_EXT_FCN_PTR(name) \
     if(!pfn_##name) { \
@@ -265,7 +265,7 @@ namespace cl
 	/*! \brief Exception class
 	 *
 	 *  This may be thrown by API functions when __CL_ENABLE_EXCEPTIONS is defined.
-	 */
+	*/
 	class Error : public std::exception
 	{
 	private:
@@ -280,7 +280,7 @@ namespace cl
 		 *  \param errStr a descriptive string that must remain in scope until
 		 *                handling of the exception has concluded.  If set, it
 		 *                will be returned by what().
-		 */
+		*/
 		Error( cl_int err, const char * errStr = NULL ) : err_( err ), errStr_( errStr )
 		{}
 
@@ -289,7 +289,7 @@ namespace cl
 		/*! \brief Get error string associated with exception
 		 *
 		 * \return A memory pointer to the error message string.
-		 */
+		*/
 		virtual const char * what() const throw ()
 		{
 			if ( errStr_ == NULL )
@@ -305,7 +305,7 @@ namespace cl
 		/*! \brief Get error code associated with exception
 		 *
 		 *  \return The error code.
-		 */
+		*/
 		cl_int err( void ) const
 		{
 			return err_;
@@ -438,7 +438,7 @@ namespace cl
 
 	/**
 	 * CL 1.2 version that uses device fission.
-	 */
+	*/
 #if defined(CL_VERSION_1_2)
 #define __CREATE_SUB_DEVICES                __ERR_STR(clCreateSubDevices)
 #else
@@ -447,7 +447,7 @@ namespace cl
 
 	/**
 	 * Deprecated APIs for 1.2
-	 */
+	*/
 #if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2))
 #define __ENQUEUE_MARKER_ERR                __ERR_STR(clEnqueueMarker)
 #define __ENQUEUE_WAIT_FOR_EVENTS_ERR       __ERR_STR(clEnqueueWaitForEvents)
@@ -464,7 +464,7 @@ namespace cl
 
 	/**
 	 * CL 1.2 marker and barrier commands
-	 */
+	*/
 #if defined(CL_VERSION_1_2)
 #define __ENQUEUE_MARKER_WAIT_LIST_ERR                __ERR_STR(clEnqueueMarkerWithWaitList)
 #define __ENQUEUE_BARRIER_WAIT_LIST_ERR               __ERR_STR(clEnqueueBarrierWithWaitList)
@@ -481,7 +481,7 @@ namespace cl
 	 *  \note Deprecated. Please use std::string as default or
 	 *  re-define the string class to match the std::string
 	 *  interface by defining STRING_CLASS
-	 */
+	*/
 	class CL_EXT_PREFIX__VERSION_1_1_DEPRECATED string CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED
 	{
 	private:
@@ -503,7 +503,7 @@ namespace cl
 		 *             the string is left empty, with a size of 0.
 		 *
 		 *  \param size the number of characters to copy from str.
-		 */
+		*/
 		string( const char * str, ::size_t size ) :
 			size_( size ),
 			str_( NULL )
@@ -528,7 +528,7 @@ namespace cl
 		 *
 		 *  \param str the null-terminated initial value of the string instance.
 		 *             If NULL, the string is left empty, with a size of 0.
-		 */
+		*/
 		string( const char * str ) :
 			size_( 0 ),
 			str_( NULL )
@@ -609,7 +609,7 @@ namespace cl
 		 *  \param rhs the string to copy.
 		 *
 		 *  \returns a reference to the modified instance.
-		 */
+		*/
 		string & operator=( const string & rhs )
 		{
 			if ( this == &rhs )
@@ -650,7 +650,7 @@ namespace cl
 		/*! \brief Constructs a string by copying the value of another instance.
 		 *
 		 *  \param rhs the string to copy.
-		 */
+		*/
 		string( const string & rhs ) :
 			size_( 0 ),
 			str_( NULL )
@@ -679,7 +679,7 @@ namespace cl
 
 		/*! \brief Returns a pointer to the private copy held by this instance,
 		 *  or "" if empty/unset.
-		 */
+		*/
 		const char * c_str( void ) const
 		{
 			return ( str_ ) ? str_ : "";
@@ -718,7 +718,7 @@ namespace cl
 	 *  \param T type of element contained in the vector.
 	 *
 	 *  \param N maximum size of the vector.
-	 */
+	*/
 	template < typename T, unsigned int N = __MAX_DEFAULT_VECTOR_SIZE >
 	class CL_EXT_PREFIX__VERSION_1_1_DEPRECATED vector CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED
 	{
@@ -748,7 +748,7 @@ namespace cl
 		 *  \note
 		 *  This does not deallocate memory but will invoke destructors
 		 *  on contained elements.
-		 */
+		*/
 		void clear()
 		{
 			while ( !empty() )
@@ -760,7 +760,7 @@ namespace cl
 		/*! \brief Appends an element after the last valid element.
 		 * Calling this on a vector that has reached capacity will throw an
 		 * exception if exceptions are enabled.
-		 */
+		*/
 		void push_back( const T & x )
 		{
 			if ( size() < N )
@@ -777,7 +777,7 @@ namespace cl
 		/*! \brief Removes the last valid element from the vector.
 		 * Calling this on an empty vector will throw an exception
 		 * if exceptions are enabled.
-		 */
+		*/
 		void pop_back( void )
 		{
 			if ( size_ != 0 )
@@ -794,7 +794,7 @@ namespace cl
 		/*! \brief Constructs with a value copied from another.
 		 *
 		 *  \param vec the vector to copy.
-		 */
+		*/
 		vector( const vector< T, N > & vec ) :
 			size_( vec.size_ )
 		{
@@ -809,7 +809,7 @@ namespace cl
 		 *  \param size number of initial elements.
 		 *
 		 *  \param val value of initial elements.
-		 */
+		*/
 		vector( unsigned int size, const T & val = T() ) :
 			size_( 0 )
 		{
@@ -825,7 +825,7 @@ namespace cl
 		 *  \param rhs vector to copy.
 		 *
 		 *  \returns a reference to this.
-		 */
+		*/
 		vector< T, N > & operator=( const vector< T, N > & rhs )
 		{
 			if ( this == &rhs )
@@ -848,7 +848,7 @@ namespace cl
 		/*! \brief Tests equality against another instance.
 		 *
 		 *  \param vec the vector against which to compare.
-		 */
+		*/
 		bool operator==( vector< T, N > & vec )
 		{
 			if ( size() != vec.size() )
@@ -902,7 +902,7 @@ namespace cl
 		 *  \param index which element to access.     *
 		 *  \note
 		 *  The caller is responsible for ensuring index is >= 0 and < size().
-		 */
+		*/
 		T & operator[]( int index )
 		{
 			return data_[index];
@@ -914,7 +914,7 @@ namespace cl
 		 *
 		 *  \note
 		 *  The caller is responsible for ensuring index is >= 0 and < size().
-		 */
+		*/
 		const T & operator[]( int index ) const
 		{
 			return data_[index];
@@ -927,7 +927,7 @@ namespace cl
 		 *
 		 *  \note
 		 *  Will throw an exception if exceptions are enabled and size exceeded.
-		 */
+		*/
 		template< class I >
 		void assign( I start, I end )
 		{
@@ -942,7 +942,7 @@ namespace cl
 
 		/*! \class iterator
 		 * \brief Const iterator class for vectors
-		 */
+		*/
 		class iterator
 		{
 		private:
@@ -953,7 +953,7 @@ namespace cl
 			 * Internal iterator constructor to capture reference
 			 * to the vector it iterates over rather than taking
 			 * the vector by copy.
-			 */
+			*/
 			iterator( const vector< T, N > & vec, int index ) :
 				vec_( &vec )
 			{
@@ -1119,7 +1119,7 @@ namespace cl
 	/*! \brief class used to interface between C++ and
 	 *  OpenCL C calls that require arrays of size_t values, whose
 	 *  size is known statically.
-	 */
+	*/
 	template < int N >
 	class size_t
 	{
@@ -1201,7 +1201,7 @@ namespace cl
 		 * cl_type member. Note that simplify specifying the parameter as Wrapper< T >
 		 * does not work, because when using a derived type (e.g. Context) the generic
 		 * template will provide a better match.
-		 */
+		*/
 		template < typename Func, typename T >
 		inline cl_int getInfoHelper( Func f, cl_uint name, VECTOR_CLASS< T > * param, int, typename T::cl_type = 0 )
 		{
@@ -1313,7 +1313,7 @@ namespace cl
 		 * cl_type member. Note that simplify specifying the parameter as Wrapper< T >
 		 * does not work, because when using a derived type (e.g. Context) the generic
 		 * template will provide a better match.
-		 */
+		*/
 		template< typename Func, typename T >
 		inline cl_int getInfoHelper( Func f, cl_uint name, T * param, int, typename T::cl_type = 0 )
 		{
@@ -1663,7 +1663,7 @@ struct param_traits< detail::token,param_name >       \
 #if defined(CL_VERSION_1_2)
 		/**
 		 * OpenCL 1.2 devices do have retain/release.
-		 */
+		*/
 		template < >
 		struct ReferenceHandler< cl_device_id >
 		{
@@ -1675,7 +1675,7 @@ struct param_traits< detail::token,param_name >       \
 			 *   CL_INVALID_DEVICE if device was not a valid subdevice
 			 *   CL_OUT_OF_RESOURCES
 			 *   CL_OUT_OF_HOST_MEMORY
-			 */
+			*/
 			static cl_int retain( cl_device_id device )
 			{
 				return::clRetainDevice( device );
@@ -1688,7 +1688,7 @@ struct param_traits< detail::token,param_name >       \
 			 *   CL_INVALID_DEVICE if device was not a valid subdevice
 			 *   CL_OUT_OF_RESOURCES
 			 *   CL_OUT_OF_HOST_MEMORY
-			 */
+			*/
 			static cl_int release( cl_device_id device )
 			{
 				return::clReleaseDevice( device );
@@ -1697,7 +1697,7 @@ struct param_traits< detail::token,param_name >       \
 #else // #if defined(CL_VERSION_1_2)
 		/**
 		 * OpenCL 1.1 devices do not have retain/release.
-		 */
+		*/
 		template < >
 		struct ReferenceHandler< cl_device_id >
 		{
@@ -2102,7 +2102,7 @@ struct param_traits< detail::token,param_name >       \
 	 *  \brief Adds constructors and member functions for cl_image_format.
 	 *
 	 *  \see cl_image_format
-	 */
+	*/
 	struct ImageFormat : public cl_image_format
 	{
 		//! \brief Default constructor - performs no initialization.
@@ -2134,7 +2134,7 @@ struct param_traits< detail::token,param_name >       \
 	 *        any underlying resources or data structures.
 	 *
 	 *  \see cl_device_id
-	 */
+	*/
 	class Device : public detail::Wrapper< cl_device_id >
 	{
 	public:
@@ -2144,25 +2144,25 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor.
 		 *
 		 *  This simply copies the device ID value, which is an inexpensive operation.
-		 */
+		*/
 		Device( const Device & device ) : detail::Wrapper< cl_type >( device ) { }
 
 		/*! \brief Constructor from cl_device_id.
 		 *
 		 *  This simply copies the device ID value, which is an inexpensive operation.
-		 */
+		*/
 		Device( const cl_device_id & device ) : detail::Wrapper< cl_type >( device ) { }
 
 		/*! \brief Returns the first device on the default context.
 		 *
 		 *  \see Context::getDefault()
-		 */
+		*/
 		static Device getDefault( cl_int * err = NULL );
 
 		/*! \brief Assignment operator from Device.
 		 *
 		 *  This simply copies the device ID value, which is an inexpensive operation.
-		 */
+		*/
 		Device & operator = ( const Device & rhs )
 		{
 			if ( this != &rhs )
@@ -2176,7 +2176,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Assignment operator from cl_device_id.
 		 *
 		 *  This simply copies the device ID value, which is an inexpensive operation.
-		 */
+		*/
 		Device & operator = ( const cl_device_id & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
@@ -2211,7 +2211,7 @@ struct param_traits< detail::token,param_name >       \
 
 		/**
 		 * CL 1.2 version
-		 */
+		*/
 #if defined(CL_VERSION_1_2)
 		//! \brief Wrapper for clCreateSubDevicesEXT().
 		cl_int createSubDevices(
@@ -2241,7 +2241,7 @@ struct param_traits< detail::token,param_name >       \
 
 		/**
 		 * CL 1.1 version that uses device fission.
-		 */
+		*/
 #if defined(CL_VERSION_1_1)
 #if defined(USE_CL_DEVICE_FISSION)
 		cl_int createSubDevices(
@@ -2286,7 +2286,7 @@ struct param_traits< detail::token,param_name >       \
 	 *        any underlying resources or data structures.
 	 *
 	 *  \see cl_platform_id
-	 */
+	*/
 	class Platform : public detail::Wrapper< cl_platform_id >
 	{
 	public:
@@ -2296,19 +2296,19 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor.
 		 *
 		 *  This simply copies the platform ID value, which is an inexpensive operation.
-		 */
+		*/
 		Platform( const Platform & platform ) : detail::Wrapper< cl_type >( platform ) { }
 
 		/*! \brief Constructor from cl_platform_id.
 		 *
 		 *  This simply copies the platform ID value, which is an inexpensive operation.
-		 */
+		*/
 		Platform( const cl_platform_id & platform ) : detail::Wrapper< cl_type >( platform ) { }
 
 		/*! \brief Assignment operator from Platform.
 		 *
 		 *  This simply copies the platform ID value, which is an inexpensive operation.
-		 */
+		*/
 		Platform & operator = ( const Platform & rhs )
 		{
 			if ( this != &rhs )
@@ -2322,7 +2322,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Assignment operator from cl_platform_id.
 		 *
 		 *  This simply copies the platform ID value, which is an inexpensive operation.
-		 */
+		*/
 		Platform & operator = ( const cl_platform_id & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
@@ -2357,7 +2357,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Gets a list of devices for this platform.
 		 *
 		 *  Wraps clGetDeviceIDs().
-		 */
+		*/
 		cl_int getDevices(
 			cl_device_type type,
 			VECTOR_CLASS< Device > * devices ) const
@@ -2472,7 +2472,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Gets a list of available platforms.
 		 *
 		 *  Wraps clGetPlatformIDs().
-		 */
+		*/
 		static cl_int get(
 			VECTOR_CLASS< Platform > * platforms )
 		{
@@ -2506,7 +2506,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Gets the first available platform.
 		 *
 		 *  Wraps clGetPlatformIDs(), returning the first result.
-		 */
+		*/
 		static cl_int get(
 			Platform * platform )
 		{
@@ -2540,7 +2540,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Gets the first available platform, returning it by value.
 		 *
 		 *  Wraps clGetPlatformIDs(), returning the first result.
-		 */
+		*/
 		static Platform get(
 			cl_int * errResult = NULL )
 		{
@@ -2594,12 +2594,12 @@ struct param_traits< detail::token,param_name >       \
 
 	/**
 	 * Deprecated APIs for 1.2
-	 */
+	*/
 #if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2))
 	/**
 	 * Unload the OpenCL compiler.
 	 * \note Deprecated for OpenCL 1.2. Use Platform::unloadCompiler instead.
-	 */
+	*/
 	inline CL_EXT_PREFIX__VERSION_1_1_DEPRECATED cl_int
 	UnloadCompiler() CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED;
 	inline cl_int
@@ -2616,7 +2616,7 @@ struct param_traits< detail::token,param_name >       \
 	 *        clRetainContext() and clReleaseContext().
 	 *
 	 *  \see cl_context
-	 */
+	*/
 	class Context
 		: public detail::Wrapper< cl_context >
 	{
@@ -2628,13 +2628,13 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Destructor.
 		 *
 		 *  This calls clReleaseContext() on the value held by this instance.
-		 */
+		*/
 		~Context() { }
 
 		/*! \brief Constructs a context including a list of specified devices.
 		 *
 		 *  Wraps clCreateContext().
-		 */
+		*/
 		Context(
 			const VECTOR_CLASS< Device > & devices,
 			cl_context_properties * properties = NULL,
@@ -2695,7 +2695,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Constructs a context including all or a subset of devices of a specified type.
 		 *
 		 *  Wraps clCreateContextFromType().
-		 */
+		*/
 		Context(
 			cl_device_type type,
 			cl_context_properties * properties = NULL,
@@ -2797,7 +2797,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Returns a singleton context including all devices of CL_DEVICE_TYPE_DEFAULT.
 		 *
 		 *  \note All calls to this function return the same cl_context as the first.
-		 */
+		*/
 		static Context getDefault( cl_int * err = NULL )
 		{
 			int state = detail::compare_exchange(
@@ -2857,21 +2857,21 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor.
 		 *
 		 *  This calls clRetainContext() on the parameter's cl_context.
-		 */
+		*/
 		Context( const Context & context ) : detail::Wrapper< cl_type >( context ) { }
 
 		/*! \brief Constructor from cl_context - takes ownership.
 		 *
 		 *  This effectively transfers ownership of a refcount on the cl_context
 		 *  into the new Context object.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS Context( const cl_context & context ) : detail::Wrapper< cl_type >( context ) { }
 
 		/*! \brief Assignment operator from Context.
 		 *
 		 *  This calls clRetainContext() on the parameter and clReleaseContext() on
 		 *  the previous value held by this instance.
-		 */
+		*/
 		Context & operator = ( const Context & rhs )
 		{
 			if ( this != &rhs )
@@ -2886,7 +2886,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  This effectively transfers ownership of a refcount on the rhs and calls
 		 *  clReleaseContext() on the value previously held by this instance.
-		 */
+		*/
 		Context & operator = ( const cl_context & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
@@ -2922,7 +2922,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Gets a list of supported image formats.
 		 *
 		 *  Wraps clGetSupportedImageFormats().
-		 */
+		*/
 		cl_int getSupportedImageFormats(
 			cl_mem_flags flags,
 			cl_mem_object_type type,
@@ -3007,14 +3007,14 @@ struct param_traits< detail::token,param_name >       \
 	 *        clRetainEvent() and clReleaseEvent().
 	 *
 	 *  \see cl_event
-	 */
+	*/
 	class Event : public detail::Wrapper< cl_event >
 	{
 	public:
 		/*! \brief Destructor.
 		 *
 		 *  This calls clReleaseEvent() on the value held by this instance.
-		 */
+		*/
 		~Event() { }
 
 		//! \brief Default constructor - initializes to NULL.
@@ -3023,21 +3023,21 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor.
 		 *
 		 *  This calls clRetainEvent() on the parameter's cl_event.
-		 */
+		*/
 		Event( const Event & event ) : detail::Wrapper< cl_type >( event ) { }
 
 		/*! \brief Constructor from cl_event - takes ownership.
 		 *
 		 *  This effectively transfers ownership of a refcount on the cl_event
 		 *  into the new Event object.
-		 */
+		*/
 		Event( const cl_event & event ) : detail::Wrapper< cl_type >( event ) { }
 
 		/*! \brief Assignment operator from cl_event - takes ownership.
 		 *
 		 *  This effectively transfers ownership of a refcount on the rhs and calls
 		 *  clReleaseEvent() on the value previously held by this instance.
-		 */
+		*/
 		Event & operator = ( const Event & rhs )
 		{
 			if ( this != &rhs )
@@ -3052,7 +3052,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  This calls clRetainEvent() on the parameter and clReleaseEvent() on
 		 *  the previous value held by this instance.
-		 */
+		*/
 		Event & operator = ( const cl_event & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
@@ -3114,7 +3114,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Blocks the calling thread until this event completes.
 		 *
 		 *  Wraps clWaitForEvents().
-		 */
+		*/
 		cl_int wait() const
 		{
 			return detail::errHandler(
@@ -3126,7 +3126,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Registers a user callback function for a specific command execution status.
 		 *
 		 *  Wraps clSetEventCallback().
-		 */
+		*/
 		cl_int setCallback(
 			cl_int type,
 			void ( CL_CALLBACK * pfn_notify )( cl_event, cl_int, void * ),
@@ -3145,7 +3145,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Blocks the calling thread until every event specified is complete.
 		 *
 		 *  Wraps clWaitForEvents().
-		 */
+		*/
 		static cl_int
 		waitForEvents( const VECTOR_CLASS< Event > & events )
 		{
@@ -3160,14 +3160,14 @@ struct param_traits< detail::token,param_name >       \
 	/*! \brief Class interface for user events (a subset of cl_event's).
 	 *
 	 *  See Event for details about copy semantics, etc.
-	 */
+	*/
 	class UserEvent : public Event
 	{
 	public:
 		/*! \brief Constructs a user event on a given context.
 		 *
 		 *  Wraps clCreateUserEvent().
-		 */
+		*/
 		UserEvent(
 			const Context & context,
 			cl_int * err = NULL )
@@ -3204,7 +3204,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Sets the execution status of a user event object.
 		 *
 		 *  Wraps clSetUserEventStatus().
-		 */
+		*/
 		cl_int setStatus( cl_int status )
 		{
 			return detail::errHandler(
@@ -3217,7 +3217,7 @@ struct param_traits< detail::token,param_name >       \
 	/*! \brief Blocks the calling thread until every event specified is complete.
 	 *
 	 *  Wraps clWaitForEvents().
-	 */
+	*/
 	inline static cl_int
 	WaitForEvents( const VECTOR_CLASS< Event > & events )
 	{
@@ -3234,7 +3234,7 @@ struct param_traits< detail::token,param_name >       \
 	 *        clRetainMemObject() and clReleaseMemObject().
 	 *
 	 *  \see cl_mem
-	 */
+	*/
 	class Memory : public detail::Wrapper< cl_mem >
 	{
 	public:
@@ -3242,7 +3242,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Destructor.
 		 *
 		 *  This calls clReleaseMemObject() on the value held by this instance.
-		 */
+		*/
 		~Memory() {}
 
 		//! \brief Default constructor - initializes to NULL.
@@ -3251,21 +3251,21 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  This calls clRetainMemObject() on the parameter's cl_mem.
-		 */
+		*/
 		Memory( const Memory & memory ) : detail::Wrapper< cl_type >( memory ) { }
 
 		/*! \brief Constructor from cl_mem - takes ownership.
 		 *
 		 *  This effectively transfers ownership of a refcount on the cl_mem
 		 *  into the new Memory object.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS Memory( const cl_mem & memory ) : detail::Wrapper< cl_type >( memory ) { }
 
 		/*! \brief Assignment operator from Memory.
 		 *
 		 *  This calls clRetainMemObject() on the parameter and clReleaseMemObject()
 		 *  on the previous value held by this instance.
-		 */
+		*/
 		Memory & operator = ( const Memory & rhs )
 		{
 			if ( this != &rhs )
@@ -3280,7 +3280,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  This effectively transfers ownership of a refcount on the rhs and calls
 		 *  clReleaseMemObject() on the value previously held by this instance.
-		 */
+		*/
 		Memory & operator = ( const cl_mem & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
@@ -3326,7 +3326,7 @@ struct param_traits< detail::token,param_name >       \
 		 *  \note
 		 *  The registered callbacks are associated with the underlying cl_mem
 		 *  value - not the Memory class instance.
-		 */
+		*/
 		cl_int setDestructorCallback(
 			void ( CL_CALLBACK * pfn_notify )( cl_mem, void * ),
 			void * user_data = NULL )
@@ -3359,7 +3359,7 @@ struct param_traits< detail::token,param_name >       \
 	 *  See Memory for details about copy semantics, etc.
 	 *
 	 *  \see Memory
-	 */
+	*/
 	class Buffer : public Memory
 	{
 	public:
@@ -3370,7 +3370,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  \param host_ptr Storage to be used if the CL_MEM_USE_HOST_PTR flag was
 		 *                  specified.  Note alignment & exclusivity requirements.
-		 */
+		*/
 		Buffer(
 			const Context & context,
 			cl_mem_flags flags,
@@ -3396,7 +3396,7 @@ struct param_traits< detail::token,param_name >       \
 		 *                  specified.  Note alignment & exclusivity requirements.
 		 *
 		 *  \see Context::getDefault()
-		 */
+		*/
 		Buffer(
 			cl_mem_flags flags,
 			::size_t size,
@@ -3418,7 +3418,7 @@ struct param_traits< detail::token,param_name >       \
 		 * \brief Construct a Buffer from a host container via iterators.
 		 * IteratorType must be random access.
 		 * If useHostPtr is specified iterators must represent contiguous data.
-		 */
+		*/
 		template< typename IteratorType >
 		Buffer(
 			IteratorType startIterator,
@@ -3480,7 +3480,7 @@ struct param_traits< detail::token,param_name >       \
 		 * \brief Construct a Buffer from a host container via iterators using a specified context.
 		 * IteratorType must be random access.
 		 * If useHostPtr is specified iterators must represent contiguous data.
-		 */
+		*/
 		template< typename IteratorType >
 		Buffer( const Context & context, IteratorType startIterator, IteratorType endIterator,
 				bool readOnly, bool useHostPtr = false, cl_int * err = NULL );
@@ -3491,19 +3491,19 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Buffer( const Buffer & buffer ) : Memory( buffer ) { }
 
 		/*! \brief Constructor from cl_mem - takes ownership.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS Buffer( const cl_mem & buffer ) : Memory( buffer ) { }
 
 		/*! \brief Assignment from Buffer - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Buffer & operator = ( const Buffer & rhs )
 		{
 			if ( this != &rhs )
@@ -3517,7 +3517,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Assignment from cl_mem - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Buffer & operator = ( const cl_mem & rhs )
 		{
 			Memory::operator=( rhs );
@@ -3528,7 +3528,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Creates a new buffer object from this.
 		 *
 		 *  Wraps clCreateSubBuffer().
-		 */
+		*/
 		Buffer createSubBuffer(
 			cl_mem_flags flags,
 			cl_buffer_create_type buffer_create_type,
@@ -3563,7 +3563,7 @@ struct param_traits< detail::token,param_name >       \
 	 *  See Memory for details about copy semantics, etc.
 	 *
 	 *  \see Memory
-	 */
+	*/
 	class BufferD3D10 : public Buffer
 	{
 	public:
@@ -3575,7 +3575,7 @@ struct param_traits< detail::token,param_name >       \
 		 *         given ID3D10Buffer.
 		 *
 		 *  Wraps clCreateFromD3D10BufferKHR().
-		 */
+		*/
 		BufferD3D10(
 			const Context & context,
 			cl_mem_flags flags,
@@ -3620,19 +3620,19 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		BufferD3D10( const BufferD3D10 & buffer ) : Buffer( buffer ) { }
 
 		/*! \brief Constructor from cl_mem - takes ownership.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS BufferD3D10( const cl_mem & buffer ) : Buffer( buffer ) { }
 
 		/*! \brief Assignment from BufferD3D10 - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		BufferD3D10 & operator = ( const BufferD3D10 & rhs )
 		{
 			if ( this != &rhs )
@@ -3646,7 +3646,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Assignment from cl_mem - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		BufferD3D10 & operator = ( const cl_mem & rhs )
 		{
 			Buffer::operator=( rhs );
@@ -3662,7 +3662,7 @@ struct param_traits< detail::token,param_name >       \
 	 *  See Memory for details about copy semantics, etc.
 	 *
 	 *  \see Memory
-	 */
+	*/
 	class BufferGL : public Buffer
 	{
 	public:
@@ -3670,7 +3670,7 @@ struct param_traits< detail::token,param_name >       \
 		 *         GL buffer.
 		 *
 		 *  Wraps clCreateFromGLBuffer().
-		 */
+		*/
 		BufferGL(
 			const Context & context,
 			cl_mem_flags flags,
@@ -3697,19 +3697,19 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		BufferGL( const BufferGL & buffer ) : Buffer( buffer ) { }
 
 		/*! \brief Constructor from cl_mem - takes ownership.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS BufferGL( const cl_mem & buffer ) : Buffer( buffer ) { }
 
 		/*! \brief Assignment from BufferGL - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		BufferGL & operator = ( const BufferGL & rhs )
 		{
 			if ( this != &rhs )
@@ -3723,7 +3723,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Assignment from cl_mem - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		BufferGL & operator = ( const cl_mem & rhs )
 		{
 			Buffer::operator=( rhs );
@@ -3748,7 +3748,7 @@ struct param_traits< detail::token,param_name >       \
 	 *  See Memory for details about copy semantics, etc.
 	 *
 	 *  \see Memory
-	 */
+	*/
 	class BufferRenderGL : public Buffer
 	{
 	public:
@@ -3756,7 +3756,7 @@ struct param_traits< detail::token,param_name >       \
 		 *         GL Renderbuffer.
 		 *
 		 *  Wraps clCreateFromGLRenderbuffer().
-		 */
+		*/
 		BufferRenderGL(
 			const Context & context,
 			cl_mem_flags flags,
@@ -3783,19 +3783,19 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		BufferRenderGL( const BufferGL & buffer ) : Buffer( buffer ) { }
 
 		/*! \brief Constructor from cl_mem - takes ownership.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS BufferRenderGL( const cl_mem & buffer ) : Buffer( buffer ) { }
 
 		/*! \brief Assignment from BufferGL - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		BufferRenderGL & operator = ( const BufferRenderGL & rhs )
 		{
 			if ( this != &rhs )
@@ -3809,7 +3809,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Assignment from cl_mem - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		BufferRenderGL & operator = ( const cl_mem & rhs )
 		{
 			Buffer::operator=( rhs );
@@ -3832,7 +3832,7 @@ struct param_traits< detail::token,param_name >       \
 	 *  See Memory for details about copy semantics, etc.
 	 *
 	 *  \see Memory
-	 */
+	*/
 	class Image : public Memory
 	{
 	protected:
@@ -3842,19 +3842,19 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image( const Image & image ) : Memory( image ) { }
 
 		/*! \brief Constructor from cl_mem - takes ownership.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS Image( const cl_mem & image ) : Memory( image ) { }
 
 		/*! \brief Assignment from Image - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image & operator = ( const Image & rhs )
 		{
 			if ( this != &rhs )
@@ -3868,7 +3868,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Assignment from cl_mem - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image & operator = ( const cl_mem & rhs )
 		{
 			Memory::operator=( rhs );
@@ -3909,14 +3909,14 @@ struct param_traits< detail::token,param_name >       \
 	 *  See Memory for details about copy semantics, etc.
 	 *
 	 *  \see Memory
-	 */
+	*/
 	class Image1D : public Image
 	{
 	public:
 		/*! \brief Constructs a 1D Image in a specified context.
 		 *
 		 *  Wraps clCreateImage().
-		 */
+		*/
 		Image1D(
 			const Context & context,
 			cl_mem_flags flags,
@@ -3953,19 +3953,19 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image1D( const Image1D & image1D ) : Image( image1D ) { }
 
 		/*! \brief Constructor from cl_mem - takes ownership.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS Image1D( const cl_mem & image1D ) : Image( image1D ) { }
 
 		/*! \brief Assignment from Image1D - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image1D & operator = ( const Image1D & rhs )
 		{
 			if ( this != &rhs )
@@ -3979,7 +3979,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Assignment from cl_mem - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image1D & operator = ( const cl_mem & rhs )
 		{
 			Image::operator=( rhs );
@@ -3989,7 +3989,7 @@ struct param_traits< detail::token,param_name >       \
 
 	/*! \class Image1DBuffer
 	 * \brief Image interface for 1D buffer images.
-	 */
+	*/
 	class Image1DBuffer : public Image
 	{
 	public:
@@ -4049,7 +4049,7 @@ struct param_traits< detail::token,param_name >       \
 
 	/*! \class Image1DArray
 	 * \brief Image interface for arrays of 1D images.
-	 */
+	*/
 	class Image1DArray : public Image
 	{
 	public:
@@ -4118,14 +4118,14 @@ struct param_traits< detail::token,param_name >       \
 	 *  See Memory for details about copy semantics, etc.
 	 *
 	 *  \see Memory
-	 */
+	*/
 	class Image2D : public Image
 	{
 	public:
 		/*! \brief Constructs a 1D Image in a specified context.
 		 *
 		 *  Wraps clCreateImage().
-		 */
+		*/
 		Image2D(
 			const Context & context,
 			cl_mem_flags flags,
@@ -4201,19 +4201,19 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image2D( const Image2D & image2D ) : Image( image2D ) { }
 
 		/*! \brief Constructor from cl_mem - takes ownership.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS Image2D( const cl_mem & image2D ) : Image( image2D ) { }
 
 		/*! \brief Assignment from Image2D - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image2D & operator = ( const Image2D & rhs )
 		{
 			if ( this != &rhs )
@@ -4227,7 +4227,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Assignment from cl_mem - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image2D & operator = ( const cl_mem & rhs )
 		{
 			Image::operator=( rhs );
@@ -4245,7 +4245,7 @@ struct param_traits< detail::token,param_name >       \
 	 *
 	 *  \see Memory
 	 *  \note Deprecated for OpenCL 1.2. Please use ImageGL instead.
-	 */
+	*/
 	class CL_EXT_PREFIX__VERSION_1_1_DEPRECATED Image2DGL CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED : public Image2D
 	{
 	public:
@@ -4253,7 +4253,7 @@ struct param_traits< detail::token,param_name >       \
 		 *         GL Texture.
 		 *
 		 *  Wraps clCreateFromGLTexture2D().
-		 */
+		*/
 		Image2DGL(
 			const Context & context,
 			cl_mem_flags flags,
@@ -4284,19 +4284,19 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image2DGL( const Image2DGL & image ) : Image2D( image ) { }
 
 		/*! \brief Constructor from cl_mem - takes ownership.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS Image2DGL( const cl_mem & image ) : Image2D( image ) { }
 
 		/*! \brief Assignment from Image2DGL - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image2DGL & operator = ( const Image2DGL & rhs )
 		{
 			if ( this != &rhs )
@@ -4310,7 +4310,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Assignment from cl_mem - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image2DGL & operator = ( const cl_mem & rhs )
 		{
 			Image2D::operator=( rhs );
@@ -4322,7 +4322,7 @@ struct param_traits< detail::token,param_name >       \
 #if defined(CL_VERSION_1_2)
 	/*! \class Image2DArray
 	 * \brief Image interface for arrays of 2D images.
-	 */
+	*/
 	class Image2DArray : public Image
 	{
 	public:
@@ -4394,14 +4394,14 @@ struct param_traits< detail::token,param_name >       \
 	 *  See Memory for details about copy semantics, etc.
 	 *
 	 *  \see Memory
-	 */
+	*/
 	class Image3D : public Image
 	{
 	public:
 		/*! \brief Constructs a 3D Image in a specified context.
 		 *
 		 *  Wraps clCreateImage().
-		 */
+		*/
 		Image3D(
 			const Context & context,
 			cl_mem_flags flags,
@@ -4482,19 +4482,19 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image3D( const Image3D & image3D ) : Image( image3D ) { }
 
 		/*! \brief Constructor from cl_mem - takes ownership.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS Image3D( const cl_mem & image3D ) : Image( image3D ) { }
 
 		/*! \brief Assignment from Image3D - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image3D & operator = ( const Image3D & rhs )
 		{
 			if ( this != &rhs )
@@ -4508,7 +4508,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Assignment from cl_mem - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image3D & operator = ( const cl_mem & rhs )
 		{
 			Image::operator=( rhs );
@@ -4524,7 +4524,7 @@ struct param_traits< detail::token,param_name >       \
 	 *  See Memory for details about copy semantics, etc.
 	 *
 	 *  \see Memory
-	 */
+	*/
 	class Image3DGL : public Image3D
 	{
 	public:
@@ -4532,7 +4532,7 @@ struct param_traits< detail::token,param_name >       \
 		 *         GL Texture.
 		 *
 		 *  Wraps clCreateFromGLTexture3D().
-		 */
+		*/
 		Image3DGL(
 			const Context & context,
 			cl_mem_flags flags,
@@ -4563,19 +4563,19 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image3DGL( const Image3DGL & image ) : Image3D( image ) { }
 
 		/*! \brief Constructor from cl_mem - takes ownership.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS Image3DGL( const cl_mem & image ) : Image3D( image ) { }
 
 		/*! \brief Assignment from Image3DGL - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image3DGL & operator = ( const Image3DGL & rhs )
 		{
 			if ( this != &rhs )
@@ -4589,7 +4589,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Assignment from cl_mem - performs shallow copy.
 		 *
 		 *  See Memory for further details.
-		 */
+		*/
 		Image3DGL & operator = ( const cl_mem & rhs )
 		{
 			Image3D::operator=( rhs );
@@ -4604,7 +4604,7 @@ struct param_traits< detail::token,param_name >       \
 	 * We abstract the 2D and 3D GL images into a single instance here
 	 * that wraps all GL sourced images on the grounds that setup information
 	 * was performed by OpenCL anyway.
-	 */
+	*/
 	class ImageGL : public Image
 	{
 	public:
@@ -4663,14 +4663,14 @@ struct param_traits< detail::token,param_name >       \
 	 *        clRetainSampler() and clReleaseSampler().
 	 *
 	 *  \see cl_sampler
-	 */
+	*/
 	class Sampler : public detail::Wrapper< cl_sampler >
 	{
 	public:
 		/*! \brief Destructor.
 		 *
 		 *  This calls clReleaseSampler() on the value held by this instance.
-		 */
+		*/
 		~Sampler() { }
 
 		//! \brief Default constructor - initializes to NULL.
@@ -4679,7 +4679,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Constructs a Sampler in a specified context.
 		 *
 		 *  Wraps clCreateSampler().
-		 */
+		*/
 		Sampler(
 			const Context & context,
 			cl_bool normalized_coords,
@@ -4705,21 +4705,21 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  This calls clRetainSampler() on the parameter's cl_sampler.
-		 */
+		*/
 		Sampler( const Sampler & sampler ) : detail::Wrapper< cl_type >( sampler ) { }
 
 		/*! \brief Constructor from cl_sampler - takes ownership.
 		 *
 		 *  This effectively transfers ownership of a refcount on the cl_sampler
 		 *  into the new Sampler object.
-		 */
+		*/
 		Sampler( const cl_sampler & sampler ) : detail::Wrapper< cl_type >( sampler ) { }
 
 		/*! \brief Assignment operator from Sampler.
 		 *
 		 *  This calls clRetainSampler() on the parameter and clReleaseSampler()
 		 *  on the previous value held by this instance.
-		 */
+		*/
 		Sampler & operator = ( const Sampler & rhs )
 		{
 			if ( this != &rhs )
@@ -4734,7 +4734,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  This effectively transfers ownership of a refcount on the rhs and calls
 		 *  clReleaseSampler() on the value previously held by this instance.
-		 */
+		*/
 		Sampler & operator = ( const cl_sampler & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
@@ -4812,7 +4812,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Conversion operator to const::size_t *.
 		 *
 		 *  \returns a pointer to the size of the first dimension.
-		 */
+		*/
 		operator const::size_t * () const
 		{
 			return ( const::size_t * ) sizes_;
@@ -4869,7 +4869,7 @@ struct param_traits< detail::token,param_name >       \
 	/*! __local
 	 * \brief Helper function for generating LocalSpaceArg objects.
 	 * Deprecated. Replaced with Local.
-	 */
+	*/
 	inline CL_EXT_PREFIX__VERSION_1_1_DEPRECATED LocalSpaceArg
 	__local( ::size_t size ) CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED;
 	inline LocalSpaceArg
@@ -4881,7 +4881,7 @@ struct param_traits< detail::token,param_name >       \
 
 	/*! Local
 	 * \brief Helper function for generating LocalSpaceArg objects.
-	 */
+	*/
 	inline LocalSpaceArg
 	Local( ::size_t size )
 	{
@@ -4898,7 +4898,7 @@ struct param_traits< detail::token,param_name >       \
 	 *        clRetainKernel() and clReleaseKernel().
 	 *
 	 *  \see cl_kernel
-	 */
+	*/
 	class Kernel : public detail::Wrapper< cl_kernel >
 	{
 	public:
@@ -4907,7 +4907,7 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Destructor.
 		 *
 		 *  This calls clReleaseKernel() on the value held by this instance.
-		 */
+		*/
 		~Kernel() { }
 
 		//! \brief Default constructor - initializes to NULL.
@@ -4916,21 +4916,21 @@ struct param_traits< detail::token,param_name >       \
 		/*! \brief Copy constructor - performs shallow copy.
 		 *
 		 *  This calls clRetainKernel() on the parameter's cl_kernel.
-		 */
+		*/
 		Kernel( const Kernel & kernel ) : detail::Wrapper< cl_type >( kernel ) { }
 
 		/*! \brief Constructor from cl_kernel - takes ownership.
 		 *
 		 *  This effectively transfers ownership of a refcount on the cl_kernel
 		 *  into the new Kernel object.
-		 */
+		*/
 		__CL_EXPLICIT_CONSTRUCTORS Kernel( const cl_kernel & kernel ) : detail::Wrapper< cl_type >( kernel ) { }
 
 		/*! \brief Assignment operator from Kernel.
 		 *
 		 *  This calls clRetainKernel() on the parameter and clReleaseKernel()
 		 *  on the previous value held by this instance.
-		 */
+		*/
 		Kernel & operator = ( const Kernel & rhs )
 		{
 			if ( this != &rhs )
@@ -4945,7 +4945,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  This effectively transfers ownership of a refcount on the rhs and calls
 		 *  clReleaseKernel() on the value previously held by this instance.
-		 */
+		*/
 		Kernel & operator = ( const cl_kernel & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
@@ -5050,7 +5050,7 @@ struct param_traits< detail::token,param_name >       \
 
 	/*! \class Program
 	 * \brief Program interface that implements cl_program.
-	 */
+	*/
 	class Program : public detail::Wrapper< cl_program >
 	{
 	public:
@@ -5163,7 +5163,7 @@ struct param_traits< detail::token,param_name >       \
 		 *   CL_INVALID_DEVICE if OpenCL devices listed in devices are not in the list of devices associated with context.
 		 *   CL_INVALID_BINARY if an invalid program binary was encountered for any device. binaryStatus will return specific status for each device.
 		 *   CL_OUT_OF_HOST_MEMORY if there is a failure to allocate resources required by the OpenCL implementation on the host.
-		 */
+		*/
 		Program(
 			const Context & context,
 			const VECTOR_CLASS< Device > & devices,
@@ -5228,7 +5228,7 @@ struct param_traits< detail::token,param_name >       \
 		/**
 		 * Create program using builtin kernels.
 		 * \param kernelNames Semi-colon separated list of builtin kernel names
-		 */
+		*/
 		Program(
 			const Context & context,
 			const VECTOR_CLASS< Device > & devices,
@@ -5531,7 +5531,7 @@ struct param_traits< detail::token,param_name >       \
 
 	/*! \class CommandQueue
 	 * \brief CommandQueue interface for cl_command_queue.
-	 */
+	*/
 	class CommandQueue : public detail::Wrapper< cl_command_queue >
 	{
 	private:
@@ -5939,7 +5939,7 @@ struct param_traits< detail::token,param_name >       \
 		 * of a given size. The pattern is specified a as vector.
 		 * \tparam PatternType The datatype of the pattern field.
 		 *     The pattern type must be an accepted OpenCL data type.
-		 */
+		*/
 		template< typename PatternType >
 		cl_int enqueueFillBuffer(
 			const Buffer & buffer,
@@ -6064,7 +6064,7 @@ struct param_traits< detail::token,param_name >       \
 		 *     This is a four component RGBA floating-point color value if
 		 *     the image channel data type is not an unnormalized signed or
 		 *     unsigned data type.
-		 */
+		*/
 		cl_int enqueueFillImage(
 			const Image & image,
 			cl_float4 fillColor,
@@ -6100,7 +6100,7 @@ struct param_traits< detail::token,param_name >       \
 		 *     This is a four component RGBA signed integer color value if
 		 *     the image channel data type is an unnormalized signed integer
 		 *     type.
-		 */
+		*/
 		cl_int enqueueFillImage(
 			const Image & image,
 			cl_int4 fillColor,
@@ -6136,7 +6136,7 @@ struct param_traits< detail::token,param_name >       \
 		 *     This is a four component RGBA unsigned integer color value if
 		 *     the image channel data type is an unnormalized unsigned integer
 		 *     type.
-		 */
+		*/
 		cl_int enqueueFillImage(
 			const Image & image,
 			cl_uint4 fillColor,
@@ -6313,7 +6313,7 @@ struct param_traits< detail::token,param_name >       \
 		 * i.e. this event can be waited on to insure that all events either in the event_wait_list
 		 * or all previously enqueued commands, queued before this command to command_queue,
 		 * have completed.
-		 */
+		*/
 		cl_int enqueueMarkerWithWaitList(
 			const VECTOR_CLASS< Event > * events = 0,
 			Event * event = 0 )
@@ -6345,7 +6345,7 @@ struct param_traits< detail::token,param_name >       \
 		 * returns an event which can be waited on, i.e. this event can be waited on to insure that
 		 * all events either in the event_wait_list or all previously enqueued commands, queued
 		 * before this command to command_queue, have completed.
-		 */
+		*/
 		cl_int enqueueBarrierWithWaitList(
 			const VECTOR_CLASS< Event > * events = 0,
 			Event * event = 0 )
@@ -6370,7 +6370,7 @@ struct param_traits< detail::token,param_name >       \
 		/**
 		 * Enqueues a command to indicate with which device a set of memory objects
 		 * should be associated.
-		 */
+		*/
 		cl_int enqueueMigrateMemObjects(
 			const VECTOR_CLASS< Memory > & memObjects,
 			cl_mem_migration_flags flags,
@@ -6498,7 +6498,7 @@ struct param_traits< detail::token,param_name >       \
 
 		/**
 		 * Deprecated APIs for 1.2
-		 */
+		*/
 #if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2))
 		CL_EXT_PREFIX__VERSION_1_1_DEPRECATED
 		cl_int enqueueMarker( Event * event = NULL ) const CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED
@@ -6649,7 +6649,7 @@ struct param_traits< detail::token,param_name >       \
 
 		/**
 		 * Deprecated APIs for 1.2
-		 */
+		*/
 #if defined(CL_USE_DEPRECATED_OPENCL_1_1_APIS) || (defined(CL_VERSION_1_1) && !defined(CL_VERSION_1_2))
 		CL_EXT_PREFIX__VERSION_1_1_DEPRECATED
 		cl_int enqueueBarrier() const CL_EXT_SUFFIX__VERSION_1_1_DEPRECATED
@@ -6877,7 +6877,7 @@ struct param_traits< detail::token,param_name >       \
 	 * Blocking copy operation between iterators and a buffer.
 	 * Host to Device.
 	 * Uses default command queue.
-	 */
+	*/
 	template< typename IteratorType >
 	inline cl_int copy( IteratorType startIterator, IteratorType endIterator, cl::Buffer & buffer )
 	{
@@ -6896,7 +6896,7 @@ struct param_traits< detail::token,param_name >       \
 	 * Blocking copy operation between iterators and a buffer.
 	 * Device to Host.
 	 * Uses default command queue.
-	 */
+	*/
 	template< typename IteratorType >
 	inline cl_int copy( const cl::Buffer & buffer, IteratorType startIterator, IteratorType endIterator )
 	{
@@ -6915,7 +6915,7 @@ struct param_traits< detail::token,param_name >       \
 	 * Blocking copy operation between iterators and a buffer.
 	 * Host to Device.
 	 * Uses specified queue.
-	 */
+	*/
 	template< typename IteratorType >
 	inline cl_int copy( const CommandQueue & queue, IteratorType startIterator, IteratorType endIterator, cl::Buffer & buffer )
 	{
@@ -6958,7 +6958,7 @@ struct param_traits< detail::token,param_name >       \
 	 * Blocking copy operation between iterators and a buffer.
 	 * Device to Host.
 	 * Uses specified queue.
-	 */
+	*/
 	template< typename IteratorType >
 	inline cl_int copy( const CommandQueue & queue, const cl::Buffer & buffer, IteratorType startIterator, IteratorType endIterator )
 	{
@@ -12918,7 +12918,7 @@ struct param_traits< detail::token,param_name >       \
 // Extensions
 	/**
 	 * Deprecated APIs for 1.2
-	 */
+	*/
 #if defined(CL_VERSION_1_1)
 #undef __INIT_CL_EXT_FCN_PTR
 #endif // #if defined(CL_VERSION_1_1)

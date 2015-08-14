@@ -52,7 +52,7 @@ namespace gl
 			The OpenGL instance
 		@param[in] p_program
 			The parent shader program
-		 */
+		*/
 		TFrameVariable( OpenGl & p_openGl, ShaderProgram & p_program )
 			: FrameVariableBase( p_openGl, p_program )
 		{
@@ -63,7 +63,7 @@ namespace gl
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~TFrameVariable()
 		{
 		}
@@ -71,7 +71,7 @@ namespace gl
 		/** Assigns and activate the frame variable
 		@return
 			true if the variable is assigned and bound, or if it is not used in the shader program
-		 */
+		*/
 		virtual bool Apply()
 		{
 			bool l_bReturn = true;
@@ -99,7 +99,7 @@ namespace gl
 		/** Retrieves the variable's value
 		@return
 			The value
-		 */
+		*/
 		inline T const * GetValue()const
 		{
 			return &m_value[0];
@@ -108,7 +108,7 @@ namespace gl
 		/** Retrieves the variable's count
 		@return
 			The value
-		 */
+		*/
 		inline uint32_t GetCount()const
 		{
 			return Count;
@@ -136,7 +136,7 @@ namespace gl
 			The uniform variable
 		@return
 			true if the OpenGL call was successful
-		 */
+		*/
 		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 1 > > p_pVariable )
 		{
 			return p_openGl.Uniform( p_pVariable->GetGlIndex(), *p_pVariable->GetValue() );
@@ -160,7 +160,7 @@ namespace gl
 			The uniform variable
 		@return
 			true if the OpenGL call was successful
-		 */
+		*/
 		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 2 > > p_pVariable )
 		{
 			return p_openGl.UniformVec2( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
@@ -184,7 +184,7 @@ namespace gl
 			The uniform variable
 		@return
 			true if the OpenGL call was successful
-		 */
+		*/
 		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 3 > > p_pVariable )
 		{
 			return p_openGl.UniformVec3( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
@@ -208,7 +208,7 @@ namespace gl
 			The uniform variable
 		@return
 			true if the OpenGL call was successful
-		 */
+		*/
 		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 4 > > p_pVariable )
 		{
 			return p_openGl.UniformVec4( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
@@ -232,7 +232,7 @@ namespace gl
 			The uniform variable
 		@return
 			true if the OpenGL call was successful
-		 */
+		*/
 		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 4 * 4 > > p_pVariable )
 		{
 			return p_openGl.UniformMat4( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );

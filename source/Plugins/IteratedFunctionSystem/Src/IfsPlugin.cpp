@@ -7,25 +7,11 @@ namespace IteratedFunctionSystem
 	IMPLEMENT_PLUGIN( Plugin, Generator )
 
 	Plugin::Plugin()
-		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "IteratedFunctionSystem" ) )
+		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "IteratedFunctionSystem" ), _( "Iterated Function System" ) )
 	{
 	}
 
 	Plugin::~Plugin()
 	{
-	}
-
-	String Plugin::GetName()
-	{
-		String l_strBaseName = _( "Iterated Function System" );
-#if !defined( NDEBUG )
-		l_strBaseName += _T( " (Debug)" );
-#endif
-		return l_strBaseName;
-	}
-
-	bool Plugin::HasCustomisableResolution()
-	{
-		return true;
 	}
 }

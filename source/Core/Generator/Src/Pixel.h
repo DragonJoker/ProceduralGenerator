@@ -48,19 +48,19 @@ namespace ProceduralTextures
 	{
 	public:
 		/** Default constructor
-		 */
+		*/
 		Pixel();
 
 		/** Specified constructor
 		@param[in] p_r,
 			p_g, p_b, p_a	The pixel components
-		 */
+		*/
 		template< typename U > Pixel( U p_r, U p_g, U p_b, U p_a );
 
 		/** Constructor from another pixel type
 		@param[in] p_pxl
 			The object to copy
-		 */
+		*/
 		template< typename U > Pixel( const Pixel< U > & p_pxl );
 
 		/** Assignment operator from another pixel type
@@ -68,7 +68,7 @@ namespace ProceduralTextures
 			The object to copy
 		@return
 			A reference to this object
-		 */
+		*/
 		template< typename U > Pixel & operator =( const Pixel< U > & p_px );
 
 		/** Addition assignment operator
@@ -76,7 +76,7 @@ namespace ProceduralTextures
 			The object to add
 		@return
 			A reference to this object
-		 */
+		*/
 		template< typename U > Pixel & operator +=( const Pixel< U > & p_px );
 
 		/** Substraction assignment operator
@@ -84,7 +84,7 @@ namespace ProceduralTextures
 			The object to subtract
 		@return
 			A reference to this object
-		 */
+		*/
 		template< typename U > Pixel & operator -=( const Pixel< U > & p_px );
 
 		/** Multiplication assignment operator
@@ -92,7 +92,7 @@ namespace ProceduralTextures
 			The object to multiply
 		@return
 			A reference to this object
-		 */
+		*/
 		template< typename U > Pixel & operator *=( const Pixel< U > & p_px );
 
 		/** Division assignment operator
@@ -100,7 +100,7 @@ namespace ProceduralTextures
 			The object to divide
 		@return
 			A reference to this object
-		 */
+		*/
 		template< typename U > Pixel & operator /=( const Pixel< U > & p_px );
 
 		/** Addition assignment operator
@@ -108,7 +108,7 @@ namespace ProceduralTextures
 			The value to add
 		@return
 			A reference to this object
-		 */
+		*/
 		template< typename U > Pixel & operator +=( U const & p_t );
 
 		/** Substraction assignment operator
@@ -116,7 +116,7 @@ namespace ProceduralTextures
 			The value to subtract
 		@return
 			A reference to this object
-		 */
+		*/
 		template< typename U > Pixel & operator -=( U const & p_t );
 
 		/** Multiplication assignment operator
@@ -124,7 +124,7 @@ namespace ProceduralTextures
 			The value to multiply
 		@return
 			A reference to this object
-		 */
+		*/
 		template< typename U > Pixel & operator *=( U const & p_t );
 
 		/** Division assignment operator
@@ -132,7 +132,7 @@ namespace ProceduralTextures
 			The value to divide
 		@return
 			A reference to this object
-		 */
+		*/
 		template< typename U > Pixel & operator /=( U const & p_t );
 
 		/** Binary right decal assignment operator
@@ -140,7 +140,7 @@ namespace ProceduralTextures
 			The decal value
 		@return
 			A reference to this object
-		 */
+		*/
 		Pixel & operator >>= ( size_t p_t );
 
 		/** Binary left decal assignment operator
@@ -148,19 +148,19 @@ namespace ProceduralTextures
 			The decal value
 		@return
 			A reference to this object
-		 */
+		*/
 		Pixel & operator <<= ( size_t p_t );
 
 		/** Sets the pixel components
 		@param[in] p_r, p_g, p_b, p_a
 			The pixel components
-		 */
+		*/
 		template< typename U > void Set( U p_r, U p_g, U p_b, U p_a );
 
 		/** Sets the pixel from another pixel type
 		@param[in] p_px
 			The object to copy
-		 */
+		*/
 		template< typename U > void Set( const Pixel< U > & p_px );
 
 		/** Sets the pixel from two buffers
@@ -171,13 +171,13 @@ namespace ProceduralTextures
 			<br />If one Count equals 4 (RGBA compponents for respective p_pBuffer), the other Count must be 0 (Alpha component for respective p_pBuffer)
 		@param[in] p_pBuffer1,
 			p_pBuffer2	The buffers
-		 */
+		*/
 		template < size_t Count1, size_t Count2 > void Set( const T * p_pBuffer1, const T * p_pBuffer2 );
 
 		/** Retrieves the sum of the RGB components
 		@return
 			The sum
-		 */
+		*/
 		template< typename U > U Sum()const;
 
 	public:
@@ -195,7 +195,7 @@ namespace ProceduralTextures
 		The pixels to compare
 	@return
 		\p true if pixels have same values
-	 */
+	*/
 	template< typename T, typename U > bool operator ==( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
 
 	/** Difference operator
@@ -203,7 +203,7 @@ namespace ProceduralTextures
 		The pixels to compare
 	@return
 		\p true if pixels have At least one different value
-	 */
+	*/
 	template< typename T, typename U > bool operator !=( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
 
 	/** Addition operator
@@ -211,7 +211,7 @@ namespace ProceduralTextures
 		The pixels to add
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T, typename U > Pixel< T > operator +( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
 
 	/** Subtraction operator
@@ -219,7 +219,7 @@ namespace ProceduralTextures
 		The pixels to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T, typename U > Pixel< T > operator -( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
 
 	/** Multiplication operator
@@ -227,7 +227,7 @@ namespace ProceduralTextures
 		The pixels to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T, typename U > Pixel< T > operator /( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
 
 	/** Division operator
@@ -235,7 +235,7 @@ namespace ProceduralTextures
 		The pixels to divide
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T, typename U > Pixel< T > operator *( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
 
 	/** Addition operator
@@ -243,7 +243,7 @@ namespace ProceduralTextures
 		The pixels to add
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T, typename U > Pixel< T > operator +( const Pixel< T > & p_pixel, U const & p_t );
 
 	/** Subtraction operator
@@ -251,7 +251,7 @@ namespace ProceduralTextures
 		The pixels to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T, typename U > Pixel< T > operator -( const Pixel< T > & p_pixel, U const & p_t );
 
 	/** Multiplication operator
@@ -259,7 +259,7 @@ namespace ProceduralTextures
 		The pixels to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T, typename U > Pixel< T > operator /( const Pixel< T > & p_pixel, U const & p_t );
 
 	/** Division operator
@@ -267,7 +267,7 @@ namespace ProceduralTextures
 		The pixels to divide
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T, typename U > Pixel< T > operator *( const Pixel< T > & p_pixel, U const & p_t );
 
 	/** Addition operator
@@ -275,7 +275,7 @@ namespace ProceduralTextures
 		The pixels to add
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T, typename U > Pixel< U > operator +( U const & p_t, const Pixel< T > & p_pixel );
 
 	/** Subtraction operator
@@ -283,7 +283,7 @@ namespace ProceduralTextures
 		The pixels to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T, typename U > Pixel< U > operator -( U const & p_t, const Pixel< T > & p_pixel );
 
 	/** Multiplication operator
@@ -291,7 +291,7 @@ namespace ProceduralTextures
 		The pixels to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T, typename U > Pixel< U > operator /( U const & p_t, const Pixel< T > & p_pixel );
 
 	/** Division operator
@@ -299,7 +299,7 @@ namespace ProceduralTextures
 		The pixels to divide
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T, typename U > Pixel< U > operator *( U const & p_t, const Pixel< T > & p_pixel );
 }
 

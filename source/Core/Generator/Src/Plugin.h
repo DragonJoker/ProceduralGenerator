@@ -29,7 +29,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 #endif
 
 //! Macro to use in the header of a class that derives from Plugin
-#define DECLARE_PLUGIN() virtual void Destroy();
+#define DECLARE_PLUGIN()\
+	virtual void Destroy();
 
 //! Macro to use in the source of a class that derives from plugin
 #define IMPLEMENT_PLUGIN( PluginClass, GeneratorClass )\
@@ -54,9 +55,6 @@ namespace ProceduralTextures
 	*/
 	class GeneratorAPI PluginBase
 	{
-	protected:
-		String m_strName;
-
 	public:
 		//! Typedef to the exported function used to create a plugin
 		typedef PluginBase * ( CreatePluginFunction )();
@@ -64,19 +62,32 @@ namespace ProceduralTextures
 
 	public:
 		/** Constructor
-		@param[in] p_strName
+		@param[in] p_internal
 			Plugin internal name
-		 */
-		PluginBase( String const & p_strName );
+		@param[in] p_displayable
+			Plugin displayable name
+		@param[in] p_customResolution
+			Tells if the generator allows the resolution customisation
+			If false, the computing surface dimensions in the Generator::Create function will be ignored
+		*/
+		PluginBase( String const & p_internal, String const & p_displayable, bool p_customResolution );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~PluginBase();
+
+		/** Gives the plugin displayable name
+		@remarks
+			Derived classes must implement it
+		@return
+			The plugin name
+		*/
+		String GetName();
 
 		/** Destroys this plugin
 		@remarks
 			Implemented in \p IMPLEMENT_PLUGIN macro
-		 */
+		*/
 		virtual void Destroy() = 0;
 
 		/** Creates the ProceduralGenerators
@@ -84,22 +95,27 @@ namespace ProceduralTextures
 			Implemented in Plugin
 		@return
 			The created generator
-		 */
+		*/
 		virtual std::shared_ptr< GeneratorBase > CreateGenerator() = 0;
 
-		/** Gives the plugin displayable name
+		/** Tells if the generator allows the resolution customisation
 		@remarks
-			Derived classes must implement it
-		@return
-			The plugin name
-		 */
-		virtual String GetName() = 0;
-
-		/** Tells if the plugin resolution is customisable
+			If false, the computing surface dimensions in the Generator::Create function will be ignored
 		@return
 			The status
-		 */
-		virtual bool HasCustomisableResolution() = 0;
+		*/
+		bool HasCustomisableResolution()const
+		{
+			return m_customResolution;
+		}
+
+	protected:
+		//! The plugin internal name
+		String m_internal;
+		//! The plugin displayable name
+		String m_displayable;
+		//! The plugin displayable name
+		bool m_customResolution;
 	};
 	/*!
 	@author
@@ -111,30 +127,34 @@ namespace ProceduralTextures
 		<br />On MS-Windows, it also creates the dll main application
 	*/
 	template< class GeneratorClass, class PluginClass >
-	class Plugin : public PluginBase
+	class Plugin
+		: public PluginBase
 	{
 	public:
 		/** Constructor
-		@remarks
-			On MS-Windows, it connects the wxApp to the terminate event, in order to be able to exit the dll main
-		 */
-		Plugin( String const & p_strName )
-			:	PluginBase( p_strName )
+		@param[in] p_internal
+			Plugin internal name
+		@param[in] p_displayable
+			Plugin displayable name
+		@param[in] p_customResolution
+			Tells if the generator allows the resolution customisation
+			If false, the computing surface dimensions in the Generator::Create function will be ignored
+		*/
+		Plugin( String const & p_internal, String const & p_displayable, bool p_customResolution = true )
+			:	PluginBase( p_internal, p_displayable, p_customResolution )
 		{
-			Translator::Initialise( System::GetExecutableDirectory(), _T( "ProceduralGenerator" ), p_strName );
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Plugin()
 		{
-			Translator::Cleanup();
 		}
 
 		/** Creates the ProceduralGenerator
 		@return
 			The created generator
-		 */
+		*/
 		std::shared_ptr< GeneratorBase > CreateGenerator()
 		{
 			return std::make_shared< GeneratorClass >();

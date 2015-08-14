@@ -38,21 +38,24 @@ namespace LifeGame
 	{
 	public:
 		/** Constructor
-		 */
+		*/
 		Generator();
+
 		/** Destructor
-		 */
+		*/
 		virtual ~Generator();
 
 	private:
 		/** @copydoc ProceduralTexture::Generator::DoCreate
-		 */
+		*/
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
+
 		/** @copydoc ProceduralTexture::Generator::DoDestroy
-		 */
+		*/
 		virtual void DoDestroy();
+
 		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
-		 */
+		*/
 		virtual void DoGeneratePanel();
 	};
 }

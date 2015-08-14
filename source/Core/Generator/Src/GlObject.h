@@ -176,7 +176,7 @@ namespace gl
 			The validation function
 		@param[in] p_binder
 			The binding function
-		 */
+		*/
 		Object( OpenGl & p_openGl, CreateFunction p_creator, DestroyFunction p_destroyer, ValidatorFunction p_validator, BindFunction p_binder = BindFunction() )
 			: Holder( p_openGl )
 			, m_creator( p_creator )
@@ -188,7 +188,7 @@ namespace gl
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Object()
 		{
 		}
@@ -196,7 +196,7 @@ namespace gl
 		/** Creates the object on GPU
 		@return
 			false if not created successfully
-		 */
+		*/
 		virtual bool Create()
 		{
 			bool l_return = m_glName != -1;
@@ -224,7 +224,7 @@ namespace gl
 		}
 
 		/** Destroys the object on GPU
-		 */
+		*/
 		virtual void Destroy()
 		{
 			if ( IsValid() )
@@ -238,14 +238,14 @@ namespace gl
 		/** Binds the object on GPU
 		@return
 			false if not bound successfully
-		 */
+		*/
 		virtual bool Bind()
 		{
 			return m_binder( m_glName );
 		}
 
 		/** Unbinds the object on GPU
-		 */
+		*/
 		virtual void Unbind()
 		{
 			m_binder( 0 );
@@ -254,7 +254,7 @@ namespace gl
 		/** Tells if the object is created
 		@return
 			The status
-		 */
+		*/
 		bool IsValid()const
 		{
 			return m_glName != -1 && m_validator( m_glName );
@@ -263,7 +263,7 @@ namespace gl
 		/** Retrieves the OpenGl instance
 		@return
 			The instance
-		 */
+		*/
 		uint32_t GetGlName()const
 		{
 			return m_glName;

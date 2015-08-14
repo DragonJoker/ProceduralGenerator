@@ -39,7 +39,7 @@ namespace ProceduralTextures
 			The control event type
 		@param[in] p_ctrl
 			A control (depends on the event type)
-		 */
+		*/
 		ControlEvent( eCONTROL_EVENT p_type, std::shared_ptr< Control > p_ctrl )
 			: Event( eEVENT_TYPE_CONTROL )
 			, m_controlEventType( p_type )
@@ -48,7 +48,7 @@ namespace ProceduralTextures
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~ControlEvent()
 		{
 		}
@@ -56,7 +56,7 @@ namespace ProceduralTextures
 		/** Retrieves the event type
 		@return
 				The type
-		 */
+		*/
 		inline eCONTROL_EVENT GetControlEventType()const
 		{
 			return m_controlEventType;
@@ -65,7 +65,7 @@ namespace ProceduralTextures
 		/** Retrieves the key code
 		@return
 				The key
-		 */
+		*/
 		inline std::shared_ptr< Control > GetControl()const
 		{
 			return m_ctrl.lock();

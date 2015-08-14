@@ -79,7 +79,7 @@ namespace ProceduralTextures
 					The output string
 				@param[in] p_locale
 					The locale
-				 */
+				*/
 				static void Convert( std::basic_string< char > const & p_strIn, std::basic_string< wchar_t > & p_strOut, std::locale const & p_locale = std::locale() )
 				{
 					if ( !p_strIn.empty() )
@@ -121,7 +121,7 @@ namespace ProceduralTextures
 					The output string
 				@param[in] p_locale
 					The locale
-				 */
+				*/
 				static void Convert( std::basic_string< wchar_t > const & p_strIn, std::basic_string< char > & p_strOut, std::locale const & p_locale = std::locale() )
 				{
 					if ( !p_strIn.empty() )
@@ -164,7 +164,7 @@ namespace ProceduralTextures
 					The output string
 				@param[in] p_locale
 					The locale
-				 */
+				*/
 				static void Convert( std::basic_string< InChar > const & p_strIn, std::basic_string< InChar > & p_strOut, std::locale const & p_locale = std::locale() )
 				{
 					p_strOut = p_strIn;
@@ -177,7 +177,7 @@ namespace ProceduralTextures
 			The value
 		@return
 			The String
-		 */
+		*/
 		template< typename T >
 		String ToString( T const & p_in )
 		{
@@ -191,7 +191,7 @@ namespace ProceduralTextures
 			The input string
 		@return
 			The converted string
-		 */
+		*/
 		template< typename OChar, typename IChar >
 		std::basic_string< OChar > StringCast( std::basic_string< IChar > const & p_in )
 		{
@@ -205,7 +205,7 @@ namespace ProceduralTextures
 			The input string
 		@return
 			The converted string
-		 */
+		*/
 		template< typename OChar, typename IChar >
 		std::basic_string< OChar > StringCast( IChar const * p_in )
 		{
@@ -219,7 +219,7 @@ namespace ProceduralTextures
 			The std::string
 		@return
 			The String
-		 */
+		*/
 		inline String FromStdString( std::string const & p_str )
 		{
 			return StringCast< char >( p_str );
@@ -230,7 +230,7 @@ namespace ProceduralTextures
 			The std::wstring
 		@return
 			The String
-		 */
+		*/
 		inline String FromStdWString( std::wstring const & p_str )
 		{
 			return StringCast< char >( p_str );
@@ -241,7 +241,7 @@ namespace ProceduralTextures
 			The String
 		@return
 			The std::string
-		 */
+		*/
 		inline std::string ToStdString( std::wstring const & p_str )
 		{
 			return StringCast< char >( p_str );
@@ -252,7 +252,7 @@ namespace ProceduralTextures
 			The String
 		@return
 			The std::string
-		 */
+		*/
 		inline std::string ToStdString( std::string const & p_str )
 		{
 			std::string::iterator l_it;
@@ -264,7 +264,7 @@ namespace ProceduralTextures
 			The String
 		@return
 			The std::wstring
-		 */
+		*/
 		inline std::wstring ToStdWString( std::string const & p_str )
 		{
 			return StringCast< wchar_t >( p_str );
@@ -275,7 +275,7 @@ namespace ProceduralTextures
 			The String
 		@return
 			The std::wstring
-		 */
+		*/
 		inline std::wstring ToStdWString( std::wstring const & p_str )
 		{
 			return p_str;
@@ -286,7 +286,7 @@ namespace ProceduralTextures
 			The integer char
 		@return
 			The UTF-8 char32_t character
-		 */
+		*/
 		template< typename IteratorType >
 		inline char32_t ToUtf8( IteratorType p_value )
 		{
@@ -348,7 +348,7 @@ namespace ProceduralTextures
 			/** Constructor
 			@param[in] p_it
 				The string iterator
-			 */
+			*/
 			Utf8Iterator( String::const_iterator const & p_it )
 				: m_it( p_it )
 				, m_lastCodePoint( 0 )
@@ -359,7 +359,7 @@ namespace ProceduralTextures
 			/** Copy constructor
 			@param[in] p_it
 				The other object
-			 */
+			*/
 			Utf8Iterator( Utf8Iterator const & p_it )
 				: m_it( p_it.m_it )
 				, m_lastCodePoint( p_it.m_lastCodePoint )
@@ -368,7 +368,7 @@ namespace ProceduralTextures
 			}
 
 			/** Destructor
-			 */
+			*/
 			~Utf8Iterator()
 			{
 			}
@@ -378,7 +378,7 @@ namespace ProceduralTextures
 				The string iterator
 			@return
 				A reference to this object
-			 */
+			*/
 			Utf8Iterator & operator=( String::const_iterator const & p_it )
 			{
 				m_it = p_it;
@@ -392,7 +392,7 @@ namespace ProceduralTextures
 				The string iterator
 			@return
 				A reference to this object
-			 */
+			*/
 			Utf8Iterator & operator=( String::iterator const & p_it )
 			{
 				m_it = p_it;
@@ -406,7 +406,7 @@ namespace ProceduralTextures
 				The other object
 			@return
 				A reference to this object
-			 */
+			*/
 			Utf8Iterator & operator=( Utf8Iterator const & p_it )
 			{
 				m_it = p_it.m_it;
@@ -420,7 +420,7 @@ namespace ProceduralTextures
 				The offset to add
 			@return
 				A reference to this object
-			 */
+			*/
 			Utf8Iterator & operator+=( size_t p_offset )
 			{
 				while ( p_offset-- )
@@ -436,7 +436,7 @@ namespace ProceduralTextures
 				The offset to subtract
 			@return
 				A reference to this object
-			 */
+			*/
 			Utf8Iterator & operator-=( size_t p_offset )
 			{
 				while ( p_offset-- )
@@ -450,7 +450,7 @@ namespace ProceduralTextures
 			/** Pre-increment operator
 			@return
 				A reference to this object
-			 */
+			*/
 			Utf8Iterator & operator++()
 			{
 				char l_firstByte = *m_it;
@@ -478,7 +478,7 @@ namespace ProceduralTextures
 			/** Post-increment operator
 			@return
 				A copy of this iterator, befor increment
-			 */
+			*/
 			Utf8Iterator operator++( int )
 			{
 				Utf8Iterator temp = *this;
@@ -489,7 +489,7 @@ namespace ProceduralTextures
 			/** Pre-decrement operator
 			@return
 				A reference to this object
-			 */
+			*/
 			Utf8Iterator & operator--()
 			{
 				--m_it;
@@ -516,7 +516,7 @@ namespace ProceduralTextures
 			/** Post-decrement operator
 			@return
 				A copy of this iterator, befor dencrement
-			 */
+			*/
 			Utf8Iterator operator--( int )
 			{
 				Utf8Iterator temp = *this;
@@ -527,7 +527,7 @@ namespace ProceduralTextures
 			/** Access to the current codepoint value
 			@return
 				The current codepoint value
-			 */
+			*/
 			char32_t operator*()const
 			{
 				DoCalculateCurrentCodePoint();
@@ -535,49 +535,49 @@ namespace ProceduralTextures
 			}
 
 			/** Equality operator
-			 */
+			*/
 			bool operator==( const Utf8Iterator & p_it )const
 			{
 				return m_it == p_it.m_it;
 			}
 
 			/** Equality operator
-			 */
+			*/
 			bool operator==( const String::const_iterator & p_it )const
 			{
 				return m_it == p_it;
 			}
 
 			/** Equality operator
-			 */
+			*/
 			bool operator==( const String::iterator & p_it )const
 			{
 				return m_it == p_it;
 			}
 
 			/** Difference operator
-			 */
+			*/
 			bool operator!=( const Utf8Iterator & p_it )const
 			{
 				return m_it != p_it.m_it;
 			}
 
 			/** Difference operator
-			 */
+			*/
 			bool operator!=( const String::const_iterator & p_it )const
 			{
 				return m_it != p_it;
 			}
 
 			/** Difference operator
-			 */
+			*/
 			bool operator!=( const String::iterator & p_it )const
 			{
 				return m_it != p_it;
 			}
 
 			/** Retrieves the internal iterator
-			 */
+			*/
 			String::const_iterator internal()const
 			{
 				return m_it;
@@ -585,7 +585,7 @@ namespace ProceduralTextures
 
 		private:
 			/** Computes the cached codepoint
-			 */
+			*/
 			void DoCalculateCurrentCodePoint()const
 			{
 				if ( m_dirty )
@@ -610,7 +610,7 @@ namespace ProceduralTextures
 			The offset to add
 		@return
 			A reference to this object
-		 */
+		*/
 		inline Utf8Iterator operator+( Utf8Iterator p_it, size_t p_offset )
 		{
 			Utf8Iterator l_it( p_it );
@@ -625,7 +625,7 @@ namespace ProceduralTextures
 			The offset to subtract
 		@return
 			A reference to this object
-		 */
+		*/
 		inline Utf8Iterator operator-( Utf8Iterator p_it, size_t p_offset )
 		{
 			Utf8Iterator l_it( p_it );

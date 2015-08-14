@@ -25,15 +25,15 @@ namespace ImageEffects
 	class SharpenFunctor
 		: public EffectFunctor
 	{
-	private:
-		static const double m_dSharpenZ;
-		static const double m_dSharpenMask[];
-
 	public:
 		SharpenFunctor();
 		virtual ~SharpenFunctor();
 
 		virtual void operator()( ProceduralTextures::PixelBuffer const & p_bufferIn, ProceduralTextures::PixelBuffer & p_bufferOut );
+
+	private:
+		static const double m_dSharpenZ;
+		static const double m_dSharpenMask[];
 	};
 }
 

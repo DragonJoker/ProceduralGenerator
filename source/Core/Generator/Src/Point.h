@@ -40,19 +40,19 @@ namespace ProceduralTextures
 	{
 	public:
 		/** Default constructor
-		 */
+		*/
 		PointBase()
 		{
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~PointBase()
 		{
 		}
 
 		/** Copy constructor
-		 */
+		*/
 		PointBase( PointBase const & )
 		{
 		}
@@ -60,7 +60,7 @@ namespace ProceduralTextures
 		/** Copy assignment operator
 		@return
 			A reference to this Point object
-		 */
+		*/
 		virtual PointBase & operator =( PointBase const & )
 		{
 			return * this;
@@ -69,13 +69,13 @@ namespace ProceduralTextures
 		/** Retrieves the number of coordinates
 		@return
 			The number of coordinates
-		 */
+		*/
 		virtual size_t GetElementsCount()const = 0;
 
 		/** Retrieves the coordinate type size
 		@return
 			The data type size
-		 */
+		*/
 		virtual size_t GetElementSize()const = 0;
 
 		/** Assigns this point coordinates to the given ones
@@ -83,19 +83,19 @@ namespace ProceduralTextures
 			The point no longer owns its coords buffer
 		@param[in] p_pCoords
 			The coords buffer
-		 */
+		*/
 		virtual void Link( const void * p_pCoords ) = 0;
 
 		/** Reassigns this point coordinates to a new buffer
 		@remarks
 			The point owns its coords buffer
-		 */
+		*/
 		virtual void Unlink() = 0;
 
 		/** Retrieves the pointer on datas
 		@return
 			The pointer
-		 */
+		*/
 		template< typename T > T * Ptr()
 		{
 			return ( T * )DoPtr();
@@ -104,7 +104,7 @@ namespace ProceduralTextures
 		/** Retrieves a constant pointer on datas
 		@return
 			The pointer
-		 */
+		*/
 		template< typename T > const T * ConstPtr()const
 		{
 			return ( const T * )DoConstPtr();
@@ -114,7 +114,7 @@ namespace ProceduralTextures
 		/** Retrieves the pointer on datas
 		@return
 			The pointer
-		 */
+		*/
 		virtual void * DoPtr()
 		{
 			return NULL;
@@ -123,7 +123,7 @@ namespace ProceduralTextures
 		/** Retrieves a constant pointer on datas
 		@return
 			The pointer
-		 */
+		*/
 		virtual const void * DoConstPtr()const
 		{
 			return NULL;
@@ -160,14 +160,14 @@ namespace ProceduralTextures
 		/** Constructor
 		@param[in] p_uiCount
 			The values count
-		 */
+		*/
 		DynPoint( size_t p_uiCount );
 
 #if HAS_INITIALIZER_LISTS
 		/** Specified constructor
 		@param[in] p_values
 			The values list
-		 */
+		*/
 		template< typename U > DynPoint( std::initializer_list< U > p_values );
 #endif
 
@@ -176,7 +176,7 @@ namespace ProceduralTextures
 			The values count
 		@param[in] p_pValues
 			The data buffer
-		 */
+		*/
 		template< typename U > DynPoint( size_t p_uiCount, const U * p_pValues );
 
 		/** Specified constructor, initialises the point to a 2 coordinates one
@@ -184,7 +184,7 @@ namespace ProceduralTextures
 			The first value
 		@param[in] p_vB
 			The second value
-		 */
+		*/
 		template< typename U > DynPoint( U const & p_vA, U const & p_vB );
 
 		/** Specified constructor, initialises the point to a 3 coordinates one
@@ -194,7 +194,7 @@ namespace ProceduralTextures
 			The second value
 		@param[in] p_vC
 			The third value
-		 */
+		*/
 		template< typename U > DynPoint( U const & p_vA, U const & p_vB, U const & p_vC );
 
 		/** Specified constructor, initialises the point to a 4 coordinates one
@@ -206,23 +206,23 @@ namespace ProceduralTextures
 			The third value
 		@param[in] p_vD
 			The fourth value
-		 */
+		*/
 		template< typename U > DynPoint( U const & p_vA, U const & p_vB, U const & p_vC, U const & p_vD );
 
 		/** Constructor from another point type
 		@param[in] p_ptPoint
 			The Point object to copy
-		 */
+		*/
 		template< typename U > DynPoint( const DynPoint< U > & p_ptPoint );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~DynPoint();
 
 		/** Copy constructor
 		@param[in] p_ptPoint
 			The Point object to copy
-		 */
+		*/
 		DynPoint( const DynPoint< T > & p_ptPoint );
 
 		/** Copy assignment operator
@@ -230,7 +230,7 @@ namespace ProceduralTextures
 			The Point object to copy
 		@return
 			A reference to this Point object
-		 */
+		*/
 		DynPoint< T > & operator =( const DynPoint< T > & p_pt );
 
 		/** Assignment operator from another point type
@@ -238,7 +238,7 @@ namespace ProceduralTextures
 			The Point object to copy
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator =( const DynPoint< U > & p_pt );
 
 		/** Addition assignment operator
@@ -246,7 +246,7 @@ namespace ProceduralTextures
 			The Point object to add
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator +=( const DynPoint< U > & p_pt );
 
 		/** Substraction assignment operator
@@ -254,7 +254,7 @@ namespace ProceduralTextures
 			The Point object to subtract
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator -=( const DynPoint< U > & p_pt );
 
 		/** Multiplication assignment operator
@@ -262,7 +262,7 @@ namespace ProceduralTextures
 			The Point object to multiply
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator *=( const DynPoint< U > & p_pt );
 
 		/** Division assignment operator
@@ -270,7 +270,7 @@ namespace ProceduralTextures
 			The Point object to divide
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator /=( const DynPoint< U > & p_pt );
 
 		/** Scalar product assignment operator
@@ -278,7 +278,7 @@ namespace ProceduralTextures
 			The other Point object
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator ^=( const DynPoint< U > & p_pt );
 
 		/** Addition assignment operator
@@ -286,7 +286,7 @@ namespace ProceduralTextures
 			The values to add
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator +=( const U * p_coords );
 
 		/** Substraction assignment operator
@@ -294,7 +294,7 @@ namespace ProceduralTextures
 			The values to subtract
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator -=( const U * p_coords );
 
 		/** Multiplication assignment operator
@@ -302,7 +302,7 @@ namespace ProceduralTextures
 			The values to multiply
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator *=( const U * p_coords );
 
 		/** Division assignment operator
@@ -310,7 +310,7 @@ namespace ProceduralTextures
 			The values to divide
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator /=( const U * p_coords );
 
 		/** Addition assignment operator
@@ -318,7 +318,7 @@ namespace ProceduralTextures
 			The value to add
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator +=( U const & p_coord );
 
 		/** Substraction assignment operator
@@ -326,7 +326,7 @@ namespace ProceduralTextures
 			The value to subtract
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator -=( U const & p_coord );
 
 		/** Multiplication assignment operator
@@ -334,7 +334,7 @@ namespace ProceduralTextures
 			The value to multiply
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator *=( U const & p_coord );
 
 		/** Division assignment operator
@@ -342,19 +342,19 @@ namespace ProceduralTextures
 			The value to divide
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template< typename U > DynPoint< T > & operator /=( U const & p_coord );
 
 		/** Swaps this pont data with the parameter ones
 		@param[in] p_pt
 			The point to swap
-		 */
+		*/
 		void swap( DynPoint< T > & p_pt );
 
 		/** Retrieves the number of coordinates
 		@return
 			The number of coordinates
-		 */
+		*/
 		virtual size_t GetElementsCount()const
 		{
 			return m_uiCount;
@@ -363,7 +363,7 @@ namespace ProceduralTextures
 		/** Retrieves the coordinate type size
 		@return
 			The data type size
-		 */
+		*/
 		virtual size_t GetElementSize()const
 		{
 			return sizeof( T );
@@ -374,19 +374,19 @@ namespace ProceduralTextures
 			The point no longer owns its coords buffer
 		@param[in] p_pCoords
 			The coords buffer
-		 */
+		*/
 		virtual void Link( const void * p_pCoords );
 
 		/** Reassigns this point coordinates to a new buffer
 		@remarks
 			The point owns its coords buffer
-		 */
+		*/
 		virtual void Unlink();
 
 		/** Retrieves data from the point and put it into an array
 		@param[in,out] p_pResult
 			Receives the point data, needs to be allocated by the caller
-		 */
+		*/
 		void ToValues( T * p_pResult )const;
 
 		/** Retrieves the data At given index
@@ -396,7 +396,7 @@ namespace ProceduralTextures
 			The index
 		@return
 				A constant reference on data At wanted index
-		 */
+		*/
 		inline T const & operator[]( size_t p_pos )const
 		{
 			return m_coords[p_pos];
@@ -409,7 +409,7 @@ namespace ProceduralTextures
 			The index
 		@return
 				A reference on data At wanted index
-		 */
+		*/
 		inline T & operator[]( size_t p_pos )
 		{
 			return m_coords[p_pos];
@@ -422,7 +422,7 @@ namespace ProceduralTextures
 			The index
 		@return
 				A constant reference on data At wanted index
-		 */
+		*/
 		inline T const & At( size_t p_pos )const
 		{
 			return m_coords[p_pos];
@@ -435,7 +435,7 @@ namespace ProceduralTextures
 			The index
 		@return
 				A reference on data At wanted index
-		 */
+		*/
 		inline T & At( size_t p_pos )
 		{
 			return m_coords[p_pos];
@@ -444,7 +444,7 @@ namespace ProceduralTextures
 		/** Retrieves the pointer on datas
 		@return
 				The pointer
-		 */
+		*/
 		inline T * Ptr()
 		{
 			return m_coords;
@@ -453,7 +453,7 @@ namespace ProceduralTextures
 		/** Retrieves a constant pointer on datas
 		@return
 				The pointer
-		 */
+		*/
 		inline const T * ConstPtr()const
 		{
 			return m_coords;
@@ -483,7 +483,7 @@ namespace ProceduralTextures
 		The points to compare
 	@return
 		\p true if points have same dimensions and same values
-	 */
+	*/
 	template < typename T, typename U > bool operator == ( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB );
 
 	/** Difference operator
@@ -491,7 +491,7 @@ namespace ProceduralTextures
 		The points to compare
 	@return
 		\p true if points have different dimensions or At least one different value
-	 */
+	*/
 	template < typename T, typename U > bool operator != ( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB );
 
 	/** Stream operator
@@ -501,7 +501,7 @@ namespace ProceduralTextures
 		The input point
 	@return
 		A reference to the stream
-	 */
+	*/
 	template< typename T > std::ostream & operator << ( std::ostream & p_streamOut, const DynPoint< T > & p_pt );
 
 	/** Stream operator
@@ -511,7 +511,7 @@ namespace ProceduralTextures
 		The output point
 	@return
 		A reference to the stream
-	 */
+	*/
 	template< typename T > std::istream & operator >> ( std::istream & p_streamIn, DynPoint< T > & p_pt );
 
 	/** Addition operator
@@ -519,7 +519,7 @@ namespace ProceduralTextures
 		The points to add
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator + ( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB );
 
 	/** Subtraction operator
@@ -527,7 +527,7 @@ namespace ProceduralTextures
 		The points to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator - ( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB );
 
 	/** Multiplication operator
@@ -535,7 +535,7 @@ namespace ProceduralTextures
 		The points to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator * ( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB );
 
 	/** Division operator
@@ -543,7 +543,7 @@ namespace ProceduralTextures
 		The points to divide
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator / ( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB );
 
 	/** Scalar product operator
@@ -551,7 +551,7 @@ namespace ProceduralTextures
 		The points to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator ^ ( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB );
 
 	/** Addition operator
@@ -559,7 +559,7 @@ namespace ProceduralTextures
 		The points to add
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator + ( const DynPoint< T > & p_pt, const U * p_coords );
 
 	/** Subtraction operator
@@ -567,7 +567,7 @@ namespace ProceduralTextures
 		The points to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator - ( const DynPoint< T > & p_pt, const U * p_coords );
 
 	/** Multiplication operator
@@ -575,7 +575,7 @@ namespace ProceduralTextures
 		The points to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator * ( const DynPoint< T > & p_pt, const U * p_coords );
 
 	/** Division operator
@@ -583,7 +583,7 @@ namespace ProceduralTextures
 		The points to divide
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator / ( const DynPoint< T > & p_pt, const U * p_coords );
 
 	/** Addition operator
@@ -591,7 +591,7 @@ namespace ProceduralTextures
 		The points to add
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator + ( const DynPoint< T > & p_pt, U const & p_coord );
 
 	/** Subtraction operator
@@ -599,7 +599,7 @@ namespace ProceduralTextures
 		The points to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator - ( const DynPoint< T > & p_pt, U const & p_coord );
 
 	/** Multiplication operator
@@ -607,7 +607,7 @@ namespace ProceduralTextures
 		The points to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator * ( const DynPoint< T > & p_pt, U const & p_coord );
 
 	/** Division operator
@@ -615,7 +615,7 @@ namespace ProceduralTextures
 		The points to divide
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, typename U > DynPoint< T > operator / ( const DynPoint< T > & p_pt, U const & p_coord );
 
 	/** Multiplication operator
@@ -623,7 +623,7 @@ namespace ProceduralTextures
 		The points to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T > DynPoint< T > operator * ( int p_value, const DynPoint< T > & p_pt );
 
 	/** Addition operator
@@ -631,7 +631,7 @@ namespace ProceduralTextures
 		The points to add
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T > DynPoint< T > operator + ( int p_value, const DynPoint< T > & p_pt );
 
 	/** Subtraction operator
@@ -639,7 +639,7 @@ namespace ProceduralTextures
 		The points to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T > DynPoint< T > operator - ( int p_value, const DynPoint< T > & p_pt );
 
 	/** Division operator
@@ -647,7 +647,7 @@ namespace ProceduralTextures
 		The points to divide
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T > DynPoint< T > operator / ( int p_value, const DynPoint< T > & p_pt );
 
 	/** Multiplication operator
@@ -655,7 +655,7 @@ namespace ProceduralTextures
 		The points to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T > DynPoint< T > operator * ( double p_value, const DynPoint< T > & p_pt );
 
 	/** Addition operator
@@ -663,7 +663,7 @@ namespace ProceduralTextures
 		The points to add
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T > DynPoint< T > operator + ( double p_value, const DynPoint< T > & p_pt );
 
 	/** Subtraction operator
@@ -671,7 +671,7 @@ namespace ProceduralTextures
 		The points to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T > DynPoint< T > operator - ( double p_value, const DynPoint< T > & p_pt );
 
 	/** Division operator
@@ -679,7 +679,7 @@ namespace ProceduralTextures
 		The points to divide
 	@return
 		The addition result
-	 */
+	*/
 	template< typename T > DynPoint< T > operator / ( double p_value, const DynPoint< T > & p_pt );
 
 	/*!
@@ -710,27 +710,27 @@ namespace ProceduralTextures
 
 	public:
 		/** Default constructor
-		 */
+		*/
 		Point();
 
 #if HAS_INITIALIZER_LISTS
 		/** Specified constructor
 		@param[in] p_values
 			The values list
-		 */
+		*/
 		template< typename U > Point( std::initializer_list< U > p_values );
 #endif
 
 		/** Specified constructor
 		@param[in] p_pValues
 			The data buffer
-		 */
+		*/
 		template< typename U > Point( const U * p_pValues );
 
 		/** Specified constructor
 		@param[in] p_vA
 			The first value
-		 */
+		*/
 		template< typename U > Point( U const & p_vA );
 
 		/** Specified constructor
@@ -738,7 +738,7 @@ namespace ProceduralTextures
 			The first value
 		@param[in] p_vB
 			The second value
-		 */
+		*/
 		template< typename U > Point( U const & p_vA, U const & p_vB );
 
 		/** Specified constructor
@@ -748,7 +748,7 @@ namespace ProceduralTextures
 			The second value
 		@param[in] p_vC
 			The third value
-		 */
+		*/
 		template< typename U > Point( U const & p_vA, U const & p_vB, U const & p_vC );
 
 		/** Specified constructor
@@ -760,23 +760,23 @@ namespace ProceduralTextures
 			The third value
 		@param[in] p_vD
 			The fourth value
-		 */
+		*/
 		template< typename U > Point( U const & p_vA, U const & p_vB, U const & p_vC, U const & p_vD );
 
 		/** Constructor from another point type
 		@param[in] p_ptPoint
 			The Point object to copy
-		 */
+		*/
 		template < typename U, size_t _Count > Point( const Point< U, _Count > & p_ptPoint );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Point();
 
 		/** Copy constructor
 		@param[in] p_ptPoint
 			The Point object to copy
-		 */
+		*/
 		Point( const Point< T, Count > & p_ptPoint );
 
 		/** Copy assignment operator
@@ -784,7 +784,7 @@ namespace ProceduralTextures
 			The Point object to copy
 		@return
 			A reference to this Point object
-		 */
+		*/
 		Point< T, Count > & operator =( const Point< T, Count > & p_pt );
 
 		/** Assignment operator from another point type
@@ -792,7 +792,7 @@ namespace ProceduralTextures
 			The Point object to copy
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U, size_t _Count > Point< T, Count > & operator = ( const Point< U, _Count > & p_pt );
 
 		/** Addition assignment operator
@@ -800,7 +800,7 @@ namespace ProceduralTextures
 			The Point object to add
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U, size_t _Count > Point< T, Count > & operator += ( const Point< U, _Count > & p_pt );
 
 		/** Substraction assignment operator
@@ -808,7 +808,7 @@ namespace ProceduralTextures
 			The Point object to subtract
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U, size_t _Count > Point< T, Count > & operator -= ( const Point< U, _Count > & p_pt );
 
 		/** Multiplication assignment operator
@@ -816,7 +816,7 @@ namespace ProceduralTextures
 			The Point object to multiply
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U, size_t _Count > Point< T, Count > & operator *= ( const Point< U, _Count > & p_pt );
 
 		/** Division assignment operator
@@ -824,7 +824,7 @@ namespace ProceduralTextures
 			The Point object to divide
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U, size_t _Count > Point< T, Count > & operator /= ( const Point< U, _Count > & p_pt );
 
 		/** Scalar product assignment operator
@@ -832,7 +832,7 @@ namespace ProceduralTextures
 			The other Point object
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U, size_t _Count > Point< T, Count > & operator ^= ( const Point< U, _Count > & p_pt );
 
 		/** Addition assignment operator
@@ -840,7 +840,7 @@ namespace ProceduralTextures
 			The values to add
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U > Point< T, Count > & operator += ( const U * p_coords );
 
 		/** Substraction assignment operator
@@ -848,7 +848,7 @@ namespace ProceduralTextures
 			The values to subtract
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U > Point< T, Count > & operator -= ( const U * p_coords );
 
 		/** Multiplication assignment operator
@@ -856,7 +856,7 @@ namespace ProceduralTextures
 			The values to multiply
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U > Point< T, Count > & operator *= ( const U * p_coords );
 
 		/** Division assignment operator
@@ -864,7 +864,7 @@ namespace ProceduralTextures
 			The values to divide
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U > Point< T, Count > & operator /= ( const U * p_coords );
 
 		/** Addition assignment operator
@@ -872,7 +872,7 @@ namespace ProceduralTextures
 			The value to add
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U > Point< T, Count > & operator += ( U const & p_coord );
 
 		/** Substraction assignment operator
@@ -880,7 +880,7 @@ namespace ProceduralTextures
 			The value to subtract
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U > Point< T, Count > & operator -= ( U const & p_coord );
 
 		/** Multiplication assignment operator
@@ -888,7 +888,7 @@ namespace ProceduralTextures
 			The value to multiply
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U > Point< T, Count > & operator *= ( U const & p_coord );
 
 		/** Division assignment operator
@@ -896,7 +896,7 @@ namespace ProceduralTextures
 			The value to divide
 		@return
 			A reference to this Point object
-		 */
+		*/
 		template < typename U > Point< T, Count > & operator /= ( U const & p_coord );
 
 		/** Assigns this point coordinates to the given ones
@@ -904,31 +904,31 @@ namespace ProceduralTextures
 			The point no longer owns its coords buffer
 		@param[in] p_pCoords
 			The coords buffer
-		 */
+		*/
 		void Link( const void * p_pCoords );
 
 		/** Reassigns this point coordinates to a new buffer
 		@remarks
 			The point owns its coords buffer
-		 */
+		*/
 		void Unlink();
 
 		/** Swaps this pont data with the parameter ones
 		@param[in] p_pt
 			The point to swap
-		 */
+		*/
 		void swap( point_reference p_pt );
 
 		/** Retrieves data from the point and put it into an array
 		@param[in,out] p_pResult
 			Receives the point data, needs to be allocated by the caller
-		 */
+		*/
 		void ToValues( T * p_pResult )const;
 
 		/** Retrieves the number of coordinates
 		@return
 			The number of coordinates
-		 */
+		*/
 		inline size_t GetElementsCount()const
 		{
 			return Count;
@@ -937,7 +937,7 @@ namespace ProceduralTextures
 		/** Retrieves the coordinate type size
 		@return
 			The data type size
-		 */
+		*/
 		inline size_t GetElementSize()const
 		{
 			return sizeof( T );
@@ -948,7 +948,7 @@ namespace ProceduralTextures
 			No check is made, if you make an index error, expect a crash
 		@return
 			A reference on data At wanted index
-		 */
+		*/
 		inline T const & operator[]( size_t p_pos )const
 		{
 			return m_coords.sta->table[p_pos];
@@ -959,7 +959,7 @@ namespace ProceduralTextures
 			No check is made, if you make an index error, expect a crash
 		@return
 			A constant reference on data At wanted index
-		 */
+		*/
 		inline T & operator[]( size_t p_pos )
 		{
 			return m_coords.sta->table[p_pos];
@@ -970,7 +970,7 @@ namespace ProceduralTextures
 			This fonction checks the index and throws an exception if it is out of bounds
 		@return
 			A constant reference on data At wanted index
-		 */
+		*/
 		inline T const & At( size_t p_pos )const
 		{
 			return m_coords.sta->table[p_pos];
@@ -981,7 +981,7 @@ namespace ProceduralTextures
 			This fonction checks the index and throws an exception if it is out of bounds
 		@return
 			A reference on data At wanted index
-		 */
+		*/
 		inline T & At( size_t p_pos )
 		{
 			return m_coords.sta->table[p_pos];
@@ -990,7 +990,7 @@ namespace ProceduralTextures
 		/** Retrieves the pointer on datas
 		@return
 			The pointer
-		 */
+		*/
 		inline T * Ptr()
 		{
 			return m_coords.dyn;
@@ -999,7 +999,7 @@ namespace ProceduralTextures
 		/** Retrieves a constant pointer on datas
 		@return
 			The pointer
-		 */
+		*/
 		inline const T * ConstPtr()const
 		{
 			return m_coords.dyn;
@@ -1036,7 +1036,7 @@ namespace ProceduralTextures
 		The points to compare
 	@return
 		\p true if points have same dimensions and same values
-	 */
+	*/
 	template < typename T, size_t Count, typename U, size_t _Count > bool operator == ( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB );
 
 	/** Difference operator
@@ -1044,7 +1044,7 @@ namespace ProceduralTextures
 		The points to compare
 	@return
 		\p true if points have different dimensions or At least one different value
-	 */
+	*/
 	template < typename T, size_t Count, typename U, size_t _Count > bool operator != ( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB );
 
 	/** Stream operator
@@ -1054,7 +1054,7 @@ namespace ProceduralTextures
 		The input point
 	@return
 		A reference to the stream
-	 */
+	*/
 	template < typename T, size_t Count > std::ostream & operator << ( std::ostream & p_streamOut, const Point< T, Count > & p_pt );
 
 	/** Stream operator
@@ -1064,7 +1064,7 @@ namespace ProceduralTextures
 		The output point
 	@return
 		A reference to the stream
-	 */
+	*/
 	template < typename T, size_t Count > std::istream & operator >> ( std::istream & p_streamIn, Point< T, Count > & p_pt );
 
 	/** Addition operator
@@ -1072,7 +1072,7 @@ namespace ProceduralTextures
 		The points to add
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U, size_t _Count > Point< T, Count > operator + ( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB );
 
 	/** Subtraction operator
@@ -1080,7 +1080,7 @@ namespace ProceduralTextures
 		The points to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U, size_t _Count > Point< T, Count > operator - ( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB );
 
 	/** Multiplication operator
@@ -1088,7 +1088,7 @@ namespace ProceduralTextures
 		The points to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U, size_t _Count > Point< T, Count > operator * ( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB );
 
 	/** Division operator
@@ -1096,7 +1096,7 @@ namespace ProceduralTextures
 		The points to divide
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U, size_t _Count > Point< T, Count > operator / ( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB );
 
 	/** Scalar product operator
@@ -1104,7 +1104,7 @@ namespace ProceduralTextures
 		The points to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U, size_t _Count > Point< T, Count > operator ^ ( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB );
 
 	/** Addition operator
@@ -1112,7 +1112,7 @@ namespace ProceduralTextures
 		The points to add
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U > Point< T, Count > operator + ( const Point< T, Count > & p_pt, const U * p_coords );
 
 	/** Subtraction operator
@@ -1120,7 +1120,7 @@ namespace ProceduralTextures
 		The points to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U > Point< T, Count > operator - ( const Point< T, Count > & p_pt, const U * p_coords );
 
 	/** Multiplication operator
@@ -1128,7 +1128,7 @@ namespace ProceduralTextures
 		The points to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U > Point< T, Count > operator * ( const Point< T, Count > & p_pt, const U * p_coords );
 
 	/** Division operator
@@ -1136,7 +1136,7 @@ namespace ProceduralTextures
 		The points to divide
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U > Point< T, Count > operator / ( const Point< T, Count > & p_pt, const U * p_coords );
 
 	/** Addition operator
@@ -1144,7 +1144,7 @@ namespace ProceduralTextures
 		The points to add
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U > Point< T, Count > operator + ( const Point< T, Count > & p_pt, U const & p_coord );
 
 	/** Subtraction operator
@@ -1152,7 +1152,7 @@ namespace ProceduralTextures
 		The points to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U > Point< T, Count > operator - ( const Point< T, Count > & p_pt, U const & p_coord );
 
 	/** Multiplication operator
@@ -1160,7 +1160,7 @@ namespace ProceduralTextures
 		The points to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U > Point< T, Count > operator * ( const Point< T, Count > & p_pt, U const & p_coord );
 
 	/** Division operator
@@ -1168,7 +1168,7 @@ namespace ProceduralTextures
 		The points to divide
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count, typename U > Point< T, Count > operator / ( const Point< T, Count > & p_pt, U const & p_coord );
 
 	/** Multiplication operator
@@ -1176,7 +1176,7 @@ namespace ProceduralTextures
 		The points to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count > Point< T, Count > operator * ( int p_value, const Point< T, Count > & p_pt );
 
 	/** Addition operator
@@ -1184,7 +1184,7 @@ namespace ProceduralTextures
 		The points to add
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count > Point< T, Count > operator + ( int p_value, const Point< T, Count > & p_pt );
 
 	/** Subtraction operator
@@ -1192,7 +1192,7 @@ namespace ProceduralTextures
 		The points to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count > Point< T, Count > operator - ( int p_value, const Point< T, Count > & p_pt );
 
 	/** Division operator
@@ -1200,7 +1200,7 @@ namespace ProceduralTextures
 		The points to divide
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count > Point< T, Count > operator / ( int p_value, const Point< T, Count > & p_pt );
 
 	/** Multiplication operator
@@ -1208,7 +1208,7 @@ namespace ProceduralTextures
 		The points to multiply
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count > Point< T, Count > operator * ( double p_value, const Point< T, Count > & p_pt );
 
 	/** Addition operator
@@ -1216,7 +1216,7 @@ namespace ProceduralTextures
 		The points to add
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count > Point< T, Count > operator + ( double p_value, const Point< T, Count > & p_pt );
 
 	/** Subtraction operator
@@ -1224,7 +1224,7 @@ namespace ProceduralTextures
 		The points to subtract
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count > Point< T, Count > operator - ( double p_value, const Point< T, Count > & p_pt );
 
 	/** Division operator
@@ -1232,13 +1232,13 @@ namespace ProceduralTextures
 		The points to divide
 	@return
 		The addition result
-	 */
+	*/
 	template < typename T, size_t Count > Point< T, Count > operator / ( double p_value, const Point< T, Count > & p_pt );
 
 	/** Negates every value of the point's data
 	@param[in] p_pt
 		The point
-	 */
+	*/
 	template < typename T, size_t Count > void Reverse( Point< T, Count > const & p_pt );
 
 	/** Normalises the point
@@ -1247,7 +1247,7 @@ namespace ProceduralTextures
 		<br />So each data is divided by the point's length
 	@param[in] p_pt
 		The point
-	 */
+	*/
 	template < typename T, size_t Count > void Normalise( Point< T, Count > & p_pt );
 
 	/** Returns the normalised form of a point
@@ -1255,7 +1255,7 @@ namespace ProceduralTextures
 		The point
 	@return
 		The normalised point
-	 */
+	*/
 	template < typename T, size_t Count > Point< T, Count > GetNormalised( Point< T, Count > const & p_pt );
 
 	/** Computes the dot product of two points
@@ -1263,7 +1263,7 @@ namespace ProceduralTextures
 		The points
 	@return
 		The dot product
-	 */
+	*/
 	template < typename T, size_t Count > T Dot( Point< T, Count > const & p_a, Point< T, Count > const & p_b );
 
 	/** Computes the trigonometric cosine of the angle between two points
@@ -1271,7 +1271,7 @@ namespace ProceduralTextures
 		The points
 	@return
 		The cosine
-	 */
+	*/
 	template < typename T, size_t Count > double GetCosTheta( Point< T, Count > const & p_a, Point< T, Count > const & p_b );
 
 	/** Computes the squared Euclidian distance between the two given points
@@ -1279,7 +1279,7 @@ namespace ProceduralTextures
 		The points
 	@return
 		The squared Euclidian distance
-	 */
+	*/
 	template < typename T, size_t Count > double GetSquaredDistance( Point< T, Count > const & p_a, Point< T, Count > const & p_b = Point< T, Count >() );
 
 	/** Computes the Euclidian distance between the two given points
@@ -1287,14 +1287,14 @@ namespace ProceduralTextures
 		The points
 	@return
 		The Euclidian distance
-	 */
+	*/
 	template < typename T, size_t Count > double GetDistance( Point< T, Count > const & p_a, Point< T, Count > const & p_b = Point< T, Count >() );
 
 	/** Computes the Manhattan distance between the two given points
 	@param[in] p_a, p_b	The points
 	@return
 		The Manhattan distance
-	 */
+	*/
 	template < typename T, size_t Count > double GetManhattanDistance( Point< T, Count > const & p_a, Point< T, Count > const & p_b = Point< T, Count >() );
 
 	/** Computes the Minkowski distance between the two given points
@@ -1303,7 +1303,7 @@ namespace ProceduralTextures
 		The Minkowski order
 	@return
 		The Minkowski distance
-	 */
+	*/
 	template < typename T, size_t Count > double GetMinkowskiDistance( double p_order, Point< T, Count > const & p_a, Point< T, Count > const & p_b = Point< T, Count >() );
 
 	/** Computes the Chebychev distance between the two given points
@@ -1311,7 +1311,7 @@ namespace ProceduralTextures
 		The points
 	@return
 		The Chebychev distance
-	 */
+	*/
 	template < typename T, size_t Count > double GetChebychevDistance( Point< T, Count > const & p_a, Point< T, Count > const & p_b = Point< T, Count >() );
 }
 

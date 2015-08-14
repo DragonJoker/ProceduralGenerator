@@ -25,6 +25,18 @@ namespace BuggedLifeGame
 {
 	class Cell
 	{
+	public:
+		Cell();
+		~Cell();
+
+		void Set( ProceduralTextures::UbPixel * p_pixel, ProceduralTextures::UbPixel * p_alivePx, ProceduralTextures::UbPixel * p_deadPx, int p_alive );
+		void Die();
+		void Live();
+		void Stay();
+		void SetAlive( int p_alive );
+		void Update();
+		int CountAliveNeighbours();
+
 	private:
 		ProceduralTextures::UbPixel * m_alivePx;
 		ProceduralTextures::UbPixel * m_deadPx;
@@ -37,18 +49,6 @@ namespace BuggedLifeGame
 		ProceduralTextures::UiPixel m_step;
 		ProceduralTextures::UiPixel m_age;
 		ProceduralTextures::UiPixel m_med;
-
-	public:
-		Cell();
-		~Cell();
-
-		void Set( ProceduralTextures::UbPixel * p_pixel, ProceduralTextures::UbPixel * p_alivePx, ProceduralTextures::UbPixel * p_deadPx, int p_alive );
-		void Die();
-		void Live();
-		void Stay();
-		void SetAlive( int p_alive );
-		void Update();
-		int CountAliveNeighbours();
 	};
 
 	typedef ProceduralTextures::Buffer< Cell > CellBuffer;

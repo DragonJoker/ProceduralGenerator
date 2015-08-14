@@ -36,58 +36,69 @@ namespace ProceduralTextures
 	{
 	public:
 		/** Constructor
-		 */
-		LocalisedText();
+		@param[in] p_name
+			The translation name
+		*/
+		LocalisedText( String const & p_name );
 
 		/** Destructor
-		 */
+		*/
 		~LocalisedText();
 
 		/** Loads the .mo file
 		@param[in] p_path
 			The translations file name
-		 */
+		*/
 		void Initialise( String const & p_path );
 
 		/** Cleans the memory
-		 */
+		*/
 		void Cleanup();
 
 		/** Retrieves the source string at given index
 		@param[in] p_index
 			The string index
-		 */
+		*/
 		String GetSourceString( int p_index );
 
 		/** Retrieves the translated string at given index
 		@param[in] p_index
 			The string index
-		 */
+		*/
 		String GetTranslatedString( int p_index );
 
 		/** Retrieves the index for given source string
 		@param[in] p_string
 			The string
-		 */
+		*/
 		int GetTargetIndex( String const & p_string );
+
+		/** Retrieves the translation name
+		@return
+			The name
+		*/
+		inline String const & GetName()const
+		{
+			return m_name;
+		}
 
 	private:
 		/** Loads the file in memory
 		@param[in] p_file
 			The file address
-		 */
+		*/
 		void DoDumpFile( String const & p_file );
 
 		/** Swaps endianness for the given int
 		@param[in] p_value
 			The value
-		 */
+		*/
 		int DoSwap4( int p_value );
 
 		/** Reads four bytes from the file and swaps endianness if needed
 		@param[in] p_offset
 			The file offset
-		 */
+		*/
 		int DoRead4( int p_offset );
 
 		/** Checks if the given source text matches the source text at given index
@@ -95,7 +106,7 @@ namespace ProceduralTextures
 			The source text
 		@param[in] p_index
 			The index
-		 */
+		*/
 		bool DoLabelMatches( String const & p_string, int p_index );
 
 	private:
@@ -113,6 +124,8 @@ namespace ProceduralTextures
 		int m_hashNumEntries;
 		//! The file offset for the hashes
 		int m_hashOffset;
+		//! The translation name
+		String m_name;
 	};
 	/*!
 	@author
@@ -136,19 +149,19 @@ namespace ProceduralTextures
 			The translation parent project name
 		@param[in] p_name
 			The translation name
-		 */
+		*/
 		static void Initialise( String const & p_path, String const & p_parent, String const & p_name );
 
 		/** Cleans the translation manager up
-		 */
-		static void Cleanup();
+		*/
+		static void Cleanup( String const & p_name );
 
 		/** Translates a string
 		@param[in] p_txt
 			The string to translate
 		@return
 			The translated string
-		 */
+		*/
 		static String TranslateString( char const * p_txt );
 
 		/** Translates a string
@@ -156,7 +169,7 @@ namespace ProceduralTextures
 			The string to translate
 		@return
 			The translated string
-		 */
+		*/
 		static String TranslateString( String const & p_txt )
 		{
 			return p_txt.c_str();

@@ -41,11 +41,11 @@ namespace gl
 		/** Constructor
 		@param[in] p_openGl
 			The OpenGL instance
-		 */
+		*/
 		FrameBuffer( OpenGl & p_openGl );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~FrameBuffer();
 
 		/** Initialises the framebuffer
@@ -53,11 +53,11 @@ namespace gl
 			The wanted physical framebuffer size
 		@return
 			true if it is successfully initialised
-		 */
+		*/
 		bool Initialise( Size const & p_size );
 
 		/** Cleans up the framebuffer
-		 */
+		*/
 		void Cleanup();
 
 		/** Tries to activate the texture At given attachment
@@ -67,7 +67,7 @@ namespace gl
 			The texture target (GL_TEXTURE0, ...)
 		@return
 			false if no texture is attached At wanted attachment or if it is not successfully activated
-		 */
+		*/
 		bool ActivateTexture( unsigned int p_attachment, unsigned int p_target = GL_TEXTURE0 );
 
 		/** Deactivate the texture At given attachment
@@ -75,7 +75,7 @@ namespace gl
 			The attachment
 		@param[in] p_target
 			The texture target (GL_TEXTURE0, ...)
-		 */
+		*/
 		void DeactivateTexture( unsigned int p_attachment, unsigned int p_target = GL_TEXTURE0 );
 
 		/** Attaches a texture to the given attachment
@@ -83,7 +83,7 @@ namespace gl
 			The attachment
 		@param[in] p_texture
 			The texture
-		 */
+		*/
 		void AttachTexture( unsigned int p_attachment, std::shared_ptr< Texture > p_texture );
 
 		/** Retrieves the texture to the given attachment
@@ -91,7 +91,7 @@ namespace gl
 			The attachment
 		@return
 			The texture, NULL if there is no texture At given attachment
-		 */
+		*/
 		std::shared_ptr< Texture > GetTexture( unsigned int p_attachment );
 
 		/** Tries to download the image buffer for given attachment
@@ -101,7 +101,7 @@ namespace gl
 			Receives the downloaded buffer
 		@return
 			false if no texture is attached At wanted attachment or if it is not successfully downloaded
-		 */
+		*/
 		bool DownloadSync( unsigned int p_attachment, PixelBuffer & p_buffer );
 
 		/** Tries to download the image buffer for given attachment
@@ -111,19 +111,19 @@ namespace gl
 			Receives the downloaded buffer
 		@return
 			false if no texture is attached At wanted attachment or if it is not successfully downloaded
-		 */
+		*/
 		bool DownloadAsync( unsigned int p_attachment, PixelBuffer & p_buffer );
 
 		/** Updates the virtual framebuffer dimensions
 		@param[in] p_size
 			The new dimensions
-		 */
+		*/
 		void Resize( Size const & p_size );
 
 		/** Retrieves the virtual framebuffer dimensions
 		@return
 			The value
-		 */
+		*/
 		Size const & GetSize()const
 		{
 			return m_size;

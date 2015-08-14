@@ -38,64 +38,64 @@ namespace GpuProgramming
 	{
 	public:
 		/** Constructor
-		 */
+		*/
 		Generator();
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Generator();
 
 	private:
 		/** @copydoc ProceduralTexture::Generator::DoCreate
-		 */
+		*/
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
 
 		/** @copydoc ProceduralTexture::Generator::DoDestroy
-		 */
+		*/
 		virtual void DoDestroy();
 
 		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
-		 */
+		*/
 		virtual void DoGeneratePanel();
 
 		/** Resets the time index
-		 */
+		*/
 		void OnResetTime();
 
 		/** Selects a shader
-		 */
+		*/
 		void OnSelectShader( uint32_t p_value );
 
 		/** Removes the current chader
-		 */
+		*/
 		void OnRemove();
 
 		/** Compiles the shader
-		 */
+		*/
 		void OnShaderCompile();
 
 		/** Retrieves the compiler log
-		 */
+		*/
 		void OnCompilerLog();
 
 		/** Sets the vertex shader file path
-		 */
+		*/
 		void OnVertexShaderPath();
 
 		/** Sets the fragment shader file path
-		 */
+		*/
 		void OnFragmentShaderPath();
 
 		/** Displays the help
-		 */
+		*/
 		void OnHelpOpen();
 
 		/** Hides the help
-		 */
+		*/
 		void OnHelpClose();
 
 		/** Hides the help
-		 */
+		*/
 		void OnHelpPanelClick( std::shared_ptr< ProceduralTextures::Control > p_static, ProceduralTextures::MouseEvent const & p_event );
 
 	private:

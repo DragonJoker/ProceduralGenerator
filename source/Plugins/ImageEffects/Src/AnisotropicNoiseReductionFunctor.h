@@ -25,16 +25,16 @@ namespace ImageEffects
 	class AnisotropicNoiseReductionFunctor
 		: public EffectFunctor
 	{
-	private:
-		static const int m_iAdThreshold;
-		static const int m_iAdMask[];
-		static const int m_iAdSum;
-
 	public:
 		AnisotropicNoiseReductionFunctor();
 		virtual ~AnisotropicNoiseReductionFunctor();
 
 		virtual void operator()( ProceduralTextures::PixelBuffer const & p_bufferIn, ProceduralTextures::PixelBuffer & p_bufferOut );
+
+	private:
+		static const int m_iAdThreshold;
+		static const int m_iAdMask[];
+		static const int m_iAdSum;
 	};
 }
 

@@ -23,15 +23,23 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace BuggedLifeGame
 {
+	/*!
+	@author
+		Sylvain DOREMUS
+	@brief
+		The BuggedLifeGame plugin.
+	*/
 	class Plugin
 		: public ProceduralTextures::Plugin< Generator, Plugin >
 	{
 	public:
+		/** Constructor
+		*/
 		Plugin();
-		virtual ~Plugin();
 
-		virtual ProceduralTextures::String GetName();
-		virtual bool HasCustomisableResolution();
+		/** Destructor
+		*/
+		virtual ~Plugin();
 
 		DECLARE_PLUGIN()
 	};

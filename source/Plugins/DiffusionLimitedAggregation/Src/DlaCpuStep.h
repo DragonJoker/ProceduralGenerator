@@ -54,17 +54,17 @@ namespace DiffusionLimitedAggregation
 			The surface portion's bottom
 		@param[in] p_height
 			The surface height
-		 */
+		*/
 		Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_parent, size_t p_index, int p_width, int p_top, int p_bottom, int p_totalHeight );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Thread();
 
 		/** Sets the cells buffers
 		@param[in] p_cells
 			The current cells
-		 */
+		*/
 		inline void SetBuffer( std::shared_ptr< CellBuffer > p_cells )
 		{
 			m_cells = p_cells;
@@ -72,7 +72,7 @@ namespace DiffusionLimitedAggregation
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::Thread::DoStep
-		 */
+		*/
 		virtual void DoStep();
 
 		/** Generates a point between jump and kill circles
@@ -82,13 +82,13 @@ namespace DiffusionLimitedAggregation
 			The center of both circles
 		@param[out] p_radius
 			The minimal radius
-		 */
+		*/
 		void DoGetPointOnCircle( ProceduralTextures::Position & p_position, ProceduralTextures::Position const & p_origin, float p_radius );
 
 		/** Increments the value of the cell at given position
 		@param[out] p_position
 			The cell's position
-		 */
+		*/
 		void DoSetCellWhite( ProceduralTextures::Position const & p_position );
 
 	public:
@@ -135,17 +135,17 @@ namespace DiffusionLimitedAggregation
 			The parent generator
 		@param[in] p_size
 			The dimensions
-		 */
+		*/
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~CpuStep();
 
 		/** Retrieves the minimal value a cell must have to be considered 'white'
 		@return
 			The value
-		 */
+		*/
 		inline int GetMinValue()const
 		{
 			return m_minValue;
@@ -154,7 +154,7 @@ namespace DiffusionLimitedAggregation
 		/** Sets the minimal value a cell must have to be considered 'white'
 		@param[in] val
 			The new value
-		 */
+		*/
 		inline void SetMinValue( int val )
 		{
 			m_minValue = val;
@@ -163,7 +163,7 @@ namespace DiffusionLimitedAggregation
 		/** Retrieves 'white' cells count at which the generation stops
 		@return
 			The value
-		 */
+		*/
 		inline int GetMass()const
 		{
 			return m_mass;
@@ -172,7 +172,7 @@ namespace DiffusionLimitedAggregation
 		/** Sets the 'white' cells count at which the generation stops
 		@param[in] val
 			The new value
-		 */
+		*/
 		inline void SetMass( int val )
 		{
 			m_mass = val;
@@ -180,19 +180,19 @@ namespace DiffusionLimitedAggregation
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialiseStep
-		 */
+		*/
 		virtual void DoInitialiseStep();
 
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialise
-		 */
+		*/
 		virtual void DoInitialise();
 
 		/** @copydoc ProceduralTexture::CpuStep::DoCleanup
-		 */
+		*/
 		virtual void DoCleanup();
 
 		/** @copydoc ProceduralTexture::CpuStep::DoSwapBuffers
-		 */
+		*/
 		virtual void DoSwapBuffers();
 
 	public:

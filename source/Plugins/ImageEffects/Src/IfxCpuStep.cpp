@@ -180,7 +180,7 @@ namespace ImageEffects
 
 	CpuStep::~CpuStep()
 	{
-		for ( auto && l_functor: m_functors )
+		for ( auto && l_functor : m_functors )
 		{
 			l_functor.reset();
 		}
@@ -235,7 +235,7 @@ namespace ImageEffects
 		m_initialised = false;
 		*m_finalBuffer = p_buffer;
 
-		for ( auto && l_functor: m_functors )
+		for ( auto && l_functor : m_functors )
 		{
 			l_functor->SetImage( *m_finalBuffer );
 		}

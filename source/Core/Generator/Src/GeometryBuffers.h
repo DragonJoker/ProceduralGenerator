@@ -48,7 +48,7 @@ namespace ProceduralTextures
 			The vertex buffer access mode
 		@param[in] p_hasIndexBuffer
 			Tells the geometry buffers holds an index buffer
-		 */
+		*/
 		TGeometryBuffers( gl::OpenGl & p_openGl, uint32_t p_mode, bool p_hasIndexBuffer = true )
 			: gl::Holder( p_openGl )
 			, m_vertexBuffer( p_openGl, p_mode )
@@ -57,7 +57,7 @@ namespace ProceduralTextures
 		}
 
 		/** Destructor
-		 */
+		*/
 		~TGeometryBuffers()
 		{
 		}
@@ -65,7 +65,7 @@ namespace ProceduralTextures
 		/** Initialises the buffers
 		@return
 			true if it is successfully initialised
-		 */
+		*/
 		bool Initialise()
 		{
 			bool l_return = m_vertexBuffer.Initialise();
@@ -79,7 +79,7 @@ namespace ProceduralTextures
 		}
 
 		/** Cleans the buffers and destroys it
-		 */
+		*/
 		void Cleanup()
 		{
 			if ( m_indexBuffer )
@@ -95,7 +95,7 @@ namespace ProceduralTextures
 			The "vertex" attribute location
 		@param[in] p_texture
 			The "texture" attribute location
-		 */
+		*/
 		void Draw( uint32_t p_vertex, uint32_t p_texture )
 		{
 			if ( m_vertexBuffer.Activate( p_vertex, p_texture ) )
@@ -120,7 +120,7 @@ namespace ProceduralTextures
 		/** Retrieves the vertex buffer
 		@return
 			The buffer
-		 */
+		*/
 		gl::TVertexBuffer< PosType > const & GetVertexBuffer()const
 		{
 			return m_vertexBuffer;
@@ -129,7 +129,7 @@ namespace ProceduralTextures
 		/** Retrieves the vertex buffer
 		@return
 			The buffer
-		 */
+		*/
 		gl::TVertexBuffer< PosType > & GetVertexBuffer()
 		{
 			return m_vertexBuffer;
@@ -138,7 +138,7 @@ namespace ProceduralTextures
 		/** Retrieves the index buffer
 		@return
 			The buffer
-		 */
+		*/
 		gl::IndexBuffer const & GetIndexBuffer()const
 		{
 			return m_indexBuffer;
@@ -147,7 +147,7 @@ namespace ProceduralTextures
 		/** Retrieves the index buffer
 		@return
 			The buffer
-		 */
+		*/
 		gl::IndexBuffer & GetIndexBuffer()
 		{
 			return m_indexBuffer;

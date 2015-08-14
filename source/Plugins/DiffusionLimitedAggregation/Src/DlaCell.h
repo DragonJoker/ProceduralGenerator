@@ -24,17 +24,17 @@ namespace DiffusionLimitedAggregation
 {
 	struct Cell
 	{
-		ProceduralTextures::UbPixel * m_pixel;
-		bool m_whiteNeighbour;
-		int m_iValue;
-		bool m_white;
-
 		Cell();
 		~Cell();
 
 		void Set( ProceduralTextures::UbPixel * p_pixel, bool p_white );
 		void SetWhite( double p_dDistance );
 		bool IncValue( int p_iMinValue );
+
+		ProceduralTextures::UbPixel * m_pixel;
+		bool m_whiteNeighbour;
+		int m_iValue;
+		bool m_white;
 	};
 }
 

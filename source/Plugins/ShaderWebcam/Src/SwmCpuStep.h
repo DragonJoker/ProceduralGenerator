@@ -49,22 +49,24 @@ namespace ShaderWebcam
 			The surface portion's bottom
 		@param[in] p_height
 			The surface height
-		 */
+		*/
 		Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_parent, size_t p_index, int p_width, int p_top, int p_bottom, int p_totalHeight );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~Thread();
+
 		/** Initialises the step thread
 		@param[in] p_pCapture
 			The OpenCV capture
 		@param[in] p_pBuffer
 			The pixel buffer
-		 */
+		*/
 		void Initialise( std::shared_ptr< cv::VideoCapture > p_pCapture, std::shared_ptr< ProceduralTextures::PixelBuffer > p_pBuffer );
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::Thread::DoStep
-		 */
+		*/
 		virtual void DoStep();
 
 	private:
@@ -92,30 +94,36 @@ namespace ShaderWebcam
 			The OpenCV capture
 		@param[in] p_size
 				The dimensions
-		 */
+		*/
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, std::shared_ptr< cv::VideoCapture > p_capture, ProceduralTextures::Size const & p_size );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~CpuStep();
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialiseStep
-		 */
+		*/
 		virtual void DoInitialiseStep();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialise
-		 */
+		*/
 		virtual void DoInitialise();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoCleanup
-		 */
+		*/
 		virtual void DoCleanup();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoSwapBuffers
-		 */
+		*/
 		virtual void DoSwapBuffers();
+
 		/** Initialises OpenCV capture
-		 */
+		*/
 		void DoInitialiseCapture();
+
 		/** Cleans up OpenCV capture
-		 */
+		*/
 		void DoCleanupCapture();
 
 	private:

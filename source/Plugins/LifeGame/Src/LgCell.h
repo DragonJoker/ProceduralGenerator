@@ -24,10 +24,6 @@ namespace LifeGame
 {
 	struct Cell
 	{
-		ProceduralTextures::UbPixel * m_pixel;
-		std::array< Cell *, 8 > m_neighbours;
-		int m_alive;
-
 		Cell();
 		~Cell();
 
@@ -36,6 +32,10 @@ namespace LifeGame
 		void Live();
 		void SetAlive( int p_alive );
 		int CountAliveNeighbours();
+
+		ProceduralTextures::UbPixel * m_pixel;
+		std::array< Cell *, 8 > m_neighbours;
+		int m_alive;
 	};
 }
 

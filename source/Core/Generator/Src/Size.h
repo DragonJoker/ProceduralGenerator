@@ -45,7 +45,7 @@ namespace ProceduralTextures
 			The first value
 		@param[in] p_b
 			The second value
-		 */
+		*/
 		template< typename U, typename V >
 		Size( U const & p_a, V const & p_b )
 			: m_x( uint32_t( p_a ) )
@@ -56,7 +56,7 @@ namespace ProceduralTextures
 		/** Specified constructor
 		@param[in] p_pt
 			The value
-		 */
+		*/
 		template< typename T >
 		Size( Point< T, 2 > const & p_pt )
 			: DELEGATING_SIZE( p_pt[0], p_pt[1] )
@@ -64,14 +64,14 @@ namespace ProceduralTextures
 		}
 
 		/** Default constructor
-		 */
+		*/
 		Size()
 			: DELEGATING_SIZE( 0, 0 )
 		{
 		}
 
 		/** Destructor
-		 */
+		*/
 		~Size()
 		{
 		}
@@ -79,7 +79,7 @@ namespace ProceduralTextures
 		/** Retrieves the x dimension
 		@return
 			A constant reference on the dimension
-		 */
+		*/
 		inline uint32_t const & x()const
 		{
 			return m_x;
@@ -88,7 +88,7 @@ namespace ProceduralTextures
 		/** Retrieves the x dimension
 		@return
 			A reference on the dimension
-		 */
+		*/
 		inline uint32_t & x()
 		{
 			return m_x;
@@ -97,7 +97,7 @@ namespace ProceduralTextures
 		/** Retrieves the y dimension
 		@return
 			A constant reference on the dimension
-		 */
+		*/
 		inline uint32_t const & y()const
 		{
 			return m_y;
@@ -106,7 +106,7 @@ namespace ProceduralTextures
 		/** Retrieves the y dimension
 		@return
 			A reference on the dimension
-		 */
+		*/
 		inline uint32_t & y()
 		{
 			return m_y;
@@ -117,7 +117,7 @@ namespace ProceduralTextures
 			The object to add
 		@return
 			A reference to this object
-		 */
+		*/
 		inline Size & operator += ( const Size & p_size )
 		{
 			m_x += p_size.m_x;
@@ -130,7 +130,7 @@ namespace ProceduralTextures
 			The object to subtract
 		@return
 			A reference to this object
-		 */
+		*/
 		inline Size & operator -= ( const Size & p_size )
 		{
 			m_x -= p_size.m_x;
@@ -143,7 +143,7 @@ namespace ProceduralTextures
 			The value to add
 		@return
 			A reference to this object
-		 */
+		*/
 		template < typename U > Size & operator += ( U const & p_coord )
 		{
 			m_x += uint32_t( p_coord );
@@ -156,7 +156,7 @@ namespace ProceduralTextures
 			The value to subtract
 		@return
 			A reference to this object
-		 */
+		*/
 		template < typename U > Size & operator -= ( U const & p_coord )
 		{
 			m_x -= uint32_t( p_coord );
@@ -169,7 +169,7 @@ namespace ProceduralTextures
 			The value to multiply
 		@return
 			A reference to this object
-		 */
+		*/
 		template < typename U > Size & operator *= ( U const & p_coord )
 		{
 			m_x = uint32_t( m_x * p_coord );
@@ -182,7 +182,7 @@ namespace ProceduralTextures
 			The value to divide
 		@return
 			A reference to this object
-		 */
+		*/
 		template < typename U > Size & operator /= ( U const & p_coord )
 		{
 			if ( p_coord != 0 )
@@ -206,7 +206,7 @@ namespace ProceduralTextures
 		The values to compare
 	@return
 		\p true if values have same dimensions and same values
-	 */
+	*/
 	inline bool operator == ( const Size & p_a, const Size & p_b )
 	{
 		return p_a.x() == p_b.x() && p_a.y() == p_b.y();
@@ -217,7 +217,7 @@ namespace ProceduralTextures
 		The values to compare
 	@return
 		\p true if values have different dimensions or At least one different value
-	 */
+	*/
 	inline bool operator != ( const Size & p_a, const Size & p_b )
 	{
 		return p_a.x() != p_b.x() || p_a.y() != p_b.y();
@@ -228,7 +228,7 @@ namespace ProceduralTextures
 		The values to add
 	@return
 		The result
-	 */
+	*/
 	inline Size operator + ( const Size & p_a, const Size & p_b )
 	{
 		Size l_tmp( p_a );
@@ -241,7 +241,7 @@ namespace ProceduralTextures
 		The values to subtract
 	@return
 		The result
-	 */
+	*/
 	inline Size operator - ( const Size & p_a, const Size & p_b )
 	{
 		Size l_tmp( p_a );
@@ -254,7 +254,7 @@ namespace ProceduralTextures
 		The values to add
 	@return
 		The result
-	 */
+	*/
 	template< typename U > Size operator + ( const Size & p_size, U const & p_coord )
 	{
 		Size l_tmp( p_size );
@@ -267,7 +267,7 @@ namespace ProceduralTextures
 		The values to subtract
 	@return
 		The result
-	 */
+	*/
 	template< typename U > Size operator - ( const Size & p_size, U const & p_coord )
 	{
 		Size l_tmp( p_size );
@@ -280,7 +280,7 @@ namespace ProceduralTextures
 		The values to multiply
 	@return
 		The result
-	 */
+	*/
 	template< typename U > Size operator * ( const Size & p_size, U const & p_coord )
 	{
 		Size l_tmp( p_size );
@@ -293,7 +293,7 @@ namespace ProceduralTextures
 		The values to divide
 	@return
 		The result
-	 */
+	*/
 	template< typename U > Size operator / ( const Size & p_size, U const & p_coord )
 	{
 		Size l_tmp( p_size );
@@ -306,7 +306,7 @@ namespace ProceduralTextures
 		The values to add
 	@return
 		The result
-	 */
+	*/
 	inline Size operator + ( int p_value, const Size & p_size )
 	{
 		Size l_tmp( p_size );
@@ -319,7 +319,7 @@ namespace ProceduralTextures
 		The values to subtract
 	@return
 		The result
-	 */
+	*/
 	inline Size operator - ( int p_value, const Size & p_size )
 	{
 		Size l_tmp( p_size );
@@ -332,7 +332,7 @@ namespace ProceduralTextures
 		The values to multiply
 	@return
 		The result
-	 */
+	*/
 	inline Size operator * ( int p_value, const Size & p_size )
 	{
 		Size l_tmp( p_size );
@@ -345,7 +345,7 @@ namespace ProceduralTextures
 		The values to add
 	@return
 		The result
-	 */
+	*/
 	inline Size operator + ( double p_value, const Size & p_size )
 	{
 		Size l_tmp( p_size );
@@ -358,7 +358,7 @@ namespace ProceduralTextures
 		The values to subtract
 	@return
 		The result
-	 */
+	*/
 	inline Size operator - ( double p_value, const Size & p_size )
 	{
 		Size l_tmp( p_size );
@@ -371,7 +371,7 @@ namespace ProceduralTextures
 		The values to multiply
 	@return
 		The result
-	 */
+	*/
 	inline Size operator * ( double p_value, const Size & p_size )
 	{
 		Size l_tmp( p_size );

@@ -26,11 +26,11 @@ namespace ImageEffects
 			for ( uint32_t j = 0; j < m_size.x(); j++ )
 			{
 				l_pixelOut->Set( UbPixel(
-					uint8_t( std::min( 255.0, ( l_pixelIn->r * 0.393 ) + ( l_pixelIn->g * 0.769 ) + ( l_pixelIn->b * 0.189 ) ) ),
-					uint8_t( std::min( 255.0, ( l_pixelIn->r * 0.349 ) + ( l_pixelIn->g * 0.686 ) + ( l_pixelIn->b * 0.168 ) ) ),
-					uint8_t( std::min( 255.0, ( l_pixelIn->r * 0.272 ) + ( l_pixelIn->g * 0.534 ) + ( l_pixelIn->b * 0.131 ) ) ),
-					uint8_t( 255 )
-				) );
+									 uint8_t( std::min( 255.0, ( l_pixelIn->r * 0.393 ) + ( l_pixelIn->g * 0.769 ) + ( l_pixelIn->b * 0.189 ) ) ),
+									 uint8_t( std::min( 255.0, ( l_pixelIn->r * 0.349 ) + ( l_pixelIn->g * 0.686 ) + ( l_pixelIn->b * 0.168 ) ) ),
+									 uint8_t( std::min( 255.0, ( l_pixelIn->r * 0.272 ) + ( l_pixelIn->g * 0.534 ) + ( l_pixelIn->b * 0.131 ) ) ),
+									 uint8_t( 255 )
+								 ) );
 				++l_pixelIn;
 				++l_pixelOut;
 			}

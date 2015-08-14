@@ -44,14 +44,14 @@ namespace gl
 			The OpenGL instance
 		@param[in] p_program
 			The parent shader program
-		 */
+		*/
 		Mat4FrameVariable( OpenGl & p_openGl, ShaderProgram & p_program )
 			: TFrameVariable< T, 4 * 4 >( p_openGl, p_program )
 		{
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Mat4FrameVariable()
 		{
 		}
@@ -59,7 +59,7 @@ namespace gl
 		/** Defines the variable's value
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		inline void SetValue( T * p_value )
 		{
 			memcpy( &this->m_value[0], p_value, 4 * 4 * sizeof( T ) );
@@ -68,7 +68,5 @@ namespace gl
 	};
 }
 }
-
-//*************************************************************************************************
 
 #endif

@@ -40,7 +40,7 @@ namespace ProceduralTextures
 
 	public:
 		/** Default constructor
-		 */
+		*/
 		TVertex()
 			: m_bOwnBuffer( false )
 			, m_pBuffer( NULL )
@@ -54,7 +54,7 @@ namespace ProceduralTextures
 			The position
 		@param[in] p_texture
 			The texture coordinates
-		 */
+		*/
 		TVertex( TPoint const & p_position, Point2f const & p_texture )
 			: m_bOwnBuffer( false )
 			, m_pBuffer( NULL )
@@ -66,7 +66,7 @@ namespace ProceduralTextures
 		}
 
 		/** Copy constructor
-		 */
+		*/
 		TVertex( TVertex const & p_vertex )
 			: m_bOwnBuffer( false )
 			, m_pBuffer( NULL )
@@ -78,7 +78,7 @@ namespace ProceduralTextures
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~TVertex()
 		{
 			if ( m_bOwnBuffer && m_pBuffer )
@@ -91,7 +91,7 @@ namespace ProceduralTextures
 		}
 
 		/** Copy assignment operator
-		 */
+		*/
 		virtual TVertex & operator =( TVertex< PosType > const & p_vertex )
 		{
 			m_position = p_vertex.m_position;
@@ -113,7 +113,7 @@ namespace ProceduralTextures
 			The vertex no longer owns it's coords
 		@param[in] p_pBuffer
 			The coordinates buffer
-		 */
+		*/
 		void Link( uint8_t * p_pBuffer )
 		{
 			size_t l_count = GetStride();
@@ -147,7 +147,7 @@ namespace ProceduralTextures
 		/** Unlinks the vertex coords.
 		@remarks
 			The vertex now owns it's coords
-		 */
+		*/
 		void Unlink()
 		{
 			size_t l_count = GetStride();
@@ -179,7 +179,7 @@ namespace ProceduralTextures
 		/** Sets the vertex position
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetPosition( TPoint const & val )
 		{
 			m_position[0] = val[0];
@@ -189,7 +189,7 @@ namespace ProceduralTextures
 		/** Sets the vertex position
 		@param[in] x, y
 			The new value
-		 */
+		*/
 		void SetPosition( PosType x, PosType y )
 		{
 			m_position[0] = x;
@@ -199,7 +199,7 @@ namespace ProceduralTextures
 		/** Sets the vertex position
 		@param[in] p_pCoords
 			The new value
-		 */
+		*/
 		void SetPosition( const PosType * p_pCoords )
 		{
 			m_position[0] = p_pCoords[0];
@@ -209,7 +209,7 @@ namespace ProceduralTextures
 		/** Sets the vertex texture coordinates
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetTexture( Point2f const & val )
 		{
 			m_texture[0] = val[0];
@@ -219,7 +219,7 @@ namespace ProceduralTextures
 		/** Sets the vertex texture coordinates
 		@param[in] x, y
 			The new value
-		 */
+		*/
 		void SetTexture( float x, float y )
 		{
 			m_texture[0] = x;
@@ -229,7 +229,7 @@ namespace ProceduralTextures
 		/** Sets the vertex texture coordinates
 		@param[in] p_pCoords
 			The new value
-		 */
+		*/
 		void SetTexture( const float * p_pCoords )
 		{
 			m_texture[0] = p_pCoords[0];
@@ -239,7 +239,7 @@ namespace ProceduralTextures
 		/** Retrieves the vertex position
 		@return
 			The value
-		 */
+		*/
 		inline TPoint & GetPosition()
 		{
 			return m_position;
@@ -248,7 +248,7 @@ namespace ProceduralTextures
 		/** Retrieves the vertex position
 		@return
 			The value
-		 */
+		*/
 		inline TPoint const & GetPosition()const
 		{
 			return m_position;
@@ -257,7 +257,7 @@ namespace ProceduralTextures
 		/** Retrieves the vertex texture coordinates
 		@return
 			The value
-		 */
+		*/
 		inline Point2f & GetTexture()
 		{
 			return m_texture;
@@ -266,7 +266,7 @@ namespace ProceduralTextures
 		/** Retrieves the vertex texture coordinates
 		@return
 			The value
-		 */
+		*/
 		inline Point2f const & GetTexture()const
 		{
 			return m_texture;
@@ -275,7 +275,7 @@ namespace ProceduralTextures
 		/** Retrieves a constant pointer to the vertex buffer
 		@return
 			The value
-		 */
+		*/
 		inline const uint8_t * ConstPtr()const
 		{
 			return m_pBuffer;
@@ -284,7 +284,7 @@ namespace ProceduralTextures
 		/** Retrieves a pointer to the vertex buffer
 		@return
 			The value
-		 */
+		*/
 		inline uint8_t * Ptr()
 		{
 			return m_pBuffer;
@@ -293,7 +293,7 @@ namespace ProceduralTextures
 		/** Retrieves the vertex stride (size of a vertex)
 		@return
 			The value
-		 */
+		*/
 		inline size_t GetStride()const
 		{
 			return 2 * sizeof( PosType ) + 2 * sizeof( float );
@@ -304,7 +304,7 @@ namespace ProceduralTextures
 			The index
 		@return
 			The value
-		 */
+		*/
 		inline PosType & operator []( size_t p_uiIndex )
 		{
 			return GetPosition()[p_uiIndex];
@@ -315,7 +315,7 @@ namespace ProceduralTextures
 			The index
 		@return
 			The value
-		 */
+		*/
 		inline PosType const & operator []( size_t p_uiIndex )const
 		{
 			return GetPosition()[p_uiIndex];

@@ -47,23 +47,23 @@ namespace ProceduralTextures
 			The control style
 		@param[in] p_visible
 			Initial visibility status
-		 */
+		*/
 		StaticCtrl( std::shared_ptr< Control > p_parent, String const & p_caption, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~StaticCtrl();
 
 		/** Sets the static caption
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetCaption( String const & p_value );
 
 		/** Retrieve the static caption
 		@return
 			The value
-		 */
+		*/
 		inline String const & GetCaption()const
 		{
 			return m_caption;
@@ -71,35 +71,35 @@ namespace ProceduralTextures
 
 	private:
 		/** @copydoc ProceduralTextures::Control::DoCreate
-		 */
+		*/
 		virtual void DoCreate( std::shared_ptr< OverlayManager > p_manager );
 
 		/** @copydoc ProceduralTextures::Control::DoSetPosition
-		 */
+		*/
 		virtual void DoSetPosition( Position const & p_value );
 
 		/** @copydoc ProceduralTextures::Control::DoSetSize
-		 */
+		*/
 		virtual void DoSetSize( Size const & p_value );
 
 		/** @copydoc ProceduralTextures::Control::DoSetBackgroundColour
-		 */
+		*/
 		virtual void DoSetBackgroundColour( Colour const & p_colour );
 
 		/** @copydoc ProceduralTextures::Control::DoSetForegroundColour
-		 */
+		*/
 		virtual void DoSetForegroundColour( Colour const & p_colour );
 
 		/** @copydoc ProceduralTextures::Control::DoSetBackgroundTexture
-		 */
+		*/
 		virtual void DoSetBackgroundTexture( std::shared_ptr< gl::Texture > p_texture );
 
 		/** @copydoc ProceduralTextures::Control::DoSetForegroundTexture
-		 */
+		*/
 		virtual void DoSetForegroundTexture( std::shared_ptr< gl::Texture > p_texture );
 
 		/** @copydoc ProceduralTextures::Control::DoSetVisible
-		 */
+		*/
 		virtual void DoSetVisible( bool p_visible );
 
 	private:

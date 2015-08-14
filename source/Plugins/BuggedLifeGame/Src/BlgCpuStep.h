@@ -50,17 +50,17 @@ namespace BuggedLifeGame
 			The surface portion's bottom
 		@param[in] p_height
 			The surface height
-		 */
+		*/
 		Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_parent, size_t p_index, int p_width, int p_top, int p_bottom, int p_totalHeight );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Thread();
 
 		/** Sets the cells buffer
 		@param[in] p_buffer
 			The new value
-		 */
+		*/
 		inline void SetBuffer( std::shared_ptr< CellBuffer > p_buffer )
 		{
 			m_cells = p_buffer;
@@ -69,7 +69,7 @@ namespace BuggedLifeGame
 		/** Sets the red value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		inline void SetRed( uint8_t val )
 		{
 			m_pxColour.r = val;
@@ -78,7 +78,7 @@ namespace BuggedLifeGame
 		/** Sets the green value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		inline void SetGreen( uint8_t val )
 		{
 			m_pxColour.g = val;
@@ -87,7 +87,7 @@ namespace BuggedLifeGame
 		/** Sets the blue value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		inline void SetBlue( uint8_t val )
 		{
 			m_pxColour.b = val;
@@ -95,7 +95,7 @@ namespace BuggedLifeGame
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::Thread::DoStep
-		 */
+		*/
 		virtual void DoStep();
 
 	private:
@@ -122,52 +122,52 @@ namespace BuggedLifeGame
 			The parent generator
 		@param[in] p_size
 			The computing image size
-		 */
+		*/
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~CpuStep();
 
 		/** Sets the red value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetRed( int val );
 
 		/** Sets the green value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetGreen( int val );
 
 		/** Sets the blue value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetBlue( int val );
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialiseStep
-		 */
+		*/
 		virtual void DoInitialiseStep();
 
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialise
-		 */
+		*/
 		virtual void DoInitialise();
 
 		/** @copydoc ProceduralTexture::CpuStep::DoCleanup
-		 */
+		*/
 		virtual void DoCleanup();
 
 		/** @copydoc ProceduralTexture::CpuStep::DoSwapBuffers
-		 */
+		*/
 		virtual void DoSwapBuffers();
 
 		/** Initialises the neighbours for given cell
 		@param[in] p_x,
 			p_y	The cell coordinates
-		 */
+		*/
 		void DoInitialiseNeighbours( uint32_t p_x, uint32_t p_y );
 
 	private:

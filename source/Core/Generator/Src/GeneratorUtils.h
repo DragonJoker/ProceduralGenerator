@@ -30,7 +30,7 @@ namespace ProceduralTextures
 			The array
 		@return
 			The size
-		 */
+		*/
 		template< typename T, size_t N >
 		inline size_t GetCountOf( T const( & p_data )[N] )
 		{
@@ -46,7 +46,7 @@ namespace ProceduralTextures
 			The value to clamp
 		@return
 			The clamped value
-		 */
+		*/
 		template< typename T > inline T Clamp( T const & p_min, T const & p_max, T const & p_value )
 		{
 			return std::max( p_min, std::min( p_max, p_value ) );
@@ -61,7 +61,7 @@ namespace ProceduralTextures
 			The minimum value
 		@return
 			The result
-		 */
+		*/
 		template< typename T, typename U, typename V > inline V Subtract( T const & p_a, U const & p_b, V const & p_min )
 		{
 			V l_vReturn;
@@ -87,7 +87,7 @@ namespace ProceduralTextures
 			The minimal pixel
 		@return
 			(\p p_a - \p p_b ) with each component of the result >= to the same component from \p p_min
-		 */
+		*/
 		template<> inline UbPixel Subtract< UbPixel, UiPixel, UbPixel >( UbPixel const & p_a, UiPixel const & p_b, UbPixel const & p_min )
 		{
 			UbPixel l_result;
@@ -107,7 +107,7 @@ namespace ProceduralTextures
 			The minimal pixel
 		@return
 			(\p p_a - \p p_b ) with each component of the result >= to the same component from \p p_min
-		 */
+		*/
 		template<> inline UbPixel Subtract< UiPixel, UiPixel, UbPixel >( UiPixel const & p_a, UiPixel const & p_b, UbPixel const & p_min )
 		{
 			UbPixel l_result;
@@ -127,7 +127,7 @@ namespace ProceduralTextures
 			The maximum value
 		@return
 			The result
-		 */
+		*/
 		template< typename T, typename U, typename V > inline V Add( T const & p_a, U const & p_b, V const & p_max )
 		{
 			V l_vReturn;
@@ -153,7 +153,7 @@ namespace ProceduralTextures
 			The maximal pixel
 		@return
 			(\p p_a + \p p_b ) with each component of the result <= to the same component from \p p_max
-		 */
+		*/
 		template<> inline UbPixel Add< UbPixel, UiPixel, UbPixel >( UbPixel const & p_a, UiPixel const & p_b, UbPixel const & p_max )
 		{
 			UbPixel l_result;
@@ -226,25 +226,25 @@ namespace ProceduralTextures
 			Receives the screen size
 		@return
 			\p true if the size was retrieved
-		 */
+		*/
 		bool GeneratorAPI GetScreenSize( uint32_t p_screen, Size & p_size );
 
 		/** Counts available CPUs
 		@return
 			The CPU count
-		 */
+		*/
 		int GeneratorAPI GetCPUCount();
 
 		/** Retrieves the executable directory
 		@return
 			The directory
-		 */
+		*/
 		String GeneratorAPI GetExecutableDirectory();
 
 		/** Retrieves the data directory
 		@return
 			The directory
-		 */
+		*/
 		String GeneratorAPI GetDataDirectory();
 	}
 }

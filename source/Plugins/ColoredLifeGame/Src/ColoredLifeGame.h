@@ -36,56 +36,44 @@ namespace ColoredLifeGame
 	class Generator
 		: public ProceduralTextures::Generator< CpuStep, ProceduralTextures::DefaultGpuStep >
 	{
-	private:
-		/*!
-		@author
-			Sylvain DOREMUS
-		@date
-			23/05/2012
-		@brief
-			The controls IDs
-		*/
-		typedef enum
-		{
-			eID_ANY			= -1,
-			eRED_VALUE		= 50,
-			eGREEN_VALUE	= 51,
-			eBLUE_VALUE		= 52,
-		}
-		eIDs;
-
 	public:
 		/** Constructor
-		 */
+		*/
 		Generator();
+
 		/** Destructor
-		 */
+		*/
 		virtual ~Generator();
 
 	private:
 		/** @copydoc ProceduralTexture::Generator::DoCreate
-		 */
+		*/
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
+
 		/** @copydoc ProceduralTexture::Generator::DoDestroy
-		 */
+		*/
 		virtual void DoDestroy();
+
 		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
-		 */
+		*/
 		virtual void DoGeneratePanel();
+
 		/** Sets the red value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		void DoSetRed( int val );
+
 		/** Sets the green value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		void DoSetGreen( int val );
+
 		/** Sets the blue value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		void DoSetBlue( int val );
 	};
 }

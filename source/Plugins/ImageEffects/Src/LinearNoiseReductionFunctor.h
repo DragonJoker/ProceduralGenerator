@@ -25,14 +25,14 @@ namespace ImageEffects
 	class LinearNoiseReductionFunctor
 		: public EffectFunctor
 	{
-	private:
-		static const int m_iLnrMask[];
-
 	public:
 		LinearNoiseReductionFunctor();
 		virtual ~LinearNoiseReductionFunctor();
 
 		virtual void operator()( ProceduralTextures::PixelBuffer const & p_bufferIn, ProceduralTextures::PixelBuffer & p_bufferOut );
+
+	private:
+		static const int m_iLnrMask[];
 	};
 }
 

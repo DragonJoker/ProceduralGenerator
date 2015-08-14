@@ -53,7 +53,7 @@ namespace ProceduralGenerator
 		}
 	}
 
-	static const int g_iWantedFPS = 25;
+	static const int g_iWantedFPS = 60;
 
 	//*************************************************************************************************
 
@@ -168,7 +168,7 @@ namespace ProceduralGenerator
 					{
 						m_recorder.RecordFrame( m_pGenerator->GetSavedFrame(), m_pGenerator->GetImageSize() );
 					}
-					catch( std::exception & p_exc )
+					catch ( std::exception & p_exc )
 					{
 						m_mainFrame->StopRecord();
 						wxMessageBox( wxString( p_exc.what(), wxMBConvLibc() ) );
@@ -200,7 +200,7 @@ namespace ProceduralGenerator
 			catch ( std::exception p_exc )
 			{
 				wxMessageBox( wxString( p_exc.what(), wxMBConvLibc() ) );
-				l_bReturn= false;
+				l_bReturn = false;
 			}
 		}
 

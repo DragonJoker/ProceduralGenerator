@@ -25,15 +25,15 @@ namespace ImageEffects
 	class WatershedFunctor
 		: public EffectFunctor
 	{
-	private:
-		int m_iNbSteps;
-		int m_tempo;
-
 	public:
 		WatershedFunctor();
 		virtual ~WatershedFunctor();
 
 		virtual void operator()( ProceduralTextures::PixelBuffer const & p_bufferIn, ProceduralTextures::PixelBuffer & p_bufferOut );
+
+	private:
+		int m_iNbSteps;
+		int m_tempo;
 	};
 }
 

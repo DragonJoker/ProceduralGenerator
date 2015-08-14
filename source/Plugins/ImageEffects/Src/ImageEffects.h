@@ -55,49 +55,49 @@ namespace ImageEffects
 
 	public:
 		/** Constructor
-		 */
+		*/
 		Generator();
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Generator();
 
 	private:
 		/** @copydoc ProceduralTexture::Generator::DoCreate
-		 */
+		*/
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
 
 		/** @copydoc ProceduralTexture::Generator::DoDestroy
-		 */
+		*/
 		virtual void DoDestroy();
 
 		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
-		 */
+		*/
 		virtual void DoGeneratePanel();
 
 	private:
 		/** Sets the computing image size
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnSize( ProceduralTextures::Size & p_value );
 
 		/** Sets the first function
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnFirstFunction( uint32_t p_value );
 
 		/** Sets the second function
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnSecondFunction( uint32_t p_value );
 
 		/** Sets the image
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnImage();
 
 	private:

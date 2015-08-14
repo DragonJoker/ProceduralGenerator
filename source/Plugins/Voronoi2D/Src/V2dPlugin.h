@@ -24,15 +24,23 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace Voronoi2D
 {
+	/*!
+	@author
+		Sylvain DOREMUS
+	@brief
+		The Voronoi2D plugin.
+	*/
 	class Plugin
 		: public ProceduralTextures::Plugin< Generator, Plugin >
 	{
 	public:
+		/** Constructor
+		*/
 		Plugin();
-		virtual ~Plugin();
 
-		virtual ProceduralTextures::String GetName();
-		virtual bool HasCustomisableResolution();
+		/** Destructor
+		*/
+		virtual ~Plugin();
 
 		DECLARE_PLUGIN()
 	};

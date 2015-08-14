@@ -7,25 +7,11 @@ namespace TextEffects
 	IMPLEMENT_PLUGIN( Plugin, Generator )
 
 	Plugin::Plugin()
-		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "TextEffects" ) )
+		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "TextEffects" ), _( "Text Effects" ), false )
 	{
 	}
 
 	Plugin::~Plugin()
 	{
-	}
-
-	String Plugin::GetName()
-	{
-		String l_strBaseName = _( "Text Effects" );
-#if !defined( NDEBUG )
-		l_strBaseName += _T( " (Debug)" );
-#endif
-		return l_strBaseName;
-	}
-
-	bool Plugin::HasCustomisableResolution()
-	{
-		return false;
 	}
 }

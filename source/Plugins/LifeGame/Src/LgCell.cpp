@@ -57,7 +57,7 @@ namespace LifeGame
 	{
 		int l_return = 0;
 
-		for ( auto && l_cell: m_neighbours )
+		for ( auto && l_cell : m_neighbours )
 		{
 			l_return += l_cell->m_alive;
 		}

@@ -40,14 +40,14 @@ namespace gl
 		/** Constructor
 		@param[in] p_openGl
 			The OpenGl instance
-		 */
+		*/
 		Holder( OpenGl & p_openGl )
 			: m_openGl( p_openGl )
 		{
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Holder()
 		{
 		}
@@ -55,7 +55,7 @@ namespace gl
 		/** Retrieves the OpenGl instance
 		@return
 			The instance
-		 */
+		*/
 		OpenGl const & GetOpenGl()const
 		{
 			return m_openGl;
@@ -64,7 +64,7 @@ namespace gl
 		/** Retrieves the OpenGl instance
 		@return
 			The instance
-		 */
+		*/
 		OpenGl & GetOpenGl()
 		{
 			return m_openGl;

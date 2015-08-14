@@ -58,51 +58,60 @@ namespace TextEffects
 
 	public:
 		/** Constructor
-		 */
+		*/
 		Generator();
+
 		/** Destructor
-		 */
+		*/
 		virtual ~Generator();
 
 	private:
 		/** @copydoc ProceduralTexture::Generator::DoCreate
-		 */
+		*/
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
+
 		/** @copydoc ProceduralTexture::Generator::DoDestroy
-		 */
+		*/
 		virtual void DoDestroy();
+
 		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
-		 */
+		*/
 		virtual void DoGeneratePanel();
+
 		/** Sets the foreground type
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnForegroundType( int p_value );
+
 		/** Event called when a char key is typed in the edit
 		@param[in] p_value
 			The new edit content
-		 */
+		*/
 		void OnChar( ProceduralTextures::String const & p_value );
+
 		/** Sets the background image
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnBackgroundImage();
+
 		/** Sets the foreground colour
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnForegroundColour();
+
 		/** Sets the foreground image
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnForegroundImage();
+
 		/** Sets the text font file
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnFont();
 
 	private:

@@ -51,59 +51,59 @@ namespace ProceduralTextures
 			The displayed surface dimensions
 		@param[in] p_bordersSize
 			The windows' borders size
-		 */
+		*/
 		GpuStep( std::shared_ptr< GeneratorBase > p_generator, Size const & p_size, Size const & p_bordersSize );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~GpuStep();
 
 		/** Initialises the generator
-		 */
+		*/
 		void Initialise();
 
 		/** Cleans up the generator
-		 */
+		*/
 		void Cleanup();
 
 		/** Renders the frame : parallel execution of CPU and GPU steps
 		@param[in] p_swapFunction
 			The function used to swap OpenGL buffers
-		 */
+		*/
 		void Render( std::function< void() > p_swapFunction );
 
 		/** Resize the generator computation dimensions
 		@param[in] p_iWidth, p_iHeight
 			The new dimensions
-		 */
+		*/
 		void Resize( int p_iWidth, int p_iHeight );
 
 		/** Resize the generator computation dimensions
 		@param[in] p_size
 			The new dimensions
-		 */
+		*/
 		void Resize( Size const & p_size );
 
 		/** Sets displayed image size, respecting the working image ratio
 		@param[in] p_size
 			The new value
-		 */
+		*/
 		void UpdateDisplaySize( Size const & p_size );
 
 		/** Tells the next frame must be saved
-		 */
+		*/
 		void SaveFrame();
 
 		/** Updates the final buffer to the one given
 		@param[in] p_buffer
 			The new value
-		 */
+		*/
 		void UpdateBuffer( PixelBuffer const & p_buffer );
 
 		/** Tells if the generator is initialised
 		@return
 			The value
-		 */
+		*/
 		inline bool IsInitialised()const
 		{
 			return m_initialised;
@@ -112,7 +112,7 @@ namespace ProceduralTextures
 		/** Retrieves the displayed image dimensions
 		@return
 			The value
-		 */
+		*/
 		inline Size const & GetDisplaySize()const
 		{
 			return m_sizeDisplay;
@@ -121,7 +121,7 @@ namespace ProceduralTextures
 		/** Retrieves the displayed image offset
 		@return
 			The value
-		 */
+		*/
 		inline Position const & GetDisplayOffset()const
 		{
 			return m_displayOffset;
@@ -130,7 +130,7 @@ namespace ProceduralTextures
 		/** Retrieves the saved frame buffer
 		@return
 			The value
-		 */
+		*/
 		inline PixelBuffer const & GetSavedFrame()const
 		{
 			return *m_saveBuffer;
@@ -139,7 +139,7 @@ namespace ProceduralTextures
 		/** Retrieves the saved frame buffer
 		@return
 			The value
-		 */
+		*/
 		inline PixelBuffer & GetSavedFrame()
 		{
 			return *m_saveBuffer;
@@ -148,7 +148,7 @@ namespace ProceduralTextures
 		/** Retrieves the overlay manager
 		@return
 			The value
-		 */
+		*/
 		inline std::shared_ptr< OverlayManager > GetOverlayManager()
 		{
 			return m_overlayManager;
@@ -157,7 +157,7 @@ namespace ProceduralTextures
 		/** Retrieves the GPU step duration
 		@return
 			The value
-		 */
+		*/
 		inline std::chrono::milliseconds const & GetTime()const
 		{
 			return m_time;
@@ -166,7 +166,7 @@ namespace ProceduralTextures
 		/** Retrieves the button texture
 		@return
 			The value
-		 */
+		*/
 		inline std::shared_ptr< gl::Texture > GetButtonTexture()const
 		{
 			return m_textureButton;
@@ -175,7 +175,7 @@ namespace ProceduralTextures
 		/** Retrieves the button mouse over texture
 		@return
 			The value
-		 */
+		*/
 		inline std::shared_ptr< gl::Texture > GetButtonMouseOverTexture()const
 		{
 			return m_textureButtonMouseOver;
@@ -183,29 +183,29 @@ namespace ProceduralTextures
 
 	protected:
 		/** All OpenGL global initialisations must be made in this function
-		 */
+		*/
 		virtual void DoInitialise() = 0;
 
 		/** All OpenGL global cleanups must be made in this function
-		 */
+		*/
 		virtual void DoCleanup() = 0;
 
 		/** Resize things like frame buffers, render textures, ... to the image size
-		 */
+		*/
 		virtual void DoResize() = 0;
 
 		/** All OpenGL frame initialisations must be made in this function
-		 */
+		*/
 		virtual void DoPreRender() = 0;
 
 		/** All OpenGL draw calls must be made in this function
 		@remarks
 			Drawings will go in the generator frame buffer
-		 */
+		*/
 		virtual void DoRender( bool & p_bChanged ) = 0;
 
 		/** All OpenGL frame cleanups must be made in this function
-		 */
+		*/
 		virtual void DoPostRender() = 0;
 
 		/** Renders the quad, using the enabled program and binding the given vertex and index attributes
@@ -213,38 +213,38 @@ namespace ProceduralTextures
 			The vertex attribute
 		@param[in] p_texture
 			The texture attribute
-		 */
+		*/
 		void DoSubRender( uint32_t p_vertex, uint32_t p_texture );
 
 		/** Renders the given framebuffer into the main framebuffer
 		@param[in] p_frameBuffer
 			The framebuffer to render
-		 */
+		*/
 		void DoRenderFrameBuffer( gl::FrameBuffer & p_frameBuffer );
 
 	private:
 		/** Initialises internal buffers to the given size
 		@param[in] p_size
 			The new value
-		 */
+		*/
 		void DoInitBuffers( Size const & p_size );
 
 		/** OpenGL pre-render operations
-		 */
+		*/
 		void PreRender();
 
 		/** OpenGL render operations
 		@param[in] p_bChanged
 			Tells if the computed image has changed
-		 */
+		*/
 		void Render( bool p_bChanged );
 
 		/** OpenGL post-render operations
-		 */
+		*/
 		void PostRender();
 
 		/** Retrieves the saved framebuffer content into the saved data buffer
-		 */
+		*/
 		void DoSaveFrame();
 
 	protected:
@@ -320,36 +320,36 @@ namespace ProceduralTextures
 			The displayed surface dimensions
 		@param[in] p_bordersSize
 			The windows' borders size
-		 */
+		*/
 		DefaultGpuStep( std::shared_ptr< GeneratorBase > p_generator, Size const & p_size, Size const & p_bordersSize );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~DefaultGpuStep();
 
 	private:
 		/** @copydoc ProceduralTexture::GpuStep::DoInitialise
-		 */
+		*/
 		virtual void DoInitialise();
 
 		/** @copydoc ProceduralTexture::GpuStep::DoCleanup
-		 */
+		*/
 		virtual void DoCleanup();
 
 		/** @copydoc ProceduralTexture::GpuStep::DoResize
-		 */
+		*/
 		virtual void DoResize();
 
 		/** @copydoc ProceduralTexture::GpuStep::DoPreRender
-		 */
+		*/
 		virtual void DoPreRender();
 
 		/** @copydoc ProceduralTexture::GpuStep::DoRender
-		 */
+		*/
 		virtual void DoRender( bool & p_bChanged );
 
 		/** @copydoc ProceduralTexture::GpuStep::DoPostRender
-		 */
+		*/
 		virtual void DoPostRender();
 	};
 }

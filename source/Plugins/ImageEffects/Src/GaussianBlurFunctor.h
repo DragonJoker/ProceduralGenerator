@@ -25,12 +25,6 @@ namespace ImageEffects
 	class GaussianBlurFunctor
 		: public EffectFunctor
 	{
-	private:
-		static const int m_iGaussLvl;
-		static const int m_iGaussMask[];
-		static const int m_iGaussSum;
-		ProceduralTextures::PixelBuffer m_temporaryBuffer;
-
 	public:
 		GaussianBlurFunctor();
 		virtual ~GaussianBlurFunctor();
@@ -38,6 +32,12 @@ namespace ImageEffects
 		virtual void operator()( ProceduralTextures::PixelBuffer const & p_bufferIn, ProceduralTextures::PixelBuffer & p_bufferOut );
 
 		virtual void SetImage( ProceduralTextures::PixelBuffer const & p_image );
+
+	private:
+		static const int m_iGaussLvl;
+		static const int m_iGaussMask[];
+		static const int m_iGaussSum;
+		ProceduralTextures::PixelBuffer m_temporaryBuffer;
 	};
 }
 

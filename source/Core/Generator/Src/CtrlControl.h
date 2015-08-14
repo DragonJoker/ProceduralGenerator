@@ -61,11 +61,11 @@ namespace ProceduralTextures
 			The style
 		@param[in] p_visible
 			Initial visibility status
-		 */
+		*/
 		Control( eCONTROL_TYPE p_type, std::shared_ptr< Control > p_parent, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Control();
 
 		/** Creates the control's overlays
@@ -73,79 +73,79 @@ namespace ProceduralTextures
 			The controls manager
 		@param[in] p_ovManager
 			The overlay manager
-		 */
+		*/
 		void Create( std::shared_ptr< ControlsManager > p_ctrlManager, std::shared_ptr< OverlayManager > p_ovManager );
 
 		/** Sets the position
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetPosition( Position const & p_value );
 
 		/** Retrieves the absolute control position
 		@return
 			The value
-		 */
+		*/
 		Position GetAbsolutePosition()const;
 
 		/** Sets the size
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetSize( Size const & p_value );
 
 		/** Sets the background borders size
 		@param[in] p_size
 			The new value
-		 */
+		*/
 		void SetBackgroundBorders( Point4i const & p_size );
 
 		/** Sets the background colour
 		@param[in] p_colour
 			The new value
-		 */
+		*/
 		void SetBackgroundColour( Colour const & p_colour );
 
 		/** Sets the foreground colour
 		@param[in] p_colour
 			The new value
-		 */
+		*/
 		void SetForegroundColour( Colour const & p_colour );
 
 		/** Sets the background texture
 		@param[in] p_texture
 			The new value
-		 */
+		*/
 		void SetBackgroundTexture( std::shared_ptr< gl::Texture > p_texture );
 
 		/** Sets the foreground texture
 		@param[in] p_texture
 			The new value
-		 */
+		*/
 		void SetForegroundTexture( std::shared_ptr< gl::Texture > p_texture );
 
 		/** Sets the visibility
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetVisible( bool p_value );
 
 		/** Retrieves the visibility status
 		@return
 			The value
-		 */
+		*/
 		bool IsVisible()const;
 
 		/** Retrieves a control
 		@param[in] p_id
 			The control ID
-		 */
+		*/
 		std::shared_ptr< Control > GetChildControl( uint32_t p_id );
 
 		/** Retrieves the control ID
 		@return
 			The value
-		 */
+		*/
 		inline uint32_t GetId()const
 		{
 			return m_id;
@@ -154,7 +154,7 @@ namespace ProceduralTextures
 		/** Retrieves the type
 		@return
 			The value
-		 */
+		*/
 		inline eCONTROL_TYPE GetType()const
 		{
 			return m_type;
@@ -163,7 +163,7 @@ namespace ProceduralTextures
 		/** Retrieves the style
 		@return
 			The value
-		 */
+		*/
 		inline uint32_t GetStyle()const
 		{
 			return m_style;
@@ -172,7 +172,7 @@ namespace ProceduralTextures
 		/** Retrieves the position
 		@return
 			The value
-		 */
+		*/
 		inline Position const & GetPosition()const
 		{
 			return m_position;
@@ -181,7 +181,7 @@ namespace ProceduralTextures
 		/** Retrieves the size
 		@return
 			The value
-		 */
+		*/
 		inline Size const & GetSize()const
 		{
 			return m_size;
@@ -190,7 +190,7 @@ namespace ProceduralTextures
 		/** Retrieves the background colour
 		@return
 			The value
-		 */
+		*/
 		inline Colour const & GetBackgroundColour()const
 		{
 			return m_backgroundColour;
@@ -199,21 +199,21 @@ namespace ProceduralTextures
 		/** Retrieves the foreground colour
 		@return
 			The value
-		 */
+		*/
 		inline Colour const & GetForegroundColour()const
 		{
 			return m_foregroundColour;
 		}
 
 		/** Shows the control
-		 */
+		*/
 		inline void Show()
 		{
 			SetVisible( true );
 		}
 
 		/** Hides the control
-		 */
+		*/
 		inline void Hide()
 		{
 			SetVisible( false );
@@ -222,7 +222,7 @@ namespace ProceduralTextures
 		/** Retrieves the control's parent
 		@return
 			The parent
-		 */
+		*/
 		inline std::shared_ptr< Control > GetParent()const
 		{
 			return m_parent.lock();
@@ -231,7 +231,7 @@ namespace ProceduralTextures
 		/** Retrieves the control's main overlay (to be the parent of child controls' overlays)
 		@return
 			The main overlay
-		 */
+		*/
 		inline std::shared_ptr< BorderPanelOverlay > GetBackground()const
 		{
 			return m_background.lock();
@@ -240,7 +240,7 @@ namespace ProceduralTextures
 		/** Retrieves the cursor when mouse is over this control
 		@return
 			The main overlay
-		 */
+		*/
 		inline eMOUSE_CURSOR GetCursor()const
 		{
 			return m_cursor;
@@ -250,43 +250,43 @@ namespace ProceduralTextures
 		/** Creates the control's overlays and sub-controls
 		@param[in] p_manager
 			The overlay manager
-		 */
+		*/
 		virtual void DoCreate( std::shared_ptr< OverlayManager > p_manager ) = 0;
 
 		/** Sets the position
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		virtual void DoSetPosition( Position const & p_value ) = 0;
 
 		/** Sets the size
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		virtual void DoSetSize( Size const & p_value ) = 0;
 
 		/** Sets the background colour
 		@param[in] p_colour
 			The new value
-		 */
+		*/
 		virtual void DoSetBackgroundColour( Colour const & p_colour ) = 0;
 
 		/** Sets the foreground colour
 		@param[in] p_colour
 			The new value
-		 */
+		*/
 		virtual void DoSetForegroundColour( Colour const & p_colour ) = 0;
 
 		/** Sets the background texture
 		@param[in] p_texture
 			The new value
-		 */
+		*/
 		virtual void DoSetBackgroundTexture( std::shared_ptr< gl::Texture > p_texture ) = 0;
 
 		/** Sets the foreground texture
 		@param[in] p_texture
 			The new value
-		 */
+		*/
 		virtual void DoSetForegroundTexture( std::shared_ptr< gl::Texture > p_texture ) = 0;
 
 		/** Tells if the control catches mouse events
@@ -294,7 +294,7 @@ namespace ProceduralTextures
 			A control catches mouse events when it is visible, enabled, and when it explicitly catches it (enables by default, except for static controls)
 		@return
 			false if the mouse events don't affect the control
-		 */
+		*/
 		virtual bool DoCatchesMouseEvents()const
 		{
 			return IsVisible();
@@ -305,7 +305,7 @@ namespace ProceduralTextures
 			A control catches 'tab' key when it is visible, enabled, and when it explicitly catches it (disabled by default)
 		@return
 			false if the 'tab' key doesn't affect the control
-		 */
+		*/
 		virtual bool DoCatchesTabKey()const
 		{
 			return IsVisible();
@@ -316,7 +316,7 @@ namespace ProceduralTextures
 			A control catches 'return' key when it is visible, enabled, and when it explicitly catches it (disabled by default)
 		@return
 			false if the 'return' key doesn't affect the control
-		 */
+		*/
 		virtual bool DoCatchesReturnKey()const
 		{
 			return IsVisible();
@@ -327,7 +327,7 @@ namespace ProceduralTextures
 			Used for derived control specific behaviour
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		virtual void DoSetVisible( bool p_visible )
 		{
 		}

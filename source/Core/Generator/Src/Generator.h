@@ -57,11 +57,11 @@ namespace ProceduralTextures
 			Tells if the generator needs a configuration panel
 		@param[in] p_frameTime
 			The time in milliseconds to wait between each frame
-		 */
+		*/
 		GeneratorBase( bool p_needsConfigPanel, int p_frameTime );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~GeneratorBase();
 
 		/** Creates the CPU and GPU steps
@@ -69,49 +69,49 @@ namespace ProceduralTextures
 			The computing surface dimensions
 		@param[in] p_bordersSize
 			The windows' borders size
-		 */
+		*/
 		void Create( Size const & p_size, Size const & p_bordersSize );
 
 		/** Destroys the CPU and GPU steps
-		 */
+		*/
 		void Destroy();
 
 		/** Initialises the generator
-		 */
+		*/
 		void Initialise();
 
 		/** Cleans up the generator
-		 */
+		*/
 		void Cleanup();
 
 		/** Launches the thread
-		 */
+		*/
 		void Run();
 
 		/** Stops the thread
-		 */
+		*/
 		void Stop();
 
 		/** Renders the frame : parallel execution of CPU and GPU steps
 		@param[in] p_swapFunction
 			The function used to swap OpenGL buffers
-		 */
+		*/
 		void Render( std::function< void() > p_swapFunction );
 
 		/** Resize the generator computation dimensions
 		@param[in] p_iWidth, p_iHeight
 			The new dimensions
-		 */
+		*/
 		void Resize( int p_iWidth, int p_iHeight );
 
 		/** Resize the generator computation dimensions
 		@param[in] p_size
 			The new dimensions
-		 */
+		*/
 		void Resize( Size const & p_size );
 
 		/** Tells the next frame must be saved
-		 */
+		*/
 		void SaveFrame();
 
 		/** Shows a message box
@@ -119,13 +119,13 @@ namespace ProceduralTextures
 			The box title
 		@param[in] p_message
 			The box message
-		 */
+		*/
 		void ShowMessageBox( String const & p_title, String const & p_message );
 
 		/** Sets displayed image size, respecting the working image ratio
 		@param[in] p_size
 			The new value
-		 */
+		*/
 		void UpdateDisplaySize( Size const & p_size );
 
 		/** Opens a file dialog, in write mode
@@ -137,7 +137,7 @@ namespace ProceduralTextures
 			The file wildcard
 		@return
 			true if a file has been selected
-		 */
+		*/
 		bool OpenFile( String & p_path, String const & p_prompt = _T( "Select a file" ), String const & p_wildcard = _T( "All files (*.*)|*.*" ) );
 
 		/** Opens a file dialog, in read mode
@@ -149,7 +149,7 @@ namespace ProceduralTextures
 			The file wildcard
 		@return
 			true if a file has been selected
-		 */
+		*/
 		bool SaveFile( String & p_path, String const & p_prompt = _T( "Select a file" ), String const & p_wildcard = _T( "All files (*.*)|*.*" ) );
 
 		/** Opens an image selection dialog and loads the image
@@ -159,7 +159,7 @@ namespace ProceduralTextures
 			The dialog message
 		@return
 			true if an image has been selected
-		 */
+		*/
 		bool SelectImage( PixelBuffer & p_buffer, String const & p_prompt = _( "Choose an image" ) );
 
 		/** Opens a colour selection dialog
@@ -169,13 +169,13 @@ namespace ProceduralTextures
 			The dialog message
 		@return
 			true if a colour has been selected
-		 */
+		*/
 		bool SelectColour( uint32_t & p_colour, String const & p_prompt = _( "Choose a colour" ) );
 
 		/** Changes the mouse cursor
 		@param[out] p_cursor
 			The cursor
-		 */
+		*/
 		void SetCursor( eMOUSE_CURSOR p_cursor );
 
 		/** Post a mouse event to the controls manager
@@ -185,7 +185,7 @@ namespace ProceduralTextures
 			The position, of whell or mouse, depending on the evnt type
 		@param[in] p_button
 			The mouse button
-		 */
+		*/
 		void PostMouseEvent( eMOUSE_EVENT p_type, Position const & p_position, eMOUSE_BUTTON p_button = eMOUSE_BUTTON_COUNT );
 
 		/** Fires a keyboard key down event
@@ -199,7 +199,7 @@ namespace ProceduralTextures
 			Tells if the Alt key is down
 		@param[in] p_shift
 			Tells if the Shift key is down
-		 */
+		*/
 		void PostKeyboardEvent( eKEYBOARD_EVENT p_type, eKEYBOARD_KEY p_key, bool p_ctrl, bool p_alt, bool p_shift );
 
 		/** Fires a printable key event
@@ -207,7 +207,7 @@ namespace ProceduralTextures
 			The key
 		@param[in] p_char
 			The character corresponding to the key
-		 */
+		*/
 		void PostCharEvent( eKEYBOARD_KEY p_key, String const & p_char );
 
 		/** Loads a font
@@ -219,7 +219,7 @@ namespace ProceduralTextures
 			The font file path
 		@return
 			The loaded font
-		 */
+		*/
 		std::shared_ptr< Font > LoadFont( String const & p_fontName, uint32_t p_height, String const & p_fontPath );
 
 		/** Retrieves a font
@@ -229,49 +229,49 @@ namespace ProceduralTextures
 			The font height
 		@return
 			The font, nullptr if it does not exist
-		 */
+		*/
 		std::shared_ptr< Font > GetFont( String const & p_fontName, uint32_t p_height );
 
 		/** Tells if the generator is initialised
 		@return
 			The value
-		 */
+		*/
 		bool IsInitialised()const;
 
 		/** Retrieves the displayed image dimensions
 		@return
 			The value
-		 */
+		*/
 		Size const & GetDisplaySize()const;
 
 		/** Retrieves the computing image dimensions
 		@return
 			The value
-		 */
+		*/
 		Size const & GetImageSize()const;
 
 		/** Retrieves the saved frame buffer
 		@return
 			The value
-		 */
+		*/
 		PixelBuffer const & GetSavedFrame()const;
 
 		/** Retrieves the CPU step duration
 		@return
 			The value
-		 */
+		*/
 		std::chrono::milliseconds const & GetCpuTime()const;
 
 		/** Retrieves the GPU step duration
 		@return
 			The value
-		 */
+		*/
 		std::chrono::milliseconds const & GetGpuTime()const;
 
 		/** Sets the 'show message box' callback
 		@param[in] p_function
 			The callback function
-		 */
+		*/
 		void SetShowMessageBoxCallback( std::function< void( String const &, String const & ) > p_function )
 		{
 			m_callbackShowMessageBox = p_function;
@@ -280,7 +280,7 @@ namespace ProceduralTextures
 		/** Sets the 'resize' callback
 		@param[in] p_function
 			The callback function
-		 */
+		*/
 		void SetResizeCallback( std::function< void( Size const & ) > p_function )
 		{
 			m_callbackResize = p_function;
@@ -289,7 +289,7 @@ namespace ProceduralTextures
 		/** Sets the 'open file selector' callback
 		@param[in] p_function
 			The callback function
-		 */
+		*/
 		void SetOpenFileCallback( std::function< bool( String &, String const &, String const & ) > p_function )
 		{
 			m_callbackOpenFile = p_function;
@@ -298,7 +298,7 @@ namespace ProceduralTextures
 		/** Sets the 'save file selector' callback
 		@param[in] p_function
 			The callback function
-		 */
+		*/
 		void SetSaveFileCallback( std::function< bool( String &, String const &, String const & ) > p_function )
 		{
 			m_callbackSaveFile = p_function;
@@ -307,7 +307,7 @@ namespace ProceduralTextures
 		/** Sets the 'select image selector' callback
 		@param[in] p_function
 			The callback function
-		 */
+		*/
 		void SetSelectImageCallback( std::function< bool( PixelBuffer &, String const & ) > p_function )
 		{
 			m_callbackSelectImage = p_function;
@@ -316,7 +316,7 @@ namespace ProceduralTextures
 		/** Sets the 'select colour selector' callback
 		@param[in] p_function
 			The callback function
-		 */
+		*/
 		void SetSelectColourCallback( std::function< bool( uint32_t &, String const & ) > p_function )
 		{
 			m_callbackSelectColour = p_function;
@@ -325,7 +325,7 @@ namespace ProceduralTextures
 		/** Sets the 'set mouse cursor' callback
 		@param[in] p_function
 			The callback function
-		 */
+		*/
 		void SetSetCursorCallback( std::function< void( eMOUSE_CURSOR ) > p_function )
 		{
 			m_callbackSetCursor = p_function;
@@ -334,7 +334,7 @@ namespace ProceduralTextures
 		/** Tells if the generator needs a configuration panel
 		@return
 			The value
-		 */
+		*/
 		inline bool NeedsConfigPanel()const
 		{
 			return m_needsConfigPanel;
@@ -343,7 +343,7 @@ namespace ProceduralTextures
 		/** Retrieves an iterator to the controls array beginning
 		@return
 			The value
-		 */
+		*/
 		inline ControlArray::iterator BeginCtrls()
 		{
 			return m_arrayControls.begin();
@@ -352,7 +352,7 @@ namespace ProceduralTextures
 		/** Retrieves an iterator to the controls array end
 		@return
 			The value
-		 */
+		*/
 		inline ControlArray::iterator EndCtrls()
 		{
 			return m_arrayControls.end();
@@ -361,7 +361,7 @@ namespace ProceduralTextures
 		/** Retrieves the frame wanted duration
 		@return
 			The value
-		 */
+		*/
 		inline std::chrono::milliseconds const & GetFrameTime()const
 		{
 			return m_frameTime;
@@ -370,7 +370,7 @@ namespace ProceduralTextures
 		/** Retrieves the controls panel
 		@return
 			The value
-		 */
+		*/
 		inline std::shared_ptr< ControlsManager > GetControlsManager()const
 		{
 			return m_controlsManager;
@@ -379,7 +379,7 @@ namespace ProceduralTextures
 		/** Retrieves the button image buffer
 		@return
 			The value
-		 */
+		*/
 		inline std::shared_ptr< PixelBuffer > GetButtonImage()const
 		{
 			return m_buttonImage;
@@ -388,7 +388,7 @@ namespace ProceduralTextures
 		/** Retrieves the button mouse over image buffer
 		@return
 			The value
-		 */
+		*/
 		inline std::shared_ptr< PixelBuffer > GetButtonMouseOverImage()const
 		{
 			return m_buttonMouseOverImage;
@@ -397,7 +397,7 @@ namespace ProceduralTextures
 		/** Retrieves the GPU step
 		@return
 			The step
-		 */
+		*/
 		inline std::shared_ptr< GpuStep > GetGpuStep()const
 		{
 			return DoGetGpuStep();
@@ -409,33 +409,33 @@ namespace ProceduralTextures
 			The computing surface dimensions
 		@param[in] p_bordersSize
 			The windows' borders size
-		 */
+		*/
 		virtual void DoCreate( Size const & p_size, Size const & p_bordersSize ) = 0;
 
 		/** Destroys the CPU and GPU steps
-		 */
+		*/
 		virtual void DoDestroy() = 0;
 
 		/** Initialises the configuration panel structure
-		 */
+		*/
 		virtual void DoGeneratePanel() = 0;
 
 		/** Retrieves the CPU Step
-		 */
+		*/
 		virtual std::shared_ptr< CpuStepBase > DoGetCpuStep()const = 0;
 
 		/** Retrieves the CPU Step
-		 */
+		*/
 		virtual std::shared_ptr< GpuStep > DoGetGpuStep()const = 0;
 
 		/** Retreives a shared pointer to this
 		@remarks
 			Since the enable_shared_from_this is used in the template class below, I use this function in this class
-		 */
+		*/
 		virtual std::shared_ptr< GeneratorBase > DoGetThis() = 0;
 
 		/** Switches the panel visibility
-		 */
+		*/
 		virtual void DoSwitchVisibility();
 
 	private:
@@ -446,7 +446,7 @@ namespace ProceduralTextures
 			The step time
 		@param[in] p_text
 			The step overlay
-		 */
+		*/
 		void DoWriteTime( String const & p_name, std::chrono::milliseconds const & p_time, std::shared_ptr< StaticCtrl > p_text );
 
 	protected:
@@ -513,35 +513,35 @@ namespace ProceduralTextures
 			Tells if the generator needs a configuration panel
 		@param[in] p_frameTime
 				The time in milliseconds to wait between each frame
-		 */
+		*/
 		Generator( bool p_needsConfigPanel, int p_frameTime )
 			: GeneratorBase( p_needsConfigPanel, p_frameTime )
 		{
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Generator()
 		{
 		}
 
 	private:
 		/** Retrieves the CPU Step
-		 */
+		*/
 		virtual std::shared_ptr< CpuStepBase > DoGetCpuStep()const
 		{
 			return m_cpuStep;
 		}
 
 		/** Retrieves the CPU Step
-		 */
+		*/
 		virtual std::shared_ptr< GpuStep > DoGetGpuStep()const
 		{
 			return m_gpuStep;
 		}
 
 		/** Retreives a shared pointer to this
-		 */
+		*/
 		virtual std::shared_ptr< GeneratorBase > DoGetThis()
 		{
 			return this->shared_from_this();

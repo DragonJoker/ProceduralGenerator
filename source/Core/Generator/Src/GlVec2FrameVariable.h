@@ -44,14 +44,14 @@ namespace gl
 			The OpenGL instance
 		@param[in] p_program
 			The parent shader program
-		 */
+		*/
 		Vec2FrameVariable( OpenGl & p_openGl, ShaderProgram & p_program )
 			: TFrameVariable< T, 2 >( p_openGl, p_program )
 		{
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Vec2FrameVariable()
 		{
 		}
@@ -59,7 +59,7 @@ namespace gl
 		/** Defines the variable's value
 		@param[in] p_x,
 			p_y	The new value
-		 */
+		*/
 		inline void SetValue( T p_x, T p_y )
 		{
 			this->m_value[0] = p_x;
@@ -70,7 +70,7 @@ namespace gl
 		/** Defines the variable's value
 		@param[in] p_point
 			The new value
-		 */
+		*/
 		inline void SetValue( Point< T, 2 > const & p_point )
 		{
 			this->m_value[0] = p_point[0];
@@ -80,7 +80,5 @@ namespace gl
 	};
 }
 }
-
-//*************************************************************************************************
 
 #endif

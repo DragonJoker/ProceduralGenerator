@@ -41,27 +41,27 @@ namespace gl
 			The OpenGL instance
 		@param[in] p_mode
 				The buffer access mode
-		 */
+		*/
 		IndexBuffer( OpenGl & p_openGl, uint32_t p_mode );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~IndexBuffer();
 
 		/** Initialises the buffer
 		@return
 			true if it is successfully initialised
-		 */
+		*/
 		virtual bool Initialise();
 
 		/** Tries to activate the buffer
 		@return
 			true if it is successfully activated
-		 */
+		*/
 		virtual bool Activate();
 
 		/** Deactivates the buffer
-		 */
+		*/
 		virtual void Deactivate();
 
 		//! The index buffer size, 6 since it is a two-triangles quad

@@ -45,11 +45,11 @@ namespace gl
 			The pixel transfer direction (pack or unpack)
 		@param[in] p_drawMode
 			The buffer mode (GL_STATIC_DRAW, ...)
-		 */
+		*/
 		GpuIOBuffer( OpenGl & p_openGl, unsigned int p_packMode, unsigned int p_drawMode );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~GpuIOBuffer();
 
 		/** Initialises the buffer
@@ -57,24 +57,24 @@ namespace gl
 			The buffer size
 		@return
 			true if it is successfully initialised
-		 */
+		*/
 		virtual bool Initialise( size_t p_size );
 
 		/** Tries to activate the buffer
 		@return
 			true if it is successfully activated
-		 */
+		*/
 		virtual bool Activate();
 
 		/** Deactivates the buffer
-		 */
+		*/
 		virtual void Deactivate();
 
 	private:
 		/** Dummy, not to use
 		@return
 			false
-		 */
+		*/
 		virtual bool Initialise();
 	};
 }

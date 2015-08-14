@@ -57,71 +57,82 @@ namespace Voronoi2D
 
 	public:
 		/** Constructor
-		 */
+		*/
 		Generator();
+
 		/** Destructor
-		 */
+		*/
 		virtual ~Generator();
 
 	private:
 		/** @copydoc ProceduralTexture::Generator::DoCreate
-		 */
+		*/
 		virtual void DoCreate( ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
+
 		/** @copydoc ProceduralTexture::Generator::DoDestroy
-		 */
+		*/
 		virtual void DoDestroy();
+
 		/** @copydoc ProceduralTexture::Generator::DoGeneratePanel
-		 */
+		*/
 		virtual void DoGeneratePanel();
+
 		/** Sets the maximum depth
 		@remarks
 				Called when the slider control is released
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnMaxDepths( int p_value );
+
 		/** Sets the maximum depth
 		@remarks
 				Called when the slider control is moved
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnMaxDepthsTrack( int p_value );
+
 		/** Sets the maximum neighbours
 		@remarks
 				Called when the slider control is released
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnMaxNeighbours( int p_value );
+
 		/** Sets the maximum neighbours
 		@remarks
 				Called when the slider control is moved
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnMaxNeighboursTrack( int p_value );
+
 		/** Sets the Minkowski function order
 		@remarks
 				Called when the slider control is released
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnMinkowskiOrder( int p_value );
+
 		/** Sets the Minkowski function order
 		@remarks
 				Called when the slider control is moved
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnMinkowskiOrderTrack( int p_value );
+
 		/** Sets the distance function
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnDistanceType( int p_value );
+
 		/** Resets the generator
-		 */
+		*/
 		void OnReset();
 
 	private:

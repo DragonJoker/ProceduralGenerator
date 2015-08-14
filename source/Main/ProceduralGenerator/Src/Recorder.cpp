@@ -327,7 +327,7 @@ namespace ProceduralGenerator
 						}
 					}
 				}
-				
+
 				Writer::Finish( l_pkt );
 				Writer::DeallocateContext();
 
@@ -592,7 +592,7 @@ namespace ProceduralGenerator
 				return true;
 			}
 
-			virtual void DoRecordFrame( PixelBuffer const & , Size const & )
+			virtual void DoRecordFrame( PixelBuffer const &, Size const & )
 			{
 			}
 		};
@@ -627,7 +627,7 @@ namespace ProceduralGenerator
 				return false;
 			}
 
-			virtual bool RecordFrame( PixelBuffer const & , Size const & )
+			virtual bool RecordFrame( PixelBuffer const &, Size const & )
 			{
 				return true;
 			}

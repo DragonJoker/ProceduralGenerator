@@ -48,25 +48,25 @@ namespace ProceduralTextures
 		/** Constructor
 		@param[in] p_openGl
 			The OpenGl instance
-		 */
+		*/
 		OverlayManager( gl::OpenGl & p_openGl );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~OverlayManager();
 
 		/** Initialises the programs
-		 */
+		*/
 		void Initialise();
 
 		/** Clears all overlays lists and destroys thee programs
-		 */
+		*/
 		void Cleanup();
 
 		/** Renders the overlays
 		@param[in] p_size
 			The rendering surface size
-		 */
+		*/
 		void Render( Size const & p_size );
 
 		/** Creates a panel overlay
@@ -82,7 +82,7 @@ namespace ProceduralTextures
 			The parent overlay
 		@return
 			The created overlay
-		 */
+		*/
 		std::shared_ptr< PanelOverlay > CreatePanel( String const & p_name, Point2d const & p_position, Point2d const & p_size, Material const & p_material, std::shared_ptr< Overlay > p_parent = nullptr );
 
 		/** Creates a panel overlay
@@ -98,7 +98,7 @@ namespace ProceduralTextures
 			The parent overlay
 		@return
 			The created overlay
-		 */
+		*/
 		std::shared_ptr< PanelOverlay > CreatePanel( String const & p_name, Position const & p_position, Size const & p_size, Material const & p_material, std::shared_ptr< Overlay > p_parent = nullptr );
 
 		/** Creates a border panel overlay
@@ -118,7 +118,7 @@ namespace ProceduralTextures
 			The parent overlay
 		@return
 			The created overlay
-		 */
+		*/
 		std::shared_ptr< BorderPanelOverlay > CreateBorderPanel( String const & p_name, Point2d const & p_position, Point2d const & p_size, Material const & p_material, Point4d const & p_bordersSize, Material const & p_bordersMaterial, std::shared_ptr< Overlay > p_parent = nullptr );
 
 		/** Creates a panel overlay
@@ -138,7 +138,7 @@ namespace ProceduralTextures
 			The parent overlay
 		@return
 			The created overlay
-		 */
+		*/
 		std::shared_ptr< BorderPanelOverlay > CreateBorderPanel( String const & p_name, Position const & p_position, Size const & p_size, Material const & p_material, Point4i const & p_bordersSize, Material const & p_bordersMaterial, std::shared_ptr< Overlay > p_parent = nullptr );
 
 		/** Creates a border panel overlay
@@ -156,7 +156,7 @@ namespace ProceduralTextures
 			The parent overlay
 		@return
 			The created overlay
-		 */
+		*/
 		std::shared_ptr< TextOverlay > CreateText( String const & p_name, Point2d const & p_position, Point2d const & p_size, Material const & p_material, std::shared_ptr< Font > p_font, std::shared_ptr< Overlay > p_parent = nullptr );
 
 		/** Creates a panel overlay
@@ -174,7 +174,7 @@ namespace ProceduralTextures
 			The parent overlay
 		@return
 			The created overlay
-		 */
+		*/
 		std::shared_ptr< TextOverlay > CreateText( String const & p_name, Position const & p_position, Size const & p_size, Material const & p_material, std::shared_ptr< Font > p_font, std::shared_ptr< Overlay > p_parent = nullptr );
 
 		/** Add an overlay to the lists
@@ -182,13 +182,13 @@ namespace ProceduralTextures
 			The overlay
 		@param[in] p_parent
 			The parent overlay
-		 */
+		*/
 		void AddOverlay( std::shared_ptr< Overlay > p_overlay, std::shared_ptr< Overlay > p_parent );
 
 		/** Add an overlay to the lists
 		@param[in] p_overlay
 			The overlay
-		 */
+		*/
 		void AddOverlay( std::shared_ptr< Overlay > p_overlay );
 
 		/** Add an overlay to the lists, given it's z-index
@@ -196,7 +196,7 @@ namespace ProceduralTextures
 			The wanted z-index
 		@param[in] p_overlay
 			The overlay
-		 */
+		*/
 		void AddOverlay( uint64_t p_zIndex, std::shared_ptr< Overlay > p_overlay );
 
 		/** Checks if an overlay exists at given z-index
@@ -204,7 +204,7 @@ namespace ProceduralTextures
 			The z-index
 		@return
 				\p true if an overlay is defined at the given z-index
-		 */
+		*/
 		bool HasOverlay( uint64_t p_zIndex )const;
 
 		/** Checks if an overlay with the given name exists
@@ -212,7 +212,7 @@ namespace ProceduralTextures
 			The name
 		@return
 			\p true if an overlay is defined with given name
-		 */
+		*/
 		bool HasOverlay( String const & p_name )const;
 
 		/** Retrieves the overlay with the given name
@@ -220,7 +220,7 @@ namespace ProceduralTextures
 			The name
 		@return
 			The overlay, \p nullptr if not found
-		 */
+		*/
 		std::shared_ptr< Overlay > GetOverlay( String const & p_name )const;
 
 		/** Retrieves the overlay at given z-index
@@ -228,7 +228,7 @@ namespace ProceduralTextures
 			The z-index
 		@return
 			The overlay, \p nullptr if not found
-		 */
+		*/
 		std::shared_ptr< Overlay > GetOverlay( int p_zIndex )const;
 
 		/** Loads a font
@@ -240,7 +240,7 @@ namespace ProceduralTextures
 			The font file path
 		@return
 			The loaded font
-		 */
+		*/
 		std::shared_ptr< Font > LoadFont( String const & p_fontName, uint32_t p_height, String const & p_fontPath );
 
 		/** Retrieves a font
@@ -250,13 +250,13 @@ namespace ProceduralTextures
 			The font height
 		@return
 			The font, nullptr if it does not exist
-		 */
+		*/
 		std::shared_ptr< Font > GetFont( String const & p_fontName, uint32_t p_height );
 
 		/** Retrieves the shader program for overlays with a colour material
 		@return
 			The program
-		 */
+		*/
 		std::shared_ptr< gl::ShaderProgram > GetProgramColour()const
 		{
 			return m_programColour;
@@ -265,7 +265,7 @@ namespace ProceduralTextures
 		/** Retrieves the shader program for overlays with a texture material
 		@return
 			The program
-		 */
+		*/
 		std::shared_ptr< gl::ShaderProgram > GetProgramTexture()const
 		{
 			return m_programTexture;
@@ -274,7 +274,7 @@ namespace ProceduralTextures
 		/** Retrieves the shader program for text overlays with a colour material
 		@return
 			The program
-		 */
+		*/
 		std::shared_ptr< gl::ShaderProgram > GetProgramTextColour()const
 		{
 			return m_programTextColour;
@@ -283,7 +283,7 @@ namespace ProceduralTextures
 		/** Retrieves the shader program for text overlays with a texture material
 		@return
 			The program
-		 */
+		*/
 		std::shared_ptr< gl::ShaderProgram > GetProgramTextTexture()const
 		{
 			return m_programTextTexture;
@@ -293,17 +293,17 @@ namespace ProceduralTextures
 		/** Add an overlay to the lists
 		@param[in] p_overlay
 			The overlay
-		 */
+		*/
 		void DoAddOverlay( std::shared_ptr< Overlay > p_overlay );
 
 		/** Updates the orthographic matrix in the shaders
 		@param[in] p_size
 			The new size
-		 */
+		*/
 		void DoUpdateSize( Size const & p_size );
 
 		/** Updates the renderable overlays array
-		 */
+		*/
 		void DoUpdate();
 
 		//! Current available Z index

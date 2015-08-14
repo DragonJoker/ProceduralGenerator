@@ -7,25 +7,11 @@ namespace DiffusionLimitedAggregation
 	IMPLEMENT_PLUGIN( Plugin, Generator )
 
 	Plugin::Plugin()
-		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "DiffusionLimitedAggregation" ) )
+		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "DiffusionLimitedAggregation" ), _( "Diffusion Limited Aggregation" ) )
 	{
 	}
 
 	Plugin::~Plugin()
 	{
-	}
-
-	String Plugin::GetName()
-	{
-		String l_strBaseName = _( "Diffusion Limited Aggregation" );
-#if !defined( NDEBUG )
-		l_strBaseName += _T( " (Debug )" );
-#endif
-		return l_strBaseName;
-	}
-
-	bool Plugin::HasCustomisableResolution()
-	{
-		return true;
 	}
 }

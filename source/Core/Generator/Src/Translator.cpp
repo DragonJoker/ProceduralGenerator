@@ -36,13 +36,14 @@ namespace ProceduralTextures
 
 	//************************************************************************************************
 
-	LocalisedText::LocalisedText()
+	LocalisedText::LocalisedText( String const & p_name )
 		: m_numStrings( 0 )
 		, m_originalTableOffset( 0 )
 		, m_translatedTableOffset( 0 )
 		, m_hashNumEntries( 0 )
 		, m_hashOffset( 0 )
 		, m_reversed( -1 )
+		, m_name( p_name )
 	{
 	}
 
@@ -230,19 +231,23 @@ namespace ProceduralTextures
 			l_path = l_path.substr( 0, l_index );
 		}
 
-		LocalisedText l_translation;
+		LocalisedText l_translation( p_name );
 		l_translation.Initialise( l_path + FOLDER_SEPARATOR + _T( "share" ) + FOLDER_SEPARATOR + p_parent + FOLDER_SEPARATOR + l_language + FOLDER_SEPARATOR + p_name + _T( ".mo" ) );
 		m_translations.push_back( l_translation );
 	}
 
-	void Translator::Cleanup()
+	void Translator::Cleanup( String const & p_name )
 	{
-		for ( auto && l_translation : m_translations )
+		auto l_it = std::find_if( m_translations.begin(), m_translations.end(), [&p_name]( LocalisedText const & p_translation )
 		{
-			l_translation.Cleanup();
-		}
+			return p_translation.GetName() == p_name;
+		} );
 
-		m_translations.clear();
+		if ( l_it != m_translations.end() )
+		{
+			l_it->Cleanup();
+			m_translations.erase( l_it );
+		}
 	}
 
 	String Translator::TranslateString( char const * p_txt )

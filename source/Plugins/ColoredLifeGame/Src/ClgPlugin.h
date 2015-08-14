@@ -24,15 +24,23 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace ColoredLifeGame
 {
+	/*!
+	@author
+		Sylvain DOREMUS
+	@brief
+		The ColoredLifeGame plugin.
+	*/
 	class Plugin
 		: public ProceduralTextures::Plugin< Generator, Plugin >
 	{
 	public:
+		/** Constructor
+		*/
 		Plugin();
-		virtual ~Plugin();
 
-		virtual ProceduralTextures::String GetName();
-		virtual bool HasCustomisableResolution();
+		/** Destructor
+		*/
+		virtual ~Plugin();
 
 		DECLARE_PLUGIN()
 	};

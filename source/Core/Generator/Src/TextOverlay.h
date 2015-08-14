@@ -88,7 +88,7 @@ namespace ProceduralTextures
 			The character position
 		@param[in] p_size
 			The character size
-		 */
+		*/
 		Character( char32_t p_value, Position const & p_position, Size const & p_size )
 			: m_value( p_value )
 			, m_position( p_position )
@@ -97,7 +97,7 @@ namespace ProceduralTextures
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~Character()
 		{
 		}
@@ -105,7 +105,7 @@ namespace ProceduralTextures
 		/** Retrieves the character value
 		@return
 			The value
-		 */
+		*/
 		inline char32_t GetValue()const
 		{
 			return m_value;
@@ -114,7 +114,7 @@ namespace ProceduralTextures
 		/** Retrieves the character position
 		@return
 			The value
-		 */
+		*/
 		inline Position const & GetPosition()const
 		{
 			return m_position;
@@ -123,7 +123,7 @@ namespace ProceduralTextures
 		/** Retrieves the character size
 		@return
 			The value
-		 */
+		*/
 		inline Size const & GetSize()const
 		{
 			return m_size;
@@ -162,17 +162,17 @@ namespace ProceduralTextures
 			The material
 		@param[in] p_parent
 			The parent overlay (if any)
-		 */
+		*/
 		TextOverlay( gl::OpenGl & p_openGl, Material const & p_material, std::shared_ptr< Overlay > p_parent );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~TextOverlay();
 
 		/** Sets the text font
 		@param[in] p_font
 			The new value
-		 */
+		*/
 		void SetFont( std::shared_ptr< Font > p_font );
 
 		/** Sets the shader program
@@ -180,7 +180,7 @@ namespace ProceduralTextures
 			The new value
 		@param[in] p_program
 			The new value
-		 */
+		*/
 		virtual void SetProgram( eMATERIAL_TYPE p_type, std::shared_ptr< gl::ShaderProgram > p_program );
 
 		/** Retrieves the wanted glyph position
@@ -188,13 +188,13 @@ namespace ProceduralTextures
 			The glyph index
 		@return
 			The position
-		 */
+		*/
 		Position const & GetGlyphPosition( char32_t p_char )const;
 
 		/** Retrieves the font
 		@return
 			The value
-		 */
+		*/
 		std::shared_ptr< Font > GetFont()const
 		{
 			return m_wpFont.lock();
@@ -203,7 +203,7 @@ namespace ProceduralTextures
 		/** Retrieves the overlay text
 		@return
 			The value
-		 */
+		*/
 		inline String const & GetCaption()const
 		{
 			return m_caption;
@@ -212,7 +212,7 @@ namespace ProceduralTextures
 		/** Retrieves the horizontal alignment
 		@return
 			The value
-		 */
+		*/
 		inline eHALIGN GetHAlign()const
 		{
 			return m_hAlign;
@@ -221,7 +221,7 @@ namespace ProceduralTextures
 		/** Retrieves the vertical alignment
 		@return
 			The value
-		 */
+		*/
 		inline eVALIGN GetVAlign()const
 		{
 			return m_vAlign;
@@ -230,7 +230,7 @@ namespace ProceduralTextures
 		/** Sets the overlay text
 		@param[in] p_caption
 			The new value
-		 */
+		*/
 		inline void SetCaption( String const & p_caption )
 		{
 			m_changed = m_caption != p_caption;
@@ -240,7 +240,7 @@ namespace ProceduralTextures
 		/** Sets text wrapping mode
 		@param[in] p_mode
 			The new value
-		 */
+		*/
 		inline void SetTextWrappingMode( eTEXT_WRAPPING_MODE p_mode )
 		{
 			m_changed = m_wrappingMode != p_mode;
@@ -250,7 +250,7 @@ namespace ProceduralTextures
 		/** Sets the horizontal alignment
 		@param[in] p_align
 			The new value
-		 */
+		*/
 		inline void SetHAlign( eHALIGN p_align )
 		{
 			m_changed = m_hAlign != p_align;
@@ -260,7 +260,7 @@ namespace ProceduralTextures
 		/** Sets the vertical alignment
 		@param[in] p_align
 			The new value
-		 */
+		*/
 		inline void SetVAlign( eVALIGN p_align )
 		{
 			m_changed = m_vAlign != p_align;
@@ -270,7 +270,7 @@ namespace ProceduralTextures
 		/** Retrieves an iterator to the beginning of the characters array
 		@return
 			The iterator
-		 */
+		*/
 		inline CharacterArray::const_iterator Begin()const
 		{
 			return m_characters.begin();
@@ -279,7 +279,7 @@ namespace ProceduralTextures
 		/** Retrieves an iterator to the end of the characters array
 		@return
 			The iterator
-		 */
+		*/
 		inline CharacterArray::const_iterator End()const
 		{
 			return m_characters.end();
@@ -287,23 +287,23 @@ namespace ProceduralTextures
 
 	protected:
 		/** Initialises the overlay and its buffers
-		 */
+		*/
 		virtual void DoInitialise();
 
 		/** Cleans the overlay and its buffers up
-		 */
+		*/
 		virtual void DoCleanup();
 
 		/** Draws the overlay
-		 */
+		*/
 		virtual void DoRender();
 
 		/** Updates the vertex buffer
-		 */
+		*/
 		virtual void DoUpdate();
 
 		/** Updates the overlay position and size, taking care of wanted pixel size and position
-		 */
+		*/
 		virtual void DoUpdatePositionAndSize( Size const & p_size );
 
 		/** Adds a word to the vertex buffer
@@ -321,7 +321,7 @@ namespace ProceduralTextures
 			The line
 		@param[out] p_linesVtx
 			the lines
-		 */
+		*/
 		void DoWriteWord( String const & p_word, int32_t p_wordWidth, Size const & p_size, Position & p_position, int32_t & p_lineWidth, std::vector< VertexI > & p_lineVtx, std::vector< std::vector< VertexI > > & p_linesVtx );
 
 		/** Horizontally align a line
@@ -333,7 +333,7 @@ namespace ProceduralTextures
 			The line
 		@param[out] p_linesVtx
 			the lines
-		 */
+		*/
 		void DoAlignHorizontally( int32_t p_width, int32_t & p_lineWidth, std::vector< VertexI > & p_lineVtx, std::vector< std::vector< VertexI > > & p_linesVtx );
 
 		/** Vertically align a line
@@ -343,7 +343,7 @@ namespace ProceduralTextures
 			The lines height
 		@param[out] p_linesVtx
 				the lines
-		 */
+		*/
 		void DoAlignVertically( int32_t p_height, int32_t p_linesHeight, std::vector< std::vector< VertexI > > & p_linesVtx );
 
 	protected:

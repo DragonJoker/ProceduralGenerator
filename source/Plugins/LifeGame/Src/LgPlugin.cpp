@@ -7,25 +7,11 @@ namespace LifeGame
 	IMPLEMENT_PLUGIN( Plugin, Generator )
 
 	Plugin::Plugin()
-		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "LifeGame" ) )
+		: ProceduralTextures::Plugin< Generator, Plugin >( _T( "LifeGame" ), _( "Life Game" ) )
 	{
 	}
 
 	Plugin::~Plugin()
 	{
-	}
-
-	String Plugin::GetName()
-	{
-		String l_strBaseName = _( "Life Game" );
-#if !defined( NDEBUG )
-		l_strBaseName += _T( " (Debug)" );
-#endif
-		return l_strBaseName;
-	}
-
-	bool Plugin::HasCustomisableResolution()
-	{
-		return true;
 	}
 }

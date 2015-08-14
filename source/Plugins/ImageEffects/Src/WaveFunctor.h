@@ -25,6 +25,12 @@ namespace ImageEffects
 	class WaveFunctor
 		: public EffectFunctor
 	{
+	public:
+		WaveFunctor();
+		virtual ~WaveFunctor();
+
+		virtual void operator()( ProceduralTextures::PixelBuffer const & p_bufferIn, ProceduralTextures::PixelBuffer & p_bufferOut );
+
 	private:
 		static double m_dDegToRad;
 		static double m_dPiMult2;
@@ -44,12 +50,6 @@ namespace ImageEffects
 		double m_dCurTranslateY;
 		double m_dNbPixelsX;
 		double m_dNbPixelsY;
-
-	public:
-		WaveFunctor();
-		virtual ~WaveFunctor();
-
-		virtual void operator()( ProceduralTextures::PixelBuffer const & p_bufferIn, ProceduralTextures::PixelBuffer & p_bufferOut );
 	};
 }
 

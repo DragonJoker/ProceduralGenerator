@@ -44,50 +44,50 @@ namespace gl
 			The OpenGL instance
 		@param[in] p_type
 			The object type
-		 */
+		*/
 		ShaderObject( OpenGl & p_openGl, eSHADER_OBJECT_TYPE p_type );
 
 		/**
 		 * Destructor
-		 */
+		*/
 		~ShaderObject();
 
 		/** Loads a shader file.
 		@param[in] p_filename
 			The name of the ASCII file containing the shader.
-		 */
+		*/
 		void SetFile( String const & p_filename );
 
 		/** Load program from text
 		@param[in] p_source
 			The object string source
-		 */
+		*/
 		void SetSource( String const & p_source );
 
 		/** Destroys the program
-		 */
+		*/
 		virtual void Destroy();
 
 		/** Compiles program
 		@return
 				true if compiled successfully
-		 */
+		*/
 		bool Compile();
 
 		/** Attaches this shader to the given program
 		@param[in] p_parent
 			The parent program
-		 */
+		*/
 		void AttachTo( std::shared_ptr< ShaderProgram > p_parent );
 
 		/** Detaches this shader from it's program
-		 */
+		*/
 		void Detach();
 
 		/** Retrieves the shader type
 		@return
 			The value
-		 */
+		*/
 		inline eSHADER_OBJECT_TYPE GetShaderType()const
 		{
 			return m_eType;
@@ -96,7 +96,7 @@ namespace gl
 		/** Retrieves the compiled status
 		@return
 			The value
-		 */
+		*/
 		inline bool IsCompiled()const
 		{
 			return m_bCompiled;
@@ -105,7 +105,7 @@ namespace gl
 		/** Retrieves the shader source
 		@return
 			The value
-		 */
+		*/
 		inline String const & GetSource()const
 		{
 			return m_strSource;
@@ -114,7 +114,7 @@ namespace gl
 		/** Retrieves the shader source file
 		@return
 			The value
-		 */
+		*/
 		inline String const & GetFile()const
 		{
 			return m_pathFile;
@@ -123,7 +123,7 @@ namespace gl
 		/** Retrieves the compiler log
 		@return
 			The value
-		 */
+		*/
 		inline String const & GetCompilerLog()const
 		{
 			return m_compilerLog;
@@ -132,7 +132,7 @@ namespace gl
 		/** Retrieves the parent program
 		@return
 			The value
-		 */
+		*/
 		inline std::shared_ptr< ShaderProgram > GetParent()
 		{
 			return m_parent.lock();
@@ -142,7 +142,7 @@ namespace gl
 		/** Get compiler messages
 		@return
 			The messages
-		 */
+		*/
 		String RetrieveCompilerLog();
 
 		//! The mapping of eSHADER_OBJECT_TYPE to OpenGL corresponding values

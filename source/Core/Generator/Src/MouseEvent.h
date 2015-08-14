@@ -63,7 +63,7 @@ namespace ProceduralTextures
 			The position, of wheel or mouse, depending on the event type
 		@param[in] p_button
 			The mouse button
-		 */
+		*/
 		MouseEvent( eMOUSE_EVENT p_type, Position const & p_position, eMOUSE_BUTTON p_button = eMOUSE_BUTTON_COUNT )
 			: Event( eEVENT_TYPE_MOUSE )
 			, m_mouseEventType( p_type )
@@ -73,7 +73,7 @@ namespace ProceduralTextures
 		}
 
 		/** Destructor
-		 */
+		*/
 		virtual ~MouseEvent()
 		{
 		}
@@ -81,7 +81,7 @@ namespace ProceduralTextures
 		/** Retrieves the mouse event type
 		@return
 				The type
-		 */
+		*/
 		inline eMOUSE_EVENT GetMouseEventType()const
 		{
 			return m_mouseEventType;
@@ -90,7 +90,7 @@ namespace ProceduralTextures
 		/** Retrieves the mouse button
 		@return
 				The button
-		 */
+		*/
 		inline eMOUSE_BUTTON GetButton()const
 		{
 			return m_button;
@@ -99,7 +99,7 @@ namespace ProceduralTextures
 		/** Retrieves the position (wheel or mouse, depending on mouse event type)
 		@return
 				The position
-		 */
+		*/
 		inline Position const & GetPosition()const
 		{
 			return m_position;

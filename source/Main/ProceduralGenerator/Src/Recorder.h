@@ -28,8 +28,8 @@ namespace ProceduralGenerator
 		class IRecorderImpl
 		{
 		public:
-			IRecorderImpl(){}
-			virtual ~IRecorderImpl(){}
+			IRecorderImpl() {}
+			virtual ~IRecorderImpl() {}
 			virtual bool StartRecord( ProceduralTextures::Size const & p_size ) = 0;
 			virtual bool IsRecording() = 0;
 			virtual bool UpdateTime() = 0;

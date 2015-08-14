@@ -39,11 +39,11 @@ namespace ProceduralTextures
 			/** Constructor
 			@param[in] p_openGl
 				The OpenGL instance
-			 */
+			*/
 			DownloadPixelBuffer( OpenGl & p_openGl );
 
 			/** Destructor
-			 */
+			*/
 			virtual ~DownloadPixelBuffer();
 		};
 	}

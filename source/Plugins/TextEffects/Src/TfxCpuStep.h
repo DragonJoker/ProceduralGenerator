@@ -39,15 +39,17 @@ namespace TextEffects
 			The parent generator
 		@param[in] p_size
 			The dimensions
-		 */
+		*/
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~CpuStep();
+
 		/** Sets the image buffer
 		@param[in] p_path
 			The new value
-		 */
+		*/
 		void SetBackgroundImage( ProceduralTextures::PixelBuffer const & p_image );
 	};
 }

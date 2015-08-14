@@ -50,17 +50,19 @@ namespace LifeGame
 			The surface portion's bottom
 		@param[in] p_height
 			The surface height
-		 */
+		*/
 		Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_parent, size_t p_index, int p_width, int p_top, int p_bottom, int p_totalHeight );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~Thread();
+
 		/** Initialises the cells buffers
 		@param[in] p_cells
 			The current cells
 		@param[in] p_oldCells
 			The previous cells
-		 */
+		*/
 		inline void SetCells( std::shared_ptr< CellBuffer > p_cells, std::shared_ptr< CellBuffer > p_oldCells )
 		{
 			m_cells = p_cells;
@@ -69,7 +71,7 @@ namespace LifeGame
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::Thread::DoStep
-		 */
+		*/
 		virtual void DoStep();
 
 	private:
@@ -78,6 +80,7 @@ namespace LifeGame
 		//! The previous cells
 		std::weak_ptr< CellBuffer > m_oldCells;
 	};
+
 	/*!
 	@author
 		Sylvain DOREMUS
@@ -95,30 +98,34 @@ namespace LifeGame
 			The parent generator
 		@param[in] p_size
 				The computing surface dimensions
-		 */
+		*/
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~CpuStep();
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialiseStep
-		 */
+		*/
 		virtual void DoInitialiseStep();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialise
-		 */
+		*/
 		virtual void DoInitialise();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoCleanup
-		 */
+		*/
 		virtual void DoCleanup();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoSwapBuffers
-		 */
+		*/
 		virtual void DoSwapBuffers();
 
 		/** Initialises the neighbours for given cell
 		@param[in] p_x,
 			p_y	The cell coordinates
-		 */
+		*/
 		void DoInitialiseNeighbours( uint32_t p_x, uint32_t p_y );
 
 	private:

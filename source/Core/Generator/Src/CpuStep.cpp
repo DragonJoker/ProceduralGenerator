@@ -120,14 +120,18 @@ namespace ProceduralTextures
 
 	void CpuStepBase::SwapBuffers()
 	{
+		Clock::time_point l_startTime = Clock::now();
 		DoSwapBuffers();
+		m_time += std::chrono::duration_cast< std::chrono::milliseconds >( Clock::now() - l_startTime );
 	}
 
 	void CpuStepBase::Render()
 	{
-		m_startTime = Clock::now();
+		m_time = std::chrono::milliseconds( 0 );
+		Clock::time_point l_startTime = Clock::now();
 		DoStartRender();
 		Wait( std::chrono::milliseconds( -1 ) );
+		m_time += std::chrono::duration_cast< std::chrono::milliseconds >( Clock::now() - l_startTime );
 	}
 
 	void CpuStepBase::Resize( int p_iWidth, int p_iHeight )
@@ -150,6 +154,18 @@ namespace ProceduralTextures
 	{
 		std::unique_lock< std::mutex > l_lock( m_mutexEnd );
 		m_conditionEnd.wait_for( l_lock, p_timeout );
+	}
+
+	void CpuStepBase::OnThreadEnd( size_t p_index )
+	{
+		m_endedThreadsCount++;
+
+		if ( m_endedThreadsCount >= m_endedThreadsCount )
+		{
+			std::unique_lock< std::mutex > l_lock( m_mutexEnd );
+			m_conditionEnd.notify_one();
+			//m_time = std::chrono::duration_cast< std::chrono::milliseconds >( Clock::now() - m_startTime );
+		}
 	}
 
 	void CpuStepBase::DoStartRender()

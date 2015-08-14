@@ -24,15 +24,23 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace IteratedFunctionSystem
 {
+	/*!
+	@author
+		Sylvain DOREMUS
+	@brief
+		The IteratedFunctionSystem plugin.
+	*/
 	class Plugin
 		: public ProceduralTextures::Plugin< Generator, Plugin >
 	{
 	public:
+		/** Constructor
+		*/
 		Plugin();
-		virtual ~Plugin();
 
-		virtual ProceduralTextures::String GetName();
-		virtual bool HasCustomisableResolution();
+		/** Destructor
+		*/
+		virtual ~Plugin();
 
 		DECLARE_PLUGIN()
 	};

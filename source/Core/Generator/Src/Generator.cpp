@@ -124,18 +124,20 @@ namespace ProceduralTextures
 
 	void GeneratorBase::Render( std::function< void() > p_swapFunction )
 	{
-		DoWriteTime( _T( "CPU" ), DoGetCpuStep()->GetTime(), m_cpuTime.lock() );
-		DoWriteTime( _T( "GPU" ), DoGetGpuStep()->GetTime(), m_gpuTime.lock() );
-		DoGetCpuStep()->SwapBuffers();
+		std::shared_ptr< CpuStepBase > l_cpuStep = DoGetCpuStep();
+		std::shared_ptr< GpuStep > l_gpuStep = DoGetGpuStep();
+		l_cpuStep->SwapBuffers();
+		DoWriteTime( _T( "CPU" ), l_cpuStep->GetTime(), m_cpuTime.lock() );
+		DoWriteTime( _T( "GPU" ), l_gpuStep->GetTime(), m_gpuTime.lock() );
 #if PARALLEL_RENDERING
-		DoGetCpuStep()->Wake();
-		DoGetGpuStep()->Render( p_swapFunction );
-		DoGetCpuStep()->Wait( std::chrono::milliseconds( -1 ) );
+		l_cpuStep->Wake();
+		l_gpuStep->Render( p_swapFunction );
+		l_cpuStep->Wait( std::chrono::milliseconds( -1 ) );
 #else
-		DoGetCpuStep()->Render();
+		l_cpuStep->Render();
 		DoGetGpuStep()->Render( p_swapFunction );
 #endif
-		DoGetGpuStep()->UpdateBuffer( *DoGetCpuStep()->GetBuffer() );
+		l_gpuStep->UpdateBuffer( *l_cpuStep->GetBuffer() );
 		m_controlsManager->ProcessEvents();
 	}
 

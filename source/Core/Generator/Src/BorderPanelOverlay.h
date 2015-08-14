@@ -53,11 +53,11 @@ namespace ProceduralTextures
 			The borders material
 		@param[in] p_parent
 			The parent overlay (if any)
-		 */
+		*/
 		BorderPanelOverlay( gl::OpenGl & p_openGl, Material const & p_material, Material const & p_bordersMaterial, std::shared_ptr< Overlay > p_parent );
 
 		/** Destructor
-		 */
+		*/
 		virtual ~BorderPanelOverlay();
 
 		/** Sets the borders shader program
@@ -65,25 +65,25 @@ namespace ProceduralTextures
 			The new value
 		@param[in] p_program
 			The new value
-		 */
+		*/
 		void SetBordersProgram( eMATERIAL_TYPE p_type, std::shared_ptr< gl::ShaderProgram > p_program );
 
 		/** Sets the colour of the borders of the overlay
 		@param[in] p_colour
 			The new colour
-		 */
+		*/
 		void SetBordersColour( Colour const & p_colour );
 
 		/** Sets the texture of the borders of the overlay
 		@param[in] p_texture
 			The new texture
-		 */
+		*/
 		void SetBordersTexture( std::shared_ptr< gl::Texture > p_texture );
 
 		/** Retrieves the borders of the overlay colour
 		@return
 			The value
-		 */
+		*/
 		inline Colour const & GetBordersColour()const
 		{
 			return m_bordersMaterial.GetColour();
@@ -92,7 +92,7 @@ namespace ProceduralTextures
 		/** Retrieves the borders of the overlay texture
 		@return
 			The value
-		 */
+		*/
 		inline std::shared_ptr< gl::Texture > GetBordersTexture()const
 		{
 			return m_bordersMaterial.GetTexture();
@@ -101,7 +101,7 @@ namespace ProceduralTextures
 		/** Retrieves the left border thickness
 		@return
 			The value
-		 */
+		*/
 		inline double GetLeftBorderSize()const
 		{
 			return m_ptBorderSize[0];
@@ -110,7 +110,7 @@ namespace ProceduralTextures
 		/** Retrieves the top border thickness
 		@return
 			The value
-		 */
+		*/
 		inline double GetTopBorderSize()const
 		{
 			return m_ptBorderSize[1];
@@ -119,7 +119,7 @@ namespace ProceduralTextures
 		/** Retrieves the right border thickness
 		@return
 			The value
-		 */
+		*/
 		inline double GetRightBorderSize()const
 		{
 			return m_ptBorderSize[2];
@@ -128,7 +128,7 @@ namespace ProceduralTextures
 		/** Retrieves the bottom border thickness
 		@return
 			The value
-		 */
+		*/
 		inline double GetBottomBorderSize()const
 		{
 			return m_ptBorderSize[3];
@@ -137,7 +137,7 @@ namespace ProceduralTextures
 		/** Retrieves the borders thicknesses
 		@return
 			The value
-		 */
+		*/
 		inline Point4d const & GetBordersSize()const
 		{
 			return m_ptBorderSize;
@@ -146,7 +146,7 @@ namespace ProceduralTextures
 		/** Retrieves the borders thicknesses
 		@return
 			The value
-		 */
+		*/
 		inline Point4d & GetBordersSize()
 		{
 			return m_ptBorderSize;
@@ -156,7 +156,7 @@ namespace ProceduralTextures
 		/** Sets the left border thickness
 		@param[in] p_fSize
 			The new value
-		 */
+		*/
 		inline void SetLeftBorderSize( double p_fSize )
 		{
 			m_ptBorderSize[0] = p_fSize;
@@ -166,7 +166,7 @@ namespace ProceduralTextures
 		/** Sets the top border thickness
 		@param[in] p_fSize
 			The new value
-		 */
+		*/
 		inline void SetTopBorderSize( double p_fSize )
 		{
 			m_ptBorderSize[1] = p_fSize;
@@ -176,7 +176,7 @@ namespace ProceduralTextures
 		/** Sets the right border thickness
 		@param[in] p_fSize
 			The new value
-		 */
+		*/
 		inline void SetRightBorderSize( double p_fSize )
 		{
 			m_ptBorderSize[2] = p_fSize;
@@ -186,7 +186,7 @@ namespace ProceduralTextures
 		/** Sets the bottom border thickness
 		@param[in] p_fSize
 			The new value
-		 */
+		*/
 		inline void SetBottomBorderSize( double p_fSize )
 		{
 			m_ptBorderSize[3] = p_fSize;
@@ -196,7 +196,7 @@ namespace ProceduralTextures
 		/** Sets the borders thicknesses
 		@param[in] p_ptSize
 			The new value
-		 */
+		*/
 		inline void SetBordersSize( Point4d const & p_ptSize )
 		{
 			m_ptBorderSize = p_ptSize;
@@ -206,7 +206,7 @@ namespace ProceduralTextures
 		/** Retrieves the left border thickness
 		@return
 			The value
-		 */
+		*/
 		inline int GetLeftBorderPixelSize()const
 		{
 			return m_borderSize[0];
@@ -215,7 +215,7 @@ namespace ProceduralTextures
 		/** Retrieves the top border thickness
 		@return
 			The value
-		 */
+		*/
 		inline int GetTopBorderPixelSize()const
 		{
 			return m_borderSize[1];
@@ -224,7 +224,7 @@ namespace ProceduralTextures
 		/** Retrieves the right border thickness
 		@return
 			The value
-		 */
+		*/
 		inline int GetRightBorderPixelSize()const
 		{
 			return m_borderSize[2];
@@ -233,7 +233,7 @@ namespace ProceduralTextures
 		/** Retrieves the bottom border thickness
 		@return
 			The value
-		 */
+		*/
 		inline int GetBottomBorderPixelSize()const
 		{
 			return m_borderSize[3];
@@ -242,7 +242,7 @@ namespace ProceduralTextures
 		/** Retrieves the borders thicknesses
 		@return
 			The value
-		 */
+		*/
 		inline Point4i const & GetBorderPixelSize()const
 		{
 			return m_borderSize;
@@ -251,7 +251,7 @@ namespace ProceduralTextures
 		/** Retrieves the borders thicknesses
 		@return
 			The value
-		 */
+		*/
 		inline Point4i & GetBordersPixelSize()
 		{
 			return m_borderSize;
@@ -261,7 +261,7 @@ namespace ProceduralTextures
 		/** Sets the left border thickness
 		@param[in] p_size
 			The new value
-		 */
+		*/
 		inline void SetLeftBorderPixelSize( int p_size )
 		{
 			m_borderSize[0] = p_size;
@@ -271,7 +271,7 @@ namespace ProceduralTextures
 		/** Sets the top border thickness
 		@param[in] p_size
 			The new value
-		 */
+		*/
 		inline void SetTopBorderPixelSize( int p_size )
 		{
 			m_borderSize[1] = p_size;
@@ -281,7 +281,7 @@ namespace ProceduralTextures
 		/** Sets the right border thickness
 		@param[in] p_size
 			The new value
-		 */
+		*/
 		inline void SetRightBorderPixelSize( int p_size )
 		{
 			m_borderSize[2] = p_size;
@@ -291,7 +291,7 @@ namespace ProceduralTextures
 		/** Sets the bottom border thickness
 		@param[in] p_size
 			The new value
-		 */
+		*/
 		inline void SetBottomBorderPixelSize( int p_size )
 		{
 			m_borderSize[3] = p_size;
@@ -301,7 +301,7 @@ namespace ProceduralTextures
 		/** Sets the borders thicknesses
 		@param[in] p_size
 			The new value
-		 */
+		*/
 		inline void SetBordersPixelSize( Point4i const & p_size )
 		{
 			m_borderSize = p_size;
@@ -311,7 +311,7 @@ namespace ProceduralTextures
 		/** Retrieves the border position
 		@return
 			The value
-		 */
+		*/
 		eBORDER_POSITION GetBordersPosition()const
 		{
 			return m_borderPosition;
@@ -320,7 +320,7 @@ namespace ProceduralTextures
 		/** Sets the border position
 		@param[in] p_position
 			The new value
-		 */
+		*/
 		void SetBordersPosition( eBORDER_POSITION p_position )
 		{
 			m_borderPosition = p_position;
@@ -329,7 +329,7 @@ namespace ProceduralTextures
 		/** Sets the borders outer part UV
 		@param[in] p_uv
 			The new value (left, top, right and bottom)
-		 */
+		*/
 		inline void SetBordersOuterUV( Point4d const & p_uv )
 		{
 			m_borderOuterUv = p_uv;
@@ -338,7 +338,7 @@ namespace ProceduralTextures
 		/** Retrieves the borders outer part UV
 		@return
 			The value (left, top, right and bottom)
-		 */
+		*/
 		inline Point4d const & GetBordersOuterUV()const
 		{
 			return m_borderOuterUv;
@@ -347,7 +347,7 @@ namespace ProceduralTextures
 		/** Sets the borders inner part UV
 		@param[in] p_uv
 			The new value (left, top, right and bottom)
-		 */
+		*/
 		inline void SetBordersInnerUV( Point4d const & p_uv )
 		{
 			m_borderInnerUv = p_uv;
@@ -356,7 +356,7 @@ namespace ProceduralTextures
 		/** Retrieves the borders inner part UV
 		@return
 			The value (left, top, right and bottom)
-		 */
+		*/
 		inline Point4d const & GetBordersInnerUV()const
 		{
 			return m_borderInnerUv;
@@ -364,23 +364,23 @@ namespace ProceduralTextures
 
 	protected:
 		/** Initialises the overlay and its buffers
-		 */
+		*/
 		virtual void DoInitialise();
 
 		/** Cleans the overlay and its buffers up
-		 */
+		*/
 		virtual void DoCleanup();
 
 		/** Draws the overlay
-		 */
+		*/
 		virtual void DoRender();
 
 		/** Updates the vertex buffer
-		 */
+		*/
 		virtual void DoUpdate();
 
 		/** Updates the overlay position and size, taking care of wanted pixel size and position
-		 */
+		*/
 		virtual void DoUpdatePositionAndSize( Size const & p_size );
 
 	protected:

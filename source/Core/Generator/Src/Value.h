@@ -46,7 +46,7 @@ namespace ProceduralTextures
 			/** Deletes an object
 			@param[in] p_pPointer
 				The object pointer
-			 */
+			*/
 			void operator()( Object * p_pPointer )
 			{
 				delete p_pPointer;
@@ -54,7 +54,7 @@ namespace ProceduralTextures
 		};
 
 		/** Deletes all container's objects
-		 */
+		*/
 		template < class Container, class Object >
 		void ClearContent( Container &, Object )
 		{
@@ -63,7 +63,7 @@ namespace ProceduralTextures
 		/** Deletes all container's objects
 		@param[in] p_container
 			The container
-		 */
+		*/
 		template < class Container, class Object >
 		void ClearContent( Container & p_container, Object * )
 		{
@@ -84,7 +84,7 @@ namespace ProceduralTextures
 			/** Deletes a pair's second object
 			@param[in] p_pair
 				The pair
-			 */
+			*/
 			void operator()( std::pair< KeyType, ObjType * > p_pair )
 			{
 				delete p_pair.second;
@@ -92,7 +92,7 @@ namespace ProceduralTextures
 		};
 
 		/** Deletes all container's pairs
-		 */
+		*/
 		template< class CtnrType, typename KeyType, typename ObjType >
 		void ClearPairContent( CtnrType &, std::pair< KeyType, ObjType > )
 		{
@@ -101,7 +101,7 @@ namespace ProceduralTextures
 		/** Deletes all container's pairs
 		@param[in] p_container
 			The container
-		 */
+		*/
 		template< class CtnrType, typename KeyType, typename ObjType >
 		void ClearPairContent( CtnrType & p_container, std::pair< KeyType, ObjType * > )
 		{
@@ -114,7 +114,7 @@ namespace ProceduralTextures
 			Deallocates all the content if needed
 	@param[in] p_container
 		The container to clear
-	 */
+	*/
 	template < class Container >
 	void ClearContainer( Container & p_container )
 	{
@@ -128,7 +128,7 @@ namespace ProceduralTextures
 			Deallocates all the content if needed
 	@param[in] p_container
 		The container to clear
-	 */
+	*/
 	template< class CtnrType >
 	void ClearPairContainer( CtnrType & p_container )
 	{

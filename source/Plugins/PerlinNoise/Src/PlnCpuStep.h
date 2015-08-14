@@ -38,6 +38,7 @@ namespace PerlinNoise
 		eNOISE_TYPE_PARAM,
 		eNOISE_TYPE_COUNT,
 	}	eNOISE_TYPE;
+
 	/*!
 	@author
 		Sylvain DOREMUS
@@ -63,8 +64,10 @@ namespace PerlinNoise
 		eNOISE_PARAM_FUNCTION_LOG10,
 		eNOISE_PARAM_FUNCTION_COUNT,
 	}	eNOISE_PARAM_FUNCTION;
+
 	//! The noise functor
 	typedef std::function< float( float ) > NoiseFunction;
+
 	/*!
 	@author
 		Sylvain DOREMUS
@@ -93,81 +96,92 @@ namespace PerlinNoise
 			The surface portion's bottom
 		@param[in] p_height
 			The surface height
-		 */
+		*/
 		Thread( std::shared_ptr< ProceduralTextures::CpuStepBase > p_parent, size_t p_index, int p_width, int p_top, int p_bottom, int p_totalHeight );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~Thread();
+
 		/** Sets the noise type
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetType( eNOISE_TYPE p_type );
+
 		/** Sets the noise function
 		@param[in] p_function
 			The new function
-		 */
+		*/
 		void SetFunction( NoiseFunction p_function );
+
 		/** Sets the pixel buffer
 		@param[in] p_pixels
 			The buffer
-		 */
+		*/
 		inline void SetBuffer( std::shared_ptr< ProceduralTextures::PixelBuffer > p_pixels )
 		{
 			m_pixels = p_pixels;
 		}
+
 		/** Sets the red value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		inline void SetRed( uint8_t val )
 		{
 			m_colour.r = val;
 		}
+
 		/** Sets the green value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		inline void SetGreen( uint8_t val )
 		{
 			m_colour.g = val;
 		}
+
 		/** Sets the blue value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		inline void SetBlue( uint8_t val )
 		{
 			m_colour.b = val;
 		}
+
 		/** Sets the octaves count
 		@param[in] val
 			The new value
-		 */
+		*/
 		inline void SetOctavesCount( int val )
 		{
 			m_octavesCount = val;
 		}
+
 		/** Retrieves the octaves count
 		@return
 				The value
-		 */
+		*/
 		inline int GetOctavesCount()const
 		{
 			return m_octavesCount;
 		}
+
 		/** Sets the persistency
 		@param[in] val
 			The new value
-		 */
+		*/
 		inline void SetPersistency( float val )
 		{
 			m_persistency = val;
 		}
+
 		/** Retrieves the persistency
 		@return
 				The value
-		 */
+		*/
 		float GetPersistency()const
 		{
 			return m_persistency;
@@ -175,27 +189,31 @@ namespace PerlinNoise
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::Thread::DoStep
-		 */
+		*/
 		virtual void DoStep();
+
 		/** Turbulence noise function
 		@param[in] val
 			The new value
-		 */
+		*/
 		void DoTurbulence( int x, int y, int z, ProceduralTextures::UbPixel & p_rPixel );
+
 		/** Cloudes noise function
 		@param[in] val
 			The new value
-		 */
+		*/
 		void DoClouds( int x, int y, int z, ProceduralTextures::UbPixel & p_rPixel );
+
 		/** Marble noise function
 		@param[in] val
 			The new value
-		 */
+		*/
 		void DoMarble( int x, int y, int z, ProceduralTextures::UbPixel & p_rPixel );
+
 		/** Parameterised noise function
 		@param[in] val
 			The new value
-		 */
+		*/
 		void DoParam( int x, int y, int z, ProceduralTextures::UbPixel & p_rPixel );
 		double DoFade( double t );
 		double DoLerp( double t, double a, double b );
@@ -226,6 +244,7 @@ namespace PerlinNoise
 		//! The mutex used to protect the noise functions
 		std::mutex m_mutexNoise;
 	};
+
 	/*!
 	@author
 		Sylvain DOREMUS
@@ -243,69 +262,82 @@ namespace PerlinNoise
 			The parent generator
 		@param[in] p_size
 			The displayed surface dimensions
-		 */
+		*/
 		CpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~CpuStep();
+
 		/** Sets the red value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetRed( uint8_t val );
+
 		/** Sets the green value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetGreen( uint8_t val );
+
 		/** Sets the blue value of the pixel
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetBlue( uint8_t val );
+
 		/** Sets the octaves count
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetOctavesCount( int val );
+
 		/** Retrieves the octaves count
 		@return
 				The value
-		 */
+		*/
 		int GetOctavesCount()const;
+
 		/** Sets the persistency
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetPersistency( float val );
+
 		/** Retrieves the persistency
 		@return
 				The value
-		 */
+		*/
 		float GetPersistency()const;
+
 		/** Sets the noise type function
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetType( eNOISE_TYPE val );
+
 		/** Sets the parameteised noise type function
 		@param[in] val
 			The new value
-		 */
+		*/
 		void SetFunction( eNOISE_PARAM_FUNCTION val );
 
 	private:
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialiseStep
-		 */
+		*/
 		virtual void DoInitialiseStep();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoInitialise
-		 */
+		*/
 		virtual void DoInitialise();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoCleanup
-		 */
+		*/
 		virtual void DoCleanup();
+
 		/** @copydoc ProceduralTexture::CpuStep::DoSwapBuffers
-		 */
+		*/
 		virtual void DoSwapBuffers();
 
 	public:

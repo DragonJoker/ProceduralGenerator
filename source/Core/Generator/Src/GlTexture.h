@@ -42,27 +42,27 @@ namespace gl
 		/** Constructor
 		@param[in] p_openGl
 			The OpenGL instance
-		 */
+		*/
 		Texture( OpenGl & p_openGl );
 
 		/** Destructor
-		 */
+		*/
 		~Texture();
 
 		/** Initialises the texture from an external buffer
 		@return
 			true if it is successfully initialised
-		 */
+		*/
 		bool Initialise( std::shared_ptr< PixelBuffer > p_buffer );
 
 		/** Initialises the texture from a size
 		@return
 			true if it is successfully initialised
-		 */
+		*/
 		bool Initialise( Size const & p_size );
 
 		/** Cleans up the texture
-		 */
+		*/
 		void Cleanup();
 
 		/** Tries to activate the texture in given configuration
@@ -70,29 +70,29 @@ namespace gl
 			The texture target (GL_TEXTURE0, ...)
 		@param[in] p_bUpload
 			Tells if the image must be uploaded
-		 */
+		*/
 		bool Activate( unsigned int p_texTarget = GL_TEXTURE0, bool p_bUpload = false );
 
 		/** Deactivates the texture
 		@param[in] p_texTarget
 			The texture target (GL_TEXTURE0, ...)
-		 */
+		*/
 		void Deactivate( unsigned int p_texTarget = GL_TEXTURE0 );
 
 		/** Uploads the image pixels in asynchonous mode
-		 */
+		*/
 		void UploadAsync();
 
 		/** Uploads the image pixels in synchonous mode
-		 */
+		*/
 		void UploadSync();
 
 		/** Downloads the image pixels in asynchronous mode
-		 */
+		*/
 		void DownloadAsync();
 
 		/** Downloads the image pixels in synchronous mode
-		 */
+		*/
 		void DownloadSync();
 
 		/** Resets the texture dimensions
@@ -100,13 +100,13 @@ namespace gl
 			The texture must be initialised again, after that call
 		@param[in] p_size
 			The new dimensions
-		 */
+		*/
 		void Resize( Size const & p_size );
 
 		/** Retrieves the texture image buffer
 		@return
 			The value
-		 */
+		*/
 		inline PixelBuffer const & GetBuffer()const
 		{
 			return ( *m_pPixels );
@@ -115,7 +115,7 @@ namespace gl
 		/** Retrieves the texture image buffer
 		@return
 			The value
-		 */
+		*/
 		inline PixelBuffer & GetBuffer()
 		{
 			return ( *m_pPixels );

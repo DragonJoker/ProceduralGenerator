@@ -45,11 +45,11 @@ namespace ProceduralTextures
 				The buffer target (GL_ARRAY_BUFFER, GL_ELEMENT_ARRY_BUFFER, ...)
 			@param[in] p_mode
 				The buffer mode (GL_STATIC_DRAW, ...)
-			 */
+			*/
 			BufferObject( OpenGl & p_openGl, unsigned int p_target, unsigned int p_mode );
 
 			/** Destructor
-			 */
+			*/
 			virtual ~BufferObject();
 
 			/** Updates the buffer data on GPU
@@ -57,7 +57,7 @@ namespace ProceduralTextures
 				The buffer data
 			@param[in] p_size
 				The buffer size
-			 */
+			*/
 			void Data( void const * p_buffer, size_t p_size );
 
 			/** Maps the buffer data into RAM memory
@@ -65,27 +65,27 @@ namespace ProceduralTextures
 				The memory access
 			@return
 				The mapped memory
-			 */
+			*/
 			void * Lock( unsigned int p_access );
 
 			/** Unmaps the buffer data from RAM memory
-			 */
+			*/
 			void Unlock();
 
 			/** Initialises the buffer
 			@return
 				true if it is successfully initialised
-			 */
+			*/
 			virtual bool Initialise() = 0;
 
 			/** Tries to activate the buffer
 			@return
 				true if it is successfully activated
-			 */
+			*/
 			virtual bool Activate() = 0;
 
 			/** Deactivates the buffer
-			 */
+			*/
 			virtual void Deactivate() = 0;
 
 		private:

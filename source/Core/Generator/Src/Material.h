@@ -36,51 +36,51 @@ namespace ProceduralTextures
 	{
 	public:
 		/** Constructor
-		 */
+		*/
 		Material();
 
 		/** Constructor, for colour materials
 		@param[in] p_colour
 			The wanted colour
-		 */
+		*/
 		Material( Colour const & p_colour );
 
 		/** Constructor, for texture materials
 		@param[in] p_texture
 			The wanted texture
-		 */
+		*/
 		Material( std::shared_ptr< gl::Texture > p_texture );
 
 		/** Activates the material
-		 */
+		*/
 		void Activate();
 
 		/** Deactivates the material
-		 */
+		*/
 		void Deactivate();
 
 		/** Retrieves the material colour
 		@return
 			The value
-		 */
+		*/
 		void SetType( eMATERIAL_TYPE p_type, std::shared_ptr< gl::ShaderProgram > p_program );
 
 		/** Sets the material colour
 		@param[in] p_colour
 			The new value
-		 */
+		*/
 		void SetColour( Colour const & p_colour );
 
 		/** Sets the material texture
 		@param[in] p_texture
 			The new value
-		 */
+		*/
 		void SetTexture( std::shared_ptr< gl::Texture > p_texture );
 
 		/** Retrieves the material colour
 		@return
 			The value
-		 */
+		*/
 		inline eMATERIAL_TYPE GetType()const
 		{
 			return m_type;
@@ -89,7 +89,7 @@ namespace ProceduralTextures
 		/** Retrieves the material colour
 		@return
 			The value
-		 */
+		*/
 		inline Colour const & GetColour()const
 		{
 			return m_colour;
@@ -98,7 +98,7 @@ namespace ProceduralTextures
 		/** Retrieves the material texture
 		@return
 			The value
-		 */
+		*/
 		inline std::shared_ptr< gl::Texture > GetTexture()const
 		{
 			return m_texture;
@@ -107,7 +107,7 @@ namespace ProceduralTextures
 		/** Retrieves the material vertex attribute
 		@return
 			The value
-		 */
+		*/
 		inline uint32_t GetVertexAttribute()const
 		{
 			return m_vertexAttribute;
@@ -116,7 +116,7 @@ namespace ProceduralTextures
 		/** Retrieves the material texture attribute
 		@return
 			The value
-		 */
+		*/
 		inline uint32_t GetTextureAttribute()const
 		{
 			return m_textureAttribute;

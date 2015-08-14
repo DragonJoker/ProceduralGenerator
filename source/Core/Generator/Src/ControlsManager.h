@@ -46,20 +46,20 @@ namespace ProceduralTextures
 			The generator
 		@param[in] p_overlayManager
 			The overlay manager
-		 */
+		*/
 		ControlsManager( std::shared_ptr< GeneratorBase > p_generator, std::shared_ptr< OverlayManager > p_overlayManager );
 		/** Destructor
-		 */
+		*/
 		virtual ~ControlsManager();
 
 		/** Handles all queued events
-		 */
+		*/
 		void ProcessEvents();
 
 		/** Retrieves the current mouse position
 		@return
 			The value
-		 */
+		*/
 		Position const & GetMousePosition()
 		{
 			return m_mouse.m_position;
@@ -72,25 +72,25 @@ namespace ProceduralTextures
 		/** Fires a mouse move event
 		@param[in] p_position
 			The mouse position
-		 */
+		*/
 		void FireMouseMove( Position const & p_position );
 
 		/** Fires a mouse pushed event
 		@param[in] p_button
 			The mouse button
-		 */
+		*/
 		void FireMouseButtonPushed( eMOUSE_BUTTON p_button );
 
 		/** Fires a mouse released event
 		@param[in] p_button
 			The mouse button
-		 */
+		*/
 		void FireMouseButtonReleased( eMOUSE_BUTTON p_button );
 
 		/** Fires a mouse wheel event
 		@param[in] p_offsets
 			The mouse wheel offsets (x and y)
-		 */
+		*/
 		void FireMouseWheel( Position const & p_offsets );
 
 		//@}
@@ -106,7 +106,7 @@ namespace ProceduralTextures
 			Tells if the Alt key is down
 		@param[in] p_shift
 			Tells if the Shift key is down
-		 */
+		*/
 		void FireKeyDown( eKEYBOARD_KEY p_key, bool p_ctrl, bool p_alt, bool p_shift );
 
 		/** Fires a keyboard key up event
@@ -118,7 +118,7 @@ namespace ProceduralTextures
 			Tells if the Alt key is down
 		@param[in] p_shift
 			Tells if the Shift key is down
-		 */
+		*/
 		void FireKeyUp( eKEYBOARD_KEY p_key, bool p_ctrl, bool p_alt, bool p_shift );
 
 		/** Fires a printable key event
@@ -126,7 +126,7 @@ namespace ProceduralTextures
 			The key
 		@param[in] p_char
 			The character coorresponding to the key, displayable as is
-		 */
+		*/
 		void FireChar( eKEYBOARD_KEY p_key, String const & p_char );
 
 		//@}
@@ -136,49 +136,49 @@ namespace ProceduralTextures
 		/** Creates the given control's overlays and binds its callbacks to appropriate events
 		@param[in] p_control
 			The control
-		 */
+		*/
 		void Create( std::shared_ptr< ButtonCtrl > p_control );
 
 		/** Creates the given control's overlays and binds its callbacks to appropriate events
 		@param[in] p_control
 			The control
-		 */
+		*/
 		void Create( std::shared_ptr< ComboBoxCtrl > p_control );
 
 		/** Creates the given control's overlays and binds its callbacks to appropriate events
 		@param[in] p_control
 			The control
-		 */
+		*/
 		void Create( std::shared_ptr< EditCtrl > p_control );
 
 		/** Creates the given control's overlays and binds its callbacks to appropriate events
 		@param[in] p_control
 			The control
-		 */
+		*/
 		void Create( std::shared_ptr< ListBoxCtrl > p_control );
 
 		/** Creates the given control's overlays and binds its callbacks to appropriate events
 		@param[in] p_control
 			The control
-		 */
+		*/
 		void Create( std::shared_ptr< SliderCtrl > p_control );
 
 		/** Creates the given control's overlays and binds its callbacks to appropriate events
 		@param[in] p_control
 			The control
-		 */
+		*/
 		void Create( std::shared_ptr< StaticCtrl > p_control );
 
 		/** Adds a control that can an event target
 		@param[in] p_control
 			The control
-		 */
+		*/
 		void AddControl( std::shared_ptr< Control > p_control );
 
 		/** Removes a control
 		@param[in] p_id
 			The control ID
-		 */
+		*/
 		void RemoveControl( uint32_t p_id );
 
 		/** Retrieves a control
@@ -186,13 +186,13 @@ namespace ProceduralTextures
 			The control ID
 		@return
 			The control
-		 */
+		*/
 		std::shared_ptr< Control > GetControl( uint32_t p_id );
 
 		/** Retrieves the active control
 		@return
 			The control
-		 */
+		*/
 		inline std::shared_ptr< Control > GetActiveControl()
 		{
 			return m_activeControl.lock();
@@ -201,7 +201,7 @@ namespace ProceduralTextures
 		/** Retrieves the focused control
 		@return
 			The control
-		 */
+		*/
 		inline std::shared_ptr< Control > GetFocusedControl()
 		{
 			return m_lastMouseTarget.lock();
@@ -213,17 +213,17 @@ namespace ProceduralTextures
 		/** Retrieves the first control which can be targeted by mouse, at its position
 		@param[in] p_position
 			The mouse position
-		 */
+		*/
 		std::shared_ptr< Control > DoGetMouseTargetableControl( Position const & p_position )const;
 
 		/** Updates the z-index ordered controls array
-		 */
+		*/
 		void DoUpdate()const;
 
 		/** Retrieve the controls in a thread-safe way
 		@return
 				The controls array
-		 */
+		*/
 		std::vector< std::shared_ptr< Control > > DoGetControls()const
 		{
 			std::unique_lock< std::mutex > l_lock( m_mutexControls );

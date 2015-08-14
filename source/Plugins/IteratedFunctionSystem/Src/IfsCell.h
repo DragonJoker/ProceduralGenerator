@@ -25,13 +25,13 @@ namespace IteratedFunctionSystem
 {
 	struct Cell
 	{
-		ProceduralTextures::UbPixel * m_pixel;
-		ProceduralTextures::Point2d m_ptPosition;
-
 		Cell();
 		virtual ~Cell();
 
 		void Set( ProceduralTextures::UbPixel * p_pixel, ProceduralTextures::Point2d const & p_ptPosition );
+
+		ProceduralTextures::UbPixel * m_pixel;
+		ProceduralTextures::Point2d m_ptPosition;
 	};
 
 	typedef std::map< int, Cell > CellIntMap;

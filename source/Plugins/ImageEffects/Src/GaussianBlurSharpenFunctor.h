@@ -25,6 +25,14 @@ namespace ImageEffects
 	class GaussianBlurSharpenFunctor
 		: public EffectFunctor
 	{
+	public:
+		GaussianBlurSharpenFunctor();
+		virtual ~GaussianBlurSharpenFunctor();
+
+		virtual void operator()( ProceduralTextures::PixelBuffer const & p_bufferIn, ProceduralTextures::PixelBuffer & p_bufferOut );
+
+		virtual void SetImage( ProceduralTextures::PixelBuffer const & p_image );
+
 	private:
 		static const int m_iGaussLvl;
 		static const int m_iGaussMask[];
@@ -33,14 +41,6 @@ namespace ImageEffects
 		static const double m_dSharpenMask[];
 		ProceduralTextures::PixelBuffer m_temporaryBuffer1;
 		ProceduralTextures::PixelBuffer m_temporaryBuffer2;
-
-	public:
-		GaussianBlurSharpenFunctor();
-		virtual ~GaussianBlurSharpenFunctor();
-
-		virtual void operator()( ProceduralTextures::PixelBuffer const & p_bufferIn, ProceduralTextures::PixelBuffer & p_bufferOut );
-
-		virtual void SetImage( ProceduralTextures::PixelBuffer const & p_image );
 	};
 }
 

@@ -7,25 +7,11 @@ namespace OCLProcessing
 	IMPLEMENT_PLUGIN( Plugin, Generator )
 
 	Plugin::Plugin()
-		:	ProceduralTextures::Plugin< Generator, Plugin >( _T( "OCLProcessing" ) )
+		:	ProceduralTextures::Plugin< Generator, Plugin >( _T( "OCLProcessing" ), _( "OpenCL Processing" ), false )
 	{
 	}
 
 	Plugin::~Plugin()
 	{
-	}
-
-	String Plugin::GetName()
-	{
-		String l_strBaseName = _( "OpenCL Processing" );
-#if !defined( NDEBUG )
-		l_strBaseName += _T( " (Debug)" );
-#endif
-		return l_strBaseName;
-	}
-
-	bool Plugin::HasCustomisableResolution()
-	{
-		return false;
 	}
 }

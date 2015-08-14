@@ -36,17 +36,19 @@ namespace TextEffects
 		/** Constructor
 		@param[in] p_gl
 			The OpenGl instance
-		 */
+		*/
 		Program( ProceduralTextures::gl::OpenGl & p_gl );
+
 		/** Loads the two GLSL programs in parameter, initialises the uniforms an vertex attributes
 		@param[in] p_vertex
 			The vertex program
 		@param[in] p_pixel
 			The pixel program
-		 */
+		*/
 		void Initialise( ProceduralTextures::String const & p_vertex, ProceduralTextures::String const & p_pixel );
+
 		/** Cleans up the program
-		 */
+		*/
 		void Cleanup();
 
 		// !The shader program
@@ -60,6 +62,7 @@ namespace TextEffects
 		//! The vertex attribute "texture" location in the program
 		uint32_t m_texture;
 	};
+
 	/*!
 	@author
 		Sylvain DOREMUS
@@ -79,82 +82,98 @@ namespace TextEffects
 			The displayed surface dimensions
 		@param[in] p_bordersSize
 			The windows' borders size
-		 */
+		*/
 		GpuStep( std::shared_ptr< ProceduralTextures::GeneratorBase > p_generator, ProceduralTextures::Size const & p_size, ProceduralTextures::Size const & p_bordersSize );
+
 		/** Destructor
-		 */
+		*/
 		virtual ~GpuStep();
+
 		/** Sets the text font file
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		inline void SetFont( ProceduralTextures::String const & p_strFont )
 		{
 			m_strFontFile = p_strFont;
 			m_bFontModified = true;
 		}
+
 		/** Sets the text
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		inline void	SetText( ProceduralTextures::String const & p_strText )
 		{
 			m_strText = p_strText;
 			m_bTextModified = true;
 		}
+
 		/** Sets the foreground type
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetForegroundType( int p_value );
+
 		/** Sets the background image
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetBackgroundImage( ProceduralTextures::PixelBuffer const & p_value );
+
 		/** Sets the foreground colour
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetForegroundColour( uint32_t p_value );
+
 		/** Sets the foreground image
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void SetForegroundImage( ProceduralTextures::PixelBuffer const & p_value );
+
 		/** Sets the background image
 		@param[in] p_value
 			The new value
-		 */
+		*/
 		void OnSize( ProceduralTextures::Size const & p_value );
 
 	private:
 		/** @copydoc ProceduralTexture::GpuStep::DoInitialise
-		 */
+		*/
 		virtual void DoInitialise();
+
 		/** @copydoc ProceduralTexture::GpuStep::DoCleanup
-		 */
+		*/
 		virtual void DoCleanup();
+
 		/** @copydoc ProceduralTexture::GpuStep::DoResize
-		 */
+		*/
 		virtual void DoResize();
+
 		/** @copydoc ProceduralTexture::GpuStep::DoPreRender
-		 */
+		*/
 		virtual void DoPreRender();
+
 		/** @copydoc ProceduralTexture::GpuStep::DoRender
-		 */
+		*/
 		virtual void DoRender( bool & p_bChanged );
+
 		/** @copydoc ProceduralTexture::GpuStep::DoPostRender
-		 */
+		*/
 		virtual void DoPostRender();
+
 		/** Loads the font file, puts the loaded glyphs in the member glyphs array
-		 */
+		*/
 		void DoLoadFont();
+
 		/** Cleans up the glyphs array
-		 */
+		*/
 		void DoCleanupGlyphs();
+
 		/** Updates the text mask texture
-		 */
+		*/
 		void DoUpdateText();
 
 	private:
