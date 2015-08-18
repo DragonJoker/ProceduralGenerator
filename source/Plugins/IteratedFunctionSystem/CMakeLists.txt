@@ -9,7 +9,7 @@ set( BinsDependencies
 
 set( IFS_VERSION_MAJOR	2 )
 set( IFS_VERSION_MINOR	0 )
-set( IFS_VERSION_BUILD	0 )
+set( IFS_VERSION_BUILD	1 )
 
 add_target(
 	IteratedFunctionSystem

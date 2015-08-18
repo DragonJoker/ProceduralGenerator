@@ -32,7 +32,7 @@ if( wxWidgets_FOUND )
 
 	set( PGEN_VERSION_MAJOR	2 )
 	set( PGEN_VERSION_MINOR	0 )
-	set( PGEN_VERSION_BUILD	0 )
+	set( PGEN_VERSION_BUILD	1 )
 
 	#wxWidgets Libs
 	set( wxWidgetsLibraries "" )

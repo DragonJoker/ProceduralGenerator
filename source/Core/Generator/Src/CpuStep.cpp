@@ -127,10 +127,10 @@ namespace ProceduralTextures
 
 	void CpuStepBase::Render()
 	{
-		m_time = std::chrono::milliseconds( 0 );
 		Clock::time_point l_startTime = Clock::now();
+		m_time = std::chrono::milliseconds( 0 );
 		DoStartRender();
-		Wait( std::chrono::milliseconds( -1 ) );
+		Wait( std::chrono::milliseconds( 2000 ) );
 		m_time += std::chrono::duration_cast< std::chrono::milliseconds >( Clock::now() - l_startTime );
 	}
 
@@ -160,11 +160,10 @@ namespace ProceduralTextures
 	{
 		m_endedThreadsCount++;
 
-		if ( m_endedThreadsCount >= m_endedThreadsCount )
+		if ( m_endedThreadsCount >= m_threadsCount )
 		{
 			std::unique_lock< std::mutex > l_lock( m_mutexEnd );
 			m_conditionEnd.notify_one();
-			//m_time = std::chrono::duration_cast< std::chrono::milliseconds >( Clock::now() - m_startTime );
 		}
 	}
 

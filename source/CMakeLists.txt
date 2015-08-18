@@ -8,7 +8,7 @@ set( MAIN_PROJECT_NAME "ProceduralGenerator" )
 # Set project version numbers
 set( VERSION_MAJOR	2 )
 set( VERSION_MINOR	0 )
-set( VERSION_BUILD	0 )
+set( VERSION_BUILD	1 )
 set( VERSION_YEAR	2015 )
 
 macro( setup_initialise )

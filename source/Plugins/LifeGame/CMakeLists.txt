@@ -9,7 +9,7 @@ set( BinsDependencies
 
 set( LFG_VERSION_MAJOR	2 )
 set( LFG_VERSION_MINOR	0 )
-set( LFG_VERSION_BUILD	0 )
+set( LFG_VERSION_BUILD	1 )
 
 add_target(
 	LifeGame

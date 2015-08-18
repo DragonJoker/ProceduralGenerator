@@ -13,7 +13,7 @@ if( ${FREETYPE_FOUND} )
 
 	set( TFX_VERSION_MAJOR	2 )
 	set( TFX_VERSION_MINOR	0 )
-	set( TFX_VERSION_BUILD	0 )
+	set( TFX_VERSION_BUILD	1 )
 
 	# We add this project only if FreeType was found, if not it is not an error (so we can build workspace)
 	add_target(

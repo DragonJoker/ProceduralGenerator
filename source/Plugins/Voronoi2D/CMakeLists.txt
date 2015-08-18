@@ -9,7 +9,7 @@ set( BinsDependencies
 
 set( V2D_VERSION_MAJOR	2 )
 set( V2D_VERSION_MINOR	0 )
-set( V2D_VERSION_BUILD	0 )
+set( V2D_VERSION_BUILD	1 )
 
 add_target(
 	Voronoi2D

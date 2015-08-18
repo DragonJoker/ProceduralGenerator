@@ -9,7 +9,7 @@ set( BinsDependencies
 
 set( BLG_VERSION_MAJOR	2 )
 set( BLG_VERSION_MINOR	0 )
-set( BLG_VERSION_BUILD	0 )
+set( BLG_VERSION_BUILD	1 )
 
 add_target(
 	BuggedLifeGame

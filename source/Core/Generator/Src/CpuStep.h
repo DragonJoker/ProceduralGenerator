@@ -341,8 +341,6 @@ namespace ProceduralTextures
 		std::mutex m_mutexEnd;
 		//! The condition variable used to wait for the step thread end
 		std::condition_variable m_conditionEnd;
-		//! The CPU step sttart time index
-		Clock::time_point m_startTime;
 		//! The CPU step duration
 		std::chrono::milliseconds m_time;
 	};
