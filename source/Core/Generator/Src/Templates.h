@@ -47,7 +47,7 @@ namespace ProceduralTextures
 			@param[in] p_pPointer
 				The object pointer
 			*/
-			void operator()( Object * p_pPointer )
+			inline void operator()( Object * p_pPointer )
 			{
 				delete p_pPointer;
 			}
@@ -56,7 +56,7 @@ namespace ProceduralTextures
 		/** Deletes all container's objects
 		*/
 		template < class Container, class Object >
-		void ClearContent( Container &, Object )
+		inline void ClearContent( Container &, Object )
 		{
 		}
 
@@ -65,7 +65,7 @@ namespace ProceduralTextures
 			The container
 		*/
 		template < class Container, class Object >
-		void ClearContent( Container & p_container, Object * )
+		inline void ClearContent( Container & p_container, Object * )
 		{
 			std::for_each( p_container.begin(), p_container.end(), ObjectDeleter< Object >() );
 		}
@@ -85,7 +85,7 @@ namespace ProceduralTextures
 			@param[in] p_pair
 				The pair
 			*/
-			void operator()( std::pair< KeyType, ObjType * > p_pair )
+			inline void operator()( std::pair< KeyType, ObjType * > p_pair )
 			{
 				delete p_pair.second;
 			}
@@ -94,7 +94,7 @@ namespace ProceduralTextures
 		/** Deletes all container's pairs
 		*/
 		template< class CtnrType, typename KeyType, typename ObjType >
-		void ClearPairContent( CtnrType &, std::pair< KeyType, ObjType > )
+		inline void ClearPairContent( CtnrType &, std::pair< KeyType, ObjType > )
 		{
 		}
 
@@ -103,7 +103,7 @@ namespace ProceduralTextures
 			The container
 		*/
 		template< class CtnrType, typename KeyType, typename ObjType >
-		void ClearPairContent( CtnrType & p_container, std::pair< KeyType, ObjType * > )
+		inline void ClearPairContent( CtnrType & p_container, std::pair< KeyType, ObjType * > )
 		{
 			std::for_each( p_container.begin(), p_container.end(), PairDeleter< KeyType, ObjType >() );
 		}
@@ -116,7 +116,7 @@ namespace ProceduralTextures
 		The container to clear
 	*/
 	template < class Container >
-	void ClearContainer( Container & p_container )
+	inline void ClearContainer( Container & p_container )
 	{
 		typedef typename Container::value_type value_type;
 		details::ClearContent( p_container, value_type() );
@@ -130,7 +130,7 @@ namespace ProceduralTextures
 		The container to clear
 	*/
 	template< class CtnrType >
-	void ClearPairContainer( CtnrType & p_container )
+	inline void ClearPairContainer( CtnrType & p_container )
 	{
 		typedef typename CtnrType::value_type value_type;
 		details::ClearPairContent( p_container, value_type() );

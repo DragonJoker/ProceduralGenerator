@@ -22,31 +22,76 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace ProceduralTextures
 {
-	namespace gl
+namespace gl
+{
+	/*!
+	@author
+		Sylvain DOREMUS
+	@date
+		14/02/2010
+	@brief
+		Pack (download from VRAM) buffer implementation
+	*/
+	class GeneratorAPI DownloadPixelBuffer
 	{
-		/*!
-		@author
-			Sylvain DOREMUS
-		@date
-			14/02/2010
-		@brief
-			Pack (download from VRAM) buffer implementation
+	public:
+		/** Constructor
+		@param[in] p_openGl
+			The OpenGL instance
 		*/
-		class GeneratorAPI DownloadPixelBuffer
-			: public GpuIOBuffer
-		{
-		public:
-			/** Constructor
-			@param[in] p_openGl
-				The OpenGL instance
-			*/
-			DownloadPixelBuffer( OpenGl & p_openGl );
+		DownloadPixelBuffer( OpenGl & p_openGl );
 
-			/** Destructor
-			*/
-			virtual ~DownloadPixelBuffer();
-		};
-	}
+		/** Destructor
+		*/
+		~DownloadPixelBuffer();
+
+		/** Creates and initialises the buffer
+		@param[in] p_size
+			The buffer size
+		@return
+			true if it is successfully initialised
+		*/
+		bool Initialise( size_t p_size );
+
+		/** Destroys the buffer
+		*/
+		void Cleanup();
+
+		/** Tries to activate the buffer
+		@return
+			true if it is successfully activated
+		*/
+		bool Bind();
+
+		/** Deactivates the buffer
+		*/
+		void Unbind();
+
+		/** Updates the buffer data on GPU
+		@param[in] p_buffer
+			The buffer data
+		@param[in] p_size
+			The buffer size
+		*/
+		void Data( void const * p_buffer, size_t p_size );
+
+		/** Maps the buffer data into RAM memory
+		@param[in] p_access
+			The memory access
+		@return
+			The mapped memory
+		*/
+		void * Lock( unsigned int p_access );
+
+		/** Unmaps the buffer data from RAM memory
+		*/
+		void Unlock();
+
+	private:
+		//! The GPU IO buffer
+		GpuIOBuffer m_ioBuffer;
+	};
+}
 }
 
 //*************************************************************************************************

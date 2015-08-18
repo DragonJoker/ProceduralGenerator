@@ -41,7 +41,7 @@ namespace ProceduralTextures
 		A simple rectangular overlay
 	*/
 	class GeneratorAPI PanelOverlay
-		:	public Overlay
+		: public Overlay
 	{
 	public:
 		/** Constructor

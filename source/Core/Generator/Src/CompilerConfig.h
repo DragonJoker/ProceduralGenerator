@@ -25,45 +25,45 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #if defined( _MSC_VER )
 #	if _MSC_VER >= 1800
-#		define HAS_VARIADIC_TEMPLATES		1
-#		define HAS_DELEGATING_CONSTRUCTORS	1
-#		define HAS_MAKE_UNIQUE				1
-#		define HAS_INITIALIZER_LISTS		1
+#		define HAS_VARIADIC_TEMPLATES 1
+#		define HAS_DELEGATING_CONSTRUCTORS 1
+#		define HAS_MAKE_UNIQUE 1
+#		define HAS_INITIALIZER_LISTS 1
 #	else
-#		define HAS_VARIADIC_TEMPLATES		0
-#		define HAS_DELEGATING_CONSTRUCTORS	0
-#		define HAS_MAKE_UNIQUE				0
-#		define HAS_INITIALIZER_LISTS		0
+#		define HAS_VARIADIC_TEMPLATES 0
+#		define HAS_DELEGATING_CONSTRUCTORS 0
+#		define HAS_MAKE_UNIQUE 0
+#		define HAS_INITIALIZER_LISTS 0
 #	endif
 #elif defined( __clang__)
-#	define HAS_VARIADIC_TEMPLATES			__has_feature(cxx_variadic_templates)
-#	define HAS_DELEGATING_CONSTRUCTORS		__has_feature(cxx_delegating_constructors)
-#	define HAS_MAKE_UNIQUE					__has_feature(cxx_variadic_templates)
-#	define HAS_INITIALIZER_LISTS			__has_feature(cxx_generalized_initializers)
+#	define HAS_VARIADIC_TEMPLATES __has_feature(cxx_variadic_templates)
+#	define HAS_DELEGATING_CONSTRUCTORS __has_feature(cxx_delegating_constructors)
+#	define HAS_MAKE_UNIQUE __has_feature(cxx_variadic_templates)
+#	define HAS_INITIALIZER_LISTS __has_feature(cxx_generalized_initializers)
 #elif defined( __GNUG__)
 #	define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 #	if GCC_VERSION >= 40700
-#		define HAS_VARIADIC_TEMPLATES		1
-#		define HAS_DELEGATING_CONSTRUCTORS	1
-#		define HAS_MAKE_UNIQUE				1
-#		define HAS_INITIALIZER_LISTS		1
+#		define HAS_VARIADIC_TEMPLATES 1
+#		define HAS_DELEGATING_CONSTRUCTORS 1
+#		define HAS_MAKE_UNIQUE 1
+#		define HAS_INITIALIZER_LISTS 1
 #	elif GCC_VERSION >= 40300
-#		define HAS_VARIADIC_TEMPLATES		1
-#		define HAS_DELEGATING_CONSTRUCTORS	0
-#		define HAS_MAKE_UNIQUE				1
-#		define HAS_INITIALIZER_LISTS		0
+#		define HAS_VARIADIC_TEMPLATES 1
+#		define HAS_DELEGATING_CONSTRUCTORS 0
+#		define HAS_MAKE_UNIQUE 1
+#		define HAS_INITIALIZER_LISTS 0
 #	else
-#		define HAS_VARIADIC_TEMPLATES		0
-#		define HAS_DELEGATING_CONSTRUCTORS	0
-#		define HAS_MAKE_UNIQUE				0
+#		define HAS_VARIADIC_TEMPLATES 0
+#		define HAS_DELEGATING_CONSTRUCTORS 0
+#		define HAS_MAKE_UNIQUE 0
 #	endif
 #elif defined( __BORLANDC__ )
 #	warning "Theorically supported compiler, but untested yet"
 #	if __BORLANDC__ >= 0x621
-#		define HAS_VARIADIC_TEMPLATES		0
-#		define HAS_DELEGATING_CONSTRUCTORS	0
-#		define HAS_MAKE_UNIQUE				0
-#		define HAS_INITIALIZER_LISTS		0
+#		define HAS_VARIADIC_TEMPLATES 0
+#		define HAS_DELEGATING_CONSTRUCTORS 0
+#		define HAS_MAKE_UNIQUE 0
+#		define HAS_INITIALIZER_LISTS 0
 #	endif
 #else
 #	error "Yet unsupported compiler"

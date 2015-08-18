@@ -1,3 +1,51 @@
+2015-08-18  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Repaired the CPU timer.
+  
+2015-08-14  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Simplified plugins creation.
+	* Finished reviewing comments.
+	* Working on CPU time computation, which is erroneous.
+	* Now each plugin unloads its own translations from Translator
+
+2015-08-13  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Removed pointer to the OpenGl instance, now GlHolder holds a reference to
+	*   it.
+	* In GeometryBuffers, the vertex buffer is no more a pointer, and the index
+	*   buffer is a unique_ptr.
+	* In Overlay, the geometry buffers is no more a pointer (same in
+	*   BorderPanelOverlay).
+	* The controls just affect the visibility of their overlays and no more their
+	*   children.
+	* In the same way, when they set their overlays visibility, they use
+	*   m_visible instead of IsVisible, so the overlays have the same visibility
+	*   as the control.
+	* Corrected colour shader, it didn't work on Intel GPUs.
+	* Translator now uses a C++ locale instead of a C one, so no more complaints
+	*   from wxWidgets in debug.
+	* Added an help to GpuProgramming, ShaderEffects, ShaderWebcam, and
+	*   OCLProcessing.
+
+2015-08-12  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Added DefaultCpuStep and DefaultGpuStep classes, to remove the dummy ones
+	*   in plug-ins.
+	* Reviewed the comments.
+	* Reviewed the controls creation, they take the parent in the constructor
+	*   instead of the Create method.
+	* Few optimisations, in Life Game based plug-ins, and ImageEffects too.
+	* Adding an help panel to ShaderEffects plug-in.
+
+2015-08-11  Sylvain Doremus  <dragonjoker59@hotmail.com>
+
+	* Added Recorder class to remove record related stuff from RenderPanel.
+	* Added a method to plug-ins: HasCustomisableResolution(), to get that
+	*   status, and not having anything more based on plug-in names.
+	* Removed Trace macro, using std::cerr.
+
+
 2015-03-29  Sylvain Doremus  <dragonjoker59@hotmail.com>
 
 	* Fixed the compile errors in ShaderWebcam.

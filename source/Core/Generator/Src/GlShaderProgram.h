@@ -276,7 +276,7 @@ namespace gl
 		@return
 			The value
 		*/
-		FrameVariablePtrList::const_iterator Begin()const
+		inline FrameVariablePtrList::const_iterator begin()const
 		{
 			return m_listFrameVariables.begin();
 		}
@@ -285,7 +285,7 @@ namespace gl
 		@return
 			The value
 		*/
-		FrameVariablePtrList::iterator Begin()
+		inline FrameVariablePtrList::iterator begin()
 		{
 			return m_listFrameVariables.begin();
 		}
@@ -294,7 +294,7 @@ namespace gl
 		@return
 			The value
 		*/
-		FrameVariablePtrList::const_iterator End()const
+		inline FrameVariablePtrList::const_iterator end()const
 		{
 			return m_listFrameVariables.end();
 		}
@@ -303,7 +303,7 @@ namespace gl
 		@return
 			The value
 		*/
-		FrameVariablePtrList::iterator End()
+		inline FrameVariablePtrList::iterator end()
 		{
 			return m_listFrameVariables.end();
 		}

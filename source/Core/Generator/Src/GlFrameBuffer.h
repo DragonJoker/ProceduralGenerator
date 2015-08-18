@@ -124,14 +124,14 @@ namespace gl
 		@return
 			The value
 		*/
-		Size const & GetSize()const
+		inline Size const & GetSize()const
 		{
 			return m_size;
 		}
 
 	private:
-		void DoCleanupPbos();
-		void DoInitialisePbos();
+		void DoCleanupIoBuffers();
+		void DoInitialiseIoBuffers();
 
 		//! Tells if the framebuffer is initialised
 		bool m_bInitialised;

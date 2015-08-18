@@ -33,7 +33,6 @@ namespace gl
 		Pack (upload to VRAM) buffer implementation
 	*/
 	class GeneratorAPI UploadPixelBuffer
-		: public GpuIOBuffer
 	{
 	public:
 		/** Constructor
@@ -44,7 +43,53 @@ namespace gl
 
 		/** Destructor
 		*/
-		virtual ~UploadPixelBuffer();
+		~UploadPixelBuffer();
+
+		/** Creates and initialises the buffer
+		@param[in] p_size
+			The buffer size
+		@return
+			true if it is successfully initialised
+		*/
+		bool Initialise( size_t p_size );
+
+		/** Destroys the buffer
+		*/
+		void Cleanup();
+
+		/** Tries to activate the buffer
+		@return
+			true if it is successfully activated
+		*/
+		bool Bind();
+
+		/** Deactivates the buffer
+		*/
+		void Unbind();
+
+		/** Updates the buffer data on GPU
+		@param[in] p_buffer
+			The buffer data
+		@param[in] p_size
+			The buffer size
+		*/
+		void Data( void const * p_buffer, size_t p_size );
+
+		/** Maps the buffer data into RAM memory
+		@param[in] p_access
+			The memory access
+		@return
+			The mapped memory
+		*/
+		void * Lock( unsigned int p_access );
+
+		/** Unmaps the buffer data from RAM memory
+		*/
+		void Unlock();
+
+	private:
+		//! The GPU IO buffer
+		GpuIOBuffer m_ioBuffer;
 	};
 }
 }

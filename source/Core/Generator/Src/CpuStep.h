@@ -79,14 +79,14 @@ namespace ProceduralTextures
 			The function to connect
 		*/
 		template< typename Function >
-		void Connect( Function p_function )
+		inline void Connect( Function p_function )
 		{
 			m_threadEndIndex = m_signalThreadEnd.Connect( p_function );
 		}
 
 		/** Disconnects from the thread end signal
 		*/
-		void Disconnect()
+		inline void Disconnect()
 		{
 			m_signalThreadEnd.Disconnect( m_threadEndIndex );
 		}
@@ -225,6 +225,12 @@ namespace ProceduralTextures
 		*/
 		void Wait( std::chrono::milliseconds p_timeout );
 
+		/** The thread end event callback function
+		@param[in] p_index
+			The thread index
+		*/
+		void OnThreadEnd( size_t p_index );
+
 		/** Tells if the generator is initialised
 		@return
 			The value
@@ -269,12 +275,6 @@ namespace ProceduralTextures
 		{
 			return m_time;
 		}
-
-		/** The thread end event callback function
-		@param[in] p_index
-			The thread index
-		*/
-		void OnThreadEnd( size_t p_index );
 
 	protected:
 		/** Thread specific step initialisation
@@ -387,7 +387,7 @@ namespace ProceduralTextures
 		@param[in] iTotalHeight
 			The image total height
 		*/
-		void DoCreateThread( int iTop, int iBottom, int iTotalHeight )
+		inline void DoCreateThread( int iTop, int iBottom, int iTotalHeight )
 		{
 			std::unique_ptr< TThread > l_pThread = std::make_unique< TThread >( this->shared_from_this(), m_workerThreads.size(), m_sizeImage.x(), iTop, iBottom, iTotalHeight );
 			l_pThread->Connect( std::bind( &CpuStepBase::OnThreadEnd, this, std::placeholders::_1 ) );
@@ -425,7 +425,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The function to apply
 		*/
-		void DoForEachThread( std::function< void( TThread & ) > p_function )
+		inline void DoForEachThread( std::function< void( TThread & ) > p_function )
 		{
 			std::unique_lock< std::mutex > l_lock( m_mutexThreads );
 
@@ -439,7 +439,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The function to apply
 		*/
-		void DoForEachThread( std::function< void( TThread const & ) > p_function )const
+		inline void DoForEachThread( std::function< void( TThread const & ) > p_function )const
 		{
 			std::unique_lock< std::mutex > l_lock( m_mutexThreads );
 
@@ -454,7 +454,7 @@ namespace ProceduralTextures
 			The function to apply
 		*/
 		template< typename R >
-		R DoForOneThread( size_t p_index, std::function< R( TThread & ) > p_function )
+		inline R DoForOneThread( size_t p_index, std::function< R( TThread & ) > p_function )
 		{
 			std::unique_lock< std::mutex > l_lock( m_mutexThreads );
 			return p_function( *m_workerThreads[p_index] );
@@ -465,7 +465,7 @@ namespace ProceduralTextures
 			The function to apply
 		*/
 		template< typename R >
-		R DoForOneThread( size_t p_index, std::function< R( TThread const & ) > p_function )const
+		inline R DoForOneThread( size_t p_index, std::function< R( TThread const & ) > p_function )const
 		{
 			std::unique_lock< std::mutex > l_lock( m_mutexThreads );
 			return p_function( *m_workerThreads[p_index] );

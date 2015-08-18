@@ -100,11 +100,11 @@ namespace ProceduralTextures
 
 			if ( pBufferIn && pBufferOut )
 			{
-				if ( pBufferOut->Activate() )
+				if ( pBufferOut->Bind() )
 				{
 					GetOpenGl().TexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, m_size.x(), m_size.y(), GL_RGBA, GL_UNSIGNED_BYTE, NULL );
 
-					if ( pBufferIn->Activate() )
+					if ( pBufferIn->Bind() )
 					{
 						pBufferIn->Data( NULL, m_pPixels->GetSize() );
 						void * pData = pBufferIn->Lock( GL_WRITE_ONLY );
@@ -115,10 +115,10 @@ namespace ProceduralTextures
 							pBufferIn->Unlock();
 						}
 
-						pBufferIn->Deactivate();
+						pBufferIn->Unbind();
 					}
 
-					pBufferOut->Deactivate();
+					pBufferOut->Unbind();
 				}
 			}
 		}
@@ -137,11 +137,11 @@ namespace ProceduralTextures
 
 			if ( pBufferIn && pBufferOut )
 			{
-				if ( pBufferOut->Activate() )
+				if ( pBufferOut->Bind() )
 				{
 					GetOpenGl().GetTexImage( GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0 );
 
-					if ( pBufferIn->Activate() )
+					if ( pBufferIn->Bind() )
 					{
 						pBufferIn->Data( NULL, m_pPixels->GetSize() );
 						void * pData = pBufferIn->Lock( GL_READ_ONLY );
@@ -152,10 +152,10 @@ namespace ProceduralTextures
 							pBufferIn->Unlock();
 						}
 
-						pBufferIn->Deactivate();
+						pBufferIn->Unbind();
 					}
 
-					pBufferOut->Deactivate();
+					pBufferOut->Unbind();
 				}
 			}
 		}
@@ -216,38 +216,34 @@ namespace ProceduralTextures
 		{
 			if ( m_pUploadBuffers[0] )
 			{
-				m_pUploadBuffers[0]->Destroy();
+				m_pUploadBuffers[0]->Cleanup();
 			}
 
 			if ( m_pUploadBuffers[1] )
 			{
-				m_pUploadBuffers[1]->Destroy();
+				m_pUploadBuffers[1]->Cleanup();
 			}
 
 			if ( m_pDownloadBuffers[0] )
 			{
-				m_pDownloadBuffers[0]->Destroy();
+				m_pDownloadBuffers[0]->Cleanup();
 			}
 
 			if ( m_pDownloadBuffers[1] )
 			{
-				m_pDownloadBuffers[1]->Destroy();
+				m_pDownloadBuffers[1]->Cleanup();
 			}
 		}
 
 		void Texture::DoInitialisePbos()
 		{
 			m_pUploadBuffers[0] = std::make_unique< UploadPixelBuffer >( GetOpenGl() );
-			m_pUploadBuffers[0]->Create();
 			m_pUploadBuffers[0]->Initialise( m_pPixels->GetSize() );
 			m_pUploadBuffers[1] = std::make_unique< UploadPixelBuffer >( GetOpenGl() );
-			m_pUploadBuffers[0]->Create();
 			m_pUploadBuffers[1]->Initialise( m_pPixels->GetSize() );
 			m_pDownloadBuffers[0] = std::make_unique< DownloadPixelBuffer >( GetOpenGl() );
-			m_pDownloadBuffers[0]->Create();
 			m_pDownloadBuffers[0]->Initialise( m_pPixels->GetSize() );
 			m_pDownloadBuffers[1] = std::make_unique< DownloadPixelBuffer >( GetOpenGl() );
-			m_pDownloadBuffers[1]->Create();
 			m_pDownloadBuffers[1]->Initialise( m_pPixels->GetSize() );
 		}
 	}

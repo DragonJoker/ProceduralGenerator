@@ -121,7 +121,7 @@ namespace ProceduralTextures
 			if ( l_item )
 			{
 				l_item->SetBackgroundColour( m_backgroundColourNormal );
-				l_item->SetForegroundColour( m_foregroundColour );
+				l_item->SetForegroundColour( GetForegroundColour() );
 				m_selectedItem.reset();
 			}
 		}
@@ -164,20 +164,20 @@ namespace ProceduralTextures
 	{
 		std::shared_ptr< StaticCtrl > l_static = std::make_shared< StaticCtrl >( shared_from_this(), p_value, Position(), Size( GetSize().x(), DEFAULT_HEIGHT ), eSTATIC_STYLE_VALIGN_CENTER );
 		l_static->SetBackgroundColour( m_backgroundColourNormal );
-		l_static->SetForegroundColour( m_foregroundColour );
-		l_static->SetVisible( m_visible );
+		l_static->SetForegroundColour( GetForegroundColour() );
+		l_static->SetVisible( DoIsVisible() );
 		l_static->SetCatchesMouseEvents( true );
 		l_static->ConnectNC( eMOUSE_EVENT_MOUSE_ENTER, std::bind( &ListBoxCtrl::OnItemMouseEnter, this, std::placeholders::_1, std::placeholders::_2 ) );
 		l_static->ConnectNC( eMOUSE_EVENT_MOUSE_LEAVE, std::bind( &ListBoxCtrl::OnItemMouseLeave, this, std::placeholders::_1, std::placeholders::_2 ) );
 		l_static->ConnectNC( eMOUSE_EVENT_MOUSE_BUTTON_RELEASED, std::bind( &ListBoxCtrl::OnItemMouseLButtonUp, this, std::placeholders::_1, std::placeholders::_2 ) );
 		l_static->ConnectNC( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &ListBoxCtrl::OnItemKeyDown, this, std::placeholders::_1, std::placeholders::_2 ) );
-		m_ctrlManager.lock()->Create( l_static );
+		DoGetCtrlManager()->Create( l_static );
 		m_items.push_back( l_static );
 	}
 
 	void ListBoxCtrl::DoCreate( std::shared_ptr< OverlayManager > p_manager )
 	{
-		m_borders = Point4i( 1, 1, 1, 1 );
+		SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
 		SetBackgroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
 		SetForegroundColour( Colour( 0.0, 0.0, 0.0, 1.0 ) );
 		m_selectedBackgroundColour = Colour( 0.0, 0.0, 0.5, 1.0 );
@@ -207,8 +207,9 @@ namespace ProceduralTextures
 	void ListBoxCtrl::DoSetBackgroundColour( Colour const & p_value )
 	{
 		int i = 0;
-		m_backgroundColourNormal = m_backgroundColour;
-		m_backgroundColour.a = 0.0;;
+		Colour l_colour = GetBackgroundColour();
+		m_backgroundColourNormal = l_colour;
+		DoGetBackgroundColour().a = 0.0;
 
 		for ( auto && l_item : m_items )
 		{

@@ -19,7 +19,6 @@ namespace ProceduralTextures
 		}
 	}
 
-#if HAS_INITIALIZER_LISTS
 	template< typename T >
 	template< typename U >
 	DynPoint< T >::DynPoint( std::initializer_list< U > p_values )
@@ -40,7 +39,6 @@ namespace ProceduralTextures
 			}
 		}
 	}
-#endif
 
 	template< typename T >
 	template< typename U >
@@ -177,7 +175,7 @@ namespace ProceduralTextures
 		}
 	}
 	template< typename T >
-	DynPoint< T > & DynPoint < T >::operator =( const DynPoint< T > & p_pt )
+	DynPoint< T > & DynPoint < T >::operator=( const DynPoint< T > & p_pt )
 	{
 		if ( m_bOwnCoords )
 		{
@@ -209,7 +207,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	DynPoint< T > & DynPoint < T >::operator =( const DynPoint< U > & p_pt )
+	DynPoint< T > & DynPoint < T >::operator=( const DynPoint< U > & p_pt )
 	{
 		if ( m_bOwnCoords )
 		{
@@ -238,7 +236,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator +=( const DynPoint< U > & p_pt )
+	inline DynPoint < T > & DynPoint < T >::operator+=( const DynPoint< U > & p_pt )
 	{
 		for ( size_t i = 0; i < m_uiCount && i < p_pt.m_uiCount; i++ )
 		{
@@ -249,7 +247,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator +=( const U * p_coords )
+	inline DynPoint < T > & DynPoint < T >::operator+=( const U * p_coords )
 	{
 		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
@@ -260,7 +258,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator +=( U const & p_coord )
+	inline DynPoint < T > & DynPoint < T >::operator+=( U const & p_coord )
 	{
 		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
@@ -271,7 +269,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator -=( const DynPoint< U > & p_pt )
+	inline DynPoint < T > & DynPoint < T >::operator-=( const DynPoint< U > & p_pt )
 	{
 		for ( size_t i = 0; i < m_uiCount && i < p_pt.m_uiCount; i++ )
 		{
@@ -282,7 +280,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator -=( const U * p_coords )
+	inline DynPoint < T > & DynPoint < T >::operator-=( const U * p_coords )
 	{
 		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
@@ -293,7 +291,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator -=( U const & p_coord )
+	inline DynPoint < T > & DynPoint < T >::operator-=( U const & p_coord )
 	{
 		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
@@ -304,7 +302,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator *=( const DynPoint< U > & p_pt )
+	inline DynPoint < T > & DynPoint < T >::operator*=( const DynPoint< U > & p_pt )
 	{
 		for ( size_t i = 0; i < m_uiCount && i < p_pt.m_uiCount; i++ )
 		{
@@ -315,7 +313,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator *=( const U * p_coords )
+	inline DynPoint < T > & DynPoint < T >::operator*=( const U * p_coords )
 	{
 		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
@@ -326,7 +324,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator *=( U const & p_coord )
+	inline DynPoint < T > & DynPoint < T >::operator*=( U const & p_coord )
 	{
 		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
@@ -337,7 +335,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator /=( const DynPoint< U > & p_pt )
+	inline DynPoint < T > & DynPoint < T >::operator/=( const DynPoint< U > & p_pt )
 	{
 		for ( size_t i = 0; i < m_uiCount && i < p_pt.m_uiCount; i++ )
 		{
@@ -351,7 +349,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator /=( const U * p_coords )
+	inline DynPoint < T > & DynPoint < T >::operator/=( const U * p_coords )
 	{
 		for ( size_t i = 0; i < m_uiCount; i++ )
 		{
@@ -365,7 +363,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator /=( U const & p_coord )
+	inline DynPoint < T > & DynPoint < T >::operator/=( U const & p_coord )
 	{
 		if ( p_coord )
 		{
@@ -379,7 +377,7 @@ namespace ProceduralTextures
 	}
 	template< typename T >
 	template< typename U >
-	inline DynPoint < T > & DynPoint < T >::operator ^=( const DynPoint< U > & p_pt )
+	inline DynPoint < T > & DynPoint < T >::operator^=( const DynPoint< U > & p_pt )
 	{
 		if ( m_uiCount == 3 && p_pt.m_uiCount == 3 )
 		{
@@ -411,7 +409,7 @@ namespace ProceduralTextures
 //*************************************************************************************************
 
 	template< typename T, typename U >
-	inline bool operator ==( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
+	inline bool operator==( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
 	{
 		bool l_bReturn = ( p_ptA.GetElementCount() == p_ptB.GetElementCount() );
 
@@ -423,12 +421,12 @@ namespace ProceduralTextures
 		return l_bReturn;
 	}
 	template< typename T, typename U >
-	inline bool operator !=( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
+	inline bool operator!=( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
 	{
 		return !( p_ptA == p_ptB );
 	}
 	template< typename T >
-	inline std::ostream & operator << ( std::ostream & l_streamOut, const DynPoint< T > & p_pt )
+	inline std::ostream & operator<<( std::ostream & l_streamOut, const DynPoint< T > & p_pt )
 	{
 		for ( size_t i = 0; i < p_pt.GetElementCount(); i++ )
 		{
@@ -439,7 +437,7 @@ namespace ProceduralTextures
 		return l_streamOut;
 	}
 	template< typename T >
-	inline std::istream & operator >> ( std::istream & l_streamIn, DynPoint< T > & p_pt )
+	inline std::istream & operator>>( std::istream & l_streamIn, DynPoint< T > & p_pt )
 	{
 		for ( size_t i = 0; i < p_pt.GetElementCount(); i++ )
 		{
@@ -449,91 +447,91 @@ namespace ProceduralTextures
 		return l_streamIn;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator +( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
+	inline DynPoint < T > operator+( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
 	{
 		DynPoint < T > l_ptResult( p_ptA );
 		l_ptResult += p_ptB;
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator +( const DynPoint< T > & p_pt, const U * p_coords )
+	inline DynPoint < T > operator+( const DynPoint< T > & p_pt, const U * p_coords )
 	{
 		DynPoint < T > l_ptResult( p_pt );
 		l_ptResult += p_coords;
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator +( const DynPoint< T > & p_pt, U const & p_coord )
+	inline DynPoint < T > operator+( const DynPoint< T > & p_pt, U const & p_coord )
 	{
 		DynPoint < T > l_ptResult( p_pt );
 		l_ptResult += p_coord;
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator -( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
+	inline DynPoint < T > operator-( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
 	{
 		DynPoint < T > l_ptResult( p_ptA );
 		l_ptResult -= p_ptB;
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator -( const DynPoint< T > & p_pt, const U * p_coords )
+	inline DynPoint < T > operator-( const DynPoint< T > & p_pt, const U * p_coords )
 	{
 		DynPoint < T > l_ptResult( p_pt );
 		l_ptResult -= p_coords;
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator -( const DynPoint< T > & p_pt, U const & p_coord )
+	inline DynPoint < T > operator-( const DynPoint< T > & p_pt, U const & p_coord )
 	{
 		DynPoint < T > l_ptResult( p_pt );
 		l_ptResult -= p_coord;
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator *( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
+	inline DynPoint < T > operator*( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
 	{
 		DynPoint < T > l_ptResult( p_ptA );
 		l_ptResult *= p_ptB;
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator *( const DynPoint< T > & p_pt, const U * p_coords )
+	inline DynPoint < T > operator*( const DynPoint< T > & p_pt, const U * p_coords )
 	{
 		DynPoint < T > l_ptResult( p_pt );
 		l_ptResult *= p_coords;
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator *( const DynPoint< T > & p_pt, U const & p_coord )
+	inline DynPoint < T > operator*( const DynPoint< T > & p_pt, U const & p_coord )
 	{
 		DynPoint < T > l_ptResult( p_pt );
 		l_ptResult *= p_coord;
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator /( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
+	inline DynPoint < T > operator/( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
 	{
 		DynPoint < T > l_ptResult( p_ptA );
 		l_ptResult /= p_ptB;
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator /( const DynPoint< T > & p_pt, const U * p_coords )
+	inline DynPoint < T > operator/( const DynPoint< T > & p_pt, const U * p_coords )
 	{
 		DynPoint < T > l_ptResult( p_pt );
 		l_ptResult /= p_coords;
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator /( const DynPoint< T > & p_pt, U const & p_coord )
+	inline DynPoint < T > operator/( const DynPoint< T > & p_pt, U const & p_coord )
 	{
 		DynPoint < T > l_ptResult( p_pt );
 		l_ptResult /= p_coord;
 		return l_ptResult;
 	}
 	template< typename T, typename U >
-	inline DynPoint < T > operator ^( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
+	inline DynPoint < T > operator^( const DynPoint< T > & p_ptA, const DynPoint< U > & p_ptB )
 	{
 		DynPoint < T > l_ptResult( p_ptA );
 		l_ptResult ^= p_ptB;
@@ -541,42 +539,42 @@ namespace ProceduralTextures
 	}
 
 	template< typename T >
-	inline DynPoint < T > operator *( int p_value, const DynPoint < T > & p_ptPoint )
+	inline DynPoint < T > operator*( int p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint * p_value;
 	}
 	template< typename T >
-	inline DynPoint < T > operator +( int p_value, const DynPoint < T > & p_ptPoint )
+	inline DynPoint < T > operator+( int p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint + p_value;
 	}
 	template< typename T >
-	inline DynPoint < T > operator -( int p_value, const DynPoint < T > & p_ptPoint )
+	inline DynPoint < T > operator-( int p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint - p_value;
 	}
 	template< typename T >
-	inline DynPoint < T > operator /( int p_value, const DynPoint < T > & p_ptPoint )
+	inline DynPoint < T > operator/( int p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint / p_value;
 	}
 	template< typename T >
-	inline DynPoint < T > operator *( double p_value, const DynPoint < T > & p_ptPoint )
+	inline DynPoint < T > operator*( double p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint * p_value;
 	}
 	template< typename T >
-	inline DynPoint < T > operator +( double p_value, const DynPoint < T > & p_ptPoint )
+	inline DynPoint < T > operator+( double p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint + p_value;
 	}
 	template< typename T >
-	inline DynPoint < T > operator -( double p_value, const DynPoint < T > & p_ptPoint )
+	inline DynPoint < T > operator-( double p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint - p_value;
 	}
 	template< typename T >
-	inline DynPoint < T > operator /( double p_value, const DynPoint < T > & p_ptPoint )
+	inline DynPoint < T > operator/( double p_value, const DynPoint < T > & p_ptPoint )
 	{
 		return p_ptPoint / p_value;
 	}
@@ -600,7 +598,6 @@ namespace ProceduralTextures
 		}
 	}
 
-#if HAS_INITIALIZER_LISTS
 	template < typename T, size_t Count >
 	template< typename U >
 	Point< T, Count >::Point( std::initializer_list< U > p_values )
@@ -632,7 +629,6 @@ namespace ProceduralTextures
 			}
 		}
 	}
-#endif
 
 	template < typename T, size_t Count >
 	template< typename U >
@@ -830,7 +826,7 @@ namespace ProceduralTextures
 		}
 	}
 	template < typename T, size_t Count >
-	inline Point< T, Count > & Point< T, Count >::operator =( const Point< T, Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator=( const Point< T, Count > & p_pt )
 	{
 		if ( m_bOwnCoords )
 		{
@@ -861,7 +857,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	inline Point< T, Count > & Point< T, Count >::operator =( const Point< U, _Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator=( const Point< U, _Count > & p_pt )
 	{
 		if ( m_bOwnCoords )
 		{
@@ -899,7 +895,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	inline Point< T, Count > & Point< T, Count >::operator +=( const Point< U, _Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator+=( const Point< U, _Count > & p_pt )
 	{
 		for ( size_t i = 0; i < Count && i < _Count; i++ )
 		{
@@ -910,7 +906,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point< T, Count > & Point< T, Count >::operator +=( const U * p_coords )
+	inline Point< T, Count > & Point< T, Count >::operator+=( const U * p_coords )
 	{
 		for ( size_t i = 0; i < Count; i++ )
 		{
@@ -921,7 +917,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point< T, Count > & Point< T, Count >::operator +=( U const & p_coord )
+	inline Point< T, Count > & Point< T, Count >::operator+=( U const & p_coord )
 	{
 		for ( size_t i = 0; i < Count; i++ )
 		{
@@ -932,7 +928,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	inline Point< T, Count > & Point< T, Count >::operator -=( const Point< U, _Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator-=( const Point< U, _Count > & p_pt )
 	{
 		for ( size_t i = 0; i < Count && i < _Count; i++ )
 		{
@@ -943,7 +939,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point< T, Count > & Point< T, Count >::operator -=( const U * p_coords )
+	inline Point< T, Count > & Point< T, Count >::operator-=( const U * p_coords )
 	{
 		for ( size_t i = 0; i < Count; i++ )
 		{
@@ -954,7 +950,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point< T, Count > & Point< T, Count >::operator -=( U const & p_coord )
+	inline Point< T, Count > & Point< T, Count >::operator-=( U const & p_coord )
 	{
 		for ( size_t i = 0; i < Count; i++ )
 		{
@@ -965,7 +961,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	inline Point< T, Count > & Point< T, Count >::operator *=( const Point< U, _Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator*=( const Point< U, _Count > & p_pt )
 	{
 		for ( size_t i = 0; i < Count && i < _Count; i++ )
 		{
@@ -976,7 +972,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point< T, Count > & Point< T, Count >::operator *=( const U * p_coords )
+	inline Point< T, Count > & Point< T, Count >::operator*=( const U * p_coords )
 	{
 		for ( size_t i = 0; i < Count; i++ )
 		{
@@ -987,7 +983,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point< T, Count > & Point< T, Count >::operator *=( U const & p_coord )
+	inline Point< T, Count > & Point< T, Count >::operator*=( U const & p_coord )
 	{
 		for ( size_t i = 0; i < Count; i++ )
 		{
@@ -998,7 +994,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	inline Point< T, Count > & Point< T, Count >::operator /=( const Point< U, _Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator/=( const Point< U, _Count > & p_pt )
 	{
 		for ( size_t i = 0; i < Count && i < _Count; i++ )
 		{
@@ -1012,7 +1008,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point< T, Count > & Point< T, Count >::operator /=( const U * p_coords )
+	inline Point< T, Count > & Point< T, Count >::operator/=( const U * p_coords )
 	{
 		for ( size_t i = 0; i < Count; i++ )
 		{
@@ -1026,7 +1022,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template< typename U >
-	inline Point< T, Count > & Point< T, Count >::operator /=( U const & p_coord )
+	inline Point< T, Count > & Point< T, Count >::operator/=( U const & p_coord )
 	{
 		if ( p_coord )
 		{
@@ -1040,7 +1036,7 @@ namespace ProceduralTextures
 	}
 	template < typename T, size_t Count >
 	template < typename U, size_t _Count >
-	inline Point< T, Count > & Point< T, Count >::operator ^=( const Point< U, _Count > & p_pt )
+	inline Point< T, Count > & Point< T, Count >::operator^=( const Point< U, _Count > & p_pt )
 	{
 		if ( Count == 3 )
 		{
@@ -1097,7 +1093,7 @@ namespace ProceduralTextures
 //*************************************************************************************************
 
 	template < typename T, size_t Count, typename U, size_t _Count >
-	inline bool operator ==( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
+	inline bool operator==( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
 	{
 		bool l_bReturn = ( Count == _Count );
 
@@ -1109,12 +1105,12 @@ namespace ProceduralTextures
 		return l_bReturn;
 	}
 	template < typename T, size_t Count, typename U, size_t _Count >
-	inline bool operator !=( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
+	inline bool operator!=( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
 	{
 		return !( p_ptA == p_ptB );
 	}
 	template < typename T, size_t Count >
-	inline std::ostream & operator << ( std::ostream & l_streamOut, const Point< T, Count > & p_pt )
+	inline std::ostream & operator<<( std::ostream & l_streamOut, const Point< T, Count > & p_pt )
 	{
 		for ( size_t i = 0; i < Count; i++ )
 		{
@@ -1125,7 +1121,7 @@ namespace ProceduralTextures
 		return l_streamOut;
 	}
 	template < typename T, size_t Count >
-	inline std::istream & operator >> ( std::istream & l_streamIn, Point< T, Count > & p_pt )
+	inline std::istream & operator>>( std::istream & l_streamIn, Point< T, Count > & p_pt )
 	{
 		for ( size_t i = 0; i < Count; i++ )
 		{
@@ -1135,91 +1131,91 @@ namespace ProceduralTextures
 		return l_streamIn;
 	}
 	template < typename T, size_t Count, typename U, size_t _Count >
-	inline Point< T, Count > operator +( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
+	inline Point< T, Count > operator+( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
 	{
 		Point< T, Count > l_ptResult( p_ptA );
 		l_ptResult += p_ptB;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point< T, Count > operator +( const Point< T, Count > & p_pt, const U * p_coords )
+	inline Point< T, Count > operator+( const Point< T, Count > & p_pt, const U * p_coords )
 	{
 		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult += p_coords;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point< T, Count > operator +( const Point< T, Count > & p_pt, U const & p_coord )
+	inline Point< T, Count > operator+( const Point< T, Count > & p_pt, U const & p_coord )
 	{
 		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult += p_coord;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U, size_t _Count >
-	inline Point< T, Count > operator -( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
+	inline Point< T, Count > operator-( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
 	{
 		Point< T, Count > l_ptResult( p_ptA );
 		l_ptResult -= p_ptB;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point< T, Count > operator -( const Point< T, Count > & p_pt, const U * p_coords )
+	inline Point< T, Count > operator-( const Point< T, Count > & p_pt, const U * p_coords )
 	{
 		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult -= p_coords;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point< T, Count > operator -( const Point< T, Count > & p_pt, U const & p_coord )
+	inline Point< T, Count > operator-( const Point< T, Count > & p_pt, U const & p_coord )
 	{
 		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult -= p_coord;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U, size_t _Count >
-	inline Point< T, Count > operator *( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
+	inline Point< T, Count > operator*( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
 	{
 		Point< T, Count > l_ptResult( p_ptA );
 		l_ptResult *= p_ptB;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point< T, Count > operator *( const Point< T, Count > & p_pt, const U * p_coords )
+	inline Point< T, Count > operator*( const Point< T, Count > & p_pt, const U * p_coords )
 	{
 		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult *= p_coords;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point< T, Count > operator *( const Point< T, Count > & p_pt, U const & p_coord )
+	inline Point< T, Count > operator*( const Point< T, Count > & p_pt, U const & p_coord )
 	{
 		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult *= p_coord;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U, size_t _Count >
-	inline Point< T, Count > operator /( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
+	inline Point< T, Count > operator/( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
 	{
 		Point< T, Count > l_ptResult( p_ptA );
 		l_ptResult /= p_ptB;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point< T, Count > operator /( const Point< T, Count > & p_pt, const U * p_coords )
+	inline Point< T, Count > operator/( const Point< T, Count > & p_pt, const U * p_coords )
 	{
 		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult /= p_coords;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U >
-	inline Point< T, Count > operator /( const Point< T, Count > & p_pt, U const & p_coord )
+	inline Point< T, Count > operator/( const Point< T, Count > & p_pt, U const & p_coord )
 	{
 		Point< T, Count > l_ptResult( p_pt );
 		l_ptResult /= p_coord;
 		return l_ptResult;
 	}
 	template < typename T, size_t Count, typename U, size_t _Count >
-	inline Point< T, Count > operator ^( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
+	inline Point< T, Count > operator^( const Point< T, Count > & p_ptA, const Point< U, _Count > & p_ptB )
 	{
 		Point< T, Count > l_ptResult( p_ptA );
 		l_ptResult ^= p_ptB;
@@ -1227,42 +1223,42 @@ namespace ProceduralTextures
 	}
 
 	template < typename T, size_t Count >
-	inline Point< T, Count > operator *( int p_value, const Point< T, Count > & p_ptPoint )
+	inline Point< T, Count > operator*( int p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint * p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point< T, Count > operator +( int p_value, const Point< T, Count > & p_ptPoint )
+	inline Point< T, Count > operator+( int p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint + p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point< T, Count > operator -( int p_value, const Point< T, Count > & p_ptPoint )
+	inline Point< T, Count > operator-( int p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint - p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point< T, Count > operator /( int p_value, const Point< T, Count > & p_ptPoint )
+	inline Point< T, Count > operator/( int p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint / p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point< T, Count > operator *( double p_value, const Point< T, Count > & p_ptPoint )
+	inline Point< T, Count > operator*( double p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint * p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point< T, Count > operator +( double p_value, const Point< T, Count > & p_ptPoint )
+	inline Point< T, Count > operator+( double p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint + p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point< T, Count > operator -( double p_value, const Point< T, Count > & p_ptPoint )
+	inline Point< T, Count > operator-( double p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint - p_value;
 	}
 	template < typename T, size_t Count >
-	inline Point< T, Count > operator /( double p_value, const Point< T, Count > & p_ptPoint )
+	inline Point< T, Count > operator/( double p_value, const Point< T, Count > & p_ptPoint )
 	{
 		return p_ptPoint / p_value;
 	}

@@ -53,7 +53,7 @@ namespace gl
 	public:
 		typedef std::function< bool( int, uint32_t * ) > CreateFunction;
 
-		static uint32_t Apply( CreateFunction p_creator )
+		static inline uint32_t Apply( CreateFunction p_creator )
 		{
 			uint32_t l_return = -1;
 
@@ -83,7 +83,7 @@ namespace gl
 	public:
 		typedef std::function< uint32_t() > CreateFunction;
 
-		static uint32_t Apply( CreateFunction p_creator )
+		static inline uint32_t Apply( CreateFunction p_creator )
 		{
 			return p_creator();
 		}
@@ -118,7 +118,7 @@ namespace gl
 	public:
 		typedef std::function< bool( int, uint32_t const * ) > DestroyFunction;
 
-		static void Apply( DestroyFunction p_destroyer, uint32_t p_glName )
+		static inline void Apply( DestroyFunction p_destroyer, uint32_t p_glName )
 		{
 			p_destroyer( 1, &p_glName );
 		}
@@ -141,7 +141,7 @@ namespace gl
 	public:
 		typedef std::function< bool( uint32_t ) > DestroyFunction;
 
-		static void Apply( DestroyFunction p_destroyer, uint32_t p_glName )
+		static inline void Apply( DestroyFunction p_destroyer, uint32_t p_glName )
 		{
 			p_destroyer( p_glName );
 		}
@@ -255,7 +255,7 @@ namespace gl
 		@return
 			The status
 		*/
-		bool IsValid()const
+		inline bool IsValid()const
 		{
 			return m_glName != -1 && m_validator( m_glName );
 		}
@@ -264,7 +264,7 @@ namespace gl
 		@return
 			The instance
 		*/
-		uint32_t GetGlName()const
+		inline uint32_t GetGlName()const
 		{
 			return m_glName;
 		}

@@ -38,7 +38,7 @@ namespace ProceduralTextures
 		Overlay collection, with additional add and remove functions to manage Z-Index
 	*/
 	class GeneratorAPI OverlayManager
-		: gl::Holder
+		: public gl::Holder
 	{
 	public:
 		typedef std::vector< std::shared_ptr< Overlay > >::iterator iterator;
@@ -53,7 +53,7 @@ namespace ProceduralTextures
 
 		/** Destructor
 		*/
-		virtual ~OverlayManager();
+		~OverlayManager();
 
 		/** Initialises the programs
 		*/
@@ -257,7 +257,7 @@ namespace ProceduralTextures
 		@return
 			The program
 		*/
-		std::shared_ptr< gl::ShaderProgram > GetProgramColour()const
+		inline std::shared_ptr< gl::ShaderProgram > GetProgramColour()const
 		{
 			return m_programColour;
 		}
@@ -266,7 +266,7 @@ namespace ProceduralTextures
 		@return
 			The program
 		*/
-		std::shared_ptr< gl::ShaderProgram > GetProgramTexture()const
+		inline std::shared_ptr< gl::ShaderProgram > GetProgramTexture()const
 		{
 			return m_programTexture;
 		}
@@ -275,7 +275,7 @@ namespace ProceduralTextures
 		@return
 			The program
 		*/
-		std::shared_ptr< gl::ShaderProgram > GetProgramTextColour()const
+		inline std::shared_ptr< gl::ShaderProgram > GetProgramTextColour()const
 		{
 			return m_programTextColour;
 		}
@@ -284,7 +284,7 @@ namespace ProceduralTextures
 		@return
 			The program
 		*/
-		std::shared_ptr< gl::ShaderProgram > GetProgramTextTexture()const
+		inline std::shared_ptr< gl::ShaderProgram > GetProgramTextTexture()const
 		{
 			return m_programTextTexture;
 		}

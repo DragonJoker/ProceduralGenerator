@@ -80,7 +80,7 @@ namespace ProceduralTextures
 
 		/** Handles all queued events
 		*/
-		void ProcessEvents()
+		inline void ProcessEvents()
 		{
 			EventQueue l_queue;
 			m_mutex.lock();
@@ -101,7 +101,7 @@ namespace ProceduralTextures
 		@param[in] p_event
 			The event
 		*/
-		void PushEvent( ControlEvent const & p_event )
+		inline void PushEvent( ControlEvent const & p_event )
 		{
 			std::shared_ptr< ControlEvent > l_event = std::make_shared< ControlEvent >( p_event );
 			std::unique_lock< std::mutex > l_lock( m_mutex );
@@ -114,7 +114,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The function
 		*/
-		void Connect( eCONTROL_EVENT p_event, ClientControlFunction p_function )
+		inline void Connect( eCONTROL_EVENT p_event, ClientControlFunction p_function )
 		{
 			m_controlSlots[p_event].Connect( p_function );
 		}
@@ -125,7 +125,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The function
 		*/
-		void ConnectNC( eCONTROL_EVENT p_event, NonClientControlFunction p_function )
+		inline void ConnectNC( eCONTROL_EVENT p_event, NonClientControlFunction p_function )
 		{
 			m_ncControlSlots[p_event].Connect( p_function );
 		}
@@ -138,7 +138,7 @@ namespace ProceduralTextures
 		@param[in] p_event
 			The mouse event
 		*/
-		void PushEvent( MouseEvent const & p_event )
+		inline void PushEvent( MouseEvent const & p_event )
 		{
 			std::shared_ptr< MouseEvent > l_event = std::make_shared< MouseEvent >( p_event );
 			std::unique_lock< std::mutex > l_lock( m_mutex );
@@ -151,7 +151,7 @@ namespace ProceduralTextures
 		@return
 			false if the mouse events don't affect the control
 		*/
-		bool CatchesMouseEvents()const
+		inline bool CatchesMouseEvents()const
 		{
 			return m_enabled && m_catchMouseEvents && DoCatchesMouseEvents();
 		}
@@ -160,7 +160,7 @@ namespace ProceduralTextures
 		@param[in] p_value
 			The new value
 		*/
-		void SetCatchesMouseEvents( bool p_value )
+		inline void SetCatchesMouseEvents( bool p_value )
 		{
 			m_catchMouseEvents = p_value;
 		}
@@ -171,7 +171,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The function
 		*/
-		void Connect( eMOUSE_EVENT p_event, ClientMouseFunction p_function )
+		inline void Connect( eMOUSE_EVENT p_event, ClientMouseFunction p_function )
 		{
 			m_mouseSlots[p_event].Connect( p_function );
 		}
@@ -182,7 +182,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The function
 		*/
-		void ConnectNC( eMOUSE_EVENT p_event, NonClientMouseFunction p_function )
+		inline void ConnectNC( eMOUSE_EVENT p_event, NonClientMouseFunction p_function )
 		{
 			m_ncMouseSlots[p_event].Connect( p_function );
 		}
@@ -195,7 +195,7 @@ namespace ProceduralTextures
 		@param[in] p_event
 			The event
 		*/
-		void PushEvent( KeyboardEvent const & p_event )
+		inline void PushEvent( KeyboardEvent const & p_event )
 		{
 			std::shared_ptr< KeyboardEvent > l_event = std::make_shared< KeyboardEvent >( p_event );
 			std::unique_lock< std::mutex > l_lock( m_mutex );
@@ -208,7 +208,7 @@ namespace ProceduralTextures
 		@return
 			false if the 'tab' key doesn't affect the control
 		*/
-		bool CatchesTabKey()const
+		inline bool CatchesTabKey()const
 		{
 			return m_enabled && m_catchTabKey && DoCatchesTabKey();
 		}
@@ -219,7 +219,7 @@ namespace ProceduralTextures
 		@return
 			false if the 'return' key doesn't affect the control
 		*/
-		bool CatchesReturnKey()const
+		inline bool CatchesReturnKey()const
 		{
 			return m_enabled && m_catchReturnKey && DoCatchesReturnKey();
 		}
@@ -230,7 +230,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The function
 		*/
-		void Connect( eKEYBOARD_EVENT p_event, ClientKeyboardFunction p_function )
+		inline void Connect( eKEYBOARD_EVENT p_event, ClientKeyboardFunction p_function )
 		{
 			m_keyboardSlots[p_event].Connect( p_function );
 		}
@@ -241,7 +241,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The function
 		*/
-		void ConnectNC( eKEYBOARD_EVENT p_event, NonClientKeyboardFunction p_function )
+		inline void ConnectNC( eKEYBOARD_EVENT p_event, NonClientKeyboardFunction p_function )
 		{
 			m_ncKeyboardSlots[p_event].Connect( p_function );
 		}
@@ -278,7 +278,7 @@ namespace ProceduralTextures
 		@param[in] p_event
 			The event
 		*/
-		void ProcessControlEvent( std::shared_ptr< ControlEvent > p_event )
+		inline void ProcessControlEvent( std::shared_ptr< ControlEvent > p_event )
 		{
 			m_controlSlots[p_event->GetControlEventType()]( *p_event );
 			m_ncControlSlots[p_event->GetControlEventType()]( this->shared_from_this(), *p_event );
@@ -288,7 +288,7 @@ namespace ProceduralTextures
 		@param[in] p_event
 			The event
 		*/
-		void ProcessMouseEvent( std::shared_ptr< MouseEvent > p_event )
+		inline void ProcessMouseEvent( std::shared_ptr< MouseEvent > p_event )
 		{
 			m_mouseSlots[p_event->GetMouseEventType()]( *p_event );
 			m_ncMouseSlots[p_event->GetMouseEventType()]( this->shared_from_this(), *p_event );
@@ -298,12 +298,13 @@ namespace ProceduralTextures
 		@param[in] p_event
 			The event
 		*/
-		void ProcessKeyboardEvent( std::shared_ptr< KeyboardEvent > p_event )
+		inline void ProcessKeyboardEvent( std::shared_ptr< KeyboardEvent > p_event )
 		{
 			m_keyboardSlots[p_event->GetKeyboardEventType()]( *p_event );
 			m_ncKeyboardSlots[p_event->GetKeyboardEventType()]( this->shared_from_this(), *p_event );
 		}
 
+	private:
 		typedef std::function< void() > EventHandlerFunction;
 		typedef std::deque< std::pair< std::shared_ptr< Event >, EventHandlerFunction > > EventQueue;
 		//! Activation status

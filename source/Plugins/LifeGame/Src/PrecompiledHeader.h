@@ -25,6 +25,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <CpuStep.h>
 #include <Generator.h>
 #include <GpuStep.h>
-#include <Value.h>
+#include <Templates.h>
 
 #endif

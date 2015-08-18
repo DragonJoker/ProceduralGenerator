@@ -42,11 +42,7 @@ Procedural Generator uses CMake to build project files.
 You just need to launch CMake to build your preferential project file.
 Tested compilers are :
 - Visual Studio 2013
-- Visual Studio 2012
-- Visual Studio 2010
-- gcc 4.6.2
-- gcc 4.7.0
-- clang 2.7-3
+- GCC 4.7.0
 The Generator shared library depends on OpenGL and FreeType.
 The main application is based upon wxWidgets (from 2.8.11 to latest) so on
 GNU/Linux it also depends on GTK.
@@ -64,7 +60,8 @@ You can change this directory by changing the CMAKE_INSTALL_PREFIX value.
 The main application is installed in <install_dir>/bin/
 The library LibGenerator (used to build your own plug-ins) is installed in
 <install_dir>/lib/.
-The plug-ins are installed in <install_dir>/shared/ProceduralGenerator/
+The plug-ins are installed in <install_dir>/lib/ProceduralGenerator/
+The translations are installed in <install_dir>/share/ProceduralGenerator/
 
 
 #   **-----------------------------------------------------------------------**
@@ -72,45 +69,45 @@ The plug-ins are installed in <install_dir>/shared/ProceduralGenerator/
 #   **-----------------------------------------------------------------------**
 
 To run Procedural Generator, simply type 'ProceduralGenerator' in your
-preferred command-line tool.
+favourite command-line tool.
 
 
 #   **-----------------------------------------------------------------------**
 #   **                        V. General Questions                           **
 #   **-----------------------------------------------------------------------**
 
-1. I need a feature that ProceduralGenerator doesn't implement, what can I do ?
+1. I need a feature that ProceduralGenerator doesn't implement, what can I do?
 
 There are two ways.
 First, Procedural Generator is a LGPL software and library, so you are welcome
-to improve it yourself ;-) !
-Second, just ask the author :-) ! 
+to improve it yourself ;-)!
+Second, just ask the author :-)! 
 
-2. I implemented a cool feature, can I commit it ?
+2. I implemented a cool feature, can I commit it?
 
-Obviously you are welcome to send the author any improvement. But obviously the
-author is quite careful with readability, correctness and stability, and will
-read and check any contribution before including it.
+Obviously you are welcome to send any improvement. But obviously the author is
+quite careful with readability, correctness and stability, and will read and
+check any contribution before including it.
 Thus, it can take time... There are few basic rules to write contributions:
 - (1) Do never change the indentation of any part of the code that is not yours.
-- (2) Do never send codes without a lot of comments in (bad or good) english.
-- (3) Do never send codes with obscure and/or non-english variable names.
+- (2) Do never send codes without a lot of comments in (bad or good) English.
+- (3) Do never send codes with obscure and/or non-English variable names.
 
-3. I implemented a great plug-in, can I commit it ?
+3. I implemented a great plug-in, can I commit it?
 
 I will be really proud to be proposed new plug-ins for Procedural Generator.
 But as for any improvement, I will check and test it before integrating it to
 Procedural Generator. 
 
-4. Is Procedural Generator bug free ?
+4. Is Procedural Generator bug free?
 
-No, who can ? I do not pretend it to be bug free. Nevertheless because it has
+No, who can? I do not pretend it to be bug free. Nevertheless because it has
 been tested, I am fairly sure that Procedural Generator results with default
 options has good chances to be satisfactory.
 If you encounter trouble, send the most exhaustive description of what you did
 and what happened.
 I will try to explain the result or to fix the problem as soon as possible.
 
-5. How can I ask the author ?
+5. How can I ask the author?
 
-Just send a mail to dragonjoker59@hotmail.com !
+Just send a mail to dragonjoker59@hotmail.com!

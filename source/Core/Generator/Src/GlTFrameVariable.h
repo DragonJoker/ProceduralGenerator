@@ -137,7 +137,7 @@ namespace gl
 		@return
 			true if the OpenGL call was successful
 		*/
-		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 1 > > p_pVariable )
+		static inline bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 1 > > p_pVariable )
 		{
 			return p_openGl.Uniform( p_pVariable->GetGlIndex(), *p_pVariable->GetValue() );
 		}
@@ -161,7 +161,7 @@ namespace gl
 		@return
 			true if the OpenGL call was successful
 		*/
-		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 2 > > p_pVariable )
+		static inline bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 2 > > p_pVariable )
 		{
 			return p_openGl.UniformVec2( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
 		}
@@ -185,7 +185,7 @@ namespace gl
 		@return
 			true if the OpenGL call was successful
 		*/
-		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 3 > > p_pVariable )
+		static inline bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 3 > > p_pVariable )
 		{
 			return p_openGl.UniformVec3( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
 		}
@@ -209,7 +209,7 @@ namespace gl
 		@return
 			true if the OpenGL call was successful
 		*/
-		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 4 > > p_pVariable )
+		static inline bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 4 > > p_pVariable )
 		{
 			return p_openGl.UniformVec4( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
 		}
@@ -233,7 +233,7 @@ namespace gl
 		@return
 			true if the OpenGL call was successful
 		*/
-		static bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 4 * 4 > > p_pVariable )
+		static inline bool Apply( OpenGl & p_openGl, std::shared_ptr< TFrameVariable< T, 4 * 4 > > p_pVariable )
 		{
 			return p_openGl.UniformMat4( p_pVariable->GetGlIndex(), p_pVariable->GetValue() );
 		}

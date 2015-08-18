@@ -170,9 +170,9 @@ namespace ProceduralTextures
 		@return
 			The translated string
 		*/
-		static String TranslateString( String const & p_txt )
+		static inline String TranslateString( String const & p_txt )
 		{
-			return p_txt.c_str();
+			return TranslateString( p_txt.c_str() );
 		}
 
 	private:

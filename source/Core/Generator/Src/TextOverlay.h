@@ -98,7 +98,7 @@ namespace ProceduralTextures
 
 		/** Destructor
 		*/
-		virtual ~Character()
+		~Character()
 		{
 		}
 
@@ -148,7 +148,7 @@ namespace ProceduralTextures
 		An overlay with a text
 	*/
 	class GeneratorAPI TextOverlay
-		:	public Overlay
+		: public Overlay
 	{
 	public:
 		typedef std::map< char32_t, Position > GlyphPositionMap;
@@ -195,7 +195,7 @@ namespace ProceduralTextures
 		@return
 			The value
 		*/
-		std::shared_ptr< Font > GetFont()const
+		inline std::shared_ptr< Font > GetFont()const
 		{
 			return m_wpFont.lock();
 		}

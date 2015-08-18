@@ -15,9 +15,9 @@ namespace ProceduralTextures
 	{
 		m_caretIt = m_caption.end();
 		m_cursor = eMOUSE_CURSOR_TEXT;
-		m_borders = Point4i( 1, 1, 1, 1 );
-		m_backgroundColour = Colour( 1.0, 1.0, 1.0, 1.0 );
-		m_foregroundColour = Colour( 0.0, 0.0, 0.0, 1.0 );
+		SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
+		SetBackgroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
+		SetForegroundColour( Colour( 0.0, 0.0, 0.0, 1.0 ) );
 		EventHandler::Connect( eMOUSE_EVENT_MOUSE_BUTTON_PUSHED, std::bind( &EditCtrl::OnMouseLButtonDown, this, std::placeholders::_1 ) );
 		EventHandler::Connect( eMOUSE_EVENT_MOUSE_BUTTON_RELEASED, std::bind( &EditCtrl::OnMouseLButtonUp, this, std::placeholders::_1 ) );
 		EventHandler::Connect( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &EditCtrl::OnKeyDown, this, std::placeholders::_1 ) );
@@ -40,11 +40,11 @@ namespace ProceduralTextures
 
 	void EditCtrl::DoCreate( std::shared_ptr< OverlayManager > p_manager )
 	{
-		std::shared_ptr< TextOverlay > l_text = p_manager->CreateText( _T( "T_CtrlEdit_" ) + StringUtils::ToString( GetId() ), Position(), GetSize(), Material( m_foregroundColour ), p_manager->GetFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT ), GetBackground() );
+		std::shared_ptr< TextOverlay > l_text = p_manager->CreateText( _T( "T_CtrlEdit_" ) + StringUtils::ToString( GetId() ), Position(), GetSize(), Material( GetForegroundColour() ), p_manager->GetFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT ), GetBackground() );
 		l_text->SetVAlign( eVALIGN_TOP );
-		l_text->SetVisible( m_visible );
+		l_text->SetVisible( DoIsVisible() );
 
-		if ( ( m_style & eEDIT_STYLE_MULTILINE ) == eEDIT_STYLE_MULTILINE )
+		if ( ( GetStyle() & eEDIT_STYLE_MULTILINE ) == eEDIT_STYLE_MULTILINE )
 		{
 			l_text->SetTextWrappingMode( eTEXT_WRAPPING_MODE_BREAK );
 		}

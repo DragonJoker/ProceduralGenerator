@@ -1,8 +1,24 @@
-Copyright 2011, 2012 dragonjoker
+Copyright 2011-2015 dragonjoker
 
 Verbatim copying and distribution of this entire article is permitted in any
 medium, provided this notice is preserved.
 
+
+Changes between version 2.0.1 and 2.0.0
+
+  FEATURES
+  * Plug-ins:
+    - Optimisations in life game based plug-ins, and ImageEffects.
+  
+  MISC
+  * Plug-ins:
+    - Added an help panel for ShaderEffects, ShaderWebcam, GPUProgramming,
+      and OCLProgramming.
+  
+  BUGS
+  * Corrected colour shader, which didn't work with Intel GPUs.
+  * Translator uses a C++ locale instead of a C one, so no more complaints from
+    wzWidgets in debug builds.
 
 Changes between version 2.0.0 and 1.3.2
 

@@ -272,7 +272,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The callback function
 		*/
-		void SetShowMessageBoxCallback( std::function< void( String const &, String const & ) > p_function )
+		inline void SetShowMessageBoxCallback( std::function< void( String const &, String const & ) > p_function )
 		{
 			m_callbackShowMessageBox = p_function;
 		}
@@ -281,7 +281,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The callback function
 		*/
-		void SetResizeCallback( std::function< void( Size const & ) > p_function )
+		inline void SetResizeCallback( std::function< void( Size const & ) > p_function )
 		{
 			m_callbackResize = p_function;
 		}
@@ -290,7 +290,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The callback function
 		*/
-		void SetOpenFileCallback( std::function< bool( String &, String const &, String const & ) > p_function )
+		inline void SetOpenFileCallback( std::function< bool( String &, String const &, String const & ) > p_function )
 		{
 			m_callbackOpenFile = p_function;
 		}
@@ -299,7 +299,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The callback function
 		*/
-		void SetSaveFileCallback( std::function< bool( String &, String const &, String const & ) > p_function )
+		inline void SetSaveFileCallback( std::function< bool( String &, String const &, String const & ) > p_function )
 		{
 			m_callbackSaveFile = p_function;
 		}
@@ -308,7 +308,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The callback function
 		*/
-		void SetSelectImageCallback( std::function< bool( PixelBuffer &, String const & ) > p_function )
+		inline void SetSelectImageCallback( std::function< bool( PixelBuffer &, String const & ) > p_function )
 		{
 			m_callbackSelectImage = p_function;
 		}
@@ -317,7 +317,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The callback function
 		*/
-		void SetSelectColourCallback( std::function< bool( uint32_t &, String const & ) > p_function )
+		inline void SetSelectColourCallback( std::function< bool( uint32_t &, String const & ) > p_function )
 		{
 			m_callbackSelectColour = p_function;
 		}
@@ -326,7 +326,7 @@ namespace ProceduralTextures
 		@param[in] p_function
 			The callback function
 		*/
-		void SetSetCursorCallback( std::function< void( eMOUSE_CURSOR ) > p_function )
+		inline void SetSetCursorCallback( std::function< void( eMOUSE_CURSOR ) > p_function )
 		{
 			m_callbackSetCursor = p_function;
 		}

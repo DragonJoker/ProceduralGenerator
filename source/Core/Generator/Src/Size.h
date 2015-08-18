@@ -20,11 +20,6 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "Point.h"
 
-#if HAS_DELEGATING_CONSTRUCTORS
-#	define DELEGATING_SIZE( x, y ) Size( x, y )
-#else
-#	define DELEGATING_SIZE( x, y ) m_x( uint32_t( x ) ), m_y( uint32_t( y ) )
-#endif
 namespace ProceduralTextures
 {
 	/*!
@@ -59,14 +54,14 @@ namespace ProceduralTextures
 		*/
 		template< typename T >
 		Size( Point< T, 2 > const & p_pt )
-			: DELEGATING_SIZE( p_pt[0], p_pt[1] )
+			: Size( p_pt[0], p_pt[1] )
 		{
 		}
 
 		/** Default constructor
 		*/
 		Size()
-			: DELEGATING_SIZE( 0, 0 )
+			: Size( 0, 0 )
 		{
 		}
 
@@ -118,7 +113,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		inline Size & operator += ( const Size & p_size )
+		inline Size & operator+=( const Size & p_size )
 		{
 			m_x += p_size.m_x;
 			m_y += p_size.m_y;
@@ -131,7 +126,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		inline Size & operator -= ( const Size & p_size )
+		inline Size & operator-=( const Size & p_size )
 		{
 			m_x -= p_size.m_x;
 			m_y -= p_size.m_y;
@@ -144,7 +139,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template < typename U > Size & operator += ( U const & p_coord )
+		template < typename U > Size & operator+=( U const & p_coord )
 		{
 			m_x += uint32_t( p_coord );
 			m_y += uint32_t( p_coord );
@@ -157,7 +152,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template < typename U > Size & operator -= ( U const & p_coord )
+		template < typename U > Size & operator-=( U const & p_coord )
 		{
 			m_x -= uint32_t( p_coord );
 			m_y -= uint32_t( p_coord );
@@ -170,7 +165,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template < typename U > Size & operator *= ( U const & p_coord )
+		template < typename U > Size & operator*=( U const & p_coord )
 		{
 			m_x = uint32_t( m_x * p_coord );
 			m_y = uint32_t( m_y * p_coord );
@@ -183,7 +178,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template < typename U > Size & operator /= ( U const & p_coord )
+		template < typename U > Size & operator/=( U const & p_coord )
 		{
 			if ( p_coord != 0 )
 			{
@@ -207,7 +202,7 @@ namespace ProceduralTextures
 	@return
 		\p true if values have same dimensions and same values
 	*/
-	inline bool operator == ( const Size & p_a, const Size & p_b )
+	inline bool operator==( const Size & p_a, const Size & p_b )
 	{
 		return p_a.x() == p_b.x() && p_a.y() == p_b.y();
 	}
@@ -218,7 +213,7 @@ namespace ProceduralTextures
 	@return
 		\p true if values have different dimensions or At least one different value
 	*/
-	inline bool operator != ( const Size & p_a, const Size & p_b )
+	inline bool operator!=( const Size & p_a, const Size & p_b )
 	{
 		return p_a.x() != p_b.x() || p_a.y() != p_b.y();
 	}
@@ -229,7 +224,7 @@ namespace ProceduralTextures
 	@return
 		The result
 	*/
-	inline Size operator + ( const Size & p_a, const Size & p_b )
+	inline Size operator+( const Size & p_a, const Size & p_b )
 	{
 		Size l_tmp( p_a );
 		l_tmp += p_b;
@@ -242,7 +237,7 @@ namespace ProceduralTextures
 	@return
 		The result
 	*/
-	inline Size operator - ( const Size & p_a, const Size & p_b )
+	inline Size operator-( const Size & p_a, const Size & p_b )
 	{
 		Size l_tmp( p_a );
 		l_tmp -= p_b;
@@ -255,7 +250,7 @@ namespace ProceduralTextures
 	@return
 		The result
 	*/
-	template< typename U > Size operator + ( const Size & p_size, U const & p_coord )
+	template< typename U > Size operator+( const Size & p_size, U const & p_coord )
 	{
 		Size l_tmp( p_size );
 		l_tmp += p_coord;
@@ -268,7 +263,7 @@ namespace ProceduralTextures
 	@return
 		The result
 	*/
-	template< typename U > Size operator - ( const Size & p_size, U const & p_coord )
+	template< typename U > Size operator-( const Size & p_size, U const & p_coord )
 	{
 		Size l_tmp( p_size );
 		l_tmp -= p_coord;
@@ -281,7 +276,7 @@ namespace ProceduralTextures
 	@return
 		The result
 	*/
-	template< typename U > Size operator * ( const Size & p_size, U const & p_coord )
+	template< typename U > Size operator*( const Size & p_size, U const & p_coord )
 	{
 		Size l_tmp( p_size );
 		l_tmp *= p_coord;
@@ -294,7 +289,7 @@ namespace ProceduralTextures
 	@return
 		The result
 	*/
-	template< typename U > Size operator / ( const Size & p_size, U const & p_coord )
+	template< typename U > Size operator/( const Size & p_size, U const & p_coord )
 	{
 		Size l_tmp( p_size );
 		l_tmp /= p_coord;
@@ -307,7 +302,7 @@ namespace ProceduralTextures
 	@return
 		The result
 	*/
-	inline Size operator + ( int p_value, const Size & p_size )
+	inline Size operator+( int p_value, const Size & p_size )
 	{
 		Size l_tmp( p_size );
 		l_tmp += p_value;
@@ -320,7 +315,7 @@ namespace ProceduralTextures
 	@return
 		The result
 	*/
-	inline Size operator - ( int p_value, const Size & p_size )
+	inline Size operator-( int p_value, const Size & p_size )
 	{
 		Size l_tmp( p_size );
 		l_tmp -= p_value;
@@ -333,7 +328,7 @@ namespace ProceduralTextures
 	@return
 		The result
 	*/
-	inline Size operator * ( int p_value, const Size & p_size )
+	inline Size operator*( int p_value, const Size & p_size )
 	{
 		Size l_tmp( p_size );
 		l_tmp *= p_value;
@@ -346,7 +341,7 @@ namespace ProceduralTextures
 	@return
 		The result
 	*/
-	inline Size operator + ( double p_value, const Size & p_size )
+	inline Size operator+( double p_value, const Size & p_size )
 	{
 		Size l_tmp( p_size );
 		l_tmp += p_value;
@@ -359,7 +354,7 @@ namespace ProceduralTextures
 	@return
 		The result
 	*/
-	inline Size operator - ( double p_value, const Size & p_size )
+	inline Size operator-( double p_value, const Size & p_size )
 	{
 		Size l_tmp( p_size );
 		l_tmp -= p_value;
@@ -372,7 +367,7 @@ namespace ProceduralTextures
 	@return
 		The result
 	*/
-	inline Size operator * ( double p_value, const Size & p_size )
+	inline Size operator*( double p_value, const Size & p_size )
 	{
 		Size l_tmp( p_size );
 		l_tmp *= p_value;

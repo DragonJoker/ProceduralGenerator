@@ -41,7 +41,7 @@ namespace ProceduralTextures
 		Uses a specific material for the border
 	*/
 	class GeneratorAPI BorderPanelOverlay
-		:	public Overlay
+		: public Overlay
 	{
 	public:
 		/** Constructor
@@ -312,7 +312,7 @@ namespace ProceduralTextures
 		@return
 			The value
 		*/
-		eBORDER_POSITION GetBordersPosition()const
+		inline eBORDER_POSITION GetBordersPosition()const
 		{
 			return m_borderPosition;
 		}
@@ -321,7 +321,7 @@ namespace ProceduralTextures
 		@param[in] p_position
 			The new value
 		*/
-		void SetBordersPosition( eBORDER_POSITION p_position )
+		inline void SetBordersPosition( eBORDER_POSITION p_position )
 		{
 			m_borderPosition = p_position;
 		}

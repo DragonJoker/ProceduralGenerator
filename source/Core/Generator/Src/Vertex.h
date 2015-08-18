@@ -79,7 +79,7 @@ namespace ProceduralTextures
 
 		/** Destructor
 		*/
-		virtual ~TVertex()
+		~TVertex()
 		{
 			if ( m_bOwnBuffer && m_pBuffer )
 			{
@@ -92,7 +92,7 @@ namespace ProceduralTextures
 
 		/** Copy assignment operator
 		*/
-		virtual TVertex & operator =( TVertex< PosType > const & p_vertex )
+		inline TVertex & operator=( TVertex< PosType > const & p_vertex )
 		{
 			m_position = p_vertex.m_position;
 			m_texture = p_vertex.m_texture;
@@ -114,7 +114,7 @@ namespace ProceduralTextures
 		@param[in] p_pBuffer
 			The coordinates buffer
 		*/
-		void Link( uint8_t * p_pBuffer )
+		inline void Link( uint8_t * p_pBuffer )
 		{
 			size_t l_count = GetStride();
 			std::vector< uint8_t > l_pBufferSave( l_count );
@@ -148,7 +148,7 @@ namespace ProceduralTextures
 		@remarks
 			The vertex now owns it's coords
 		*/
-		void Unlink()
+		inline void Unlink()
 		{
 			size_t l_count = GetStride();
 			std::vector< uint8_t > l_pBufferSave( l_count );
@@ -180,7 +180,7 @@ namespace ProceduralTextures
 		@param[in] val
 			The new value
 		*/
-		void SetPosition( TPoint const & val )
+		inline void SetPosition( TPoint const & val )
 		{
 			m_position[0] = val[0];
 			m_position[1] = val[1];
@@ -190,7 +190,7 @@ namespace ProceduralTextures
 		@param[in] x, y
 			The new value
 		*/
-		void SetPosition( PosType x, PosType y )
+		inline void SetPosition( PosType x, PosType y )
 		{
 			m_position[0] = x;
 			m_position[1] = y;
@@ -200,7 +200,7 @@ namespace ProceduralTextures
 		@param[in] p_pCoords
 			The new value
 		*/
-		void SetPosition( const PosType * p_pCoords )
+		inline void SetPosition( const PosType * p_pCoords )
 		{
 			m_position[0] = p_pCoords[0];
 			m_position[1] = p_pCoords[1];
@@ -210,7 +210,7 @@ namespace ProceduralTextures
 		@param[in] val
 			The new value
 		*/
-		void SetTexture( Point2f const & val )
+		inline void SetTexture( Point2f const & val )
 		{
 			m_texture[0] = val[0];
 			m_texture[1] = val[1];
@@ -220,7 +220,7 @@ namespace ProceduralTextures
 		@param[in] x, y
 			The new value
 		*/
-		void SetTexture( float x, float y )
+		inline void SetTexture( float x, float y )
 		{
 			m_texture[0] = x;
 			m_texture[1] = y;
@@ -230,7 +230,7 @@ namespace ProceduralTextures
 		@param[in] p_pCoords
 			The new value
 		*/
-		void SetTexture( const float * p_pCoords )
+		inline void SetTexture( const float * p_pCoords )
 		{
 			m_texture[0] = p_pCoords[0];
 			m_texture[1] = p_pCoords[1];
@@ -305,7 +305,7 @@ namespace ProceduralTextures
 		@return
 			The value
 		*/
-		inline PosType & operator []( size_t p_uiIndex )
+		inline PosType & operator[]( size_t p_uiIndex )
 		{
 			return GetPosition()[p_uiIndex];
 		}
@@ -316,13 +316,13 @@ namespace ProceduralTextures
 		@return
 			The value
 		*/
-		inline PosType const & operator []( size_t p_uiIndex )const
+		inline PosType const & operator[]( size_t p_uiIndex )const
 		{
 			return GetPosition()[p_uiIndex];
 		}
 
 	private:
-		void DoLink()
+		inline void DoLink()
 		{
 			m_position.Link( &m_pBuffer[0] );
 			m_texture.Link( &m_pBuffer[2 * sizeof( PosType )] );

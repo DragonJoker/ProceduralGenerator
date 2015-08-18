@@ -56,7 +56,7 @@ namespace gl
 		@return
 			The instance
 		*/
-		OpenGl const & GetOpenGl()const
+		inline OpenGl const & GetOpenGl()const
 		{
 			return m_openGl;
 		}
@@ -65,7 +65,7 @@ namespace gl
 		@return
 			The instance
 		*/
-		OpenGl & GetOpenGl()
+		inline OpenGl & GetOpenGl()
 		{
 			return m_openGl;
 		}
