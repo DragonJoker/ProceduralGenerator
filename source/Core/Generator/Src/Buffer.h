@@ -59,7 +59,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this buffer
 		*/
-		Buffer & operator =( Buffer const & p_pixelBuffer );
+		Buffer & operator=( Buffer const & p_pixelBuffer );
 
 		/** Destructor
 		*/
@@ -120,7 +120,7 @@ namespace ProceduralTextures
 		@return
 			The column
 		*/
-		inline const DynPoint< T > & operator []( size_t p_uiIndex )const
+		inline const DynPoint< T > & operator[]( size_t p_uiIndex )const
 		{
 			return m_arrayRows[p_uiIndex];
 		}
@@ -131,7 +131,7 @@ namespace ProceduralTextures
 		@return
 			The column
 		*/
-		inline DynPoint< T > & operator []( size_t p_uiIndex )
+		inline DynPoint< T > & operator[]( size_t p_uiIndex )
 		{
 			return m_arrayRows[p_uiIndex];
 		}

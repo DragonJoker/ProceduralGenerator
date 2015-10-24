@@ -39,7 +39,6 @@ namespace gl
 	*/
 	template< typename PosType >
 	class GeneratorAPI TVertexBuffer
-		: public BufferObject
 	{
 	public:
 		/** Constructor
@@ -49,8 +48,8 @@ namespace gl
 			The buffer access mode
 		*/
 		TVertexBuffer( OpenGl & p_openGl, uint32_t p_mode )
-			: BufferObject( p_openGl, GL_ARRAY_BUFFER, p_mode )
-			, m_buffer( 4 * ( 2 * sizeof( PosType ) + 2 * sizeof( float ) ) )
+			: m_bufferObject( p_openGl, GL_ARRAY_BUFFER, p_mode )
+			, m_bufferData( 4 * ( 2 * sizeof( PosType ) + 2 * sizeof( float ) ) )
 			, m_changed( true )
 		{
 			TVertex< PosType > l_vtxTmp;
@@ -59,10 +58,10 @@ namespace gl
 			m_arrayVertex.push_back( l_vtxTmp );
 			m_arrayVertex.push_back( l_vtxTmp );
 			m_arrayVertex.push_back( l_vtxTmp );
-			m_arrayVertex[0].Link( &m_buffer[l_stride * 0] );
-			m_arrayVertex[1].Link( &m_buffer[l_stride * 1] );
-			m_arrayVertex[2].Link( &m_buffer[l_stride * 2] );
-			m_arrayVertex[3].Link( &m_buffer[l_stride * 3] );
+			m_arrayVertex[0].Link( &m_bufferData[l_stride * 0] );
+			m_arrayVertex[1].Link( &m_bufferData[l_stride * 1] );
+			m_arrayVertex[2].Link( &m_bufferData[l_stride * 2] );
+			m_arrayVertex[3].Link( &m_bufferData[l_stride * 3] );
 			m_arrayVertex[0].SetPosition( PosType( -1 ), PosType( -1 ) );
 			m_arrayVertex[1].SetPosition( PosType( 1 ), PosType( -1 ) );
 			m_arrayVertex[2].SetPosition( PosType( 1 ), PosType( 1 ) );
@@ -75,31 +74,38 @@ namespace gl
 
 		/** Destructor
 		*/
-		virtual ~TVertexBuffer()
+		~TVertexBuffer()
 		{
 		}
 
-		/** Initialises the buffer
+		/** Creates and initialises the buffer
 		@return
 			true if it is successfully initialised
 		*/
-		virtual bool Initialise()
+		inline bool Initialise()
 		{
-			bool l_return = Create();
+			bool l_return = m_bufferObject.Create();
 
 			if ( l_return )
 			{
-				l_return = Bind();
+				l_return = m_bufferObject.Bind();
 
 				if ( l_return )
 				{
-					Data( m_buffer.data(), m_buffer.size() );
-					Unbind();
+					m_bufferObject.Data( m_bufferData.data(), m_bufferData.size() );
+					m_bufferObject.Unbind();
 					m_changed = false;
 				}
 			}
 
 			return l_return;
+		}
+
+		/** Destroys the buffer
+		*/
+		inline void Cleanup()
+		{
+			m_bufferObject.Destroy();
 		}
 
 		/** Tries to activate the buffer
@@ -110,27 +116,28 @@ namespace gl
 		@return
 			true if the VBO and all its attributes are successfully activated
 		*/
-		virtual bool Activate( uint32_t p_vertex, uint32_t p_texture )
+		inline bool Bind( uint32_t p_vertex, uint32_t p_texture )
 		{
 			GLsizei l_iStride = GLsizei( m_arrayVertex[0].GetStride() );
-			bool l_bReturn = Bind();
+			bool l_bReturn = m_bufferObject.Bind();
+			OpenGl & l_gl = m_bufferObject.GetOpenGl();
 
 			if ( m_changed )
 			{
-				Data( m_buffer.data(), m_buffer.size() );
+				m_bufferObject.Data( m_bufferData.data(), m_bufferData.size() );
 			}
 
-			l_bReturn &= GetOpenGl().EnableVertexAttribArray( p_vertex );
-			l_bReturn &= GetOpenGl().VertexAttribPointer( p_vertex, 2, m_dataType, false, l_iStride, GL_BUFFER_OFFSET( 0 ) );
+			l_bReturn &= l_gl.EnableVertexAttribArray( p_vertex );
+			l_bReturn &= l_gl.VertexAttribPointer( p_vertex, 2, m_dataType, false, l_iStride, GL_BUFFER_OFFSET( 0 ) );
 
 			if ( p_texture != GL_INVALID_INDEX )
 			{
-				l_bReturn &= GetOpenGl().EnableVertexAttribArray( p_texture );
-				l_bReturn &= GetOpenGl().VertexAttribPointer( p_texture, 2, GL_FLOAT, false, l_iStride, GL_BUFFER_OFFSET( 2 * sizeof( PosType ) ) );
-				l_bReturn &= GetOpenGl().ClientActiveTexture( GL_TEXTURE0 );
-				l_bReturn &= GetOpenGl().ClientActiveTexture( GL_TEXTURE1 );
-				l_bReturn &= GetOpenGl().ClientActiveTexture( GL_TEXTURE2 );
-				l_bReturn &= GetOpenGl().ClientActiveTexture( GL_TEXTURE3 );
+				l_bReturn &= l_gl.EnableVertexAttribArray( p_texture );
+				l_bReturn &= l_gl.VertexAttribPointer( p_texture, 2, GL_FLOAT, false, l_iStride, GL_BUFFER_OFFSET( 2 * sizeof( PosType ) ) );
+				l_bReturn &= l_gl.ClientActiveTexture( GL_TEXTURE0 );
+				l_bReturn &= l_gl.ClientActiveTexture( GL_TEXTURE1 );
+				l_bReturn &= l_gl.ClientActiveTexture( GL_TEXTURE2 );
+				l_bReturn &= l_gl.ClientActiveTexture( GL_TEXTURE3 );
 			}
 
 			return l_bReturn;
@@ -138,25 +145,26 @@ namespace gl
 
 		/** Deactivates the buffer
 		*/
-		virtual void Deactivate()
+		inline void Unbind()
 		{
-			GetOpenGl().DisableVertexAttribArray( 0 );
-			GetOpenGl().DisableVertexAttribArray( 1 );
-			Unbind();
+			OpenGl & l_gl = m_bufferObject.GetOpenGl();
+			l_gl.DisableVertexAttribArray( 0 );
+			l_gl.DisableVertexAttribArray( 1 );
+			m_bufferObject.Unbind();
 		}
 
 		/** Sets the vertices buffer
 		@param[in] p_buffer
 			The buffer
 		*/
-		void SetBuffer( std::vector< TVertex< PosType > > const & p_buffer )
+		inline void SetBuffer( std::vector< TVertex< PosType > > const & p_buffer )
 		{
 			m_arrayVertex.clear();
 			m_arrayVertex.resize( p_buffer.size() );
 			std::copy( p_buffer.begin(), p_buffer.end(), m_arrayVertex.begin() );
 			size_t l_stride = 2 * sizeof( PosType ) + 2 * sizeof( float );
-			m_buffer.resize( l_stride * m_arrayVertex.size() );
-			uint8_t * l_buffer = &m_buffer[0];
+			m_bufferData.resize( l_stride * m_arrayVertex.size() );
+			uint8_t * l_buffer = &m_bufferData[0];
 
 			for ( auto & l_vertex : m_arrayVertex )
 			{
@@ -171,27 +179,20 @@ namespace gl
 		@return
 			The buffer
 		*/
-		std::vector< TVertex< PosType > > const & GetBuffer()const
+		inline std::vector< TVertex< PosType > > const & GetVertex()const
 		{
 			return m_arrayVertex;
 		}
 
 	private:
-		/** Dummy
-		@return
-			false
-		*/
-		virtual bool Activate()
-		{
-			return false;
-		}
-
 		//! The buffer vertices
 		std::vector< TVertex< PosType > > m_arrayVertex;
 		//! Buffer data, count * [2(vertex position ) + 2(texture coordinates )]
-		std::vector< uint8_t > m_buffer;
+		std::vector< uint8_t > m_bufferData;
 		//! The changed status
 		bool m_changed;
+		//! The OpenGL buffer object
+		BufferObject m_bufferObject;
 		//! The OpenGL data type
 		static uint32_t m_dataType;
 	};

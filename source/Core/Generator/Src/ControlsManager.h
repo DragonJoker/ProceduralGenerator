@@ -60,7 +60,7 @@ namespace ProceduralTextures
 		@return
 			The value
 		*/
-		Position const & GetMousePosition()const
+		inline Position const & GetMousePosition()const
 		{
 			return m_mouse.m_position;
 		}
@@ -224,7 +224,7 @@ namespace ProceduralTextures
 		@return
 				The controls array
 		*/
-		std::vector< std::shared_ptr< Control > > DoGetControls()const
+		inline std::vector< std::shared_ptr< Control > > DoGetControls()const
 		{
 			std::unique_lock< std::mutex > l_lock( m_mutexControls );
 			return m_controls;

@@ -104,7 +104,7 @@ namespace ProceduralTextures
 		@return
 			The status
 		*/
-		bool HasCustomisableResolution()const
+		inline bool HasCustomisableResolution()const
 		{
 			return m_customResolution;
 		}
@@ -155,7 +155,7 @@ namespace ProceduralTextures
 		@return
 			The created generator
 		*/
-		std::shared_ptr< GeneratorBase > CreateGenerator()
+		inline std::shared_ptr< GeneratorBase > CreateGenerator()
 		{
 			return std::make_shared< GeneratorClass >();
 		}

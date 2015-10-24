@@ -12,9 +12,9 @@ namespace ProceduralTextures
 		: Control( eCONTROL_TYPE_STATIC, p_parent, m_count++, p_position, p_size, p_style, p_visible )
 		, m_caption( p_caption )
 	{
-		m_borders = Point4i();
-		m_backgroundColour = Colour();
-		m_foregroundColour = Colour( 1.0, 1.0, 1.0, 1.0 );
+		SetBackgroundBorders( Point4i() );
+		SetBackgroundColour( Colour() );
+		SetForegroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
 	}
 
 	StaticCtrl::~StaticCtrl()
@@ -35,13 +35,13 @@ namespace ProceduralTextures
 
 	void StaticCtrl::DoCreate( std::shared_ptr< OverlayManager > p_manager )
 	{
-		std::shared_ptr< TextOverlay > l_text = p_manager->CreateText( _T( "T_CtrlStatic_" ) + StringUtils::ToString( GetId() ), Position(), GetSize(), Material( m_foregroundColour ), p_manager->GetFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT ), GetBackground() );
+		std::shared_ptr< TextOverlay > l_text = p_manager->CreateText( _T( "T_CtrlStatic_" ) + StringUtils::ToString( GetId() ), Position(), GetSize(), Material( GetForegroundColour() ), p_manager->GetFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT ), GetBackground() );
 
-		if ( m_style & eSTATIC_STYLE_HALIGN_CENTER )
+		if ( GetStyle() & eSTATIC_STYLE_HALIGN_CENTER )
 		{
 			l_text->SetHAlign( eHALIGN_CENTER );
 		}
-		else if ( m_style & eSTATIC_STYLE_HALIGN_RIGHT )
+		else if ( GetStyle() & eSTATIC_STYLE_HALIGN_RIGHT )
 		{
 			l_text->SetHAlign( eHALIGN_RIGHT );
 		}
@@ -50,11 +50,11 @@ namespace ProceduralTextures
 			l_text->SetHAlign( eHALIGN_LEFT );
 		}
 
-		if ( m_style & eSTATIC_STYLE_VALIGN_CENTER )
+		if ( GetStyle() & eSTATIC_STYLE_VALIGN_CENTER )
 		{
 			l_text->SetVAlign( eVALIGN_CENTER );
 		}
-		else if ( m_style & eSTATIC_STYLE_VALIGN_BOTTOM )
+		else if ( GetStyle() & eSTATIC_STYLE_VALIGN_BOTTOM )
 		{
 			l_text->SetVAlign( eVALIGN_BOTTOM );
 		}
@@ -64,7 +64,7 @@ namespace ProceduralTextures
 		}
 
 		l_text->SetCaption( m_caption );
-		l_text->SetVisible( m_visible );
+		l_text->SetVisible( DoIsVisible() );
 		m_text = l_text;
 	}
 

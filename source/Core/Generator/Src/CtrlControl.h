@@ -34,17 +34,6 @@ namespace ProceduralTextures
 	class GeneratorAPI Control
 		: public EventHandler< Control >
 	{
-		friend class ButtonCtrl;
-		friend class ColorButtonCtrl;
-		friend class ComboBoxCtrl;
-		friend class EditCtrl;
-		friend class FileButtonCtrl;
-		friend class ImageButtonCtrl;
-		friend class ListBoxCtrl;
-		friend class OtherFileButtonCtrl;
-		friend class SliderCtrl;
-		friend class StaticCtrl;
-
 	public:
 		/** Constructor
 		@param[in] p_type
@@ -205,6 +194,24 @@ namespace ProceduralTextures
 			return m_foregroundColour;
 		}
 
+		/** Retrieves the background texture
+		@return
+			The value
+		*/
+		inline std::shared_ptr< gl::Texture > GetBackgroundTexture()const
+		{
+			return m_backgroundTexture.lock();
+		}
+
+		/** Retrieves the foreground texture
+		@return
+			The value
+		*/
+		inline std::shared_ptr< gl::Texture > GetForegroundTexture()const
+		{
+			return m_foregroundTexture.lock();
+		}
+
 		/** Shows the control
 		*/
 		inline void Show()
@@ -246,7 +253,7 @@ namespace ProceduralTextures
 			return m_cursor;
 		}
 
-	private:
+	protected:
 		/** Creates the control's overlays and sub-controls
 		@param[in] p_manager
 			The overlay manager
@@ -322,6 +329,15 @@ namespace ProceduralTextures
 			return IsVisible();
 		}
 
+		/** Retrieves the visibility
+		@return
+			The value
+		*/
+		virtual bool DoIsVisible()
+		{
+			return m_visible;
+		}
+
 		/** Sets the visibility
 		@remarks
 			Used for derived control specific behaviour
@@ -330,6 +346,33 @@ namespace ProceduralTextures
 		*/
 		virtual void DoSetVisible( bool p_visible )
 		{
+		}
+
+		/** Retrieves the controls manager
+		@return
+			The manager
+		*/
+		virtual std::shared_ptr< ControlsManager > DoGetCtrlManager()
+		{
+			return m_ctrlManager.lock();
+		}
+
+		/** Retrieves the background colour
+		@return
+			The value
+		*/
+		inline Colour & DoGetBackgroundColour()
+		{
+			return m_backgroundColour;
+		}
+
+		/** Retrieves the foreground colour
+		@return
+			The value
+		*/
+		inline Colour & DoGetForegroundColour()
+		{
+			return m_foregroundColour;
 		}
 
 	protected:

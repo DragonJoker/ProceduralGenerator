@@ -39,16 +39,16 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #if defined( _WIN32 )
 #	if defined( _MSC_VER )
-#		define DLL_PREFIX	_T( "" )
+#		define DLL_PREFIX _T( "" )
 #	else
-#		define DLL_PREFIX	_T( "lib" )
+#		define DLL_PREFIX _T( "lib" )
 #	endif
-#	define DLL_EXT			_T( "dll" )
-#	define dlerror()		::GetLastError()
-#	define PGEN_CALLBACK	__stdcall
+#	define DLL_EXT _T( "dll" )
+#	define dlerror() ::GetLastError()
+#	define PGEN_CALLBACK __stdcall
 #else
-#	define DLL_EXT			_T( "so" )
-#	define DLL_PREFIX		_T( "lib" )
+#	define DLL_EXT _T( "so" )
+#	define DLL_PREFIX _T( "lib" )
 #	define PGEN_CALLBACK
 #endif
 

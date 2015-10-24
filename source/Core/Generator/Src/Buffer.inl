@@ -29,7 +29,7 @@ namespace ProceduralTextures
 	}
 
 	template< typename T >
-	Buffer< T > & Buffer< T >::operator =( const Buffer< T > & p_pixelBuffer )
+	Buffer< T > & Buffer< T >::operator=( const Buffer< T > & p_pixelBuffer )
 	{
 		m_size = p_pixelBuffer.m_size;
 		Initialise();

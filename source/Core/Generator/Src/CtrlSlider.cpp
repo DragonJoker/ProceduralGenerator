@@ -13,9 +13,9 @@ namespace ProceduralTextures
 		, m_value( p_value )
 		, m_scrolling( false )
 	{
-		m_borders = Point4i();
-		m_backgroundColour = Colour();
-		m_foregroundColour = Colour( 0.0, 0.0, 0.0, 1.0 );
+		SetBackgroundBorders( Point4i() );
+		SetBackgroundColour( Colour() );
+		SetForegroundColour( Colour( 0.0, 0.0, 0.0, 1.0 ) );
 		EventHandler::Connect( eMOUSE_EVENT_MOUSE_MOVE, std::bind( &SliderCtrl::OnMouseMove, this, std::placeholders::_1 ) );
 		EventHandler::Connect( eMOUSE_EVENT_MOUSE_LEAVE, std::bind( &SliderCtrl::OnMouseLeave, this, std::placeholders::_1 ) );
 		EventHandler::Connect( eMOUSE_EVENT_MOUSE_BUTTON_RELEASED, std::bind( &SliderCtrl::OnMouseLButtonUp, this, std::placeholders::_1 ) );
@@ -45,7 +45,7 @@ namespace ProceduralTextures
 		Size l_tickSize( GetSize() );
 		Position l_tickPosition;
 
-		if ( m_style & eSLIDER_STYLE_VERTICAL )
+		if ( GetStyle() & eSLIDER_STYLE_VERTICAL )
 		{
 			l_lineSize.x() = 3;
 			l_lineSize.y() -= 4;
@@ -74,7 +74,7 @@ namespace ProceduralTextures
 		{
 			l_line->SetPosition( l_linePosition );
 			l_line->SetSize( l_lineSize );
-			l_line->SetVisible( m_visible );
+			l_line->SetVisible( DoIsVisible() );
 		}
 
 		std::shared_ptr< StaticCtrl > l_tick = m_tick.lock();
@@ -83,7 +83,7 @@ namespace ProceduralTextures
 		{
 			l_tick->SetPosition( l_tickPosition );
 			l_tick->SetSize( l_tickSize );
-			l_tick->SetVisible( m_visible );
+			l_tick->SetVisible( DoIsVisible() );
 		}
 	}
 
@@ -91,24 +91,24 @@ namespace ProceduralTextures
 	{
 		std::shared_ptr< StaticCtrl > l_line = std::make_shared< StaticCtrl >( shared_from_this(), _T( "" ), Position(), Size() );
 		l_line->SetBackgroundColour( Colour( 0.5, 0.5, 0.5, 1.0 ) );
-		l_line->SetForegroundColour( m_foregroundColour );
+		l_line->SetForegroundColour( GetForegroundColour() );
 		l_line->SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
-		l_line->SetVisible( m_visible );
+		l_line->SetVisible( DoIsVisible() );
 		l_line->ConnectNC( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &SliderCtrl::OnNcKeyDown, this, std::placeholders::_1, std::placeholders::_2 ) );
-		m_ctrlManager.lock()->Create( l_line );
+		DoGetCtrlManager()->Create( l_line );
 		m_line = l_line;
 
 		std::shared_ptr< StaticCtrl > l_tick = std::make_shared< StaticCtrl >( shared_from_this(), _T( "" ), Position(), Size() );
 		l_tick->SetBackgroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
-		l_tick->SetForegroundColour( m_foregroundColour );
+		l_tick->SetForegroundColour( GetForegroundColour() );
 		l_tick->SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
-		l_tick->SetVisible( m_visible );
+		l_tick->SetVisible( DoIsVisible() );
 		l_tick->SetCatchesMouseEvents( true );
 		l_tick->ConnectNC( eMOUSE_EVENT_MOUSE_MOVE, std::bind( &SliderCtrl::OnTickMouseMove, this, std::placeholders::_1, std::placeholders::_2 ) );
 		l_tick->ConnectNC( eMOUSE_EVENT_MOUSE_BUTTON_PUSHED, std::bind( &SliderCtrl::OnTickMouseLButtonDown, this, std::placeholders::_1, std::placeholders::_2 ) );
 		l_tick->ConnectNC( eMOUSE_EVENT_MOUSE_BUTTON_RELEASED, std::bind( &SliderCtrl::OnTickMouseLButtonUp, this, std::placeholders::_1, std::placeholders::_2 ) );
 		l_tick->ConnectNC( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &SliderCtrl::OnNcKeyDown, this, std::placeholders::_1, std::placeholders::_2 ) );
-		m_ctrlManager.lock()->Create( l_tick );
+		DoGetCtrlManager()->Create( l_tick );
 		m_tick = l_tick;
 
 		DoUpdateLineAndTick();
@@ -188,9 +188,9 @@ namespace ProceduralTextures
 	void SliderCtrl::OnMouseLeave( MouseEvent const & p_event )
 	{
 		if ( m_scrolling
-				&& m_ctrlManager.lock()->GetFocusedControl() != shared_from_this()
-				&& m_ctrlManager.lock()->GetFocusedControl() != m_tick.lock()
-				&& m_ctrlManager.lock()->GetFocusedControl() != m_line.lock()
+				&& DoGetCtrlManager()->GetFocusedControl() != shared_from_this()
+				&& DoGetCtrlManager()->GetFocusedControl() != m_tick.lock()
+				&& DoGetCtrlManager()->GetFocusedControl() != m_line.lock()
 		   )
 		{
 			Position l_delta = ( p_event.GetPosition() - GetAbsolutePosition() ) - m_mouse;
@@ -241,7 +241,7 @@ namespace ProceduralTextures
 	{
 		if ( !m_scrolling )
 		{
-			if ( m_style & eSLIDER_STYLE_VERTICAL )
+			if ( GetStyle() & eSLIDER_STYLE_VERTICAL )
 			{
 				if ( p_event.GetKey() == eKEY_UP )
 				{
@@ -279,7 +279,7 @@ namespace ProceduralTextures
 	{
 		Position l_delta = p_delta;
 
-		if ( m_style & eSLIDER_STYLE_VERTICAL )
+		if ( GetStyle() & eSLIDER_STYLE_VERTICAL )
 		{
 			l_delta.x() = 0;
 		}
@@ -298,7 +298,7 @@ namespace ProceduralTextures
 
 			if ( l_line )
 			{
-				if ( m_style & eSLIDER_STYLE_VERTICAL )
+				if ( GetStyle() & eSLIDER_STYLE_VERTICAL )
 				{
 					l_position.y() = std::min( int32_t( l_line->GetSize().y() ), std::max( 0, l_position.y() ) );
 					l_tickValue = ( l_position.y() - l_line->GetPosition().y() ) / double( l_line->GetSize().y() );
@@ -311,7 +311,7 @@ namespace ProceduralTextures
 			}
 			else
 			{
-				if ( m_style & eSLIDER_STYLE_VERTICAL )
+				if ( GetStyle() & eSLIDER_STYLE_VERTICAL )
 				{
 					l_position.y() = std::min( int32_t( GetSize().y() ), std::max( 0, l_position.y() ) );
 					l_tickValue = ( l_position.y() - GetPosition().y() ) / double( GetSize().y() );

@@ -39,7 +39,7 @@ namespace ProceduralTextures
 
 				GLenum l_eStatus = GetOpenGl().CheckFramebufferStatus( GL_FRAMEBUFFER );
 				Unbind();
-				DoInitialisePbos();
+				DoInitialiseIoBuffers();
 				m_bInitialised = ( l_eStatus == GL_FRAMEBUFFER_COMPLETE );
 			}
 
@@ -49,7 +49,7 @@ namespace ProceduralTextures
 		void FrameBuffer::Cleanup()
 		{
 			m_bInitialised = false;
-			DoCleanupPbos();
+			DoCleanupIoBuffers();
 		}
 
 		bool FrameBuffer::ActivateTexture( GLenum p_attachment, unsigned int p_target )
@@ -118,11 +118,11 @@ namespace ProceduralTextures
 
 				if ( pBufferIn && pBufferOut )
 				{
-					if ( pBufferOut->Activate() )
+					if ( pBufferOut->Bind() )
 					{
 						GetOpenGl().ReadPixels( 0, 0, m_sizeImage.x(), m_sizeImage.y(), GL_RGBA, GL_UNSIGNED_BYTE, 0 );
 
-						if ( pBufferIn->Activate() )
+						if ( pBufferIn->Bind() )
 						{
 							void * pData = pBufferIn->Lock( GL_READ_ONLY );
 
@@ -133,10 +133,10 @@ namespace ProceduralTextures
 								l_bReturn = true;
 							}
 
-							pBufferIn->Deactivate();
+							pBufferIn->Unbind();
 						}
 
-						pBufferOut->Deactivate();
+						pBufferOut->Unbind();
 					}
 				}
 			}
@@ -150,34 +150,32 @@ namespace ProceduralTextures
 			m_bInitialised = false;
 		}
 
-		void FrameBuffer::DoCleanupPbos()
+		void FrameBuffer::DoCleanupIoBuffers()
 		{
 			if ( m_pDownloadBuffers[0] )
 			{
-				m_pDownloadBuffers[0]->Destroy();
+				m_pDownloadBuffers[0]->Cleanup();
 				m_pDownloadBuffers[0].reset();
 			}
 
 			if ( m_pDownloadBuffers[1] )
 			{
-				m_pDownloadBuffers[1]->Destroy();
+				m_pDownloadBuffers[1]->Cleanup();
 				m_pDownloadBuffers[1].reset();
 			}
 		}
 
-		void FrameBuffer::DoInitialisePbos()
+		void FrameBuffer::DoInitialiseIoBuffers()
 		{
 			if ( !m_pDownloadBuffers[0] )
 			{
 				m_pDownloadBuffers[0] = std::make_unique< DownloadPixelBuffer >( GetOpenGl() );
-				m_pDownloadBuffers[0]->Create();
 				m_pDownloadBuffers[0]->Initialise( m_sizeImage.x() * m_sizeImage.y() * 4 );
 			}
 
 			if ( !m_pDownloadBuffers[0] )
 			{
 				m_pDownloadBuffers[1] = std::make_unique< DownloadPixelBuffer >( GetOpenGl() );
-				m_pDownloadBuffers[1]->Create();
 				m_pDownloadBuffers[1]->Initialise( m_sizeImage.x() * m_sizeImage.y() * 4 );
 			}
 		}

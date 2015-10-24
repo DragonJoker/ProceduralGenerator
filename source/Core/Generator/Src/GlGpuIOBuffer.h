@@ -35,7 +35,6 @@ namespace gl
 		Base class for pixel transfer buffers
 	*/
 	class GeneratorAPI GpuIOBuffer
-		: public BufferObject
 	{
 	public:
 		/** Constructor
@@ -50,32 +49,53 @@ namespace gl
 
 		/** Destructor
 		*/
-		virtual ~GpuIOBuffer();
+		~GpuIOBuffer();
 
-		/** Initialises the buffer
+		/** Creates and initialises the buffer
 		@param[in] p_size
 			The buffer size
 		@return
 			true if it is successfully initialised
 		*/
-		virtual bool Initialise( size_t p_size );
+		bool Initialise( size_t p_size );
+
+		/** Destroys the buffer
+		*/
+		void Cleanup();
 
 		/** Tries to activate the buffer
 		@return
 			true if it is successfully activated
 		*/
-		virtual bool Activate();
+		bool Bind();
 
 		/** Deactivates the buffer
 		*/
-		virtual void Deactivate();
+		void Unbind();
+
+		/** Updates the buffer data on GPU
+		@param[in] p_buffer
+			The buffer data
+		@param[in] p_size
+			The buffer size
+		*/
+		void Data( void const * p_buffer, size_t p_size );
+
+		/** Maps the buffer data into RAM memory
+		@param[in] p_access
+			The memory access
+		@return
+			The mapped memory
+		*/
+		void * Lock( unsigned int p_access );
+
+		/** Unmaps the buffer data from RAM memory
+		*/
+		void Unlock();
 
 	private:
-		/** Dummy, not to use
-		@return
-			false
-		*/
-		virtual bool Initialise();
+		//! The OpenGL buffer object
+		BufferObject m_bufferObject;
 	};
 }
 }

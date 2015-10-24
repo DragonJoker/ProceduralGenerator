@@ -66,7 +66,7 @@ namespace ProceduralTextures
 		@return
 			true if it is successfully initialised
 		*/
-		bool Initialise()
+		inline bool Initialise()
 		{
 			bool l_return = m_vertexBuffer.Initialise();
 
@@ -80,14 +80,14 @@ namespace ProceduralTextures
 
 		/** Cleans the buffers and destroys it
 		*/
-		void Cleanup()
+		inline void Cleanup()
 		{
 			if ( m_indexBuffer )
 			{
-				m_indexBuffer->Destroy();
+				m_indexBuffer->Cleanup();
 			}
 
-			m_vertexBuffer.Destroy();
+			m_vertexBuffer.Cleanup();
 		}
 
 		/** Tries to activate the buffers and to draw it
@@ -96,24 +96,24 @@ namespace ProceduralTextures
 		@param[in] p_texture
 			The "texture" attribute location
 		*/
-		void Draw( uint32_t p_vertex, uint32_t p_texture )
+		inline void Draw( uint32_t p_vertex, uint32_t p_texture )
 		{
-			if ( m_vertexBuffer.Activate( p_vertex, p_texture ) )
+			if ( m_vertexBuffer.Bind( p_vertex, p_texture ) )
 			{
 				if ( m_indexBuffer )
 				{
-					if ( m_indexBuffer->Activate() )
+					if ( m_indexBuffer->Bind() )
 					{
 						GetOpenGl().DrawElements( GL_TRIANGLES, gl::IndexBuffer::Size, GL_UNSIGNED_INT, 0 );
-						m_indexBuffer->Deactivate();
+						m_indexBuffer->Unbind();
 					}
 				}
 				else
 				{
-					GetOpenGl().DrawArrays( GL_TRIANGLES, 0, int( m_vertexBuffer.GetBuffer().size() ) );
+					GetOpenGl().DrawArrays( GL_TRIANGLES, 0, int( m_vertexBuffer.GetVertex().size() ) );
 				}
 
-				m_vertexBuffer.Deactivate();
+				m_vertexBuffer.Unbind();
 			}
 		}
 
@@ -121,7 +121,7 @@ namespace ProceduralTextures
 		@return
 			The buffer
 		*/
-		gl::TVertexBuffer< PosType > const & GetVertexBuffer()const
+		inline gl::TVertexBuffer< PosType > const & GetVertexBuffer()const
 		{
 			return m_vertexBuffer;
 		}
@@ -130,7 +130,7 @@ namespace ProceduralTextures
 		@return
 			The buffer
 		*/
-		gl::TVertexBuffer< PosType > & GetVertexBuffer()
+		inline gl::TVertexBuffer< PosType > & GetVertexBuffer()
 		{
 			return m_vertexBuffer;
 		}
@@ -139,7 +139,7 @@ namespace ProceduralTextures
 		@return
 			The buffer
 		*/
-		gl::IndexBuffer const & GetIndexBuffer()const
+		inline gl::IndexBuffer const & GetIndexBuffer()const
 		{
 			return m_indexBuffer;
 		}
@@ -148,7 +148,7 @@ namespace ProceduralTextures
 		@return
 			The buffer
 		*/
-		gl::IndexBuffer & GetIndexBuffer()
+		inline gl::IndexBuffer & GetIndexBuffer()
 		{
 			return m_indexBuffer;
 		}

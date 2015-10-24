@@ -62,24 +62,21 @@ namespace ProceduralTextures
 
 	void ComboBoxCtrl::DoCreate( std::shared_ptr< OverlayManager > p_manager )
 	{
-		m_borders = Point4i( 1, 1, 1, 1 );
-		m_backgroundColour = Colour( 1.0, 1.0, 1.0, 1.0 );
-		m_foregroundColour = Colour( 0.0, 0.0, 0.0, 1.0 );
-
 		m_expand = std::make_shared< ButtonCtrl >( shared_from_this(), _T( "+" ), GetId() << 12, Position( GetSize().x() - GetSize().y(), 0 ), Size( GetSize().y(), GetSize().y() ) );
-		m_expand->SetForegroundColour( m_foregroundColour );
-		m_expand->SetVisible( m_visible );
+		m_expand->SetVisible( DoIsVisible() );
 		m_expand->Connect( eBUTTON_EVENT_CLICKED, std::bind( &ComboBoxCtrl::DoSwitchExpand, this ) );
 
 		m_choices = std::make_shared< ListBoxCtrl >( shared_from_this(), m_values, m_selected, ( GetId() << 12 ) + 1, Position( 0, GetSize().y() ), Size( GetSize().x() - GetSize().y(), -1 ), 0, false );
-		m_choices->SetBackgroundColour( m_backgroundColour );
-		m_choices->SetForegroundColour( m_foregroundColour );
 		m_choices->Connect( eLISTBOX_EVENT_SELECTED, std::bind( &ComboBoxCtrl::OnSelected, this, std::placeholders::_1 ) );
+
+		SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
+		SetBackgroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
+		SetForegroundColour( Colour( 0.0, 0.0, 0.0, 1.0 ) );
 
 		EventHandler::Connect( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &ComboBoxCtrl::OnKeyDown, this, std::placeholders::_1 ) );
 		EventHandler::ConnectNC( eKEYBOARD_EVENT_KEY_PUSHED, std::bind( &ComboBoxCtrl::OnNcKeyDown, this, std::placeholders::_1, std::placeholders::_2 ) );
 
-		std::shared_ptr< TextOverlay > l_text = p_manager->CreateText( _T( "T_CtrlCombo_" ) + StringUtils::ToString( GetId() ), Position(), GetSize() - Size( GetSize().y(), 0 ), Material( m_foregroundColour ), p_manager->GetFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT ), GetBackground() );
+		std::shared_ptr< TextOverlay > l_text = p_manager->CreateText( _T( "T_CtrlCombo_" ) + StringUtils::ToString( GetId() ), Position(), GetSize() - Size( GetSize().y(), 0 ), Material( GetForegroundColour() ), p_manager->GetFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT ), GetBackground() );
 		l_text->SetVAlign( eVALIGN_CENTER );
 		int l_sel = GetSelected();
 
@@ -89,7 +86,7 @@ namespace ProceduralTextures
 		}
 
 		m_text = l_text;
-		std::shared_ptr< ControlsManager > l_manager = m_ctrlManager.lock();
+		std::shared_ptr< ControlsManager > l_manager = DoGetCtrlManager();
 
 		if ( l_manager )
 		{
@@ -130,13 +127,13 @@ namespace ProceduralTextures
 
 	void ComboBoxCtrl::DoSetBackgroundColour( Colour const & p_value )
 	{
-		m_choices->SetBackgroundColour( m_backgroundColour );
+		m_choices->SetBackgroundColour( p_value );
 	}
 
 	void ComboBoxCtrl::DoSetForegroundColour( Colour const & p_value )
 	{
-		m_expand->SetForegroundColour( m_foregroundColour );
-		m_choices->SetForegroundColour( m_foregroundColour );
+		m_expand->SetForegroundColour( p_value );
+		m_choices->SetForegroundColour( p_value );
 		std::shared_ptr< TextOverlay > l_text = m_text.lock();
 
 		if ( l_text )

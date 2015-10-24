@@ -1031,7 +1031,7 @@ namespace cl
 				return retVal;
 			}
 
-			const T & operator *() const
+			const T & operator*() const
 			{
 				return ( *vec_ )[index_];
 			}
@@ -1914,7 +1914,7 @@ struct param_traits< detail::token,param_name >       \
 				}
 			}
 
-			Wrapper< cl_type > & operator = ( const Wrapper< cl_type > & rhs )
+			Wrapper< cl_type > & operator=( const Wrapper< cl_type > & rhs )
 			{
 				if ( object_ != NULL )
 				{
@@ -1931,7 +1931,7 @@ struct param_traits< detail::token,param_name >       \
 				return *this;
 			}
 
-			Wrapper< cl_type > & operator = ( const cl_type & rhs )
+			Wrapper< cl_type > & operator=( const cl_type & rhs )
 			{
 				if ( object_ != NULL )
 				{
@@ -2023,7 +2023,7 @@ struct param_traits< detail::token,param_name >       \
 				}
 			}
 
-			Wrapper< cl_type > & operator = ( const Wrapper< cl_type > & rhs )
+			Wrapper< cl_type > & operator=( const Wrapper< cl_type > & rhs )
 			{
 				if ( object_ != NULL )
 				{
@@ -2041,7 +2041,7 @@ struct param_traits< detail::token,param_name >       \
 				return *this;
 			}
 
-			Wrapper< cl_type > & operator = ( const cl_type & rhs )
+			Wrapper< cl_type > & operator=( const cl_type & rhs )
 			{
 				if ( object_ != NULL )
 				{
@@ -2116,7 +2116,7 @@ struct param_traits< detail::token,param_name >       \
 		}
 
 		//! \brief Assignment operator.
-		ImageFormat & operator = ( const ImageFormat & rhs )
+		ImageFormat & operator=( const ImageFormat & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -2163,7 +2163,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  This simply copies the device ID value, which is an inexpensive operation.
 		*/
-		Device & operator = ( const Device & rhs )
+		Device & operator=( const Device & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -2177,7 +2177,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  This simply copies the device ID value, which is an inexpensive operation.
 		*/
-		Device & operator = ( const cl_device_id & rhs )
+		Device & operator=( const cl_device_id & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
 			return *this;
@@ -2309,7 +2309,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  This simply copies the platform ID value, which is an inexpensive operation.
 		*/
-		Platform & operator = ( const Platform & rhs )
+		Platform & operator=( const Platform & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -2323,7 +2323,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  This simply copies the platform ID value, which is an inexpensive operation.
 		*/
-		Platform & operator = ( const cl_platform_id & rhs )
+		Platform & operator=( const cl_platform_id & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
 			return *this;
@@ -2872,7 +2872,7 @@ struct param_traits< detail::token,param_name >       \
 		 *  This calls clRetainContext() on the parameter and clReleaseContext() on
 		 *  the previous value held by this instance.
 		*/
-		Context & operator = ( const Context & rhs )
+		Context & operator=( const Context & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -2887,7 +2887,7 @@ struct param_traits< detail::token,param_name >       \
 		 *  This effectively transfers ownership of a refcount on the rhs and calls
 		 *  clReleaseContext() on the value previously held by this instance.
 		*/
-		Context & operator = ( const cl_context & rhs )
+		Context & operator=( const cl_context & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
 			return *this;
@@ -3038,7 +3038,7 @@ struct param_traits< detail::token,param_name >       \
 		 *  This effectively transfers ownership of a refcount on the rhs and calls
 		 *  clReleaseEvent() on the value previously held by this instance.
 		*/
-		Event & operator = ( const Event & rhs )
+		Event & operator=( const Event & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -3053,7 +3053,7 @@ struct param_traits< detail::token,param_name >       \
 		 *  This calls clRetainEvent() on the parameter and clReleaseEvent() on
 		 *  the previous value held by this instance.
 		*/
-		Event & operator = ( const cl_event & rhs )
+		Event & operator=( const cl_event & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
 			return *this;
@@ -3191,7 +3191,7 @@ struct param_traits< detail::token,param_name >       \
 		UserEvent( const UserEvent & event ) : Event( event ) { }
 
 		//! \brief Assignment Operator - performs shallow copy.
-		UserEvent & operator = ( const UserEvent & rhs )
+		UserEvent & operator=( const UserEvent & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -3266,7 +3266,7 @@ struct param_traits< detail::token,param_name >       \
 		 *  This calls clRetainMemObject() on the parameter and clReleaseMemObject()
 		 *  on the previous value held by this instance.
 		*/
-		Memory & operator = ( const Memory & rhs )
+		Memory & operator=( const Memory & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -3281,7 +3281,7 @@ struct param_traits< detail::token,param_name >       \
 		 *  This effectively transfers ownership of a refcount on the rhs and calls
 		 *  clReleaseMemObject() on the value previously held by this instance.
 		*/
-		Memory & operator = ( const cl_mem & rhs )
+		Memory & operator=( const cl_mem & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
 			return *this;
@@ -3504,7 +3504,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Buffer & operator = ( const Buffer & rhs )
+		Buffer & operator=( const Buffer & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -3518,7 +3518,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Buffer & operator = ( const cl_mem & rhs )
+		Buffer & operator=( const cl_mem & rhs )
 		{
 			Memory::operator=( rhs );
 			return *this;
@@ -3633,7 +3633,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		BufferD3D10 & operator = ( const BufferD3D10 & rhs )
+		BufferD3D10 & operator=( const BufferD3D10 & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -3647,7 +3647,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		BufferD3D10 & operator = ( const cl_mem & rhs )
+		BufferD3D10 & operator=( const cl_mem & rhs )
 		{
 			Buffer::operator=( rhs );
 			return *this;
@@ -3710,7 +3710,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		BufferGL & operator = ( const BufferGL & rhs )
+		BufferGL & operator=( const BufferGL & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -3724,7 +3724,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		BufferGL & operator = ( const cl_mem & rhs )
+		BufferGL & operator=( const cl_mem & rhs )
 		{
 			Buffer::operator=( rhs );
 			return *this;
@@ -3796,7 +3796,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		BufferRenderGL & operator = ( const BufferRenderGL & rhs )
+		BufferRenderGL & operator=( const BufferRenderGL & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -3810,7 +3810,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		BufferRenderGL & operator = ( const cl_mem & rhs )
+		BufferRenderGL & operator=( const cl_mem & rhs )
 		{
 			Buffer::operator=( rhs );
 			return *this;
@@ -3855,7 +3855,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Image & operator = ( const Image & rhs )
+		Image & operator=( const Image & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -3869,7 +3869,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Image & operator = ( const cl_mem & rhs )
+		Image & operator=( const cl_mem & rhs )
 		{
 			Memory::operator=( rhs );
 			return *this;
@@ -3966,7 +3966,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Image1D & operator = ( const Image1D & rhs )
+		Image1D & operator=( const Image1D & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -3980,7 +3980,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Image1D & operator = ( const cl_mem & rhs )
+		Image1D & operator=( const cl_mem & rhs )
 		{
 			Image::operator=( rhs );
 			return *this;
@@ -4030,7 +4030,7 @@ struct param_traits< detail::token,param_name >       \
 
 		__CL_EXPLICIT_CONSTRUCTORS Image1DBuffer( const cl_mem & image1D ) : Image( image1D ) { }
 
-		Image1DBuffer & operator = ( const Image1DBuffer & rhs )
+		Image1DBuffer & operator=( const Image1DBuffer & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -4040,7 +4040,7 @@ struct param_traits< detail::token,param_name >       \
 			return *this;
 		}
 
-		Image1DBuffer & operator = ( const cl_mem & rhs )
+		Image1DBuffer & operator=( const cl_mem & rhs )
 		{
 			Image::operator=( rhs );
 			return *this;
@@ -4094,7 +4094,7 @@ struct param_traits< detail::token,param_name >       \
 
 		__CL_EXPLICIT_CONSTRUCTORS Image1DArray( const cl_mem & imageArray ) : Image( imageArray ) { }
 
-		Image1DArray & operator = ( const Image1DArray & rhs )
+		Image1DArray & operator=( const Image1DArray & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -4104,7 +4104,7 @@ struct param_traits< detail::token,param_name >       \
 			return *this;
 		}
 
-		Image1DArray & operator = ( const cl_mem & rhs )
+		Image1DArray & operator=( const cl_mem & rhs )
 		{
 			Image::operator=( rhs );
 			return *this;
@@ -4214,7 +4214,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Image2D & operator = ( const Image2D & rhs )
+		Image2D & operator=( const Image2D & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -4228,7 +4228,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Image2D & operator = ( const cl_mem & rhs )
+		Image2D & operator=( const cl_mem & rhs )
 		{
 			Image::operator=( rhs );
 			return *this;
@@ -4297,7 +4297,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Image2DGL & operator = ( const Image2DGL & rhs )
+		Image2DGL & operator=( const Image2DGL & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -4311,7 +4311,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Image2DGL & operator = ( const cl_mem & rhs )
+		Image2DGL & operator=( const cl_mem & rhs )
 		{
 			Image2D::operator=( rhs );
 			return *this;
@@ -4371,7 +4371,7 @@ struct param_traits< detail::token,param_name >       \
 
 		__CL_EXPLICIT_CONSTRUCTORS Image2DArray( const cl_mem & imageArray ) : Image( imageArray ) { }
 
-		Image2DArray & operator = ( const Image2DArray & rhs )
+		Image2DArray & operator=( const Image2DArray & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -4381,7 +4381,7 @@ struct param_traits< detail::token,param_name >       \
 			return *this;
 		}
 
-		Image2DArray & operator = ( const cl_mem & rhs )
+		Image2DArray & operator=( const cl_mem & rhs )
 		{
 			Image::operator=( rhs );
 			return *this;
@@ -4495,7 +4495,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Image3D & operator = ( const Image3D & rhs )
+		Image3D & operator=( const Image3D & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -4509,7 +4509,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Image3D & operator = ( const cl_mem & rhs )
+		Image3D & operator=( const cl_mem & rhs )
 		{
 			Image::operator=( rhs );
 			return *this;
@@ -4576,7 +4576,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Image3DGL & operator = ( const Image3DGL & rhs )
+		Image3DGL & operator=( const Image3DGL & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -4590,7 +4590,7 @@ struct param_traits< detail::token,param_name >       \
 		 *
 		 *  See Memory for further details.
 		*/
-		Image3DGL & operator = ( const cl_mem & rhs )
+		Image3DGL & operator=( const cl_mem & rhs )
 		{
 			Image3D::operator=( rhs );
 			return *this;
@@ -4638,7 +4638,7 @@ struct param_traits< detail::token,param_name >       \
 
 		__CL_EXPLICIT_CONSTRUCTORS ImageGL( const cl_mem & image ) : Image( image ) { }
 
-		ImageGL & operator = ( const ImageGL & rhs )
+		ImageGL & operator=( const ImageGL & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -4648,7 +4648,7 @@ struct param_traits< detail::token,param_name >       \
 			return *this;
 		}
 
-		ImageGL & operator = ( const cl_mem & rhs )
+		ImageGL & operator=( const cl_mem & rhs )
 		{
 			Image::operator=( rhs );
 			return *this;
@@ -4720,7 +4720,7 @@ struct param_traits< detail::token,param_name >       \
 		 *  This calls clRetainSampler() on the parameter and clReleaseSampler()
 		 *  on the previous value held by this instance.
 		*/
-		Sampler & operator = ( const Sampler & rhs )
+		Sampler & operator=( const Sampler & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -4735,7 +4735,7 @@ struct param_traits< detail::token,param_name >       \
 		 *  This effectively transfers ownership of a refcount on the rhs and calls
 		 *  clReleaseSampler() on the value previously held by this instance.
 		*/
-		Sampler & operator = ( const cl_sampler & rhs )
+		Sampler & operator=( const cl_sampler & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
 			return *this;
@@ -4931,7 +4931,7 @@ struct param_traits< detail::token,param_name >       \
 		 *  This calls clRetainKernel() on the parameter and clReleaseKernel()
 		 *  on the previous value held by this instance.
 		*/
-		Kernel & operator = ( const Kernel & rhs )
+		Kernel & operator=( const Kernel & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -4946,7 +4946,7 @@ struct param_traits< detail::token,param_name >       \
 		 *  This effectively transfers ownership of a refcount on the rhs and calls
 		 *  clReleaseKernel() on the value previously held by this instance.
 		*/
-		Kernel & operator = ( const cl_kernel & rhs )
+		Kernel & operator=( const cl_kernel & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
 			return *this;
@@ -5265,7 +5265,7 @@ struct param_traits< detail::token,param_name >       \
 
 		__CL_EXPLICIT_CONSTRUCTORS Program( const cl_program & program ) : detail::Wrapper< cl_type >( program ) { }
 
-		Program & operator = ( const Program & rhs )
+		Program & operator=( const Program & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -5275,7 +5275,7 @@ struct param_traits< detail::token,param_name >       \
 			return *this;
 		}
 
-		Program & operator = ( const cl_program & rhs )
+		Program & operator=( const cl_program & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
 			return *this;
@@ -5691,7 +5691,7 @@ struct param_traits< detail::token,param_name >       \
 
 		CommandQueue( const cl_command_queue & commandQueue ) : detail::Wrapper< cl_type >( commandQueue ) { }
 
-		CommandQueue & operator = ( const CommandQueue & rhs )
+		CommandQueue & operator=( const CommandQueue & rhs )
 		{
 			if ( this != &rhs )
 			{
@@ -5701,7 +5701,7 @@ struct param_traits< detail::token,param_name >       \
 			return *this;
 		}
 
-		CommandQueue & operator = ( const cl_command_queue & rhs )
+		CommandQueue & operator=( const cl_command_queue & rhs )
 		{
 			detail::Wrapper< cl_type >::operator=( rhs );
 			return *this;

@@ -33,7 +33,6 @@ namespace gl
 		Index buffer object implementation
 	*/
 	class GeneratorAPI IndexBuffer
-		: public BufferObject
 	{
 	public:
 		/** Constructor
@@ -46,30 +45,36 @@ namespace gl
 
 		/** Destructor
 		*/
-		virtual ~IndexBuffer();
+		~IndexBuffer();
 
-		/** Initialises the buffer
+		/** Creates and initialises the buffer
 		@return
 			true if it is successfully initialised
 		*/
-		virtual bool Initialise();
+		bool Initialise();
+
+		/** Destroys the buffer
+		*/
+		void Cleanup();
 
 		/** Tries to activate the buffer
 		@return
 			true if it is successfully activated
 		*/
-		virtual bool Activate();
+		bool Bind();
 
 		/** Deactivates the buffer
 		*/
-		virtual void Deactivate();
+		void Unbind();
 
 		//! The index buffer size, 6 since it is a two-triangles quad
 		static const int Size = 6;
 
 	private:
 		//! The buffer data
-		std::array< uint32_t, Size > m_pBuffer;
+		std::array< uint32_t, Size > m_bufferData;
+		//! The OpenGL buffer object
+		BufferObject m_bufferObject;
 	};
 }
 }

@@ -20,14 +20,14 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 #include "Point.h"
 
-#define PG_UINT8_RGBA				uint8_t, 3, 1, false, false
-#define PG_UINT8_RGB				uint8_t, 3, 0, false, false
-#define PG_UINT8_RGBA_MIRROR		uint8_t, 3, 1, true, false
-#define PG_UINT8_RGB_MIRROR			uint8_t, 3, 0, true, false
-#define PG_UINT8_RGB_FLIP			uint8_t, 3, 0, false, true
-#define PG_UINT8_RGBA_FLIP			uint8_t, 3, 1, false, true
-#define PG_UINT8_RGB_MIRROR_FLIP	uint8_t, 3, 0, true, true
-#define PG_UINT8_RGBA_MIRROR_FLIP	uint8_t, 3, 1, true, true
+#define PG_UINT8_RGBA uint8_t, 3, 1, false, false
+#define PG_UINT8_RGB uint8_t, 3, 0, false, false
+#define PG_UINT8_RGBA_MIRROR uint8_t, 3, 1, true, false
+#define PG_UINT8_RGB_MIRROR uint8_t, 3, 0, true, false
+#define PG_UINT8_RGB_FLIP uint8_t, 3, 0, false, true
+#define PG_UINT8_RGBA_FLIP uint8_t, 3, 1, false, true
+#define PG_UINT8_RGB_MIRROR_FLIP uint8_t, 3, 0, true, true
+#define PG_UINT8_RGBA_MIRROR_FLIP uint8_t, 3, 1, true, true
 
 namespace ProceduralTextures
 {
@@ -69,7 +69,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template< typename U > Pixel & operator =( const Pixel< U > & p_px );
+		template< typename U > inline Pixel & operator=( const Pixel< U > & p_px );
 
 		/** Addition assignment operator
 		@param[in] p_px
@@ -77,7 +77,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template< typename U > Pixel & operator +=( const Pixel< U > & p_px );
+		template< typename U > inline Pixel & operator+=( const Pixel< U > & p_px );
 
 		/** Substraction assignment operator
 		@param[in] p_px
@@ -85,7 +85,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template< typename U > Pixel & operator -=( const Pixel< U > & p_px );
+		template< typename U > inline Pixel & operator-=( const Pixel< U > & p_px );
 
 		/** Multiplication assignment operator
 		@param[in] p_px
@@ -93,7 +93,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template< typename U > Pixel & operator *=( const Pixel< U > & p_px );
+		template< typename U > inline Pixel & operator*=( const Pixel< U > & p_px );
 
 		/** Division assignment operator
 		@param[in] p_px
@@ -101,7 +101,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template< typename U > Pixel & operator /=( const Pixel< U > & p_px );
+		template< typename U > inline Pixel & operator/=( const Pixel< U > & p_px );
 
 		/** Addition assignment operator
 		@param[in] p_t
@@ -109,7 +109,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template< typename U > Pixel & operator +=( U const & p_t );
+		template< typename U > inline Pixel & operator+=( U const & p_t );
 
 		/** Substraction assignment operator
 		@param[in] p_t
@@ -117,7 +117,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template< typename U > Pixel & operator -=( U const & p_t );
+		template< typename U > inline Pixel & operator-=( U const & p_t );
 
 		/** Multiplication assignment operator
 		@param[in] p_t
@@ -125,7 +125,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template< typename U > Pixel & operator *=( U const & p_t );
+		template< typename U > inline Pixel & operator*=( U const & p_t );
 
 		/** Division assignment operator
 		@param[in] p_t
@@ -133,7 +133,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		template< typename U > Pixel & operator /=( U const & p_t );
+		template< typename U > inline Pixel & operator/=( U const & p_t );
 
 		/** Binary right decal assignment operator
 		@param[in] p_t
@@ -141,7 +141,7 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		Pixel & operator >>= ( size_t p_t );
+		inline Pixel & operator>>=( size_t p_t );
 
 		/** Binary left decal assignment operator
 		@param[in] p_t
@@ -149,19 +149,19 @@ namespace ProceduralTextures
 		@return
 			A reference to this object
 		*/
-		Pixel & operator <<= ( size_t p_t );
+		inline Pixel & operator<<=( size_t p_t );
 
 		/** Sets the pixel components
 		@param[in] p_r, p_g, p_b, p_a
 			The pixel components
 		*/
-		template< typename U > void Set( U p_r, U p_g, U p_b, U p_a );
+		template< typename U > inline void Set( U p_r, U p_g, U p_b, U p_a );
 
 		/** Sets the pixel from another pixel type
 		@param[in] p_px
 			The object to copy
 		*/
-		template< typename U > void Set( const Pixel< U > & p_px );
+		template< typename U > inline void Set( const Pixel< U > & p_px );
 
 		/** Sets the pixel from two buffers
 		@remarks
@@ -172,13 +172,13 @@ namespace ProceduralTextures
 		@param[in] p_pBuffer1,
 			p_pBuffer2	The buffers
 		*/
-		template < size_t Count1, size_t Count2 > void Set( const T * p_pBuffer1, const T * p_pBuffer2 );
+		template < size_t Count1, size_t Count2 > inline void Set( const T * p_pBuffer1, const T * p_pBuffer2 );
 
 		/** Retrieves the sum of the RGB components
 		@return
 			The sum
 		*/
-		template< typename U > U Sum()const;
+		template< typename U > inline U Sum()const;
 
 	public:
 		//! Red component
@@ -196,7 +196,7 @@ namespace ProceduralTextures
 	@return
 		\p true if pixels have same values
 	*/
-	template< typename T, typename U > bool operator ==( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
+	template< typename T, typename U > inline bool operator==( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
 
 	/** Difference operator
 	@param[in] p_pixel, p_px
@@ -204,7 +204,7 @@ namespace ProceduralTextures
 	@return
 		\p true if pixels have At least one different value
 	*/
-	template< typename T, typename U > bool operator !=( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
+	template< typename T, typename U > inline bool operator!=( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
 
 	/** Addition operator
 	@param[in] p_pixel, p_px
@@ -212,7 +212,7 @@ namespace ProceduralTextures
 	@return
 		The addition result
 	*/
-	template< typename T, typename U > Pixel< T > operator +( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
+	template< typename T, typename U > inline Pixel< T > operator+( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
 
 	/** Subtraction operator
 	@param[in] p_pixel, p_px
@@ -220,7 +220,7 @@ namespace ProceduralTextures
 	@return
 		The addition result
 	*/
-	template< typename T, typename U > Pixel< T > operator -( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
+	template< typename T, typename U > inline Pixel< T > operator-( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
 
 	/** Multiplication operator
 	@param[in] p_pixel, p_px
@@ -228,7 +228,7 @@ namespace ProceduralTextures
 	@return
 		The addition result
 	*/
-	template< typename T, typename U > Pixel< T > operator /( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
+	template< typename T, typename U > inline Pixel< T > operator/( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
 
 	/** Division operator
 	@param[in] p_pixel, p_px
@@ -236,7 +236,7 @@ namespace ProceduralTextures
 	@return
 		The addition result
 	*/
-	template< typename T, typename U > Pixel< T > operator *( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
+	template< typename T, typename U > inline Pixel< T > operator*( const Pixel< T > & p_pixel, const Pixel< U > & p_px );
 
 	/** Addition operator
 	@param[in] p_pixel, p_t
@@ -244,7 +244,7 @@ namespace ProceduralTextures
 	@return
 		The addition result
 	*/
-	template< typename T, typename U > Pixel< T > operator +( const Pixel< T > & p_pixel, U const & p_t );
+	template< typename T, typename U > inline Pixel< T > operator+( const Pixel< T > & p_pixel, U const & p_t );
 
 	/** Subtraction operator
 	@param[in] p_pixel, p_t
@@ -252,7 +252,7 @@ namespace ProceduralTextures
 	@return
 		The addition result
 	*/
-	template< typename T, typename U > Pixel< T > operator -( const Pixel< T > & p_pixel, U const & p_t );
+	template< typename T, typename U > inline Pixel< T > operator-( const Pixel< T > & p_pixel, U const & p_t );
 
 	/** Multiplication operator
 	@param[in] p_pixel, p_t
@@ -260,7 +260,7 @@ namespace ProceduralTextures
 	@return
 		The addition result
 	*/
-	template< typename T, typename U > Pixel< T > operator /( const Pixel< T > & p_pixel, U const & p_t );
+	template< typename T, typename U > inline Pixel< T > operator/( const Pixel< T > & p_pixel, U const & p_t );
 
 	/** Division operator
 	@param[in] p_pixel, p_t
@@ -268,7 +268,7 @@ namespace ProceduralTextures
 	@return
 		The addition result
 	*/
-	template< typename T, typename U > Pixel< T > operator *( const Pixel< T > & p_pixel, U const & p_t );
+	template< typename T, typename U > inline Pixel< T > operator*( const Pixel< T > & p_pixel, U const & p_t );
 
 	/** Addition operator
 	@param[in] p_pixel, p_t
@@ -276,7 +276,7 @@ namespace ProceduralTextures
 	@return
 		The addition result
 	*/
-	template< typename T, typename U > Pixel< U > operator +( U const & p_t, const Pixel< T > & p_pixel );
+	template< typename T, typename U > inline Pixel< U > operator+( U const & p_t, const Pixel< T > & p_pixel );
 
 	/** Subtraction operator
 	@param[in] p_pixel, p_t
@@ -284,7 +284,7 @@ namespace ProceduralTextures
 	@return
 		The addition result
 	*/
-	template< typename T, typename U > Pixel< U > operator -( U const & p_t, const Pixel< T > & p_pixel );
+	template< typename T, typename U > inline Pixel< U > operator-( U const & p_t, const Pixel< T > & p_pixel );
 
 	/** Multiplication operator
 	@param[in] p_pixel, p_t
@@ -292,7 +292,7 @@ namespace ProceduralTextures
 	@return
 		The addition result
 	*/
-	template< typename T, typename U > Pixel< U > operator /( U const & p_t, const Pixel< T > & p_pixel );
+	template< typename T, typename U > inline Pixel< U > operator/( U const & p_t, const Pixel< T > & p_pixel );
 
 	/** Division operator
 	@param[in] p_pixel, p_t
@@ -300,7 +300,7 @@ namespace ProceduralTextures
 	@return
 		The addition result
 	*/
-	template< typename T, typename U > Pixel< U > operator *( U const & p_t, const Pixel< T > & p_pixel );
+	template< typename T, typename U > inline Pixel< U > operator*( U const & p_t, const Pixel< T > & p_pixel );
 }
 
 #include "Pixel.inl"

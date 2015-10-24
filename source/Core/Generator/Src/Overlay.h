@@ -172,7 +172,7 @@ namespace ProceduralTextures
 		@param[in] p_position
 			The new value
 		*/
-		void SetPosition( Point2d const & p_position )
+		inline void SetPosition( Point2d const & p_position )
 		{
 			m_position = p_position;
 			m_pixelPositioned = false;
@@ -192,7 +192,7 @@ namespace ProceduralTextures
 		@param[in] p_size
 			The new value
 		*/
-		void SetSize( Point2d const & p_size )
+		inline void SetSize( Point2d const & p_size )
 		{
 			m_size = p_size;
 			m_changed = true;

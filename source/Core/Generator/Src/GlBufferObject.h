@@ -50,7 +50,7 @@ namespace ProceduralTextures
 
 			/** Destructor
 			*/
-			virtual ~BufferObject();
+			~BufferObject();
 
 			/** Updates the buffer data on GPU
 			@param[in] p_buffer
@@ -71,22 +71,6 @@ namespace ProceduralTextures
 			/** Unmaps the buffer data from RAM memory
 			*/
 			void Unlock();
-
-			/** Initialises the buffer
-			@return
-				true if it is successfully initialised
-			*/
-			virtual bool Initialise() = 0;
-
-			/** Tries to activate the buffer
-			@return
-				true if it is successfully activated
-			*/
-			virtual bool Activate() = 0;
-
-			/** Deactivates the buffer
-			*/
-			virtual void Deactivate() = 0;
 
 		private:
 			//! The buffer target

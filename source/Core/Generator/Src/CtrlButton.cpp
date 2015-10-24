@@ -10,11 +10,9 @@ namespace ProceduralTextures
 		: Control( eCONTROL_TYPE_BUTTON, p_parent, p_id, p_position, p_size, p_style, p_visible )
 		, m_caption( p_caption )
 	{
-		m_borders = Point4i( 1, 1, 1, 1 );
-		m_backgroundColour = Colour( 0.5, 0.5, 0.5, 1.0 );
-		m_foregroundColour = Colour( 1.0, 1.0, 1.0, 1.0 );
-		DoSetBackgroundColour( m_backgroundColour );
-		DoSetForegroundColour( m_foregroundColour );
+		SetBackgroundBorders( Point4i( 1, 1, 1, 1 ) );
+		SetBackgroundColour( Colour( 0.5, 0.5, 0.5, 1.0 ) );
+		SetForegroundColour( Colour( 1.0, 1.0, 1.0, 1.0 ) );
 		EventHandler::Connect( eMOUSE_EVENT_MOUSE_ENTER, std::bind( &ButtonCtrl::OnMouseEnter, this, std::placeholders::_1 ) );
 		EventHandler::Connect( eMOUSE_EVENT_MOUSE_LEAVE, std::bind( &ButtonCtrl::OnMouseLeave, this, std::placeholders::_1 ) );
 		EventHandler::Connect( eMOUSE_EVENT_MOUSE_BUTTON_RELEASED, std::bind( &ButtonCtrl::OnMouseLButtonUp, this, std::placeholders::_1 ) );
@@ -48,12 +46,12 @@ namespace ProceduralTextures
 
 	void ButtonCtrl::DoCreate( std::shared_ptr< OverlayManager > p_manager )
 	{
-		m_background.lock()->SetBordersPosition( eBORDER_POSITION_INTERNAL );
-		std::shared_ptr< TextOverlay > l_text = p_manager->CreateText( _T( "T_CtrlButton_" ) + StringUtils::ToString( GetId() ), Position(), GetSize(), Material( m_foregroundColour ), p_manager->GetFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT ), GetBackground() );
+		GetBackground()->SetBordersPosition( eBORDER_POSITION_INTERNAL );
+		std::shared_ptr< TextOverlay > l_text = p_manager->CreateText( _T( "T_CtrlButton_" ) + StringUtils::ToString( GetId() ), Position(), GetSize(), Material( GetForegroundColour() ), p_manager->GetFont( DEFAULT_FONT_NAME, DEFAULT_FONT_HEIGHT ), GetBackground() );
 		l_text->SetHAlign( eHALIGN_CENTER );
 		l_text->SetVAlign( eVALIGN_CENTER );
 		l_text->SetCaption( m_caption );
-		l_text->SetVisible( m_visible );
+		l_text->SetVisible( DoIsVisible() );
 		m_text = l_text;
 	}
 
@@ -122,11 +120,13 @@ namespace ProceduralTextures
 	void ButtonCtrl::OnMouseEnter( MouseEvent const & p_event )
 	{
 		m_text.lock()->SetColour( m_mouseOverForegroundColour );
-		std::shared_ptr< BorderPanelOverlay > l_panel = m_background.lock();
+		std::shared_ptr< BorderPanelOverlay > l_panel = GetBackground();
 
 		if ( l_panel )
 		{
-			if ( m_backgroundTexture.expired() )
+			std::shared_ptr< gl::Texture > l_bgTtexture = GetBackgroundTexture();
+
+			if ( !l_bgTtexture )
 			{
 				l_panel->SetColour( m_mouseOverBackgroundColour );
 				l_panel->SetBordersColour( m_mouseOverForegroundColour );
@@ -151,27 +151,30 @@ namespace ProceduralTextures
 
 	void ButtonCtrl::OnMouseLeave( MouseEvent const & p_event )
 	{
-		m_text.lock()->SetColour( m_foregroundColour );
-		std::shared_ptr< BorderPanelOverlay > l_panel = m_background.lock();
+		m_text.lock()->SetColour( GetForegroundColour() );
+		std::shared_ptr< BorderPanelOverlay > l_panel = GetBackground();
 
 		if ( l_panel )
 		{
-			if ( m_backgroundTexture.expired() )
+			std::shared_ptr< gl::Texture > l_bgTtexture = GetBackgroundTexture();
+
+			if ( !l_bgTtexture )
 			{
-				l_panel->SetColour( m_backgroundColour );
-				l_panel->SetBordersColour( m_foregroundColour );
+				l_panel->SetColour( GetBackgroundColour() );
+				l_panel->SetBordersColour( GetForegroundColour() );
 			}
 			else
 			{
-				l_panel->SetTexture( m_backgroundTexture.lock() );
+				l_panel->SetTexture( l_bgTtexture );
+				std::shared_ptr< gl::Texture > l_fgTtexture = GetForegroundTexture();
 
-				if ( !m_foregroundTexture.expired() )
+				if ( l_fgTtexture )
 				{
-					l_panel->SetBordersTexture( m_foregroundTexture.lock() );
+					l_panel->SetBordersTexture( l_fgTtexture );
 				}
 				else
 				{
-					l_panel->SetBordersTexture( m_backgroundTexture.lock() );
+					l_panel->SetBordersTexture( l_bgTtexture );
 				}
 			}
 
