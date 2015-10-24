@@ -60,7 +60,7 @@ namespace ProceduralTextures
 		@return
 			The value
 		*/
-		Position const & GetMousePosition()
+		Position const & GetMousePosition()const
 		{
 			return m_mouse.m_position;
 		}

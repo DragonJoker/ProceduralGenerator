@@ -322,7 +322,7 @@ namespace ProceduralTextures
 		@param[out] p_linesVtx
 			the lines
 		*/
-		void DoWriteWord( String const & p_word, int32_t p_wordWidth, Size const & p_size, Position & p_position, int32_t & p_lineWidth, std::vector< VertexI > & p_lineVtx, std::vector< std::vector< VertexI > > & p_linesVtx );
+		void DoWriteWord( std::u32string const & p_word, int32_t p_wordWidth, Size const & p_size, Position & p_position, int32_t & p_lineWidth, std::vector< VertexI > & p_lineVtx, std::vector< std::vector< VertexI > > & p_linesVtx );
 
 		/** Horizontally align a line
 		@param[in] p_width

@@ -31,7 +31,7 @@ if( FREETYPE_FOUND )
 		Generator
 		api_dll
 		""
-		"${wxWidgetsLibraries};${OPT_LINKS};${FreeTypeLibraries}"
+		"${OPT_LINKS};${FreeTypeLibraries}"
 		"GeneratorPch.h"
 		"GeneratorPch.cpp"
 		"${wxWidgets_CFLAGS}"

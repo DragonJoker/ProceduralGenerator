@@ -118,7 +118,7 @@ if( wxWidgets_FOUND )
 			# Preparing OpenCV dlls installation
 			set( OpenCV_DLLS )
 			set( OpenCVd_DLLS )
-			get_filename_component( OpenCvLibPath ${OpenCV_LIB_DIR_OPT} PATH )
+			get_filename_component( OpenCvLibPath "${OpenCV_LIB_DIR_OPT}" PATH )
 			string( REPLACE "." "" Version "${OpenCV_VERSION}" )
 			foreach ( LIB ${OpenCV_LIBS} )
 				get_filename_component( OpenCvLibName ${LIB} NAME_WE )

@@ -186,11 +186,11 @@ namespace ProceduralTextures
 				for ( auto const & l_line : l_lines )
 				{
 					int32_t l_wordWidth = 0;
-					String l_word;
+					std::u32string l_word;
 
 					for ( StringUtils::Utf8Iterator l_itLine = l_line.begin(); l_itLine != l_line.end() && l_position.y() < int32_t( l_size.y() ); ++l_itLine )
 					{
-						char const & l_character = *l_itLine;
+						char32_t const & l_character = *l_itLine;
 						Glyph const & l_glyph = l_font->GetGlyphAt( l_character );
 						uint32_t l_charWidth = std::max( l_glyph.GetSize().x(), l_glyph.GetAdvance().x() );
 
@@ -256,7 +256,7 @@ namespace ProceduralTextures
 	{
 	}
 
-	void TextOverlay::DoWriteWord( String const & p_word, int32_t p_wordWidth, Size const & p_size, Position & p_position, int32_t & p_lineWidth, std::vector< VertexI > & p_lineVtx, std::vector< std::vector< VertexI > > & p_linesVtx )
+	void TextOverlay::DoWriteWord( std::u32string const & p_word, int32_t p_wordWidth, Size const & p_size, Position & p_position, int32_t & p_lineWidth, std::vector< VertexI > & p_lineVtx, std::vector< std::vector< VertexI > > & p_linesVtx )
 	{
 		Position l_ovPosition = GetAbsolutePixelPosition();
 		std::shared_ptr< Font > l_font = GetFont();
@@ -270,7 +270,7 @@ namespace ProceduralTextures
 
 		for ( auto && l_it = p_word.begin(); l_it != p_word.end() && p_position.y() < int32_t( p_size.y() ); ++l_it )
 		{
-			char const & l_character = *l_it;
+			char32_t const & l_character = *l_it;
 			int32_t l_charCrop = 0;
 			Glyph const & l_glyph = l_font->GetGlyphAt( l_character );
 			Size l_charSize( std::max( l_glyph.GetSize().x(), l_glyph.GetAdvance().x() ), std::max( l_glyph.GetSize().y(), l_glyph.GetAdvance().y() ) );
