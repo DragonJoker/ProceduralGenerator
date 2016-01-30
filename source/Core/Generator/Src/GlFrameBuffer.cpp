@@ -52,7 +52,7 @@ namespace ProceduralTextures
 			DoCleanupIoBuffers();
 		}
 
-		bool FrameBuffer::ActivateTexture( GLenum p_attachment, unsigned int p_target )
+		bool FrameBuffer::ActivateTexture( uint32_t p_attachment, uint32_t p_target )
 		{
 			auto l_it = m_mapAttachments.find( p_attachment );
 			bool l_bReturn = l_it != m_mapAttachments.end();
@@ -65,7 +65,7 @@ namespace ProceduralTextures
 			return l_bReturn;
 		}
 
-		void FrameBuffer::DeactivateTexture( GLenum p_attachment, unsigned int p_target )
+		void FrameBuffer::DeactivateTexture( uint32_t p_attachment, uint32_t p_target )
 		{
 			auto l_it = m_mapAttachments.find( p_attachment );
 
@@ -75,12 +75,12 @@ namespace ProceduralTextures
 			}
 		}
 
-		void FrameBuffer::AttachTexture( GLenum p_attachment, std::shared_ptr< Texture > p_pTexture )
+		void FrameBuffer::AttachTexture( uint32_t p_attachment, std::shared_ptr< Texture > p_pTexture )
 		{
 			m_mapAttachments[p_attachment] = p_pTexture;
 		}
 
-		std::shared_ptr< Texture > FrameBuffer::GetTexture( GLenum p_attachment )
+		std::shared_ptr< Texture > FrameBuffer::GetTexture( uint32_t p_attachment )
 		{
 			std::shared_ptr< Texture > l_pReturn;
 			auto l_it = m_mapAttachments.find( p_attachment );
@@ -93,7 +93,7 @@ namespace ProceduralTextures
 			return l_pReturn;
 		}
 
-		bool FrameBuffer::DownloadSync( GLenum p_attachment, PixelBuffer & p_buffer )
+		bool FrameBuffer::DownloadSync( uint32_t p_attachment, PixelBuffer & p_buffer )
 		{
 			bool l_bReturn = false;
 
@@ -105,7 +105,7 @@ namespace ProceduralTextures
 			return l_bReturn;
 		}
 
-		bool FrameBuffer::DownloadAsync( GLenum p_attachment, PixelBuffer & p_buffer )
+		bool FrameBuffer::DownloadAsync( uint32_t p_attachment, PixelBuffer & p_buffer )
 		{
 			bool l_bReturn = false;
 

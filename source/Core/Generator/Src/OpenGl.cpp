@@ -250,13 +250,13 @@ namespace ProceduralTextures
 			return glCheckError( "glDisable" );
 		}
 
-		bool OpenGl::BlendFunc(	unsigned int sfactor, unsigned int dfactor )
+		bool OpenGl::BlendFunc( GLenum sfactor, GLenum dfactor )
 		{
 			m_pfnBlendFunc( sfactor, dfactor );
 			return glCheckError( "glBlendFunc" );
 		}
 
-		bool OpenGl::BlendFuncSeparate(	unsigned int srcRGB, unsigned int dstRGB, unsigned int srcAlpha, unsigned int dstAlpha )
+		bool OpenGl::BlendFuncSeparate(	GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha )
 		{
 			m_pfnBlendFuncSeparate( srcRGB, dstRGB, srcAlpha, dstAlpha );
 			return glCheckError( "glBlendFuncSeparate" );
@@ -628,19 +628,19 @@ namespace ProceduralTextures
 			return l_iReturn;
 		}
 
-		bool OpenGl::EnableVertexAttribArray( uint32_t index )
+		bool OpenGl::EnableVertexAttribArray( GLuint index )
 		{
 			m_pfnEnableVertexAttribArray( index );
 			return glCheckError( "glEnableVertexAttribArray" );
 		}
 
-		bool OpenGl::VertexAttribPointer( uint32_t index, int size, GLenum type, bool normalized, int stride, void const * pointer )
+		bool OpenGl::VertexAttribPointer( GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid const * pointer )
 		{
 			m_pfnVertexAttribPointer( index, size, type, normalized, stride, pointer );
 			return glCheckError( "glVertexAttribPointer" );
 		}
 
-		bool OpenGl::DisableVertexAttribArray( uint32_t index )
+		bool OpenGl::DisableVertexAttribArray( GLuint index )
 		{
 			m_pfnDisableVertexAttribArray( index );
 			return glCheckError( "glDisableVertexAttribArray" );

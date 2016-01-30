@@ -21,26 +21,26 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include "GeneratorPrerequisites.h"
 #include "glew.h"
 
-typedef GLenum( PGEN_CALLBACK * PFNGLGETERRORPROC )( void );
-typedef void ( PGEN_CALLBACK * PFNGLCLEARCOLORPROC )( GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha );
-typedef void ( PGEN_CALLBACK * PFNGLVIEWPORTPROC )( GLint x, GLint y, GLsizei width, GLsizei height );
-typedef void ( PGEN_CALLBACK * PFNGLCLEARPROC )( GLbitfield mask );
-typedef void ( PGEN_CALLBACK * PFNGLDRAWELEMENTSPROC )( GLenum mode, GLsizei count, GLenum type, const GLvoid * indices );
-typedef void ( PGEN_CALLBACK * PFNGLENABLEPROC )( GLenum cap );
-typedef void ( PGEN_CALLBACK * PFNGLDISABLEPROC )( GLenum cap );
-typedef void ( PGEN_CALLBACK * PFNGLGENTEXTURESPROC )( GLsizei n, GLuint * textures );
-typedef void ( PGEN_CALLBACK * PFNGLDELETETEXTURESPROC )( GLsizei n, const GLuint * textures );
+typedef GLenum( PGEN_CALLBACK * PFNGLGETERRORPROC )( GLvoid );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLCLEARCOLORPROC )( GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLVIEWPORTPROC )( GLint x, GLint y, GLsizei width, GLsizei height );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLCLEARPROC )( GLbitfield mask );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLDRAWELEMENTSPROC )( GLenum mode, GLsizei count, GLenum type, const GLvoid * indices );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLENABLEPROC )( GLenum cap );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLDISABLEPROC )( GLenum cap );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLGENTEXTURESPROC )( GLsizei n, GLuint * textures );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLDELETETEXTURESPROC )( GLsizei n, const GLuint * textures );
 typedef GLboolean( PGEN_CALLBACK * PFNGLISTEXTUREPROC )( GLuint texture );
-typedef void ( PGEN_CALLBACK * PFNGLBINDTEXTUREPROC )( GLenum target, GLuint texture );
-typedef void ( PGEN_CALLBACK * PFNGLTEXSUBIMAGE2DPROC )( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels );
-typedef void ( PGEN_CALLBACK * PFNGLTEXIMAGE2DPROC )( GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels );
-typedef void ( PGEN_CALLBACK * PFNGLTEXPARAMETERIPROC )( GLenum target, GLenum pname, GLint param );
-typedef void ( PGEN_CALLBACK * PFNGLGETTEXIMAGEPROC )( GLenum target, GLint level, GLenum format, GLenum type, GLvoid * pixels );
-typedef void ( PGEN_CALLBACK * PFNGLREADBUFFERPROC )( GLenum mode );
-typedef void ( PGEN_CALLBACK * PFNGLREADPIXELSPROC )( GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels );
-typedef void ( PGEN_CALLBACK * PFNGLBLENDFUNCPROC )( GLenum sfactor, GLenum dfactor );
-typedef void ( PGEN_CALLBACK * PFNGLBLENDFUNCSEPARATEPROC )( GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha );
-typedef void ( PGEN_CALLBACK * PFNGLDRAWARRAYSPROC )( GLenum mode, GLint first, GLsizei count );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLBINDTEXTUREPROC )( GLenum target, GLuint texture );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLTEXSUBIMAGE2DPROC )( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLTEXIMAGE2DPROC )( GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLTEXPARAMETERIPROC )( GLenum target, GLenum pname, GLint param );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLGETTEXIMAGEPROC )( GLenum target, GLint level, GLenum format, GLenum type, GLvoid * pixels );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLREADBUFFERPROC )( GLenum mode );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLREADPIXELSPROC )( GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLBLENDFUNCPROC )( GLenum sfactor, GLenum dfactor );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLBLENDFUNCSEPARATEPROC )( GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha );
+typedef GLvoid ( PGEN_CALLBACK * PFNGLDRAWARRAYSPROC )( GLenum mode, GLint first, GLsizei count );
 
 
 namespace ProceduralTextures
@@ -79,11 +79,11 @@ namespace ProceduralTextures
 
 			/** Retrieves the API functions
 			*/
-			void Initialise();
+			GLvoid Initialise();
 
 			/** Releases the API functions
 			*/
-			void Cleanup();
+			GLvoid Cleanup();
 
 			/** Retrieves the initialisation status
 			*/
@@ -98,43 +98,43 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetError.xml
 			*/
-			unsigned int GetError()const;
+			GLenum GetError()const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glClearColor.xml
 			*/
-			bool ClearColor( float red, float green, float blue, float alpha );
+			bool ClearColor( GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glViewport.xml
 			*/
-			bool Viewport( int x, int y, int width, int height );
+			bool Viewport( GLint x, GLint y, GLsizei width, GLsizei height );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glClear.xml
 			*/
-			bool Clear( unsigned int mask );
+			bool Clear( GLbitfield mask );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glDrawElements.xml
 			*/
-			bool DrawElements( unsigned int mode, int count, unsigned int type, const void * indices );
+			bool DrawElements( GLenum mode, GLsizei count, GLenum type, const GLvoid * indices );
 
 			/** see https://www.opengl.org/sdk/docs/man/html/glDrawArrays.xhtml
 			*/
-			bool DrawArrays( unsigned int mode, int first, int count );
+			bool DrawArrays( GLenum mode, GLint first, GLsizei count );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glEnable.xml
 			*/
-			bool Enable( unsigned int mode );
+			bool Enable( GLenum mode );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glEnable.xml
 			*/
-			bool Disable( unsigned int mode );
+			bool Disable( GLenum mode );
 
 			/** see https://www.opengl.org/sdk/docs/man2/xhtml/glBlendFunc.xml
 			*/
-			bool BlendFunc(	unsigned int sfactor, unsigned int dfactor );
+			bool BlendFunc( GLenum sfactor, GLenum dfactor );
 
 			/** see https://www.opengl.org/sdk/docs/man2/xhtml/glBlendFuncSeparate.xml
 			*/
-			bool BlendFuncSeparate(	unsigned int srcRGB, unsigned int dstRGB, unsigned int srcAlpha, unsigned int dstAlpha );
+			bool BlendFuncSeparate( GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha );
 
 			//@}
 			/**@name Texture functions */
@@ -142,55 +142,55 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGenTextures.xml
 			*/
-			bool GenTextures( int n, unsigned int * textures );
+			bool GenTextures( GLsizei n, GLuint * textures );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glDeleteTextures.xml
 			*/
-			bool DeleteTextures( int n, const unsigned int * textures );
+			bool DeleteTextures( GLsizei n, const GLuint * textures );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glIsTexture.xml
 			*/
-			bool IsTexture( unsigned int texture )const;
+			bool IsTexture( GLuint texture )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGenerateMipmap.xml
 			*/
-			bool GenerateMipmap( unsigned int target );
+			bool GenerateMipmap( GLenum target );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glActiveTexture.xml
 			*/
-			bool ActiveTexture( int texture );
+			bool ActiveTexture( GLint texture );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glClientActiveTexture.xml
 			*/
-			bool ClientActiveTexture( unsigned int texture );
+			bool ClientActiveTexture( GLenum texture );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glBindTexture.xml
 			*/
-			bool BindTexture( unsigned int mode, unsigned int texture );
+			bool BindTexture( GLenum mode, GLuint texture );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glTexSubImage2D.xml
 			*/
-			bool TexSubImage2D( unsigned int target, int level, int xoffset, int yoffset, int width, int height, unsigned int format, unsigned int type, const void * data );
+			bool TexSubImage2D( GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * data );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glTexImage2D.xml
 			*/
-			bool TexImage2D( unsigned int target, int level, int internalFormat, int width, int height, int border, unsigned int format, unsigned int type, const void * data );
+			bool TexImage2D( GLenum target, GLint level, GLint internalFormat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * data );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glTexParameter.xml
 			*/
-			bool TexParameter( unsigned int target, unsigned int pname, int param );
+			bool TexParameter( GLenum target, GLenum pname, GLint param );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetTexImage.xml
 			*/
-			bool GetTexImage( unsigned int target, int level, unsigned int format, unsigned int type, void * img )const;
+			bool GetTexImage( GLenum target, GLint level, GLenum format, GLenum type, GLvoid * img )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glReadBuffer.xml
 			*/
-			bool ReadBuffer( unsigned int mode );
+			bool ReadBuffer( GLenum mode );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glReadPixels.xml
 			*/
-			bool ReadPixels( int x, int y, int width, int height, unsigned int format, unsigned int type, void * pixels )const;
+			bool ReadPixels( GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels )const;
 
 			//@}
 			/**@name Buffer objects functions */
@@ -198,39 +198,39 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGenBuffers.xml
 			*/
-			bool GenBuffers( int n, unsigned int * buffers );
+			bool GenBuffers( GLsizei n, GLuint * buffers );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glBindBuffer.xml
 			*/
-			bool BindBuffer( unsigned int target, unsigned int buffer );
+			bool BindBuffer( GLenum target, GLuint buffer );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glDeleteBuffers.xml
 			*/
-			bool DeleteBuffers( int n, const unsigned int * buffers );
+			bool DeleteBuffers( GLsizei n, const GLuint * buffers );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glIsBuffer.xml
 			*/
-			bool IsBuffer( unsigned int buffer )const;
+			bool IsBuffer( GLuint buffer )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glBufferData.xml
 			*/
-			bool BufferData( unsigned int target, ptrdiff_t size, const void * data, unsigned int usage );
+			bool BufferData( GLenum target, GLsizeiptr size, const GLvoid * data, GLenum usage );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glBufferSubData.xml
 			*/
-			bool BufferSubData( unsigned int target, ptrdiff_t offset, ptrdiff_t size, const void * data );
+			bool BufferSubData( GLenum target, GLintptrARB offset, GLsizeiptrARB size, const GLvoid * data );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glMapBuffer.xml
 			*/
-			void * MapBuffer( unsigned int target, unsigned int access );
+			GLvoid * MapBuffer( GLenum target, GLenum access );
 
 			/** see https://www.opengl.org/sdk/docs/man/html/glUnmapBuffer.xhtml
 			*/
-			bool UnmapBuffer( unsigned int target );
+			bool UnmapBuffer( GLenum target );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetBufferParameter.xml
 			*/
-			bool GetBufferParameter( unsigned int target, unsigned int pname, int * params );
+			bool GetBufferParameter( GLenum target, GLenum pname, GLint * params );
 
 			//@}
 			/**@name FBO functions */
@@ -238,27 +238,27 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGenFramebuffers.xml
 			*/
-			bool GenFramebuffers( int n, unsigned int * framebuffers );
+			bool GenFramebuffers( GLsizei n, GLuint * framebuffers );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glDeleteFramebuffers.xml
 			*/
-			bool DeleteFramebuffers( int n, const unsigned int * framebuffers );
+			bool DeleteFramebuffers( GLsizei n, const GLuint * framebuffers );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glIsFramebuffer.xml
 			*/
-			bool IsFramebuffer( unsigned int framebuffer )const;
+			bool IsFramebuffer( GLuint framebuffer )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glBindFramebuffer.xml
 			*/
-			bool BindFramebuffer( unsigned int target, unsigned int framebuffer );
+			bool BindFramebuffer( GLenum target, GLuint framebuffer );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glFramebufferTexture.xml
 			*/
-			bool FramebufferTexture2D( unsigned int target, unsigned int attachment, unsigned int textarget, unsigned int texture, int level );
+			bool FramebufferTexture2D( GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glCheckFramebufferStatus.xml
 			*/
-			unsigned int CheckFramebufferStatus( unsigned int target )const;
+			GLenum CheckFramebufferStatus( GLenum target )const;
 
 			//@}
 			/**@name Uniform variable Functions */
@@ -266,43 +266,43 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetUniformLocation.xml
 			*/
-			int GetUniformLocation( unsigned int program, const char * name )const;
+			int GetUniformLocation( GLuint program, const GLchar * name )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glUniform.xml
 			*/
-			bool Uniform( int location, int v0 );
+			bool Uniform( GLint location, GLint v0 );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glUniform.xml
 			*/
-			bool Uniform( int location, float v0 );
+			bool Uniform( GLint location, GLfloat v0 );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glUniform.xml
 			*/
-			bool UniformVec2( int location, int const * v );
+			bool UniformVec2( GLint location, GLint const * v );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glUniform.xml
 			*/
-			bool UniformVec2( int location, float const * v );
+			bool UniformVec2( GLint location, GLfloat const * v );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glUniform.xml
 			*/
-			bool UniformVec3( int location, int const * v );
+			bool UniformVec3( GLint location, GLint const * v );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glUniform.xml
 			*/
-			bool UniformVec3( int location, float const * v );
+			bool UniformVec3( GLint location, GLfloat const * v );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glUniform.xml
 			*/
-			bool UniformVec4( int location, int const * v );
+			bool UniformVec4( GLint location, GLint const * v );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glUniform.xml
 			*/
-			bool UniformVec4( int location, float const * v );
+			bool UniformVec4( GLint location, GLfloat const * v );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glUniform.xml
 			*/
-			bool UniformMat4( int location, float const * v );
+			bool UniformMat4( GLint location, GLfloat const * v );
 
 			//@}
 			/**@name Shader object Functions */
@@ -310,39 +310,39 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glCreateShader.xml
 			*/
-			unsigned int CreateShader( unsigned int type );
+			GLenum CreateShader( GLenum type );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glDeleteShader.xml
 			*/
-			bool DeleteShader( unsigned int shader );
+			bool DeleteShader( GLuint shader );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glIsShader.xml
 			*/
-			bool IsShader( unsigned int shader )const;
+			bool IsShader( GLuint shader )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glAttachShader.xml
 			*/
-			bool AttachShader( unsigned int program, unsigned int shader );
+			bool AttachShader( GLuint program, GLuint shader );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glDetachShader.xml
 			*/
-			bool DetachShader( unsigned int program, unsigned int shader );
+			bool DetachShader( GLuint program, GLuint shader );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glCompileShader.xml
 			*/
-			bool CompileShader( unsigned int shader );
+			bool CompileShader( GLuint shader );
 
 			/** see https://www.opengl.org/sdk/docs/man/html/glGetShader.xhtml
 			*/
-			bool GetShaderParameter( unsigned int shader, unsigned int pname, int * param )const;
+			bool GetShaderParameter( GLuint shader, GLenum pname, GLint * param )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetShaderInfoLog.xml
 			*/
-			bool GetShaderInfoLog( unsigned int shader, int bufSize, int * length, char * infoLog )const;
+			bool GetShaderInfoLog( GLuint shader, GLsizei bufSize, GLsizei * length, GLchar * infoLog )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glShaderSource.xml
 			*/
-			bool ShaderSource( unsigned int shader, int count, const char ** strings, const int * lengths );
+			bool ShaderSource( GLuint shader, GLsizei count, const GLchar ** strings, const GLint * lengths );
 
 			//@}
 			/**@name Shader program Functions */
@@ -350,35 +350,35 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glCreateProgram.xml
 			*/
-			unsigned int CreateProgram();
+			GLenum CreateProgram();
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glDeleteProgram.xml
 			*/
-			bool DeleteProgram( unsigned int program );
+			bool DeleteProgram( GLuint program );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glIsProgram.xml
 			*/
-			bool IsProgram( unsigned int program )const;
+			bool IsProgram( GLuint program )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glLinkProgram.xml
 			*/
-			bool LinkProgram( unsigned int program );
+			bool LinkProgram( GLuint program );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glUseProgram.xml
 			*/
-			bool UseProgram( unsigned int program );
+			bool UseProgram( GLuint program );
 
 			/** see https://www.opengl.org/sdk/docs/man/html/glGetProgram.xhtml
 			*/
-			bool GetProgramParameter( unsigned int program, unsigned int pname, int * param )const;
+			bool GetProgramParameter( GLuint program, GLenum pname, GLint * param )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetProgramInfoLog.xml
 			*/
-			bool GetProgramInfoLog( unsigned int program, int bufSize, int * length, char * infoLog )const;
+			bool GetProgramInfoLog( GLuint program, GLsizei bufSize, GLsizei * length, GLchar * infoLog )const;
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glGetAttribLocation.xml
 			*/
-			int GetAttribLocation( unsigned int program, const char * name )const;
+			int GetAttribLocation( GLuint program, const GLchar * name )const;
 
 			//@}
 			/**@name Vertex Attribute Pointer functions */
@@ -386,15 +386,15 @@ namespace ProceduralTextures
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glEnableVertexAttribArray.xml
 			*/
-			bool EnableVertexAttribArray( uint32_t index );
+			bool EnableVertexAttribArray( GLuint index );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glVertexAttribPointer.xml
 			*/
-			bool VertexAttribPointer( uint32_t index, int size, unsigned int type, bool normalized, int stride, void const * pointer );
+			bool VertexAttribPointer( GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, GLvoid const * pointer );
 
 			/** see https://www.opengl.org/sdk/docs/man/docbook4/xhtml/glEnableVertexAttribArray.xml
 			*/
-			bool DisableVertexAttribArray( uint32_t index );
+			bool DisableVertexAttribArray( GLuint index );
 
 			//@}
 

@@ -13,7 +13,7 @@ namespace ProceduralTextures
 		, m_bOwnCoords( true )
 		, m_uiCount( p_uiCount )
 	{
-		if ( m_uiCount > 0 )
+		if ( m_uiCount )
 		{
 			m_coords = new T[m_uiCount];
 		}

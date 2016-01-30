@@ -32,7 +32,7 @@ namespace ProceduralTextures
 		DoUpdateLineAndTick();
 	}
 
-	void SliderCtrl::SetValue( int p_value )
+	void SliderCtrl::SetValue( int32_t p_value )
 	{
 		m_value =  p_value;
 		DoUpdateLineAndTick();

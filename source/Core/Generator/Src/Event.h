@@ -70,7 +70,7 @@ namespace ProceduralTextures
 
 		/** Retrieves the event type
 		@return
-				The type
+			The type
 		*/
 		inline eEVENT_TYPE GetEventType()const
 		{

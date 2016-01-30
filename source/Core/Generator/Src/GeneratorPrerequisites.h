@@ -221,7 +221,7 @@ namespace ProceduralTextures
 	@version
 		2.0.0
 	@brief
-		Comb control supported styles
+		Combo box control supported styles
 	*/
 	typedef enum eCOMBO_STYLE
 		: uint32_t
@@ -243,11 +243,11 @@ namespace ProceduralTextures
 	typedef enum eEDIT_STYLE
 		: uint32_t
 	{
-		//! The edit control process 'return' hit as an event and not as a newline
+		//! The edit control processes 'return' hit as an event and not as a new line
 		eEDIT_STYLE_PROCESS_ENTER = 0x00000100,
 		//! The edit control is a multiline edit control
 		eEDIT_STYLE_MULTILINE = 0x00000200,
-		//! The edit control process 'tab' hit as the tab character and not as an event
+		//! The edit control processes 'tab' hit as the tab character and not as an event
 		eEDIT_STYLE_PROCESS_TAB = 0x00000400,
 		//! Words are not cut
 		eEDIT_STYLE_WORDWRAP = 0x00000800,
@@ -266,9 +266,9 @@ namespace ProceduralTextures
 	typedef enum eSLIDER_STYLE
 		: uint32_t
 	{
-		// The slider is displaye horizontally (default mode)
+		// The slider is displayed horizontally (default mode)
 		eSLIDER_STYLE_HORIZONTAL = 0x00010000,
-		// The slider is displaye vertically
+		// The slider is displayed vertically
 		eSLIDER_STYLE_VERTICAL = 0x000200000,
 	}	eSLIDER_STYLE;
 
@@ -286,17 +286,17 @@ namespace ProceduralTextures
 		: uint32_t
 	{
 		//! The static's text is left aligned
-		eSTATIC_STYLE_HALIGN_LEFT	= 0x01000000,
+		eSTATIC_STYLE_HALIGN_LEFT = 0x01000000,
 		//! The static's text is horizontally centered
-		eSTATIC_STYLE_HALIGN_CENTER	= 0x02000000,
+		eSTATIC_STYLE_HALIGN_CENTER = 0x02000000,
 		//! The static's text is right aligned
-		eSTATIC_STYLE_HALIGN_RIGHT	= 0x04000000,
+		eSTATIC_STYLE_HALIGN_RIGHT = 0x04000000,
 		//! The static's text is aligned on top
-		eSTATIC_STYLE_VALIGN_TOP	= 0x10000000,
+		eSTATIC_STYLE_VALIGN_TOP = 0x10000000,
 		//! The static's text is vertically centered
-		eSTATIC_STYLE_VALIGN_CENTER	= 0x20000000,
+		eSTATIC_STYLE_VALIGN_CENTER = 0x20000000,
 		//! The static's text is aligned on bottom
-		eSTATIC_STYLE_VALIGN_BOTTOM	= 0x40000000,
+		eSTATIC_STYLE_VALIGN_BOTTOM = 0x40000000,
 	}	eSTATIC_STYLE;
 
 	/*!
@@ -347,13 +347,13 @@ namespace ProceduralTextures
 	@version
 		2.0.0
 	@brief
-		Text wrapping modes, handles the way text is cut when it overflows the overlay width
+		Border panel overlay border positions.
 	*/
 	typedef enum eBORDER_POSITION
 	{
 		//! The border is outside the overlay
 		eBORDER_POSITION_INTERNAL,
-		//! The border is middle outside and middle inside the overlay
+		//! The border is half outside and half inside the overlay
 		eBORDER_POSITION_MIDDLE,
 		//! The border is outside the overlay
 		eBORDER_POSITION_EXTERNAL,
@@ -588,7 +588,7 @@ namespace ProceduralTextures
 		eMOUSE_EVENT_MOUSE_BUTTON_PUSHED,
 		//! One mouse button is released
 		eMOUSE_EVENT_MOUSE_BUTTON_RELEASED,
-		//! One mouse wheel is rolled
+		//! The mouse wheel is rolled
 		eMOUSE_EVENT_MOUSE_WHEEL,
 		//! The mouse events count
 		eMOUSE_EVENT_COUNT,
@@ -670,9 +670,9 @@ namespace ProceduralTextures
 	typedef enum eMATERIAL_TYPE
 		: uint8_t
 	{
-		//! Colour material
+		//! Colour material type
 		eMATERIAL_TYPE_COLOUR,
-		//! Texture material
+		//! Texture material type
 		eMATERIAL_TYPE_TEXTURE,
 	}	eMATERIAL_TYPE;
 

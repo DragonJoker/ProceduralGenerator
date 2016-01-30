@@ -126,24 +126,58 @@ namespace ProceduralTextures
 	template< typename T, typename U, size_t Count1, size_t Count2, bool InvertedX, bool InvertedY, typename Enable=void > struct BufferCopier;
 
 	template< typename T, typename U, size_t Count1, size_t Count2, bool InvertedX, bool InvertedY >
-	struct BufferCopier< T, U, Count1, Count2, InvertedX, InvertedY, typename std::enable_if< Count1 + Count2 < sizeof( T ) >::type >
+	struct BufferCopier< T, U, Count1, Count2, InvertedX, InvertedY, typename std::enable_if< ( ( Count1 + Count2 ) < sizeof( T ) ) && ( Count2 != 0 ) >::type >
 	{
-		void operator()( Buffer< T > * p_pBuffer, const U * p_pBuffer1, const U * p_pBuffer2 )
+		void operator()( Buffer< T > * p_pBuffer, U const * p_pBuffer1, U const * p_pBuffer2 )
 		{
-			throw std::invalid_argument( "Count1 + Count2 must be equal to sizeof( T )" );
+			std::stringstream l_err;
+			l_err << "Count1 (" << Count1 << ") + Count2 (" << Count2 << ") must be greater than or equal to sizeof( T ) (" << sizeof( T ) << ")";
+			throw std::invalid_argument( l_err.str() );
 		}
 	};
 
 	template< typename T, typename U, size_t Count1, size_t Count2, bool InvertedX >
-	struct BufferCopier< T, U, Count1, Count2, InvertedX, false, typename std::enable_if< sizeof( T ) <= Count1 + Count2 >::type >
+	struct BufferCopier< T, U, Count1, Count2, InvertedX, false, typename std::enable_if< ( ( Count1 + Count2 ) < sizeof( T ) ) && ( Count2 == 0 ) >::type >
 	{
-		void operator()( Buffer< T > * p_pBuffer, const U * p_pBuffer1, const U * p_pBuffer2 )
+		void operator()( Buffer< T > * p_pBuffer, U const * p_pBuffer1, U const * p_pBuffer2 )
 		{
 			size_t l_uiCount = p_pBuffer->GetElementsCount();
-			size_t l_uiCount1 = 0;
-			size_t l_uiCount2 = 0;
-			U * l_pBuffer1 = const_cast< U * >( & p_pBuffer1[l_uiCount1] );
-			U * l_pBuffer2 = const_cast< U * >( & p_pBuffer2[l_uiCount2] );
+			auto l_pBuffer1 = &p_pBuffer1[0];
+			PixelCopier< U, Count1, 0, InvertedX > l_copier;
+
+			for ( size_t i = 0; i < l_uiCount; i++ )
+			{
+				l_copier( p_pBuffer->Ptr()[i], l_pBuffer1, NULL );
+				l_pBuffer1 += Count1;
+			}
+		}
+	};
+
+	template< typename T, typename U, size_t Count1, size_t Count2, bool InvertedX >
+	struct BufferCopier< T, U, Count1, Count2, InvertedX, true, typename std::enable_if< ( ( Count1 + Count2 ) < sizeof( T ) ) && ( Count2 == 0 ) >::type >
+	{
+		void operator()( Buffer< T > * p_pBuffer, U const * p_pBuffer1, U const * p_pBuffer2 )
+		{
+			size_t l_uiCount = p_pBuffer->GetElementsCount();
+			auto l_pBuffer1 = &p_pBuffer1[( l_uiCount - 2 ) * Count1];
+			PixelCopier< U, Count1, 0, InvertedX > l_copier;
+
+			for ( size_t i = 0; i < l_uiCount; i++ )
+			{
+				l_copier( p_pBuffer->Ptr()[i], l_pBuffer1, NULL );
+				l_pBuffer1 -= Count1;
+			}
+		}
+	};
+
+	template< typename T, typename U, size_t Count1, size_t Count2, bool InvertedX >
+	struct BufferCopier< T, U, Count1, Count2, InvertedX, false, typename std::enable_if< ( Count1 + Count2 ) >= sizeof( T ) >::type >
+	{
+		void operator()( Buffer< T > * p_pBuffer, U const * p_pBuffer1, U const * p_pBuffer2 )
+		{
+			size_t l_uiCount = p_pBuffer->GetElementsCount();
+			auto l_pBuffer1 = &p_pBuffer1[0];
+			auto l_pBuffer2 = &p_pBuffer2[0];
 			PixelCopier< U, Count1, Count2, InvertedX > l_copier;
 
 			for ( size_t i = 0; i < l_uiCount; i++ )
@@ -156,15 +190,13 @@ namespace ProceduralTextures
 	};
 
 	template< typename T, typename U, size_t Count1, size_t Count2, bool InvertedX >
-	struct BufferCopier< T, U, Count1, Count2, InvertedX, true, typename std::enable_if< sizeof( T ) <= Count1 + Count2 >::type >
+	struct BufferCopier< T, U, Count1, Count2, InvertedX, true, typename std::enable_if< ( Count1 + Count2 ) >= sizeof( T ) >::type >
 	{
-		void operator()( Buffer< T > * p_pBuffer, const U * p_pBuffer1, const U * p_pBuffer2 )
+		void operator()( Buffer< T > * p_pBuffer, U const * p_pBuffer1, U const * p_pBuffer2 )
 		{
 			size_t l_uiCount = p_pBuffer->GetElementsCount();
-			size_t l_uiCount1 = ( l_uiCount - 2 ) * Count1;
-			size_t l_uiCount2 = ( l_uiCount - 2 ) * Count2;
-			U * l_pBuffer1 = const_cast< U * >( & p_pBuffer1[l_uiCount1] );
-			U * l_pBuffer2 = const_cast< U * >( & p_pBuffer2[l_uiCount2] );
+			auto l_pBuffer1 = &p_pBuffer1[( l_uiCount - 2 ) * Count1];
+			auto l_pBuffer2 = &p_pBuffer2[( l_uiCount - 2 ) * Count2];
 			PixelCopier< U, Count1, Count2, InvertedX > l_copier;
 
 			for ( size_t i = 0; i < l_uiCount; i++ )
@@ -348,7 +380,7 @@ namespace ProceduralTextures
 
 	template< typename T >
 	template < size_t Count1, size_t Count2 >
-	void Pixel< T >::Set( const T * p_pBuffer1, const T * p_pBuffer2 )
+	void Pixel< T >::Set( T const * p_pBuffer1, T const * p_pBuffer2 )
 	{
 		PixelCopier< T, Count1, Count2, false >()( * this, p_pBuffer1, p_pBuffer2 );
 	}
@@ -366,6 +398,12 @@ namespace ProceduralTextures
 	bool operator==( const Pixel< T > & p_pixel, const Pixel< U > & p_pxl )
 	{
 		return p_pixel.r == T( p_pxl.r ) && p_pixel.g == T( p_pxl.g ) && p_pixel.b == T( p_pxl.b ) && p_pixel.a == T( p_pxl.a );
+	}
+
+	template< typename T, typename U >
+	bool operator!=( const Pixel< T > & p_pixel, const Pixel< U > & p_pxl )
+	{
+		return p_pixel.r != T( p_pxl.r ) || p_pixel.g != T( p_pxl.g ) || p_pixel.b != T( p_pxl.b ) || p_pixel.a != T( p_pxl.a );
 	}
 
 	template< typename T, typename U >

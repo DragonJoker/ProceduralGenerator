@@ -52,7 +52,7 @@ namespace ProceduralTextures
 			return std::max( p_min, std::min( p_max, p_value ) );
 		}
 
-		/** Substract a value from another one, the result is At least the given minimum value
+		/** Substract a value from another one, the result is at least the given minimum value
 		@param[in] p_a
 			The left operand
 		@param[in] p_b
@@ -118,7 +118,7 @@ namespace ProceduralTextures
 			return l_result;
 		}
 
-		/** Adds a value to another one, the result is At most the given maximum value
+		/** Adds a value to another one, the result is at most the given maximum value
 		@param[in] p_a
 			The left operand
 		@param[in] p_b

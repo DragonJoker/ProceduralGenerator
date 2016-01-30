@@ -75,7 +75,7 @@ namespace ProceduralTextures
 		template< size_t N >
 		ComboBoxCtrl( std::shared_ptr< Control > p_parent, String const( & p_values )[N], int p_selected, uint32_t p_id, Position const & p_position, Size const & p_size, uint32_t p_style = 0, bool p_visible = true )
 			: Control( eCONTROL_TYPE_COMBO, p_parent, p_id, p_position, p_size, p_style, p_visible )
-			, m_values( std::vector< String >( &p_values[0], &p_values[N] ) )
+			, m_values( StringArray( &p_values[0], &p_values[N] ) )
 			, m_selected( p_selected )
 		{
 		}

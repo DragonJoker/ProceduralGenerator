@@ -68,7 +68,7 @@ namespace gl
 		@return
 			false if no texture is attached At wanted attachment or if it is not successfully activated
 		*/
-		bool ActivateTexture( unsigned int p_attachment, unsigned int p_target = GL_TEXTURE0 );
+		bool ActivateTexture( uint32_t p_attachment, uint32_t p_target = GL_TEXTURE0 );
 
 		/** Deactivate the texture At given attachment
 		@param[in] p_attachment
@@ -76,7 +76,7 @@ namespace gl
 		@param[in] p_target
 			The texture target (GL_TEXTURE0, ...)
 		*/
-		void DeactivateTexture( unsigned int p_attachment, unsigned int p_target = GL_TEXTURE0 );
+		void DeactivateTexture( uint32_t p_attachment, uint32_t p_target = GL_TEXTURE0 );
 
 		/** Attaches a texture to the given attachment
 		@param[in] p_attachment
@@ -84,7 +84,7 @@ namespace gl
 		@param[in] p_texture
 			The texture
 		*/
-		void AttachTexture( unsigned int p_attachment, std::shared_ptr< Texture > p_texture );
+		void AttachTexture( uint32_t p_attachment, std::shared_ptr< Texture > p_texture );
 
 		/** Retrieves the texture to the given attachment
 		@param[in] p_attachment
@@ -92,7 +92,7 @@ namespace gl
 		@return
 			The texture, NULL if there is no texture At given attachment
 		*/
-		std::shared_ptr< Texture > GetTexture( unsigned int p_attachment );
+		std::shared_ptr< Texture > GetTexture( uint32_t p_attachment );
 
 		/** Tries to download the image buffer for given attachment
 		@param[in] p_attachment
@@ -102,7 +102,7 @@ namespace gl
 		@return
 			false if no texture is attached At wanted attachment or if it is not successfully downloaded
 		*/
-		bool DownloadSync( unsigned int p_attachment, PixelBuffer & p_buffer );
+		bool DownloadSync( uint32_t p_attachment, PixelBuffer & p_buffer );
 
 		/** Tries to download the image buffer for given attachment
 		@param[in] p_attachment
@@ -112,7 +112,7 @@ namespace gl
 		@return
 			false if no texture is attached At wanted attachment or if it is not successfully downloaded
 		*/
-		bool DownloadAsync( unsigned int p_attachment, PixelBuffer & p_buffer );
+		bool DownloadAsync( uint32_t p_attachment, PixelBuffer & p_buffer );
 
 		/** Updates the virtual framebuffer dimensions
 		@param[in] p_size

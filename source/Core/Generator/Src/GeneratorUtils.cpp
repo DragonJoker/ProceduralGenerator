@@ -96,7 +96,7 @@ namespace ProceduralTextures
 
 			if ( !pdsp )
 			{
-				std::cerr << "Failed to open default display." << std::endl;
+			  std::cerr << "Failed to open default display." << std::endl;
 			}
 			else
 			{

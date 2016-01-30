@@ -6,6 +6,7 @@
 #include "GaussianBlurFunctor.h"
 #include "GaussianBlurSharpenFunctor.h"
 #include "GrayScaleFunctor.h"
+#include "ColorizeFunctor.h"
 #include "ImplosionFunctor.h"
 #include "LinearNoiseReductionFunctor.h"
 #include "RecursiveAnisotropicNoiseReductionFunctor.h"
@@ -135,6 +136,10 @@ namespace ImageEffects
 
 			case eEFFECT_TYPE_GRAYSCALE:
 				m_functors[i] = std::make_shared< GrayScaleFunctor >();
+				break;
+
+			case eEFFECT_TYPE_COLORIZE:
+				m_functors[i] = std::make_shared< ColorizeFunctor >();
 				break;
 
 			case eEFFECT_TYPE_SEPIA:

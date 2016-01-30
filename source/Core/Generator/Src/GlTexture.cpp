@@ -66,7 +66,7 @@ namespace ProceduralTextures
 			DoDeleteBuffers();
 		}
 
-		bool Texture::Activate( GLenum p_texTarget, bool p_bUpload )
+		bool Texture::Activate( uint32_t p_texTarget, bool p_bUpload )
 		{
 			bool l_bReturn = GetOpenGl().ActiveTexture( p_texTarget );
 			l_bReturn &= Bind();
@@ -85,7 +85,7 @@ namespace ProceduralTextures
 			return l_bReturn;
 		}
 
-		void Texture::Deactivate( GLenum p_texTarget )
+		void Texture::Deactivate( uint32_t p_texTarget )
 		{
 			GetOpenGl().ActiveTexture( p_texTarget );
 			Unbind();

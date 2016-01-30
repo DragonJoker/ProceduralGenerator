@@ -108,7 +108,7 @@ namespace ProceduralTextures
 
 		/** Retrieves the event type
 		@return
-				The type
+			The type
 		*/
 		inline eKEYBOARD_EVENT GetKeyboardEventType()const
 		{
@@ -117,7 +117,7 @@ namespace ProceduralTextures
 
 		/** Retrieves the key code
 		@return
-				The key
+			The key
 		*/
 		inline eKEYBOARD_KEY GetKey()const
 		{
@@ -126,7 +126,7 @@ namespace ProceduralTextures
 
 		/** Retrieves the character
 		@return
-				The key
+			The key
 		*/
 		inline String const & GetChar()const
 		{
@@ -135,7 +135,7 @@ namespace ProceduralTextures
 
 		/** Tells if the Ctrl key is down
 		@return
-				The status
+			The status
 		*/
 		inline bool IsCtrlDown()const
 		{
@@ -144,7 +144,7 @@ namespace ProceduralTextures
 
 		/** Tells if the Alt key is down
 		@return
-				The status
+			The status
 		*/
 		inline bool IsAltDown()const
 		{
@@ -153,7 +153,7 @@ namespace ProceduralTextures
 
 		/** Tells if the Shift key is down
 		@return
-				The status
+			The status
 		*/
 		inline bool IsShiftDown()const
 		{

@@ -252,9 +252,6 @@ namespace Voronoi2D
 		int l_iNbSeedsY = int( sqrt( float( m_sizeImage.y() ) ) );
 		int x, y;
 		int l_iIndex;
-		IntSetIntMap::iterator l_itSeeds1;
-		IntSet::iterator l_itSeeds2;
-		IntIntMapIntMap::iterator l_itHeights1;
 		std::random_device l_randDevice;
 		std::default_random_engine l_randEngine( l_randDevice() );
 		std::uniform_int_distribution< int > l_randDistributionX( 0, m_sizeImage.x() - 1 );
@@ -266,8 +263,8 @@ namespace Voronoi2D
 			for ( int j = 0; j < l_iNbSeedsY; j++ )
 			{
 				x = l_randDistributionX( l_randEngine );
-				l_itSeeds1 = m_seeds->find( x );
-				l_itHeights1 = m_heights->find( x );
+				auto l_itSeeds1 = m_seeds->find( x );
+				auto l_itHeights1 = m_heights->find( x );
 
 				if ( m_seeds->size() < m_sizeImage.x() )
 				{
@@ -285,7 +282,7 @@ namespace Voronoi2D
 				l_itHeights1 = m_heights->find( x );
 
 				y = l_randDistributionY( l_randEngine );
-				l_itSeeds2 = l_itSeeds1->second.find( y );
+				auto l_itSeeds2 = l_itSeeds1->second.find( y );
 
 				if ( l_itSeeds1->second.size() < m_sizeImage.y() )
 				{
