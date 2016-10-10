@@ -276,7 +276,7 @@ namespace TextEffects
 
 			for ( ProceduralTextures::StringUtils::Utf8Iterator l_it = ProceduralTextures::StringUtils::Utf8Iterator( m_strText.begin() ); l_it != ProceduralTextures::StringUtils::Utf8Iterator( m_strText.end() ); ++l_it )
 			{
-				char const & l_character = *l_it;
+				auto const & l_character = *l_it;
 				ProceduralTextures::Glyph const & l_glyph = l_font->GetGlyphAt( l_character );
 				ProceduralTextures::Size const & l_sizeChar = l_glyph.GetSize();
 				ProceduralTextures::Position const & l_ptCharPos = l_glyph.GetPosition();
