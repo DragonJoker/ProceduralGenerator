@@ -11,6 +11,10 @@
 #	include <wx/filedlg.h>
 #	include <wx/msgdlg.h>
 #pragma warning( pop )
+ 
+#if defined( PGEN_RECORDS ) && defined( __linux__ )
+#	undef PGEN_RECORDS
+#endif
 
 #if defined( PGEN_RECORDS )
 #	if defined( PGEN_FFMPEG )

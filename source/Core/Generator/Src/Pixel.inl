@@ -126,7 +126,7 @@ namespace ProceduralTextures
 	template< typename T, typename U, size_t Count1, size_t Count2, bool InvertedX, bool InvertedY, typename Enable=void > struct BufferCopier;
 
 	template< typename T, typename U, size_t Count1, size_t Count2, bool InvertedX, bool InvertedY >
-	struct BufferCopier< T, U, Count1, Count2, InvertedX, InvertedY, typename std::enable_if< Count1 + Count2 <= sizeof( T ) >::type >
+	struct BufferCopier< T, U, Count1, Count2, InvertedX, InvertedY, typename std::enable_if< Count1 + Count2 < sizeof( T ) >::type >
 	{
 		void operator()( Buffer< T > * p_pBuffer, const U * p_pBuffer1, const U * p_pBuffer2 )
 		{
@@ -135,7 +135,7 @@ namespace ProceduralTextures
 	};
 
 	template< typename T, typename U, size_t Count1, size_t Count2, bool InvertedX >
-	struct BufferCopier< T, U, Count1, Count2, InvertedX, false, typename std::enable_if< sizeof( T ) < Count1 + Count2 >::type >
+	struct BufferCopier< T, U, Count1, Count2, InvertedX, false, typename std::enable_if< sizeof( T ) <= Count1 + Count2 >::type >
 	{
 		void operator()( Buffer< T > * p_pBuffer, const U * p_pBuffer1, const U * p_pBuffer2 )
 		{
@@ -156,7 +156,7 @@ namespace ProceduralTextures
 	};
 
 	template< typename T, typename U, size_t Count1, size_t Count2, bool InvertedX >
-	struct BufferCopier< T, U, Count1, Count2, InvertedX, true, typename std::enable_if< sizeof( T ) < Count1 + Count2 >::type >
+	struct BufferCopier< T, U, Count1, Count2, InvertedX, true, typename std::enable_if< sizeof( T ) <= Count1 + Count2 >::type >
 	{
 		void operator()( Buffer< T > * p_pBuffer, const U * p_pBuffer1, const U * p_pBuffer2 )
 		{
