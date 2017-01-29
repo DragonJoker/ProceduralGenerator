@@ -7,6 +7,7 @@
 #include "GaussianBlurSharpenFunctor.h"
 #include "GrayScaleFunctor.h"
 #include "ImplosionFunctor.h"
+#include "LaplacianOfGaussianFunctor.h"
 #include "LinearNoiseReductionFunctor.h"
 #include "RecursiveAnisotropicNoiseReductionFunctor.h"
 #include "RecursiveGaussianBlurFunctor.h"
@@ -111,6 +112,10 @@ namespace ImageEffects
 
 			case eEFFECT_TYPE_GAUSSIAN_BLUR:
 				m_functors[i] = std::make_shared< GaussianBlurFunctor >();
+				break;
+
+			case eEFFECT_TYPE_LAPLACIAN_OF_GAUSSIAN:
+				m_functors[i] = std::make_shared< LaplacianOfGaussianFunctor >();
 				break;
 
 			case eEFFECT_TYPE_SHARPEN:
