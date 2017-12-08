@@ -115,6 +115,8 @@ namespace ProceduralTextures
 		void SaveFrame();
 
 		/** Shows a message box
+		@remarks
+			Uses the 'show message box' callback, hence does nothing if this one is not set.
 		@param[in] p_title
 			The box title
 		@param[in] p_message
@@ -129,6 +131,8 @@ namespace ProceduralTextures
 		void UpdateDisplaySize( Size const & p_size );
 
 		/** Opens a file dialog, in write mode
+		@remarks
+			Uses the 'open file' callback, hence does nothing if this one is not set.
 		@param[out] p_path
 			Receives the file path
 		@param[in] p_prompt
@@ -141,6 +145,8 @@ namespace ProceduralTextures
 		bool OpenFile( String & p_path, String const & p_prompt = _T( "Select a file" ), String const & p_wildcard = _T( "All files (*.*)|*.*" ) );
 
 		/** Opens a file dialog, in read mode
+		@remarks
+			Uses the 'save file' callback, hence does nothing if this one is not set.
 		@param[out] p_path
 			Receives the file path
 		@param[in] p_prompt
@@ -153,6 +159,8 @@ namespace ProceduralTextures
 		bool SaveFile( String & p_path, String const & p_prompt = _T( "Select a file" ), String const & p_wildcard = _T( "All files (*.*)|*.*" ) );
 
 		/** Opens an image selection dialog and loads the image
+		@remarks
+			Uses the 'select image' callback, hence does nothing if this one is not set.
 		@param[out] p_buffer
 			Receives the image buffer
 		@param[in] p_prompt
@@ -163,6 +171,8 @@ namespace ProceduralTextures
 		bool SelectImage( PixelBuffer & p_buffer, String const & p_prompt = _( "Choose an image" ) );
 
 		/** Opens a colour selection dialog
+		@remarks
+			Uses the 'select colour' callback, hence does nothing if this one is not set.
 		@param[out] p_colour
 			Receives the colour
 		@param[in] p_prompt
@@ -173,22 +183,24 @@ namespace ProceduralTextures
 		bool SelectColour( uint32_t & p_colour, String const & p_prompt = _( "Choose a colour" ) );
 
 		/** Changes the mouse cursor
+		@remarks
+			Uses the 'set cursor' callback, hence does nothing if this one is not set.
 		@param[out] p_cursor
 			The cursor
 		*/
 		void SetCursor( eMOUSE_CURSOR p_cursor );
 
-		/** Post a mouse event to the controls manager
+		/** Posts a mouse event to the controls manager
 		@param[in] p_type
 			The mouse event type
 		@param[in] p_position
-			The position, of whell or mouse, depending on the evnt type
+			The position, of wheel or mouse, depending on the event type
 		@param[in] p_button
 			The mouse button
 		*/
 		void PostMouseEvent( eMOUSE_EVENT p_type, Position const & p_position, eMOUSE_BUTTON p_button = eMOUSE_BUTTON_COUNT );
 
-		/** Fires a keyboard key down event
+		/** Posts a keyboard key down event
 		@param[in] p_type
 			The keyboard event type
 		@param[in] p_key
@@ -202,7 +214,7 @@ namespace ProceduralTextures
 		*/
 		void PostKeyboardEvent( eKEYBOARD_EVENT p_type, eKEYBOARD_KEY p_key, bool p_ctrl, bool p_alt, bool p_shift );
 
-		/** Fires a printable key event
+		/** Posts a printable key event
 		@param[in] p_key
 			The key
 		@param[in] p_char

@@ -56,8 +56,7 @@ namespace ProceduralTextures
 			The texture coordinates
 		*/
 		TVertex( TPoint const & p_position, Point2f const & p_texture )
-			: m_bOwnBuffer( false )
-			, m_pBuffer( NULL )
+			: TVertex()
 		{
 			Count++;
 			Unlink();

@@ -25,6 +25,8 @@ http://www.gnu.org/copyleft/lesser.txt.
 #include <wx/stattext.h>
 #pragma warning( pop )
 
+#include <vector>
+
 namespace ProceduralGenerator
 {
 	class ProjectListDialog

@@ -81,7 +81,7 @@ namespace gl
 		@return
 			The mapped memory
 		*/
-		void * Lock( unsigned int p_access );
+		void * Lock( uint32_t p_access );
 
 		/** Unmaps the buffer data from RAM memory
 		*/

@@ -477,7 +477,7 @@ namespace ProceduralTextures
 
 			/** Post-increment operator
 			@return
-				A copy of this iterator, befor increment
+				A copy of this iterator, before increment
 			*/
 			Utf8Iterator operator++( int )
 			{
@@ -515,7 +515,7 @@ namespace ProceduralTextures
 
 			/** Post-decrement operator
 			@return
-				A copy of this iterator, befor dencrement
+				A copy of this iterator, before decrement
 			*/
 			Utf8Iterator operator--( int )
 			{
@@ -532,48 +532,6 @@ namespace ProceduralTextures
 			{
 				DoCalculateCurrentCodePoint();
 				return m_lastCodePoint;
-			}
-
-			/** Equality operator
-			*/
-			bool operator==( const Utf8Iterator & p_it )const
-			{
-				return m_it == p_it.m_it;
-			}
-
-			/** Equality operator
-			*/
-			bool operator==( const String::const_iterator & p_it )const
-			{
-				return m_it == p_it;
-			}
-
-			/** Equality operator
-			*/
-			bool operator==( const String::iterator & p_it )const
-			{
-				return m_it == p_it;
-			}
-
-			/** Difference operator
-			*/
-			bool operator!=( const Utf8Iterator & p_it )const
-			{
-				return m_it != p_it.m_it;
-			}
-
-			/** Difference operator
-			*/
-			bool operator!=( const String::const_iterator & p_it )const
-			{
-				return m_it != p_it;
-			}
-
-			/** Difference operator
-			*/
-			bool operator!=( const String::iterator & p_it )const
-			{
-				return m_it != p_it;
 			}
 
 			/** Retrieves the internal iterator
@@ -601,7 +559,40 @@ namespace ProceduralTextures
 			mutable char32_t m_lastCodePoint;
 			//! Tells the codepoint needs recomputing
 			mutable bool m_dirty;
+
+			friend bool operator==( Utf8Iterator const & p_lhs, Utf8Iterator const & p_rhs );
+			friend bool operator==( Utf8Iterator const & p_lhs, String::const_iterator const & p_rhs );
+			friend bool operator!=( Utf8Iterator const & p_lhs, Utf8Iterator const & p_rhs );
+			friend bool operator!=( Utf8Iterator const & p_lhs, String::const_iterator const & p_rhs );
 		};
+
+		/** Equality operator
+		*/
+		inline bool operator==( Utf8Iterator const & p_lhs, Utf8Iterator const & p_rhs )
+		{
+			return p_lhs.m_it == p_rhs.m_it;
+		}
+
+		/** Equality operator
+		*/
+		inline bool operator==( Utf8Iterator const & p_lhs, String::const_iterator const & p_rhs )
+		{
+			return p_lhs.m_it == p_rhs;
+		}
+
+		/** Difference operator
+		*/
+		inline bool operator!=( Utf8Iterator const & p_lhs, Utf8Iterator const & p_rhs )
+		{
+			return p_lhs.m_it != p_rhs.m_it;
+		}
+
+		/** Difference operator
+		*/
+		inline bool operator!=( Utf8Iterator const & p_lhs, String::const_iterator const & p_rhs )
+		{
+			return p_lhs.m_it != p_rhs;
+		}
 
 		/** Addition operator
 		@param[in] p_it

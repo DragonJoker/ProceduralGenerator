@@ -58,27 +58,27 @@ namespace ProceduralTextures
 		*/
 		virtual ~GpuStep();
 
-		/** Initialises the generator
+		/** Initialises the step
 		*/
 		void Initialise();
 
-		/** Cleans up the generator
+		/** Cleans up the step
 		*/
 		void Cleanup();
 
-		/** Renders the frame : parallel execution of CPU and GPU steps
+		/** Renders the frame
 		@param[in] p_swapFunction
 			The function used to swap OpenGL buffers
 		*/
 		void Render( std::function< void() > p_swapFunction );
 
-		/** Resize the generator computation dimensions
+		/** Resize the surface computing dimensions
 		@param[in] p_iWidth, p_iHeight
 			The new dimensions
 		*/
 		void Resize( int p_iWidth, int p_iHeight );
 
-		/** Resize the generator computation dimensions
+		/** Resize the surface computing dimensions
 		@param[in] p_size
 			The new dimensions
 		*/
@@ -200,7 +200,7 @@ namespace ProceduralTextures
 
 		/** All OpenGL draw calls must be made in this function
 		@remarks
-			Drawings will go in the generator frame buffer
+			Drawings will go into the generator frame buffer
 		*/
 		virtual void DoRender( bool & p_bChanged ) = 0;
 

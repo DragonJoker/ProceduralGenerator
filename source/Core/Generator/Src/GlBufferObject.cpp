@@ -5,7 +5,7 @@ namespace ProceduralTextures
 {
 	namespace gl
 	{
-		BufferObject::BufferObject( OpenGl & p_openGl, GLenum p_target, GLenum p_mode )
+		BufferObject::BufferObject( OpenGl & p_openGl, uint32_t p_target, uint32_t p_mode )
 			: Object( p_openGl,
 					  std::bind( &OpenGl::GenBuffers, std::ref( p_openGl ), std::placeholders::_1, std::placeholders::_2 ),
 					  std::bind( &OpenGl::DeleteBuffers, std::ref( p_openGl ), std::placeholders::_1, std::placeholders::_2 ),
@@ -27,7 +27,7 @@ namespace ProceduralTextures
 			GetOpenGl().BufferData( m_target, p_uiSize, p_pBuffer, m_mode );
 		}
 
-		void * BufferObject::Lock( GLenum p_access )
+		void * BufferObject::Lock( uint32_t p_access )
 		{
 			void * l_pReturn = NULL;
 

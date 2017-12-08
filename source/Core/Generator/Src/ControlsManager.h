@@ -48,6 +48,7 @@ namespace ProceduralTextures
 			The overlay manager
 		*/
 		ControlsManager( std::shared_ptr< GeneratorBase > p_generator, std::shared_ptr< OverlayManager > p_overlayManager );
+
 		/** Destructor
 		*/
 		virtual ~ControlsManager();
@@ -169,7 +170,7 @@ namespace ProceduralTextures
 		*/
 		void Create( std::shared_ptr< StaticCtrl > p_control );
 
-		/** Adds a control that can an event target
+		/** Adds a control that can an be event target
 		@param[in] p_control
 			The control
 		*/
@@ -220,9 +221,9 @@ namespace ProceduralTextures
 		*/
 		void DoUpdate()const;
 
-		/** Retrieve the controls in a thread-safe way
+		/** Retrieve a copy of the controls in a thread-safe way
 		@return
-				The controls array
+			The controls array
 		*/
 		inline std::vector< std::shared_ptr< Control > > DoGetControls()const
 		{

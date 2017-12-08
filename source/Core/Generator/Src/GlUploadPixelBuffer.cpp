@@ -40,7 +40,7 @@ namespace ProceduralTextures
 			return m_ioBuffer.Data( p_buffer, p_size );
 		}
 
-		void * UploadPixelBuffer::Lock( unsigned int p_access )
+		void * UploadPixelBuffer::Lock( uint32_t p_access )
 		{
 			return m_ioBuffer.Lock( p_access );
 		}

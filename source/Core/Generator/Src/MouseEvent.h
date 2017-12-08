@@ -39,7 +39,7 @@ namespace ProceduralTextures
 		Position m_position;
 		//! The wheel position
 		Position m_wheel;
-		//! The buttons state (true = down)
+		//! The buttons state (true => button down)
 		bool m_buttons[eMOUSE_BUTTON_COUNT];
 		//! The button which had the last change
 		eMOUSE_BUTTON m_changed;
@@ -80,7 +80,7 @@ namespace ProceduralTextures
 
 		/** Retrieves the mouse event type
 		@return
-				The type
+			The type
 		*/
 		inline eMOUSE_EVENT GetMouseEventType()const
 		{
@@ -89,7 +89,7 @@ namespace ProceduralTextures
 
 		/** Retrieves the mouse button
 		@return
-				The button
+			The button
 		*/
 		inline eMOUSE_BUTTON GetButton()const
 		{
@@ -98,7 +98,7 @@ namespace ProceduralTextures
 
 		/** Retrieves the position (wheel or mouse, depending on mouse event type)
 		@return
-				The position
+			The position
 		*/
 		inline Position const & GetPosition()const
 		{

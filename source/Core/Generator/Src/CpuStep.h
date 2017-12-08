@@ -281,7 +281,7 @@ namespace ProceduralTextures
 		*/
 		virtual void DoInitialiseStep() = 0;
 
-		/** Clears the slave threads and the buffers
+		/** Initialises the slave threads and the buffers
 		*/
 		virtual void DoInitialise() = 0;
 
@@ -383,7 +383,7 @@ namespace ProceduralTextures
 		@param[in] iTop
 			The top of the image area processed by the thread
 		@param[in] iBottom
-			The top of the image area processed by the thread
+			The bottom of the image area processed by the thread
 		@param[in] iTotalHeight
 			The image total height
 		*/
@@ -398,10 +398,13 @@ namespace ProceduralTextures
 		*/
 		virtual void DoThreadsStart()
 		{
-			DoForEachThread( []( TThread & l_thread )
+			std::unique_lock< std::mutex > l_lock( m_mutexThreads );
+			m_threadsCount = m_workerThreads.size();
+
+			for ( auto && l_thread : m_workerThreads )
 			{
-				l_thread.Launch();
-			} );
+				l_thread->Launch();
+			}
 		}
 
 		/** @copydoc ProceduralTextures::CpuStepBase::DoThreadsCleanup

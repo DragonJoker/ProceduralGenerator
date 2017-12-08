@@ -71,13 +71,13 @@ namespace gl
 		@param[in] p_bUpload
 			Tells if the image must be uploaded
 		*/
-		bool Activate( unsigned int p_texTarget = GL_TEXTURE0, bool p_bUpload = false );
+		bool Activate( uint32_t p_texTarget = GL_TEXTURE0, bool p_bUpload = false );
 
 		/** Deactivates the texture
 		@param[in] p_texTarget
 			The texture target (GL_TEXTURE0, ...)
 		*/
-		void Deactivate( unsigned int p_texTarget = GL_TEXTURE0 );
+		void Deactivate( uint32_t p_texTarget = GL_TEXTURE0 );
 
 		/** Uploads the image pixels in asynchonous mode
 		*/

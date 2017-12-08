@@ -55,7 +55,7 @@ namespace ProceduralTextures
 
 		/** Retrieves the event type
 		@return
-				The type
+			The type
 		*/
 		inline eCONTROL_EVENT GetControlEventType()const
 		{
@@ -64,7 +64,7 @@ namespace ProceduralTextures
 
 		/** Retrieves the key code
 		@return
-				The key
+			The key
 		*/
 		inline std::shared_ptr< Control > GetControl()const
 		{

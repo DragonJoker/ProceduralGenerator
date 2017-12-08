@@ -172,7 +172,7 @@ namespace ProceduralTextures
 		@param[in] p_pBuffer1,
 			p_pBuffer2	The buffers
 		*/
-		template < size_t Count1, size_t Count2 > inline void Set( const T * p_pBuffer1, const T * p_pBuffer2 );
+		template < size_t Count1, size_t Count2 > inline void Set( T const * p_pBuffer1, T const * p_pBuffer2 );
 
 		/** Retrieves the sum of the RGB components
 		@return

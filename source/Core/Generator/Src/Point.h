@@ -1015,15 +1015,15 @@ namespace ProceduralTextures
 	private:
 		//! Tells if the point owns its coords buffer
 		bool m_bOwnCoords;
-		struct StaticTable
-		{
-			T table[Count];
-		};
+		;
 		//! The coords buffer
 		union
 		{
 			T * dyn;
-			StaticTable * sta;
+			struct
+			{
+				T table[Count];
+			} * sta;
 		}
 		m_coords;
 	};

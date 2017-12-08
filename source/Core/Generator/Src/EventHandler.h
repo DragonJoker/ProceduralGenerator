@@ -147,7 +147,7 @@ namespace ProceduralTextures
 
 		/** Tells if the control catches mouse events
 		@remarks
-			A control catches mouse events when it is enabled, and when it explicitly catches it (enables by default, except for static controls)
+			A control catches mouse events when it is enabled, and when it explicitly catches it (enabled by default, except for static controls)
 		@return
 			false if the mouse events don't affect the control
 		*/

@@ -199,7 +199,7 @@ namespace ProceduralGenerator
 		SetClientSize( l_size );
 		DoLoadPlugins();
 		DoBuildMenuBar();
-		int l_attribList[] = { WX_GL_RGBA, WX_GL_LEVEL, 0, WX_GL_DOUBLEBUFFER };
+		int l_attribList[] = { WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_LEVEL, 0, 0 };
 		m_pRenderPanel = new RenderPanel( this, l_attribList, wxPoint( 0, 0 ), l_size );
 		m_pRenderPanel->SetBackgroundColour( GetBackgroundColour() );
 		m_pRenderPanel->SetForegroundColour( GetForegroundColour() );

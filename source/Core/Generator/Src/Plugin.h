@@ -28,11 +28,11 @@ http://www.gnu.org/copyleft/lesser.txt.
 #	define PLUGIN_EXPORT
 #endif
 
-//! Macro to use in the header of a class that derives from Plugin
+//! Macro to use in the header file of a class that derives from Plugin
 #define DECLARE_PLUGIN()\
 	virtual void Destroy();
 
-//! Macro to use in the source of a class that derives from plugin
+//! Macro to use in the source file of a class that derives from plugin
 #define IMPLEMENT_PLUGIN( PluginClass, GeneratorClass )\
 	extern "C" PLUGIN_EXPORT ProceduralTextures::PluginBase * CreatePlugin()\
 	{\
@@ -68,7 +68,7 @@ namespace ProceduralTextures
 			Plugin displayable name
 		@param[in] p_customResolution
 			Tells if the generator allows the resolution customisation
-			If false, the computing surface dimensions in the Generator::Create function will be ignored
+			If false, the computing surface dimensions in the Generator::Create method will be ignored
 		*/
 		PluginBase( String const & p_internal, String const & p_displayable, bool p_customResolution );
 
@@ -90,7 +90,7 @@ namespace ProceduralTextures
 		*/
 		virtual void Destroy() = 0;
 
-		/** Creates the ProceduralGenerators
+		/** Creates the ProceduralGenerator
 		@remarks
 			Implemented in Plugin
 		@return
@@ -141,7 +141,7 @@ namespace ProceduralTextures
 			If false, the computing surface dimensions in the Generator::Create function will be ignored
 		*/
 		Plugin( String const & p_internal, String const & p_displayable, bool p_customResolution = true )
-			:	PluginBase( p_internal, p_displayable, p_customResolution )
+			: PluginBase( p_internal, p_displayable, p_customResolution )
 		{
 		}
 

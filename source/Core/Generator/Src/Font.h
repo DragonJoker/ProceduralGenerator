@@ -49,7 +49,7 @@ namespace ProceduralTextures
 		@brief
 			Structure used to load glyphs on demand
 		@remarks
-			PImpl to hide FreeType inclusions from client classes
+			PImpl to hide FreeType includes from client classes
 		*/
 		struct SFontImpl
 		{

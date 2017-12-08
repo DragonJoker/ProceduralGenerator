@@ -46,7 +46,7 @@ namespace ProceduralTextures
 			@param[in] p_mode
 				The buffer mode (GL_STATIC_DRAW, ...)
 			*/
-			BufferObject( OpenGl & p_openGl, unsigned int p_target, unsigned int p_mode );
+			BufferObject( OpenGl & p_openGl, uint32_t p_target, uint32_t p_mode );
 
 			/** Destructor
 			*/
@@ -66,7 +66,7 @@ namespace ProceduralTextures
 			@return
 				The mapped memory
 			*/
-			void * Lock( unsigned int p_access );
+			void * Lock( uint32_t p_access );
 
 			/** Unmaps the buffer data from RAM memory
 			*/

@@ -22,7 +22,7 @@ http://www.gnu.org/copyleft/lesser.txt.
 
 namespace ProceduralTextures
 {
-	typedef std::pair< int, int > Range;
+	using Range = std::pair< int, int >;
 	/*!
 	@author
 		Sylvain DOREMUS

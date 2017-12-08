@@ -159,9 +159,9 @@ namespace ProceduralGenerator
 				av_free_packet( &p_packet );
 			}
 
-			AVCodecContext * AllocateContext()
+			AVCodecContext * AllocateContext( AVCodec * p_codec, AVCodecID p_id )
 			{
-				m_pAvCodecContext = avcodec_alloc_context3( m_pAvCodec );
+				m_pAvCodecContext = avcodec_alloc_context3( p_codec );
 				return m_pAvCodecContext;
 			}
 
@@ -182,6 +182,10 @@ namespace ProceduralGenerator
 					uint8_t l_endcode[] = { 0, 0, 1, 0xb7 };
 					fwrite( l_endcode, 1, sizeof( l_endcode ), m_pFile );
 				}
+			}
+
+			void PreOpen( wxString const & p_name )
+			{
 			}
 
 			bool Open( wxString const & p_name )
@@ -222,16 +226,16 @@ namespace ProceduralGenerator
 				av_interleaved_write_frame( m_pAvFormatContext, &p_packet );
 			}
 
-			AVCodecContext * AllocateContext()
+			AVCodecContext * AllocateContext( AVCodec * p_codec, AVCodecID p_id )
 			{
 				AVCodecContext * pAvCodecContext = NULL;
-				m_pAvStream = avformat_new_stream( m_pAvFormatContext, m_pAvCodec );
+				m_pAvStream = avformat_new_stream( m_pAvFormatContext, p_codec );
 
 				if ( m_pAvStream )
 				{
 					m_pAvStream->id = m_pAvFormatContext->nb_streams - 1;
 					pAvCodecContext = m_pAvStream->codec;
-					pAvCodecContext->codec_id = m_iCodecID;
+					pAvCodecContext->codec_id = p_id;
 					pAvCodecContext->codec_type = AVMEDIA_TYPE_VIDEO;
 					pAvCodecContext->coder_type = FF_CODER_TYPE_VLC;
 				}
@@ -330,9 +334,14 @@ namespace ProceduralGenerator
 							Writer::Write( l_pkt );
 						}
 					}
+
+					Writer::Finish( true );
+				}
+				else
+				{
+					Writer::Finish( false );
 				}
 
-				Writer::Finish( l_pkt );
 				Writer::DeallocateContext();
 
 				if ( m_avEncodedPicture.data[0] )
@@ -367,7 +376,7 @@ namespace ProceduralGenerator
 					throw std::runtime_error( ( char const * )wxString( _( "Could not find H264 codec" ) ).mb_str( wxConvUTF8 ) );
 				}
 
-				m_pAvCodecContext = Writer::AllocateContext();
+				m_pAvCodecContext = Writer::AllocateContext( m_pAvCodec, m_iCodecID );
 
 				if ( !m_pAvCodecContext )
 				{
