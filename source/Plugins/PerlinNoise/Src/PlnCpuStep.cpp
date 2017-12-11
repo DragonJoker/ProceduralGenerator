@@ -257,15 +257,22 @@ namespace PerlinNoise
 		int B = m_permutations[X + 1] + Y;
 		int BA = m_permutations[B] + Z;
 		int BB = m_permutations[B + 1] + Z;
-		return
-			DoLerp( w, DoLerp( v, DoLerp( u, DoGrad( m_permutations[AA], x, y, z ),				// AND ADD
-										  DoGrad( m_permutations[BA], x - 1, y, z ) ),			// BLENDED
-							   DoLerp( u, DoGrad( m_permutations[AB], x, y - 1, z ),			// RESULTS
-									   DoGrad( m_permutations[BB], x - 1, y - 1, z ) ) ),		// FROM 8
-					DoLerp( v, DoLerp( u, DoGrad( m_permutations[AA + 1], x, y, z - 1 ),		// CORNERS
-									   DoGrad( m_permutations[BA + 1], x - 1, y, z - 1 ) ),		// OF CUBE
-							DoLerp( u, DoGrad( m_permutations[AB + 1], x, y - 1, z - 1 ),
-									DoGrad( m_permutations[BB + 1], x - 1, y - 1, z - 1 ) ) ) );
+		// AND ADD BLENDED RESULTS FROM 8 CORNERS OF CUBE
+		return DoLerp( w
+			, DoLerp( v
+				, DoLerp( u
+					, DoGrad( m_permutations[AA], x, y, z )
+					, DoGrad( m_permutations[BA], x - 1, y, z ) )
+				, DoLerp( u
+					, DoGrad( m_permutations[AB], x, y - 1, z )
+					, DoGrad( m_permutations[BB], x - 1, y - 1, z ) ) )
+			, DoLerp( v
+				, DoLerp( u
+					, DoGrad( m_permutations[AA + 1], x, y, z - 1 )
+					, DoGrad( m_permutations[BA + 1], x - 1, y, z - 1 ) )
+				, DoLerp( u
+					, DoGrad( m_permutations[AB + 1], x, y - 1, z - 1 )
+					, DoGrad( m_permutations[BB + 1], x - 1, y - 1, z - 1 ) ) ) );
 	}
 
 	//*************************************************************************************************

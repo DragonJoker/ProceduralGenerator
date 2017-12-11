@@ -7,6 +7,7 @@ option( PGEN_BUILD_ITERATED_FUNCTION_SYSTEM "Build IteratedFunctionSystem plugin
 option( PGEN_BUILD_VORONOI_2D "Build Voronoi2D plugin" TRUE )
 option( PGEN_BUILD_IMAGE_EFFECTS "Build ImageEffects plugin" TRUE )
 option( PGEN_BUILD_SHADER_EFFECTS "Build ShaderEffects plugin" TRUE )
+option( PGEN_BUILD_GPU_LIFE_GAME "Build GPULifeGame plugin" TRUE )
 option( PGEN_BUILD_GPU_PROGRAMMING "Build GPUProgramming plugin" TRUE )
 option( PGEN_BUILD_TEXT_EFFECTS "Build TextEffects plugin" TRUE )
 option( PGEN_BUILD_OCL_PROCESSING "Build OCLProcessing plugin" TRUE )
@@ -23,6 +24,7 @@ function( PluginsInit )
 	set( IFX "no (not wanted )" PARENT_SCOPE )
 	set( SFX "no (not wanted )" PARENT_SCOPE )
 	set( GPU "no (not wanted )" PARENT_SCOPE )
+	set( GPL "no (not wanted )" PARENT_SCOPE )
 	set( TFX "no (not wanted )" PARENT_SCOPE )
 	set( OCL "no (not wanted )" PARENT_SCOPE )
 	set( SWM "no (not wanted )" PARENT_SCOPE )
@@ -79,6 +81,11 @@ function( PluginsBuild )
 		add_subdirectory( Plugins/GPUProgramming )
 		set( GPU ${Build} PARENT_SCOPE )
 	endif ()
+	if ( ${PGEN_BUILD_GPU_LIFE_GAME} )
+		set( Build ${GPU} )
+		add_subdirectory( Plugins/GPULifeGame )
+		set( GPU ${Build} PARENT_SCOPE )
+	endif ()
 	if ( ${PGEN_BUILD_TEXT_EFFECTS} )
 		set( Build ${TFX} )
 		add_subdirectory( Plugins/TextEffects )
@@ -108,6 +115,7 @@ function( PluginsSummary msg )
 	SET( msg_tmp "${msg_tmp}\n    Image Effects                 ${IFX}" )
 	SET( msg_tmp "${msg_tmp}\n    Shader Effects                ${SFX}" )
 	SET( msg_tmp "${msg_tmp}\n    GPU Programming               ${GPU}" )
+	SET( msg_tmp "${msg_tmp}\n    GPU Life Game                 ${GPL}" )
 	SET( msg_tmp "${msg_tmp}\n    Text Effects                  ${TFX}" )
 	SET( msg_tmp "${msg_tmp}\n    OCL Programming               ${OCL}" )
 	SET( msg_tmp "${msg_tmp}\n    Shader Webcam                 ${SWM}" )
@@ -205,6 +213,15 @@ macro( PluginsSetup )
 		setup_add_component( GPUProgramming
 			DISPLAY_NAME "GPUProgramming plug-in"
 			DESCRIPTION "Shader programming plug-in"
+			GROUP Plugins
+			DEPENDS Generator
+			#INSTALL_TYPES Minimal Developer Full
+		)
+	endif()
+	if( ${PGEN_BUILD_GPU_LIFE_GAME} )
+		setup_add_component( GPULifeGame
+			DISPLAY_NAME "GPULifeGame plug-in"
+			DESCRIPTION "Life game on GPU plug-in"
 			GROUP Plugins
 			DEPENDS Generator
 			#INSTALL_TYPES Minimal Developer Full

@@ -1,0 +1,67 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-12-11 23:47+0100\n"
+"PO-Revision-Date: 2017-12-11 23:51+0100\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.5\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fr_FR\n"
+
+#: ..\GPULifeGame\Src\GPULifeGame.cpp:59
+msgid "Additional uniform variables"
+msgstr "Variables uniformes supplémentaires"
+
+#: ..\GPULifeGame\Src\GPULifeGame.cpp:64
+msgid "Elapsed time, in ms"
+msgstr "Temps écoulé"
+
+#: ..\GPULifeGame\Src\GPULifeGamePlugin.cpp:10
+msgid "GPU Life Game"
+msgstr "Jeu de la vie GPU"
+
+#: ..\GPULifeGame\Src\GPULifeGame.cpp:74
+msgid "PGEN GLSL Help"
+msgstr "Aide GLSL pour PGEN"
+
+#: ..\GPULifeGame\Src\GPULifeGame.cpp:86
+msgid "Reset Time"
+msgstr "Réinitialiser"
+
+#: ..\GPULifeGame\Src\GPULifeGame.cpp:68
+msgid "Selected texture"
+msgstr "Texture sélectionnée"
+
+#: ..\GPULifeGame\Src\GPULifeGame.cpp:66
+msgid "The mouse position"
+msgstr "La position de la souris"
+
+#: ..\GPULifeGame\Src\GPULifeGame.cpp:53
+msgid "Vertex attributes filled"
+msgstr "Attributs de vertex remplis"
+
+#: ..\GPULifeGame\Src\GPULifeGame.cpp:54
+msgid "Vertex position"
+msgstr "Position du sommet"
+
+#: ..\GPULifeGame\Src\GPULifeGame.cpp:56
+msgid "Vertex texture coordinates"
+msgstr "Coordonnées de texture du sommet"
+
+#: ..\GPULifeGame\Src\GPULifeGame.cpp:62
+msgid "Window height"
+msgstr "Hauteur de la fenêtre"
+
+#: ..\GPULifeGame\Src\GPULifeGame.cpp:60
+msgid "Window width"
+msgstr "Largeur de la fenêtre"
