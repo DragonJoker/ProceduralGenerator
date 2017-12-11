@@ -34,7 +34,7 @@ namespace DiffusionLimitedAggregation
 			int l_iSquaredJumpCircle =  m_jumpCircle * m_jumpCircle;
 			CellBuffer & l_cells = *m_cells.lock();
 
-			for ( int i = 1000; i != 0 && !l_alreadyPassedWhite && !l_cells[l_ptPoint.x()][l_ptPoint.y()].m_white; i-- )
+			for ( int i = 1000; i != 0 && !l_alreadyPassedWhite && !l_cells[l_ptPoint.y()][l_ptPoint.x()].m_white; i-- )
 			{
 				while ( l_iDistance > l_iSquaredJumpCircle )
 				{
@@ -50,7 +50,7 @@ namespace DiffusionLimitedAggregation
 					}
 				}
 
-				Cell & l_cell = l_cells[l_ptPoint.x()][l_ptPoint.y()];
+				Cell & l_cell = l_cells[l_ptPoint.y()][l_ptPoint.x()];
 
 				if ( l_cell.m_whiteNeighbour )
 				{
@@ -142,7 +142,7 @@ namespace DiffusionLimitedAggregation
 			p_position.y() = p_origin.y() + int( cos( l_iAngle * pi / 180.0 ) * l_fRadius );
 			l_iCount--;
 		}
-		while ( l_iCount != 0 && ( p_position.x() >= m_iWidth || p_position.y() >= m_iHeight || p_position.x() < 0 || p_position.y() < 0 || l_cells[p_position.x()][p_position.y()].m_white ) );
+		while ( l_iCount != 0 && ( p_position.x() >= m_iWidth || p_position.y() >= m_iHeight || p_position.x() < 0 || p_position.y() < 0 || l_cells[p_position.y()][p_position.x()].m_white ) );
 	}
 
 	void Thread::DoSetCellWhite( Position const & p_ptPoint )
@@ -150,26 +150,26 @@ namespace DiffusionLimitedAggregation
 		CellBuffer & l_cells = *m_cells.lock();
 		int x = p_ptPoint.x();
 		int y = p_ptPoint.y();
-		l_cells[x][y].SetWhite( GetDistance( p_ptPoint, m_origin ) / m_maxDistance );
+		l_cells[y][x].SetWhite( GetDistance( p_ptPoint, m_origin ) / m_maxDistance );
 
 		if ( x > 0 )
 		{
-			l_cells[( x - 1 )][y].m_whiteNeighbour = true;
+			l_cells[y][( x - 1 )].m_whiteNeighbour = true;
 		}
 
 		if ( y > 0 )
 		{
-			l_cells[x][( y - 1 )].m_whiteNeighbour = true;
+			l_cells[( y - 1 )][x].m_whiteNeighbour = true;
 		}
 
 		if ( x < m_iWidth - 1 )
 		{
-			l_cells[( x + 1 )][y].m_whiteNeighbour = true;
+			l_cells[y][( x + 1 )].m_whiteNeighbour = true;
 		}
 
 		if ( y < m_iHeight - 1 )
 		{
-			l_cells[x][( y + 1 )].m_whiteNeighbour = true;
+			l_cells[( y + 1 )][x].m_whiteNeighbour = true;
 		}
 	}
 
@@ -191,21 +191,21 @@ namespace DiffusionLimitedAggregation
 		uint32_t l_height = p_size.y();
 		CellBuffer & l_cells = *m_cells;
 
-		for ( uint32_t i = 0; i < l_height; i++ )
+		for ( uint32_t y = 0; y < l_height; y++ )
 		{
-			for ( uint32_t j = 0; j < l_width; j++ )
+			for ( uint32_t x = 0; x < l_width; x++ )
 			{
-				l_cells[i][j].Set( &( *m_finalBuffer )[i][j], false );
+				l_cells[y][x].Set( &( *m_finalBuffer )[y][x], false );
 			}
 		}
 
 		uint32_t x = m_origin.x();
 		uint32_t y = m_origin.y();
-		l_cells[x][y].SetWhite( 0.0 );
-		l_cells[( x - 1 )][y].m_whiteNeighbour = true;
-		l_cells[x][( y - 1 )].m_whiteNeighbour = true;
-		l_cells[( x + 1 )][y].m_whiteNeighbour = true;
-		l_cells[x][( y + 1 )].m_whiteNeighbour = true;
+		l_cells[y][x].SetWhite( 0.0 );
+		l_cells[y][( x - 1 )].m_whiteNeighbour = true;
+		l_cells[( y - 1 )][x].m_whiteNeighbour = true;
+		l_cells[y][( x + 1 )].m_whiteNeighbour = true;
+		l_cells[( y + 1 )][x].m_whiteNeighbour = true;
 	}
 
 	CpuStep::~CpuStep()

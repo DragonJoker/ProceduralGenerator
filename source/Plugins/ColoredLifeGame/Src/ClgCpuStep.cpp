@@ -75,14 +75,14 @@ namespace ColoredLifeGame
 		std::default_random_engine l_randEngine( l_randDevice() );
 		std::uniform_int_distribution< int > l_randDistribution( 0, 1 );
 
-		for ( uint32_t i = 0; i < l_height; i++ )
+		for ( uint32_t y = 0; y < l_height; y++ )
 		{
-			for ( uint32_t j = 0; j < l_width; j++ )
+			for ( uint32_t x = 0; x < l_width; x++ )
 			{
 				l_alive =  l_randDistribution( l_randEngine ) == 0;
-				l_cells[i][j].Set( &( *m_finalBuffer )[i][j], &m_deadPixel, &m_alivePixel, &m_stepPixel, l_alive );
-				l_oldCells[i][j].Set( &( *m_previousBuffer )[i][j], &m_deadPixel, &m_alivePixel, &m_stepPixel, l_alive );
-				DoInitialiseNeighbours( i, j );
+				l_cells[y][x].Set( &( *m_finalBuffer )[y][x], &m_deadPixel, &m_alivePixel, &m_stepPixel, l_alive );
+				l_oldCells[y][x].Set( &( *m_previousBuffer )[y][x], &m_deadPixel, &m_alivePixel, &m_stepPixel, l_alive );
+				DoInitialiseNeighbours( x, y );
 			}
 		}
 	}

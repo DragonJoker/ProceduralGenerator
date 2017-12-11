@@ -65,13 +65,13 @@ namespace BuggedLifeGame
 		std::random_device l_rand;
 		std::uniform_int_distribution< int > l_distribution( 0, 1 );
 
-		for ( uint32_t i = 0; i < l_height; i++ )
+		for ( uint32_t y = 0; y < l_height; y++ )
 		{
-			for ( uint32_t j = 0; j < l_width; j++ )
+			for ( uint32_t x = 0; x < l_width; x++ )
 			{
 				l_alive = l_distribution( l_rand ) == 0;
-				l_cells[i][j].Set( &( *m_finalBuffer )[i][j], &m_alivePx, &m_deadPx, l_alive );
-				DoInitialiseNeighbours( i, j );
+				l_cells[y][x].Set( &( *m_finalBuffer )[y][x], &m_alivePx, &m_deadPx, l_alive );
+				DoInitialiseNeighbours( x, y );
 			}
 		}
 	}
