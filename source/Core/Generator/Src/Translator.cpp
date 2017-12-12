@@ -212,7 +212,10 @@ namespace ProceduralTextures
 
 	void Translator::Initialise( String const & p_path, String const & p_parent, String const & p_name )
 	{
-		std::string l_language = std::locale( "" ).name();
+		std::string l_previous = setlocale( LC_ALL, NULL );
+		std::string l_language = setlocale( LC_ALL, "" );
+		l_previous = setlocale( LC_ALL, l_previous.c_str() );
+		l_previous = setlocale( LC_ALL, NULL );
 
 		if ( l_language.find( _T( "French" ) ) != String::npos )
 		{
