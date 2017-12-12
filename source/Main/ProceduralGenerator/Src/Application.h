@@ -40,6 +40,11 @@ namespace ProceduralGenerator
 
 		virtual bool OnInit();
 		virtual int OnExit();
+
+	private:
+		std::streambuf * m_cout;
+		std::streambuf * m_cerr;
+		std::streambuf * m_clog;
 	};
 }
 

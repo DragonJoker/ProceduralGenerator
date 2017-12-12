@@ -333,10 +333,8 @@ namespace ProceduralTextures
 		Signal< std::function< void() > > m_signalCpuStepEnd;
 		//! The CPU time text overlay
 		std::weak_ptr< TextOverlay > m_textCPUTime;
-		//! The mutex used to wake the step thread
-		std::mutex m_mutexWake;
-		//! The condition variable used to wake the step thread
-		std::condition_variable m_conditionWake;
+		//! The atomic variable used to wake the step thread
+		std::atomic_bool m_wake{ false };
 		//! The mutex used to wait for the step thread end
 		std::mutex m_mutexEnd;
 		//! The condition variable used to wait for the step thread end

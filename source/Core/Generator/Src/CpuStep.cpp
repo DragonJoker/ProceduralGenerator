@@ -13,6 +13,11 @@ namespace ProceduralTextures
 		, m_iHeight( iTotalHeight )
 		, m_threadEndIndex( 0 )
 	{
+		std::cout << "Thread " << std::this_thread::get_id << " Created" << std::endl;
+		std::cout << "    Top: " << m_iTop << std::endl;
+		std::cout << "    Bottom: " << m_iBottom << std::endl;
+		std::cout << "    Width: " << m_iWidth << std::endl;
+		std::cout << "    Height: " << m_iHeight << std::endl;
 		m_launched = false;
 		m_stopped = false;
 	}
@@ -67,6 +72,7 @@ namespace ProceduralTextures
 		, m_threadsCount( System::GetCPUCount() )
 		, m_finalBuffer( std::make_shared< ProceduralTextures::PixelBuffer >( p_size ) )
 	{
+		std::cout << "Creating CPU step, " << m_threadsCount << " threads." << std::endl;
 		m_stopped = false;
 	}
 
@@ -78,15 +84,19 @@ namespace ProceduralTextures
 
 	void CpuStepBase::Initialise()
 	{
+		std::cout << "Initialising CPU step, threads count: " << m_threadsCount << std::endl;
 		DoInitialise();
 		m_initialised = true;
+		std::cout << "CPU Step initialised." << std::endl;
 	}
 
 	void CpuStepBase::Cleanup()
 	{
+		std::cout << "Cleaning up CPU step." << std::endl;
 		m_initialised = false;
 		DoCleanup();
 		DoThreadsCleanup();
+		std::cout << "CPU Step cleaned up." << std::endl;
 	}
 
 	void CpuStepBase::Run()
@@ -95,16 +105,13 @@ namespace ProceduralTextures
 		{
 			do
 			{
-				std::unique_lock< std::mutex > l_lock( m_mutexWake );
-				bool l_go = m_conditionWake.wait_for( l_lock, std::chrono::milliseconds( 10 ) ) == std::cv_status::no_timeout;
-				l_lock.unlock();
-
-				if ( l_go )
+				if ( m_wake )
 				{
 					Render();
+					m_wake = false;
 				}
 			}
-			while ( !IsStopped() && m_thread.joinable() );
+			while ( !IsStopped() || m_thread.joinable() );
 
 			m_stoppedCondition.notify_one();
 		} );
@@ -146,8 +153,7 @@ namespace ProceduralTextures
 
 	void CpuStepBase::Wake()
 	{
-		std::unique_lock< std::mutex > l_lock( m_mutexWake );
-		m_conditionWake.notify_one();
+		m_wake = true;
 	}
 
 	void CpuStepBase::Wait( std::chrono::milliseconds p_timeout )

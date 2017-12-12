@@ -32,24 +32,31 @@ namespace ProceduralTextures
 
 	void GeneratorBase::Create( Size const & p_size, Size const & p_bordersSize )
 	{
+		std::cout << "Creating generator." << std::endl;
 		XpmLoader l_loader;
 		m_buttonImage = std::make_shared< PixelBuffer >( l_loader.LoadImage( button_xpm, Utils::GetCountOf( button_xpm ) ) );
 		m_buttonMouseOverImage = std::make_shared< PixelBuffer >( l_loader.LoadImage( button_mo_xpm, Utils::GetCountOf( button_mo_xpm ) ) );
 		DoCreate( p_size, p_bordersSize );
 		m_controlsManager = std::make_shared< ControlsManager >( DoGetThis(), DoGetGpuStep()->GetOverlayManager() );
 		DoGeneratePanel();
+		std::cout << "Generator created." << std::endl;
 	}
 
 	void GeneratorBase::Destroy()
 	{
+		std::cout << "Destroying generator." << std::endl;
 		DoDestroy();
+		std::cout << "Generator destroyed." << std::endl;
 	}
 
 	void GeneratorBase::Initialise()
 	{
+		std::cout << "Initialising CPU step." << std::endl;
 		DoGetCpuStep()->Initialise();
+		std::cout << "Initialising GPU step." << std::endl;
 		DoGetGpuStep()->Initialise();
 
+		std::cout << "Initialising GUI." << std::endl;
 		m_controlsManager->Create( m_panel );
 
 		std::shared_ptr< StaticCtrl > l_panel = std::make_shared< StaticCtrl >( m_panel, _T( "" ), Position(), Size( CONFIG_PANEL_WIDTH, 40 ) );
@@ -103,17 +110,22 @@ namespace ProceduralTextures
 
 		m_cpuTime = l_cpu;
 		m_gpuTime = l_gpu;
+		std::cout << "Generator initialised." << std::endl;
 	}
 
 	void GeneratorBase::Cleanup()
 	{
+		std::cout << "Cleaning up CPU step." << std::endl;
 		DoGetCpuStep()->Cleanup();
+		std::cout << "Cleaning up GPU step." << std::endl;
 		DoGetGpuStep()->Cleanup();
 		m_loadedFonts.clear();
+		std::cout << "Generator cleaned up." << std::endl;
 	}
 
 	void GeneratorBase::Run()
 	{
+		std::cout << "Running generator." << std::endl;
 		DoGetCpuStep()->Run();
 	}
 
