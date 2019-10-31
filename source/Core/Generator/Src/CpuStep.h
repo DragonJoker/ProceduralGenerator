@@ -320,7 +320,7 @@ namespace ProceduralTextures
 		//! The ended threads count
 		std::atomic_size_t m_endedThreadsCount;
 		//! Tells the generator is initialised
-		bool m_initialised;
+		std::atomic_bool m_initialised;
 		//! The thread
 		std::thread m_thread;
 		//! The mutex, mutable because it has no influence on the thread status

@@ -114,26 +114,19 @@ namespace ProceduralTextures
 				m_iCurrentDlPbo = ( m_iCurrentDlPbo + 1 ) % 2;
 				int l_nextDlPbo = ( m_iCurrentDlPbo + 1 ) % 2;
 				std::unique_ptr< DownloadPixelBuffer > & pBufferOut = m_pDownloadBuffers[m_iCurrentDlPbo];
-				std::unique_ptr< DownloadPixelBuffer > & pBufferIn = m_pDownloadBuffers[l_nextDlPbo];
 
-				if ( pBufferIn && pBufferOut )
+				if ( pBufferOut )
 				{
 					if ( pBufferOut->Bind() )
 					{
 						GetOpenGl().ReadPixels( 0, 0, m_sizeImage.x(), m_sizeImage.y(), GL_RGBA, GL_UNSIGNED_BYTE, 0 );
+						void * pData = pBufferOut->Lock( GL_READ_ONLY );
 
-						if ( pBufferIn->Bind() )
+						if ( pData )
 						{
-							void * pData = pBufferIn->Lock( GL_READ_ONLY );
-
-							if ( pData )
-							{
-								memcpy( p_buffer.Ptr(), pData, p_buffer.GetSize() );
-								pBufferIn->Unlock();
-								l_bReturn = true;
-							}
-
-							pBufferIn->Unbind();
+							memcpy( p_buffer.Ptr(), pData, p_buffer.GetSize() );
+							pBufferOut->Unlock();
+							l_bReturn = true;
 						}
 
 						pBufferOut->Unbind();
@@ -173,7 +166,7 @@ namespace ProceduralTextures
 				m_pDownloadBuffers[0]->Initialise( m_sizeImage.x() * m_sizeImage.y() * 4 );
 			}
 
-			if ( !m_pDownloadBuffers[0] )
+			if ( !m_pDownloadBuffers[1] )
 			{
 				m_pDownloadBuffers[1] = std::make_unique< DownloadPixelBuffer >( GetOpenGl() );
 				m_pDownloadBuffers[1]->Initialise( m_sizeImage.x() * m_sizeImage.y() * 4 );

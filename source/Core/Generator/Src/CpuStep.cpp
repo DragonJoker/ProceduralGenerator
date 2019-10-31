@@ -64,7 +64,7 @@ namespace ProceduralTextures
 		: m_generator( p_generator )
 		, m_sizeImage( p_size )
 		, m_initialised( false )
-		, m_threadsCount( System::GetCPUCount() )
+		, m_threadsCount( std::max( 1, System::GetCPUCount() ) )
 		, m_finalBuffer( std::make_shared< ProceduralTextures::PixelBuffer >( p_size ) )
 	{
 		m_stopped = false;
@@ -95,13 +95,16 @@ namespace ProceduralTextures
 		{
 			do
 			{
-				std::unique_lock< std::mutex > l_lock( m_mutexWake );
-				bool l_go = m_conditionWake.wait_for( l_lock, std::chrono::milliseconds( 10 ) ) == std::cv_status::no_timeout;
-				l_lock.unlock();
-
-				if ( l_go )
+				if ( m_initialised )
 				{
-					Render();
+					std::unique_lock< std::mutex > l_lock( m_mutexWake );
+					bool l_go = m_conditionWake.wait_for( l_lock, std::chrono::milliseconds( 10 ) ) == std::cv_status::no_timeout;
+					l_lock.unlock();
+
+					if ( l_go )
+					{
+						Render();
+					}
 				}
 			}
 			while ( !IsStopped() && m_thread.joinable() );
